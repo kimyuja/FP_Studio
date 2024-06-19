@@ -42,6 +42,15 @@ void AWH_BookshelfGimmick::BeginPlay()
 void AWH_BookshelfGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (bCanActive)
+	{
+		activeObject->bRenderCustomDepth = true;
+	}
+	else
+	{
+		activeObject->bRenderCustomDepth = false;
+	}
 }
 
 

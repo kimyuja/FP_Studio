@@ -40,6 +40,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	class UStaticMeshComponent* activeObject;
 
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	int32 Myactivetype;
 
