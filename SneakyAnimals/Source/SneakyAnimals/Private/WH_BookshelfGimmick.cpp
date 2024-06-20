@@ -6,6 +6,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include "TestPlayer.h"
+#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 
 AWH_BookshelfGimmick::AWH_BookshelfGimmick()
 {
@@ -44,6 +45,15 @@ void AWH_BookshelfGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	lerpTime += DeltaTime;
+
+	if(lerpTime > 1)
+	{
+		lerpTime = 0;
+		GetWorldTimerManager().PauseTimer(falloverT);
+	}
+	
+
 	if (bCanActive)
 	{
 		activeObject->SetRenderCustomDepth(true);
@@ -57,7 +67,7 @@ void AWH_BookshelfGimmick::Tick(float DeltaTime)
 }
 
 
-void AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
+int32 AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 {
 	//Super::OnMyActive(ActivePlayer);
 
@@ -77,19 +87,29 @@ void AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 	default:
 		break;
 	}
+
+	return activeType;
 }
 
 void AWH_BookshelfGimmick::FallOver()
 {
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : FallOver"));
-
-	FTimerHandle falloverT;
+	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 	{
-		float a = FMath::Lerp(0.0, -90.0, GetWorld()->GetDeltaSeconds() * 3.0);
-		activeObject->SetRelativeRotation(GetActorRotation() + FRotator(0, a, 0));
-	}, 3, false, 0);
-
+		float rot = FMath::Lerp(0.0, 90.0, lerpTime);
+		float loc = FMath::Lerp(0.0, 50.0, lerpTime);
+		//rot = FMath::Clamp(rot, 0, 90.0);
+		activeObject->SetRelativeLocation(FVector(0, 0, loc));
+		activeObject->SetRelativeRotation(FRotator(0, 0, rot));
+	}, 0.03f , true, 0);
+	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	{
+		if (FVector::Dist(GetActorLocation(), it->GetActorLocation()) < 500.0)
+		{
+			it->Death_Fallover();
+		}
+	}
 }
 
 void AWH_BookshelfGimmick::BookCanFly()

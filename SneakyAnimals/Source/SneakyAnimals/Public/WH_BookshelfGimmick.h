@@ -26,7 +26,7 @@ protected:
 
 public:
 
-	virtual void OnMyActive(AActor* ActivePlayer);
+	virtual int32 OnMyActive(AActor* ActivePlayer);
 	
 	UPROPERTY(EditDefaultsOnly)
 	class USceneComponent* base;
@@ -47,6 +47,10 @@ public:
 	FVector activeRange;
 
 private:
+	
+	float lerpTime;
+
+	FTimerHandle falloverT;
 
 	// 책장이 넘어져서 책장 주위 사람 사망
 	void FallOver();

@@ -26,13 +26,15 @@ void AGimmick::Tick(float DeltaTime)
 
 }
 
-void AGimmick::OnMyActive(AActor* ActivePlayer)
+int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 {
 	if (!bCanActive)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
-		return;
+		return -1;
 	}
+
+	return -2;
 }
 
 void AGimmick::SetActiveType(int32 aType)

@@ -34,7 +34,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-	void OnMyActive(AActor* ActivePlayer);
+	int32 OnMyActive(AActor* ActivePlayer);
 
 	UFUNCTION()
 	void SetActiveType(int32 aType);

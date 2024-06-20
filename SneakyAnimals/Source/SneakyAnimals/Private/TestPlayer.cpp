@@ -2,6 +2,7 @@
 
 
 #include "TestPlayer.h"
+#include "Engine.h"
 #include <../../../../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputSubsystems.h>
 #include <../../../../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/SpringArmComponent.h>
@@ -49,6 +50,13 @@ void ATestPlayer::BeginPlay()
 void ATestPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	lerpTime += DeltaTime;
+	if (lerpTime > 1)
+	{
+		lerpTime = 0;
+		GetWorldTimerManager().PauseTimer(falloverT);
+	}
 
 	if (bCanActive)
 	{
@@ -136,6 +144,16 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 	}
 }
 
+void ATestPlayer::Respawn()
+{
+	FTimerHandle respawnT;
+	GetWorldTimerManager().SetTimer(respawnT, [&](){
+		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
+		SetActorLocation(respawnLoc);
+	}, 1.0, false, 3.0);
+	
+}
+
 void ATestPlayer::GimmickSearch()
 {
 	FHitResult hitInfo;
@@ -154,5 +172,17 @@ void ATestPlayer::GimmickSearch()
 			g->bCanActive = true;
 		}
 	}
+}
+
+void ATestPlayer::Death_Fallover()
+{
+	GetCharacterMovement()->StopActiveMovement();
+	lerpTime = 0;
+	GetWorldTimerManager().SetTimer(falloverT, [&]()
+		{
+			float tall = FMath::Lerp(1.0, 0.3, lerpTime);
+			GetMesh()->SetRelativeScale3D(GetMesh()->GetRelativeScale3D() * FVector(1,1,tall));
+		}, 0.03f, true, 0);
+	Respawn();
 }
 

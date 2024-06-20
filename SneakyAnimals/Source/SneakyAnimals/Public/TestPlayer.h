@@ -50,7 +50,15 @@ public:
 
 	bool bCanActive;
 
+	int32 activeReturn;
+
+	float lerpTime;
+
 	class AGimmick* g;
+
+	FVector respawnLoc = FVector(0, 0, 0);
+
+	FTimerHandle falloverT;
 
 	void Move(const FInputActionValue& Value);
 
@@ -62,7 +70,9 @@ public:
 
 	void ActiveGimmick(const FInputActionValue& Value);
 
+	void Respawn();
+
 	void GimmickSearch();
 
-
+	void Death_Fallover();
 };
