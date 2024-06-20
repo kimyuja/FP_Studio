@@ -30,6 +30,7 @@ void AGimmick::OnMyActive(AActor* ActivePlayer)
 {
 	if (!bCanActive)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
 		return;
 	}
 }

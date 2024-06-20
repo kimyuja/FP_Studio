@@ -5,6 +5,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
+#include "TestPlayer.h"
 
 AWH_BookshelfGimmick::AWH_BookshelfGimmick()
 {
@@ -45,18 +46,22 @@ void AWH_BookshelfGimmick::Tick(float DeltaTime)
 
 	if (bCanActive)
 	{
-		activeObject->bRenderCustomDepth = true;
+		activeObject->SetRenderCustomDepth(true);
+
 	}
 	else
 	{
-		activeObject->bRenderCustomDepth = false;
+		activeObject->SetRenderCustomDepth(false);
+
 	}
 }
 
 
 void AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 {
-	Super::OnMyActive(ActivePlayer);
+	//Super::OnMyActive(ActivePlayer);
+
+	UE_LOG(LogTemp, Warning, TEXT("%d"), activeType);
 
 	switch (activeType)
 	{
@@ -77,6 +82,14 @@ void AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 void AWH_BookshelfGimmick::FallOver()
 {
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : FallOver"));
+
+	FTimerHandle falloverT;
+	GetWorldTimerManager().SetTimer(falloverT, [&]()
+	{
+		float a = FMath::Lerp(0.0, -90.0, GetWorld()->GetDeltaSeconds() * 3.0);
+		activeObject->SetRelativeRotation(GetActorRotation() + FRotator(0, a, 0));
+	}, 3, false, 0);
+
 }
 
 void AWH_BookshelfGimmick::BookCanFly()
@@ -91,12 +104,12 @@ void AWH_BookshelfGimmick::ButtonBook()
 
 void AWH_BookshelfGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	ACharacter* player = Cast<ACharacter>(OtherActor);
+	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		bCanActive = true;
-		OnMyActive(OtherActor);
+		player -> bCanActive = true;
+		//OnMyActive(OtherActor);
 	}
 	else
 	{
@@ -106,6 +119,18 @@ void AWH_BookshelfGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponen
 
 void AWH_BookshelfGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	bCanActive = false;
+	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+	if (player)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+		player->bCanActive = false;
+		player->g = nullptr;
+		bCanActive = false;
+		//OnMyActive(OtherActor);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+	}
 }
 

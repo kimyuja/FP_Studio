@@ -6,6 +6,8 @@
 #include <../../../../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/SpringArmComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Camera/CameraComponent.h>
+#include "Gimmick.h"
+#include "WH_BookshelfGimmick.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -48,6 +50,10 @@ void ATestPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (bCanActive)
+	{
+		GimmickSearch();
+	}
 }
 
 // Called to bind functionality to input
@@ -65,6 +71,7 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		enhancedinput->BindAction(ia_jump, ETriggerEvent::Completed, this, &ATestPlayer::PlayerJumpEnd);
 		// 시야회전
 		enhancedinput->BindAction(ia_look, ETriggerEvent::Triggered, this, &ATestPlayer::Look);
+		enhancedinput->BindAction(ia_activeG, ETriggerEvent::Started, this, &ATestPlayer::ActiveGimmick);
 	}
 	else
 	{
@@ -115,5 +122,37 @@ void ATestPlayer::PlayerJump(const FInputActionValue& Value)
 void ATestPlayer::PlayerJumpEnd(const FInputActionValue& Value)
 {
 	StopJumping();
+}
+
+void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
+{
+	if (bCanActive)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Fail %d"), bCanActive);
+		if (Cast<AWH_BookshelfGimmick>(g))
+		{
+			Cast<AWH_BookshelfGimmick>(g)->OnMyActive(this);
+		}
+	}
+}
+
+void ATestPlayer::GimmickSearch()
+{
+	FHitResult hitInfo;
+	FVector start = GetActorLocation();
+	FVector end = GetActorLocation() + GetActorForwardVector() * 200.0;
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this);
+
+	bool result = GetWorld()->LineTraceSingleByObjectType(hitInfo, start, end, ECC_GameTraceChannel1 , params);
+	DrawDebugLine(GetWorld(),start, end, FColor::Red, false, -1, 0, 1);
+	if (result)
+	{
+		g = Cast<AGimmick>(hitInfo.GetActor());
+		if (g)
+		{
+			g->bCanActive = true;
+		}
+	}
 }
 
