@@ -24,9 +24,9 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void OnMyActive(AActor* ActivePlayer);
-
 public:
+
+	virtual void OnMyActive(AActor* ActivePlayer);
 	
 	UPROPERTY(EditDefaultsOnly)
 	class USceneComponent* base;

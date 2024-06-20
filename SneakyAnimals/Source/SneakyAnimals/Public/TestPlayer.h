@@ -45,7 +45,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Test)
 	class UInputAction* ia_look;
 
+	UPROPERTY(EditDefaultsOnly, Category = Test)
+	class UInputAction* ia_activeG;
+
 	bool bCanActive;
+
+	class AGimmick* g;
 
 	void Move(const FInputActionValue& Value);
 
@@ -54,6 +59,8 @@ public:
 	void PlayerJump(const FInputActionValue& Value);
 
 	void PlayerJumpEnd(const FInputActionValue& Value);
+
+	void ActiveGimmick(const FInputActionValue& Value);
 
 	void GimmickSearch();
 
