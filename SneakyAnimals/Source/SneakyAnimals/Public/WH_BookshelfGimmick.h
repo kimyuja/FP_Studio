@@ -41,6 +41,9 @@ public:
 	class UStaticMeshComponent* activeObject;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSubclassOf<class AFlyBook> flyBook;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Myactivetype;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

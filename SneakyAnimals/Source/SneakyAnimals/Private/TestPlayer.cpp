@@ -139,13 +139,18 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 		UE_LOG(LogTemp, Warning, TEXT("Fail %d"), bCanActive);
 		if (Cast<AWH_BookshelfGimmick>(g))
 		{
-			Cast<AWH_BookshelfGimmick>(g)->OnMyActive(this);
+			int32 key = Cast<AWH_BookshelfGimmick>(g)->OnMyActive(this);
+			if (key == 2)
+			{
+				bCanOpenDoor = true;
+			}
 		}
 	}
 }
 
 void ATestPlayer::Respawn()
 {
+	GetCharacterMovement()->StopActiveMovement();
 	FTimerHandle respawnT;
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));

@@ -48,7 +48,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Test)
 	class UInputAction* ia_activeG;
 
+	UPROPERTY(EditDefaultsOnly, Category = Test)
+	FVector respawnLoc = FVector(0, 0, 80);
+	
 	bool bCanActive;
+
+	bool bCanOpenDoor = false;
 
 	int32 activeReturn;
 
@@ -56,7 +61,6 @@ public:
 
 	class AGimmick* g;
 
-	FVector respawnLoc = FVector(0, 0, 0);
 
 	FTimerHandle falloverT;
 

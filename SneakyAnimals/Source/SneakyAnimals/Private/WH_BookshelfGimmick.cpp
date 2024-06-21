@@ -7,6 +7,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include "TestPlayer.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
+#include "FlyBook.h"
 
 AWH_BookshelfGimmick::AWH_BookshelfGimmick()
 {
@@ -114,12 +115,14 @@ void AWH_BookshelfGimmick::FallOver()
 
 void AWH_BookshelfGimmick::BookCanFly()
 {
+	GetWorld()->SpawnActor<AFlyBook>(flyBook, GetActorLocation() + GetActorUpVector() * 300.0f, GetActorRotation());
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : BookCanFly"));
 }
 
 void AWH_BookshelfGimmick::ButtonBook()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
+	
 }
 
 void AWH_BookshelfGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
