@@ -14,7 +14,7 @@ AWH_BroomstickGimmick::AWH_BroomstickGimmick()
 	SetRootComponent(base);
 
 	trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
-	trigger->SetBoxExtent(FVector(300));
+	trigger->SetBoxExtent(FVector(150));
 	trigger->SetupAttachment(base);
 
 	object = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Object"));
