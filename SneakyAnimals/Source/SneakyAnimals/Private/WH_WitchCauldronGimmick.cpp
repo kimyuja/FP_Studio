@@ -5,6 +5,9 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
+#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
+#include "TestPlayer.h"
+#include "ClearDoor.h"
 
 AWH_WitchCauldronGimmick::AWH_WitchCauldronGimmick()
 {
@@ -68,16 +71,43 @@ void AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 void AWH_WitchCauldronGimmick::BlindFog()
 {
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BlindFog"));
+
+	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	{
+		players.Add(*it);
+	}
+
+	int targetNum = FMath::RandRange(0, players.Num() - 1);
+
+	players[targetNum]->Respawn();
 }
 
 void AWH_WitchCauldronGimmick::HereIsAWitch()
 {
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : HereIsAWitch"));
+
+	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	{
+		players.Add(*it);
+	}
+
+	int targetNum = FMath::RandRange(0, players.Num() - 1);
+
+	players[targetNum]->Respawn();
 }
 
 void AWH_WitchCauldronGimmick::KindWitch()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
+
+	for (TActorIterator<AClearDoor> it(GetWorld()); it; ++it)
+	{
+		if (it->roomType == 0)
+		{
+			it->OpenDoor();
+		}
+	}
+
 }
 
 void AWH_WitchCauldronGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

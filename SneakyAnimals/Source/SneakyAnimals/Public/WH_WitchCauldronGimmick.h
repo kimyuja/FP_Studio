@@ -40,7 +40,10 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	class UStaticMeshComponent* activeObject;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY()
+	TArray<class ATestPlayer*> players;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Myactivetype;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

@@ -30,7 +30,7 @@ void AClearDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	OpenDoor();
+	//OpenDoor();
 }
 
 // Called every frame
@@ -51,6 +51,7 @@ void AClearDoor::OpenDoor()
 {
 	UE_LOG(LogTemp, Warning, TEXT(" DoorOpen"));
 	lerpTime = 0;
+	bIsOpen = true;
 	GetWorldTimerManager().SetTimer(openDoorT, [&]()
 		{
 			float rot = FMath::Lerp(0.0, 90.0, lerpTime);
@@ -62,13 +63,20 @@ void AClearDoor::OpenDoor()
 
 void AClearDoor::AutoOpen(UPrimitiveComponent * OverlappedComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
+	if (bIsOpen)
+	{
+		return;
+	}
 	UE_LOG(LogTemp, Warning, TEXT("Test"));
 	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		player->bCanActive = true;
-		OpenDoor();
+		if (player->bCanOpenDoor == true)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("overlap"));
+			player->bCanActive = true;
+			OpenDoor();
+		}
 	}
 	else
 	{
