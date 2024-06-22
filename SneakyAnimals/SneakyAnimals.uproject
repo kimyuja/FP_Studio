@@ -9,13 +9,9 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-<<<<<<< Updated upstream
-				"Engine"
-=======
 				"Engine",
 				"UMG",
 				"CoreUObject"
->>>>>>> Stashed changes
 			]
 		}
 	],
