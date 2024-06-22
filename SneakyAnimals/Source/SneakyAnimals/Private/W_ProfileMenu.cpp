@@ -14,6 +14,9 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetTextLibrary.h>
 #include "DataStructure.h"
 #include "FL_General.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/TextBlock.h>
+#include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h>
+#include "W_SmallProfile.h"
 
 void UW_ProfileMenu::SetParentWidget(UUserWidget* InParentWidget)
 {
@@ -28,7 +31,7 @@ void UW_ProfileMenu::OnUsername_Textbox_Changed(const FText& Text)
 	}
 	// 텍스트가 안 비어있으면
 	FString TextStr = UKismetStringLibrary::GetSubstring(Text.ToString(), 0, 12);
-	
+
 	New_Username = UKismetTextLibrary::Conv_StringToText(TextStr);
 
 	Username_Textbox->Textbox->SetText(New_Username);
@@ -41,17 +44,22 @@ void UW_ProfileMenu::OnSave_BtnClicked()
 	S_UserProfile->User_Avatar = Selected_Avatar;
 
 	// function library 의 save user profile 함수 만들기. 거기에 save game에다가 structure user profile 을 저장한다.
-	if (UFL_General::Save_UserProfile(*S_UserProfile)) 
+	if (UFL_General::Save_UserProfile(*S_UserProfile))
 	{
-		// Get User Profile 함수 만들기
+		Get_UserProfile();
+
 	}
-	// save user profile (save game 만들어서)
-	
-	// function library 의 get user profile 만들기
+	// wb_small_profile
+	TArray<UUserWidget*> foundWidgets;
+	TSubclassOf<UW_SmallProfile> widgetClass = UW_SmallProfile::StaticClass();
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), foundWidgets, widgetClass, false);
 
-	// wb_small_profile 만들기 widget blueprint
-
-	// refresh widget 함수 만들기
+	for (UUserWidget* u : foundWidgets)
+	{
+		// refresh widget
+		UW_SmallProfile* w = Cast<UW_SmallProfile>(u);
+		w->Refresh_Widget();
+	}
 }
 
 UW_ProfileMenu::UW_ProfileMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -143,5 +151,21 @@ void UW_ProfileMenu::Populate_AvailableAvatars()
 			// Add Child
 			AvailableAvatars_WrapBox->AddChild(AvailableAvatar_inst);
 		}
+	}
+}
+
+void UW_ProfileMenu::Get_UserProfile()
+{
+	FUserProfileResult UserProfileResult = UFL_General::Get_UserProfile();
+
+	if (UserProfileResult.success)
+	{
+		// User Profile이 성공적으로 로드 되었다면
+		Username_Text->SetText(UserProfileResult.S_UserProfile.Username);
+		Username_Textbox->Textbox->SetText(FText::FromString(""));
+		New_Username = UserProfileResult.S_UserProfile.Username;
+		Username_Textbox->Textbox->SetHintText(New_Username);
+		Selected_Avatar = UserProfileResult.S_UserProfile.User_Avatar;
+		CurrentAvatar_Image->SetBrushFromTexture(UserProfileResult.S_UserProfile.User_Avatar);
 	}
 }

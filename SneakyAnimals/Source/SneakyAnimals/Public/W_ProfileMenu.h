@@ -77,4 +77,6 @@ private:
     TObjectPtr<UDataTable> DT_Available_Avatars;
     FStructure_Available_Avatars* S_Available_Avatars;
     FStructure_UserProfile* S_UserProfile;
+    
+    void Get_UserProfile();
 };

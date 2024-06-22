@@ -39,3 +39,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTexture2D* User_Avatar;
 };
+
+USTRUCT(Atomic, BlueprintType)
+struct FUserProfileResult
+{
+    GENERATED_BODY()
+
+    UPROPERTY(BlueprintReadWrite)
+    FStructure_UserProfile S_UserProfile;
+
+    UPROPERTY(BlueprintReadWrite)
+    bool success;
+};

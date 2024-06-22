@@ -18,4 +18,7 @@ class SNEAKYANIMALS_API UFL_General : public UBlueprintFunctionLibrary
 public:
 	UFUNCTION(BlueprintCallable, Category = "Save Game")
 	static bool Save_UserProfile(const FStructure_UserProfile& S_UserData);
+
+	UFUNCTION(BlueprintCallable, Category = "Save Game")
+	static FUserProfileResult Get_UserProfile();
 };
