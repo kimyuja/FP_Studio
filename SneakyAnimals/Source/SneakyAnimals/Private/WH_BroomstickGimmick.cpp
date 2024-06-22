@@ -21,7 +21,9 @@ AWH_BroomstickGimmick::AWH_BroomstickGimmick()
 	object->SetupAttachment(base);
 
 	activeObject = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Active Object"));
+	activeObject->SetRelativeLocation(FVector(0,0,-150.0));
 	activeObject->SetupAttachment(base);
+	
 
 
 	trigger->OnComponentBeginOverlap.AddDynamic(this, &AWH_BroomstickGimmick::SetCanActiveT);
