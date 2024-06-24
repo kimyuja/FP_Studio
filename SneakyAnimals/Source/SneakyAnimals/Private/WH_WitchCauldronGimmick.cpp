@@ -19,12 +19,14 @@ AWH_WitchCauldronGimmick::AWH_WitchCauldronGimmick()
 	trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 	trigger->SetBoxExtent(FVector(150));
 	trigger->SetupAttachment(base);
+	trigger->SetCollisionObjectType(ECC_GameTraceChannel1);
 
 	object = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Object"));
 	object->SetupAttachment(base);
 
 	activeObject = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Active Object"));
 	activeObject->SetupAttachment(base);
+	activeObject->SetRelativeLocation(FVector(0, 0, -150.0));
 
 
 	trigger->OnComponentBeginOverlap.AddDynamic(this, &AWH_WitchCauldronGimmick::SetCanActiveT);
@@ -45,10 +47,19 @@ void AWH_WitchCauldronGimmick::BeginPlay()
 void AWH_WitchCauldronGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (bCanActive)
+	{
+		activeObject->SetRenderCustomDepth(true);
+	}
+	else
+	{
+		activeObject->SetRenderCustomDepth(false);
+	}
 }
 
 
-void AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
+int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 {
 	Super::OnMyActive(ActivePlayer);
 
@@ -66,6 +77,8 @@ void AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 	default:
 		break;
 	}
+
+	return activeType;
 }
 
 void AWH_WitchCauldronGimmick::BlindFog()
@@ -112,12 +125,12 @@ void AWH_WitchCauldronGimmick::KindWitch()
 
 void AWH_WitchCauldronGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	ACharacter* player = Cast<ACharacter>(OtherActor);
+	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		bCanActive = true;
-		OnMyActive(OtherActor);
+		player->bCanActive = true;
+		//OnMyActive(OtherActor);
 	}
 	else
 	{
@@ -127,7 +140,19 @@ void AWH_WitchCauldronGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComp
 
 void AWH_WitchCauldronGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	bCanActive = false;
+	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+	if (player)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+		player->bCanActive = false;
+		player->g = nullptr;
+		bCanActive = false;
+		//OnMyActive(OtherActor);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+	}
 }
 
 

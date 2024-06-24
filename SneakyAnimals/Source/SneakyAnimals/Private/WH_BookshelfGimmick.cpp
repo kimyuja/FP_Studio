@@ -19,13 +19,14 @@ AWH_BookshelfGimmick::AWH_BookshelfGimmick()
 	trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 	trigger->SetBoxExtent(FVector(150));
 	trigger->SetupAttachment(base);
+	trigger->SetCollisionObjectType(ECC_GameTraceChannel1);
 
 	object = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Object"));
 	object->SetupAttachment(base);
 
 	activeObject = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Active Object"));
 	activeObject->SetupAttachment(base);
-
+	activeObject->SetRelativeLocation(FVector(0, 0, -150.0));
 
 	trigger->OnComponentBeginOverlap.AddDynamic(this, &AWH_BookshelfGimmick::SetCanActiveT);
 	trigger->OnComponentEndOverlap.AddDynamic(this, &AWH_BookshelfGimmick::SetCanActiveF);
@@ -74,6 +75,8 @@ int32 AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 
 	UE_LOG(LogTemp, Warning, TEXT("%d"), activeType);
 
+	bCanActive = false;
+
 	switch (activeType)
 	{
 	case 0:
@@ -98,10 +101,10 @@ void AWH_BookshelfGimmick::FallOver()
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 	{
-		float rot = FMath::Lerp(0.0, 90.0, lerpTime);
-		float loc = FMath::Lerp(0.0, 50.0, lerpTime);
+		float rot = FMath::Lerp(0, -90.0, lerpTime);
+		//float loc = FMath::Lerp(0.0, 50.0, lerpTime);
 		//rot = FMath::Clamp(rot, 0, 90.0);
-		activeObject->SetRelativeLocation(FVector(0, 0, loc));
+		//activeObject->SetRelativeLocation(FVector(0, 0, loc));
 		activeObject->SetRelativeRotation(FRotator(0, 0, rot));
 	}, 0.03f , true, 0);
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)

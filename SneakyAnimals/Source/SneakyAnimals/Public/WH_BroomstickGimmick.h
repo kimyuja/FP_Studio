@@ -24,9 +24,9 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void OnMyActive(AActor* ActivePlayer);
 
 public:
+	virtual int32 OnMyActive(AActor* ActivePlayer);
 	
 	UPROPERTY(EditDefaultsOnly)
 	class USceneComponent* base;
@@ -41,19 +41,25 @@ public:
 	class UStaticMeshComponent* activeObject;
 
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Myactivetype;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector activeRange;
 
 private:
+	
+	float lerpTime = 0;
 
-	// 미쳐서 본인 빼고 다 사망
-	void SelfHeadSmash();
-	// 마신 사람이 터져서 전체 사망
-	void PoorDriver();
-	// 잠긴 문을 열 수 있게 됨(능력 획득)
+	FTimerHandle broomSmashT;
+
+
+
+	// 빗자루가 플레이어를 날려서 사망
+	void BroomSmash(AActor* ActivePlayer);
+	// 운전 미숙
+	void PoorDriver(AActor* ActivePlayer);
+	// 문에 돌진
 	void DoorBurst();
 
 	UFUNCTION()

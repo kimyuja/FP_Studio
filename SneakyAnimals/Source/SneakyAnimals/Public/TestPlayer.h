@@ -51,9 +51,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Test)
 	FVector respawnLoc = FVector(0, 0, 80);
 	
+	UPROPERTY(EditDefaultsOnly, Category = Test)
+	TSubclassOf<class UStaticMesh> broom;
+
 	bool bCanActive;
 
 	bool bCanOpenDoor = false;
+
+	bool bIsDie = false;
 
 	int32 activeReturn;
 
@@ -61,8 +66,9 @@ public:
 
 	class AGimmick* g;
 
-
 	FTimerHandle falloverT;
+
+	FTimerHandle homerunT;
 
 	void Move(const FInputActionValue& Value);
 
@@ -74,9 +80,13 @@ public:
 
 	void ActiveGimmick(const FInputActionValue& Value);
 
-	void Respawn();
+	void FadeInOut(bool bInOut);
+
+	void Respawn(float delaytime = 3.0f);
 
 	void GimmickSearch();
 
 	void Death_Fallover();
+
+	void Death_Homerun(FVector impactLoc);
 };

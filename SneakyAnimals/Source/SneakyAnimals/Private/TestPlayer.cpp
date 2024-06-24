@@ -9,6 +9,9 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Camera/CameraComponent.h>
 #include "Gimmick.h"
 #include "WH_BookshelfGimmick.h"
+#include "WH_BroomstickGimmick.h"
+#include "WH_WitchCauldronGimmick.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Camera/PlayerCameraManager.h>
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -18,16 +21,18 @@ ATestPlayer::ATestPlayer()
 
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90.0f));
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
+	GetMesh()->SetOwnerNoSee(true);
 
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	cameraBoom->SetupAttachment(RootComponent);
-	cameraBoom->SetRelativeLocation(FVector(0, 40, 60));
-	cameraBoom->TargetArmLength = 300.0f;
+	cameraBoom->SetRelativeLocation(FVector(0, 0, 90));
+	cameraBoom->TargetArmLength = 0;
 	cameraBoom->bUsePawnControlRotation = true;
 
 	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	camera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
 	camera->bUsePawnControlRotation = false;
+	
 
 }
 
@@ -145,30 +150,74 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 				bCanOpenDoor = true;
 			}
 		}
+		else if (Cast<AWH_WitchCauldronGimmick>(g))
+		{
+			int32 key = Cast<AWH_WitchCauldronGimmick>(g)->OnMyActive(this);
+			if (key == 2)
+			{
+				bCanOpenDoor = true;
+			}
+		}
+		else if (Cast<AWH_BroomstickGimmick>(g))
+		{
+			int32 key = Cast<AWH_BroomstickGimmick>(g)->OnMyActive(this);
+			if (key == 2)
+			{
+				bCanOpenDoor = true;
+			}
+		}
+		else if (Cast<AWH_BroomstickGimmick>(g))
+		{
+			int32 key = Cast<AWH_BroomstickGimmick>(g)->OnMyActive(this);
+			if (key == 2)
+			{
+				bCanOpenDoor = true;
+			}
+		}
 	}
 }
 
-void ATestPlayer::Respawn()
+void ATestPlayer::FadeInOut(bool bInOut)
 {
-	GetCharacterMovement()->StopActiveMovement();
+	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(),0);
+	if (bInOut)
+	{
+		cameraManager->StartCameraFade(0,1.0f, 1.0f, FColor::Black, false, true);
+	}
+	else
+	{
+		cameraManager->StartCameraFade(1.0f, 0, 1.5f, FColor::Black);
+	}
+}
+
+void ATestPlayer::Respawn(float delaytime)
+{
+	FadeInOut(true);
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	FTimerHandle respawnT;
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
 		SetActorLocation(respawnLoc);
+		cameraBoom->SetRelativeLocation(FVector(0,0,90.0));
+		FadeInOut(false);
+		bIsDie = false;
 	}, 1.0, false, 3.0);
 	
 }
 
 void ATestPlayer::GimmickSearch()
 {
+	if (bIsDie)
+	{
+		return;
+	}
 	FHitResult hitInfo;
-	FVector start = GetActorLocation();
-	FVector end = GetActorLocation() + GetActorForwardVector() * 200.0;
+	FVector start = camera->GetComponentLocation();
+	FVector end = camera->GetComponentLocation() + camera->GetForwardVector() * 300.0;
 	FCollisionQueryParams params;
 	params.AddIgnoredActor(this);
 
 	bool result = GetWorld()->LineTraceSingleByObjectType(hitInfo, start, end, ECC_GameTraceChannel1 , params);
-	DrawDebugLine(GetWorld(),start, end, FColor::Red, false, -1, 0, 1);
 	if (result)
 	{
 		g = Cast<AGimmick>(hitInfo.GetActor());
@@ -176,18 +225,34 @@ void ATestPlayer::GimmickSearch()
 		{
 			g->bCanActive = true;
 		}
+		DrawDebugLine(GetWorld(), start, hitInfo.ImpactPoint, FColor::Red, false, -1, 0, 1);
+		DrawDebugLine(GetWorld(), hitInfo.ImpactPoint, end, FColor::Green, false, -1, 0, 1);
+	}
+	else
+	{
+		DrawDebugLine(GetWorld(), start, end, FColor::Red, false, -1, 0, 1);
 	}
 }
 
 void ATestPlayer::Death_Fallover()
 {
-	GetCharacterMovement()->StopActiveMovement();
+	bIsDie = true;
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 		{
+			float eye = FMath::Lerp(90.0, 0, lerpTime);
 			float tall = FMath::Lerp(1.0, 0.3, lerpTime);
+			cameraBoom->SetRelativeLocation(FVector(0,0,eye));
 			GetMesh()->SetRelativeScale3D(GetMesh()->GetRelativeScale3D() * FVector(1,1,tall));
 		}, 0.03f, true, 0);
 	Respawn();
+}
+
+void ATestPlayer::Death_Homerun(FVector impactLoc)
+{
+	bIsDie = true;
+	GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	GetMesh()->AddForce(impactLoc * 1000.0f);
+	Respawn(5.0);
 }
 

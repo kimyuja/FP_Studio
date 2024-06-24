@@ -16,12 +16,14 @@ AWH_PotionGimmick::AWH_PotionGimmick()
 	trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger"));
 	trigger->SetBoxExtent(FVector(150));
 	trigger->SetupAttachment(base);
+	trigger->SetCollisionObjectType(ECC_GameTraceChannel1);
 
 	object = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Object"));
 	object->SetupAttachment(base);
 
 	activeObject = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Active Object"));
 	activeObject->SetupAttachment(base);
+	activeObject->SetRelativeLocation(FVector(0, 0, -150.0));
 
 	
 	trigger->OnComponentBeginOverlap.AddDynamic(this, &AWH_PotionGimmick::SetCanActiveT);
