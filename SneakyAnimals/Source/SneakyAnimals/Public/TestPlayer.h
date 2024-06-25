@@ -7,6 +7,8 @@
 #include <../../../../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputActionValue.h>
 #include "TestPlayer.generated.h"
 
+class AClearDoor;
+
 UCLASS()
 class SNEAKYANIMALS_API ATestPlayer : public ACharacter
 {
@@ -60,6 +62,8 @@ public:
 
 	bool bIsDie = false;
 
+	bool bIsGoodDriver = false;
+
 	int32 activeReturn;
 
 	float lerpTime;
@@ -68,7 +72,10 @@ public:
 
 	FTimerHandle falloverT;
 
-	FTimerHandle homerunT;
+	FTimerHandle poorDriveT;
+
+	UPROPERTY()
+	TObjectPtr<AClearDoor> CheckDoor;
 
 	void Move(const FInputActionValue& Value);
 
@@ -89,4 +96,6 @@ public:
 	void Death_Fallover();
 
 	void Death_Homerun(FVector impactLoc);
+
+	void Death_PoorDrive(bool bIsBestDriver);
 };

@@ -12,6 +12,9 @@
 #include "WH_BroomstickGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Camera/PlayerCameraManager.h>
+#include "ClearDoor.h"
+#include "WH_PotionGimmick.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetMathLibrary.h>
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -24,7 +27,7 @@ ATestPlayer::ATestPlayer()
 	GetMesh()->SetOwnerNoSee(true);
 
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	cameraBoom->SetupAttachment(RootComponent);
+	cameraBoom->SetupAttachment(GetMesh());
 	cameraBoom->SetRelativeLocation(FVector(0, 0, 90));
 	cameraBoom->TargetArmLength = 0;
 	cameraBoom->bUsePawnControlRotation = true;
@@ -61,6 +64,7 @@ void ATestPlayer::Tick(float DeltaTime)
 	{
 		lerpTime = 0;
 		GetWorldTimerManager().PauseTimer(falloverT);
+		GetWorldTimerManager().PauseTimer(poorDriveT);
 	}
 
 	if (bCanActive)
@@ -166,9 +170,9 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 				bCanOpenDoor = true;
 			}
 		}
-		else if (Cast<AWH_BroomstickGimmick>(g))
+		else if (Cast<AWH_PotionGimmick>(g))
 		{
-			int32 key = Cast<AWH_BroomstickGimmick>(g)->OnMyActive(this);
+			int32 key = Cast<AWH_PotionGimmick>(g)->OnMyActive(this);
 			if (key == 2)
 			{
 				bCanOpenDoor = true;
@@ -197,6 +201,9 @@ void ATestPlayer::Respawn(float delaytime)
 	FTimerHandle respawnT;
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
+		GetMesh()->SetSimulatePhysics(false);
+		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		GetMesh()->SetRelativeRotation(FRotator(0,-90,0));
 		SetActorLocation(respawnLoc);
 		cameraBoom->SetRelativeLocation(FVector(0,0,90.0));
 		FadeInOut(false);
@@ -251,8 +258,62 @@ void ATestPlayer::Death_Fallover()
 void ATestPlayer::Death_Homerun(FVector impactLoc)
 {
 	bIsDie = true;
-	GetCharacterMovement()->SetMovementMode(MOVE_Flying);
-	GetMesh()->AddForce(impactLoc * 1000.0f);
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetMesh()->AddImpulse(impactLoc * 1000.0f, TEXT(""), true);
 	Respawn(5.0);
+}
+
+void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
+{
+	UE_LOG(LogTemp, Warning, TEXT("%d"), bIsBestDriver);
+	bIsGoodDriver = bIsBestDriver;
+	bCanActive = false;
+	lerpTime = 0;
+	for (TActorIterator<AClearDoor> it(GetWorld()); it; ++it)
+	{
+
+		if (it->roomType == 0)
+		{
+			AClearDoor* tempDoor = *it;
+			CheckDoor = tempDoor;
+			FString DoorName = CheckDoor->GetName();
+			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, DoorName);
+		}
+	}
+	//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), burstRot.Pitch, burstRot.Roll, burstRot.Yaw);
+	GetWorldTimerManager().SetTimer(poorDriveT, [&]()
+		{
+			float speed = FMath::Lerp(0, FVector::Dist(GetActorLocation(), CheckDoor->GetActorLocation()), lerpTime);
+			if (bIsGoodDriver)
+			{
+				if (FVector::Dist(GetActorLocation(), CheckDoor->GetActorLocation()) < 100.0)
+				{
+					CheckDoor->SetActorLocation(FVector(0, 0, -50000.0f));
+					CheckDoor->object->SetVisibility(false);
+					return;
+				}
+				else
+				{
+					FVector burstLoc = (CheckDoor->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+					FRotator burstRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), CheckDoor->GetActorLocation());
+					UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), burstLoc.X, burstLoc.Y, burstLoc.Z);
+					Controller->SetControlRotation(FRotator(0, burstRot.Yaw, burstRot.Roll));
+					UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), burstRot.Pitch, burstRot.Yaw, burstRot.Roll);
+					//SetActorRotation(burstRot);
+					SetActorLocation(GetActorLocation() + speed * burstLoc, true);
+				}
+			}
+			else
+			{
+				speed = FMath::Lerp(0, 500, lerpTime);
+				UE_LOG(LogTemp, Warning, TEXT("Drive Fail"));
+				SetActorLocation(GetActorLocation() + speed * GetActorForwardVector(), true);
+			}
+		}, 0.03f, true, 0);
+	if (!bIsGoodDriver)
+	{
+		Respawn(10.0);
+	}
 }
 

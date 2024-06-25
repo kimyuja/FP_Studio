@@ -60,7 +60,7 @@ private:
 	// 운전 미숙
 	void PoorDriver(AActor* ActivePlayer);
 	// 문에 돌진
-	void DoorBurst();
+	void DoorBurst(AActor* ActivePlayer);
 
 	UFUNCTION()
 	void SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

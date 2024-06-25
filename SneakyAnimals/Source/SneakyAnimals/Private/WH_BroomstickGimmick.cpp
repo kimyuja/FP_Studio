@@ -74,6 +74,8 @@ int32 AWH_BroomstickGimmick::OnMyActive(AActor* ActivePlayer)
 {
 	Super::OnMyActive(ActivePlayer);
 
+	bCanActive = false;
+
 	switch (activeType)
 	{
 	case 0:
@@ -83,7 +85,7 @@ int32 AWH_BroomstickGimmick::OnMyActive(AActor* ActivePlayer)
 		PoorDriver(ActivePlayer);
 		break;
 	case 2:
-		DoorBurst();
+		DoorBurst(ActivePlayer);
 		break;
 	default:
 		break;
@@ -98,9 +100,9 @@ void AWH_BroomstickGimmick::BroomSmash(AActor* ActivePlayer)
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(broomSmashT, [&]()
 		{
-			float rot = FMath::Lerp(0.0, 360.0, lerpTime);
-			float rot2 = FMath::Lerp(0.0, 90.0, lerpTime);
-			float loc = FMath::Lerp(0.0, 50.0, lerpTime);
+			float rot = FMath::Lerp(0.0, 360.0, lerpTime * 2.0);
+			float rot2 = FMath::Lerp(0.0, 45.0, lerpTime * 2.0);
+			float loc = FMath::Lerp(0.0, -50.0, lerpTime);
 			//rot = FMath::Clamp(rot, 0, 90.0);
 			activeObject->SetRelativeLocation(FVector(0, 0, loc));
 			activeObject->SetRelativeRotation(FRotator(0, rot, rot2));
@@ -121,11 +123,37 @@ void AWH_BroomstickGimmick::PoorDriver(AActor* ActivePlayer)
 	activeObject->SetRelativeRotation(FRotator(-90.0f,0,0));
 	activeObject->SetRelativeLocation(FVector(-100, 0, -30));
 	AttachToActor(ActivePlayer, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("broomRide"));
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
+	{
+		player->Death_PoorDrive(false);
+	}
+	FTimerHandle broomBurstT;
+	GetWorldTimerManager().SetTimer(broomBurstT, [&]()
+	{
+		DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		Destroy();
+	}, 1.0, false, 0);
 }
 
-void AWH_BroomstickGimmick::DoorBurst()
+void AWH_BroomstickGimmick::DoorBurst(AActor* ActivePlayer)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
+	activeObject->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	activeObject->SetRelativeRotation(FRotator(-90.0f, 0, 0));
+	activeObject->SetRelativeLocation(FVector(-100, 0, -30));
+	AttachToActor(ActivePlayer, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("broomRide"));
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
+	{
+		player->Death_PoorDrive(true);
+	}
+	FTimerHandle broomBurstT;
+	GetWorldTimerManager().SetTimer(broomBurstT, [&]()
+		{
+			DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+			Destroy();
+		}, 1.0, false, 0);
 }
 
 void AWH_BroomstickGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

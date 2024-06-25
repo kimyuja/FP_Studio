@@ -47,7 +47,7 @@ void AWH_PotionGimmick::Tick(float DeltaTime)
 }
 
 
-void AWH_PotionGimmick::OnMyActive(AActor* ActivePlayer)
+int32 AWH_PotionGimmick::OnMyActive(AActor* ActivePlayer)
 {
 	Super::OnMyActive(ActivePlayer);
 
@@ -71,6 +71,8 @@ void AWH_PotionGimmick::OnMyActive(AActor* ActivePlayer)
 	default:
 		break;
 	}
+
+	return activeType;
 }
 
 void AWH_PotionGimmick::Extincion(AActor* ActivePlayer)
