@@ -74,6 +74,8 @@ public:
 
 	FTimerHandle poorDriveT;
 
+	FTimerHandle endManT;
+
 	UPROPERTY()
 	TObjectPtr<AClearDoor> CheckDoor;
 
@@ -95,7 +97,9 @@ public:
 
 	void Death_Fallover();
 
-	void Death_Homerun(FVector impactLoc);
+	void Death_Homerun(FVector impactLoc, float power = (1000.0f));
 
 	void Death_PoorDrive(bool bIsBestDriver);
+
+	void Death_EndMan();
 };

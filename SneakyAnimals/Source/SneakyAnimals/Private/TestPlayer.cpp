@@ -65,6 +65,7 @@ void ATestPlayer::Tick(float DeltaTime)
 		lerpTime = 0;
 		GetWorldTimerManager().PauseTimer(falloverT);
 		GetWorldTimerManager().PauseTimer(poorDriveT);
+		GetWorldTimerManager().PauseTimer(endManT);
 	}
 
 	if (bCanActive)
@@ -255,17 +256,18 @@ void ATestPlayer::Death_Fallover()
 	Respawn();
 }
 
-void ATestPlayer::Death_Homerun(FVector impactLoc)
+void ATestPlayer::Death_Homerun(FVector impactLoc, float power)
 {
 	bIsDie = true;
 	GetMesh()->SetSimulatePhysics(true);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	GetMesh()->AddImpulse(impactLoc * 1000.0f, TEXT(""), true);
+	GetMesh()->AddImpulse(impactLoc * power, TEXT(""), true);
 	Respawn(5.0);
 }
 
 void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
 {
+	bIsDie = true;
 	UE_LOG(LogTemp, Warning, TEXT("%d"), bIsBestDriver);
 	bIsGoodDriver = bIsBestDriver;
 	bCanActive = false;
@@ -315,5 +317,19 @@ void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
 	{
 		Respawn(10.0);
 	}
+}
+
+void ATestPlayer::Death_EndMan()
+{
+	bIsDie = true;
+	lerpTime = 0;
+	GetWorldTimerManager().SetTimer(endManT, [&]()
+		{
+			float eye = FMath::Lerp(90.0, 0, lerpTime);
+			float size = FMath::Lerp(1.0, 0.3, lerpTime);
+			cameraBoom->SetRelativeLocation(FVector(0, 0, eye));
+			GetMesh()->SetRelativeScale3D(GetMesh()->GetRelativeScale3D() * FVector(size, size, size));
+		}, 0.03f, true, 0);
+	Respawn();
 }
 

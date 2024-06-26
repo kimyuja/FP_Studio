@@ -40,7 +40,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	class UStaticMeshComponent* activeObject;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Myactivetype;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -48,14 +48,18 @@ public:
 
 private:
 
+	float lerpTime;
+
+	FTimerHandle boomT;
+
 	// 점점 작아져서 본인 사망
 	void Extincion(AActor* ActivePlayer);
 	// 중독되서 본인 사망
-	void Poisoned(AActor* ActivePlayer);
+	//void Poisoned(AActor* ActivePlayer);
 	// 미쳐서 본인 빼고 다 사망
-	void Berserk();
+	//void Berserk();
 	// 마신 사람이 터져서 전체 사망
-	void SelfExplosion();
+	void SelfExplosion(AActor* ActivePlayer);
 	// 잠긴 문을 열 수 있게 됨(능력 획득)
 	void knowledgeinjection();
 
