@@ -61,6 +61,13 @@ void AWH_WitchCauldronGimmick::Tick(float DeltaTime)
 
 int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 {
+	bCanActive = false;
+
+	if (bIsFinished)
+	{
+		return -1;
+	}
+
 	Super::OnMyActive(ActivePlayer);
 
 	switch (activeType)
@@ -78,11 +85,15 @@ int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 		break;
 	}
 
+	bIsFinished = true;
+
 	return activeType;
 }
 
 void AWH_WitchCauldronGimmick::BlindFog()
 {
+	bCanActive = false;
+
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BlindFog"));
 
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
@@ -97,6 +108,7 @@ void AWH_WitchCauldronGimmick::BlindFog()
 
 void AWH_WitchCauldronGimmick::HereIsAWitch()
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : HereIsAWitch"));
 
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
@@ -111,6 +123,7 @@ void AWH_WitchCauldronGimmick::HereIsAWitch()
 
 void AWH_WitchCauldronGimmick::KindWitch()
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 
 	for (TActorIterator<AClearDoor> it(GetWorld()); it; ++it)
@@ -125,6 +138,10 @@ void AWH_WitchCauldronGimmick::KindWitch()
 
 void AWH_WitchCauldronGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (bIsFinished)
+	{
+		return;
+	}
 	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{

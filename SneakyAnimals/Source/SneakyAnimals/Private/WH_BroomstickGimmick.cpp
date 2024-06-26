@@ -72,6 +72,12 @@ void AWH_BroomstickGimmick::Tick(float DeltaTime)
 
 int32 AWH_BroomstickGimmick::OnMyActive(AActor* ActivePlayer)
 {
+	
+	if (bIsFinished)
+	{
+		return -1;
+	}
+
 	Super::OnMyActive(ActivePlayer);
 
 	bCanActive = false;
@@ -91,11 +97,14 @@ int32 AWH_BroomstickGimmick::OnMyActive(AActor* ActivePlayer)
 		break;
 	}
 
+	bIsFinished = true;
+
 	return activeType;
 }
 
 void AWH_BroomstickGimmick::BroomSmash(AActor* ActivePlayer)
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BroomSmash"));
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(broomSmashT, [&]()
@@ -118,6 +127,7 @@ void AWH_BroomstickGimmick::BroomSmash(AActor* ActivePlayer)
 
 void AWH_BroomstickGimmick::PoorDriver(AActor* ActivePlayer)
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : PoorDriver"));
 	activeObject->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	activeObject->SetRelativeRotation(FRotator(-90.0f,0,0));
@@ -138,6 +148,7 @@ void AWH_BroomstickGimmick::PoorDriver(AActor* ActivePlayer)
 
 void AWH_BroomstickGimmick::DoorBurst(AActor* ActivePlayer)
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 	activeObject->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	activeObject->SetRelativeRotation(FRotator(-90.0f, 0, 0));
@@ -173,6 +184,10 @@ void AWH_BroomstickGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedCompone
 
 void AWH_BroomstickGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	if (bIsFinished)
+	{
+		return;
+	}
 	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{

@@ -201,9 +201,10 @@ void ATestPlayer::Respawn(float delaytime)
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	FTimerHandle respawnT;
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
+		GetCapsuleComponent()->SetSimulatePhysics(false);
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		GetCapsuleComponent()->SetRelativeRotation(FRotator(0, 0, 0));
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
-		GetMesh()->SetSimulatePhysics(false);
-		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		GetMesh()->SetRelativeRotation(FRotator(0,-90,0));
 		SetActorLocation(respawnLoc);
 		cameraBoom->SetRelativeLocation(FVector(0,0,90.0));
@@ -259,15 +260,17 @@ void ATestPlayer::Death_Fallover()
 void ATestPlayer::Death_Homerun(FVector impactLoc, float power)
 {
 	bIsDie = true;
-	GetMesh()->SetSimulatePhysics(true);
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	GetMesh()->AddImpulse(impactLoc * power, TEXT(""), true);
+	//GetMesh()->SetSimulatePhysics(true);
+	//GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetCapsuleComponent()->SetSimulatePhysics(true);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetCapsuleComponent()->AddImpulse(impactLoc * power, TEXT(""), true);
+	//GetMesh()->AddImpulse(impactLoc * power, TEXT(""), true);
 	Respawn(5.0);
 }
 
 void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
 {
-	bIsDie = true;
 	UE_LOG(LogTemp, Warning, TEXT("%d"), bIsBestDriver);
 	bIsGoodDriver = bIsBestDriver;
 	bCanActive = false;
@@ -315,6 +318,7 @@ void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
 		}, 0.03f, true, 0);
 	if (!bIsGoodDriver)
 	{
+		bIsDie = true;
 		Respawn(10.0);
 	}
 }

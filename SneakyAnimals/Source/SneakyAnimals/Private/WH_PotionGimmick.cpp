@@ -68,6 +68,12 @@ void AWH_PotionGimmick::Tick(float DeltaTime)
 
 int32 AWH_PotionGimmick::OnMyActive(AActor* ActivePlayer)
 {
+
+	if (bIsFinished)
+	{
+		return -1;
+	}
+
 	Super::OnMyActive(ActivePlayer);
 
 	switch (activeType)
@@ -91,11 +97,14 @@ int32 AWH_PotionGimmick::OnMyActive(AActor* ActivePlayer)
 		break;
 	}
 
+	bIsFinished = true;
+
 	return activeType;
 }
 
 void AWH_PotionGimmick::Extincion(AActor* ActivePlayer)
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : Extincion"));
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
@@ -116,24 +125,30 @@ void AWH_PotionGimmick::Extincion(AActor* ActivePlayer)
 
 void AWH_PotionGimmick::SelfExplosion(AActor* ActivePlayer)
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : SelfExplosion"));
 
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
 		if (FVector::Dist(GetActorLocation(), it->GetActorLocation()) < 500.0)
 		{
-			it->Death_Homerun((ActivePlayer->GetActorLocation() - GetActorLocation()).GetSafeNormal(), 10000.0);
+			it->Death_Homerun((ActivePlayer->GetActorLocation() - GetActorLocation()).GetSafeNormal(), 5000.0);
 		}
 	}
 }
 
 void AWH_PotionGimmick::knowledgeinjection()
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }
 
 void AWH_PotionGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (bIsFinished)
+	{
+		return;
+	}
 	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{

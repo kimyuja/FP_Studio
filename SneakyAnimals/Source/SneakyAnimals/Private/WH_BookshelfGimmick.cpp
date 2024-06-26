@@ -71,6 +71,12 @@ void AWH_BookshelfGimmick::Tick(float DeltaTime)
 
 int32 AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 {
+
+	if (bIsFinished)
+	{
+		return -1;
+	}
+
 	//Super::OnMyActive(ActivePlayer);
 
 	UE_LOG(LogTemp, Warning, TEXT("%d"), activeType);
@@ -92,15 +98,19 @@ int32 AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 		break;
 	}
 
+	bIsFinished = true;
+
 	return activeType;
 }
 
 void AWH_BookshelfGimmick::FallOver()
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : FallOver"));
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 	{
+		activeObject->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		float rot = FMath::Lerp(0, -90.0, lerpTime);
 		//float loc = FMath::Lerp(0.0, 50.0, lerpTime);
 		//rot = FMath::Clamp(rot, 0, 90.0);
@@ -118,18 +128,24 @@ void AWH_BookshelfGimmick::FallOver()
 
 void AWH_BookshelfGimmick::BookCanFly()
 {
+	bCanActive = false;
 	GetWorld()->SpawnActor<AFlyBook>(flyBook, GetActorLocation() + GetActorUpVector() * 300.0f, GetActorRotation());
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : BookCanFly"));
 }
 
 void AWH_BookshelfGimmick::ButtonBook()
 {
+	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 	
 }
 
 void AWH_BookshelfGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (bIsFinished)
+	{
+		return;
+	}
 	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{
