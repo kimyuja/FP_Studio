@@ -44,6 +44,7 @@ void AUITestCharacter::BeginPlay()
 		}
 	}
 
+	// CreateWidget()
 
 }
 

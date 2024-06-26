@@ -5,9 +5,13 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Image.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Button.h>
 #include "Slate/SlateBrushAsset.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
+#include "UITestCharacter.h"
 
 void UW_ItemSlot::NativeConstruct()
 {
+	Super::NativeConstruct();
+
 	if (itemImg) 
 	{
 		FSlateBrush brush;
@@ -19,6 +23,9 @@ void UW_ItemSlot::NativeConstruct()
 		}
 	}
 
+	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	
+	AUITestCharacter* uiTestPlayer = Cast<AUITestCharacter>(playerCharacter);
 
 }
 

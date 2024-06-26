@@ -13,5 +13,15 @@ UCLASS()
 class SNEAKYANIMALS_API UW_CustomMap : public UUserWidget
 {
 	GENERATED_BODY()
+
+	
+protected:
+	virtual void NativeConstruct() override;
+	virtual bool Initialize();
+
+private:
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	//class UTexture2D* itemImg;
+	class UBorder* gridBorder;
 	
 };
