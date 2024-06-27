@@ -13,7 +13,7 @@ UCLASS()
 class SNEAKYANIMALS_API ASM_PeriscopeGimmick : public AGimmick
 {
 	GENERATED_BODY()
-	public:
+public:
 
 	ASM_PeriscopeGimmick();
 
@@ -48,13 +48,14 @@ private:
 
 	float lerpTime;
 
-	FTimerHandle boomT;
+	FTimerHandle spinT;
+	FTimerHandle clearSpinT;
 
 	// 잠망경이 돌아가서 얼굴을 쳤다.
 	void PeriscopeSpin(AActor* ActivePlayer);
 	// 잠망경 손잡이가 떨어져서 발을 쳤다.
 	void ByeHandle(AActor* ActivePlayer);
-	// 잠긴 문을 열 수 있게 됨(능력 획득)
+	// 멀리 보이는 배에게 잠망경을 흔들어 구조요청을 했다.
 	void HandleShake();
 
 	UFUNCTION()

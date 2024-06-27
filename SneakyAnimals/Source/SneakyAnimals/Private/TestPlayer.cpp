@@ -15,6 +15,7 @@
 #include "ClearDoor.h"
 #include "WH_PotionGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetMathLibrary.h>
+#include "SM_PeriscopeGimmick.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -174,6 +175,14 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 		else if (Cast<AWH_PotionGimmick>(g))
 		{
 			int32 key = Cast<AWH_PotionGimmick>(g)->OnMyActive(this);
+			if (key == 2)
+			{
+				bCanOpenDoor = true;
+			}
+		}
+		else if (Cast<ASM_PeriscopeGimmick>(g))
+		{
+			int32 key = Cast<ASM_PeriscopeGimmick>(g)->OnMyActive(this);
 			if (key == 2)
 			{
 				bCanOpenDoor = true;

@@ -52,7 +52,7 @@ void ASM_PeriscopeGimmick::Tick(float DeltaTime)
 	if (lerpTime > 1)
 	{
 		lerpTime = 0;
-		GetWorldTimerManager().PauseTimer(boomT);
+		GetWorldTimerManager().PauseTimer(spinT);
 	}
 
 	if (bCanActive)
@@ -100,6 +100,17 @@ void ASM_PeriscopeGimmick::PeriscopeSpin(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : PeriscopeSpin"));
+	lerpTime = 0;
+	GetWorldTimerManager().SetTimer(spinT, [&]()
+		{
+			float rot = FMath::Lerp(0, -90.0, lerpTime * 2);
+			activeObject->SetRelativeRotation(FRotator(0 , rot , 90));
+		}, 0.03f, true, 0);
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
+	{
+		player->Respawn();
+	}
 	
 }
 
@@ -107,13 +118,24 @@ void ASM_PeriscopeGimmick::ByeHandle(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : ByeHandle"));
-
+	activeObject->SetSimulatePhysics(true);
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
+	{
+		player->Respawn();
+	}
 }
 
 void ASM_PeriscopeGimmick::HandleShake()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
+	lerpTime = 0;
+	GetWorldTimerManager().SetTimer(clearSpinT, [&]()
+		{
+			float rot = FMath::Lerp(0, 360.0, lerpTime);
+			activeObject->SetRelativeRotation(FRotator(0, rot, 90));
+		}, 0.03f, true, 0);
 
 }
 
