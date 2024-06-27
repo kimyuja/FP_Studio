@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "LineStructure.h"
 #include "W_CustomMap.generated.h"
 
 /**
@@ -14,14 +15,42 @@ class SNEAKYANIMALS_API UW_CustomMap : public UUserWidget
 {
 	GENERATED_BODY()
 
-	
-protected:
+public:
 	virtual void NativeConstruct() override;
-	virtual bool Initialize();
+	virtual bool Initialize() override;
+
+protected:
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UBorder* gridBorder;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UCanvasPanel* gridCanvasPanel;
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void InitializeWidget(UItemComponent* ItemComponent, float Tilesize);
+
+    UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
+    class UItemComponent* itemComponent;
+
+    UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
+    float tileSize = 160.f;
+
 
 private:
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	//class UTexture2D* itemImg;
-	class UBorder* gridBorder;
+	UFUNCTION(BlueprintCallable, Category = "Custom")
+	void CreateLineSegments();
 	
+	UFUNCTION(BlueprintCallable, Category = "Custom")
+	void CreateVerticalLine();
+
+	UFUNCTION(BlueprintCallable, Category = "Custom")
+	void CreateHorizantalLine();
+	
+	UPROPERTY(VisibleAnywhere, Category = "UI")
+	TArray<class ULineStructure*> lines;
+
+	/*UFUNCTION(BlueprintCallable, Category = "Custom")
+	virtual int32 OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;*/
+
 };

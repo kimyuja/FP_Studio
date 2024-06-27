@@ -56,4 +56,26 @@ public:
 	void PlayerJump(const FInputActionValue& Value);
 
 	void PlayerJumpEnd(const FInputActionValue& Value);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+    TSubclassOf<class UMapCustomWidget> customMapWidgetClass;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+    class UMapCustomWidget* customMapWidget;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
+    class UItemComponent* itemComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+    TSubclassOf<class UMapCustomWidget> MapCustomWidgetClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+    class UMapCustomWidget* MapCustomWidget;
+
+	UFUNCTION()
+    void CreateMapCustomWidget();
+
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    // class UItemComponent* itemComponent;
+
 };

@@ -9,6 +9,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Camera/CameraComponent.h>
 #include "Gimmick.h"
 #include "WH_BookshelfGimmick.h"
+#include "MapCustomWidget.h"
 
 // Sets default values
 AUITestCharacter::AUITestCharacter()
@@ -29,6 +30,8 @@ AUITestCharacter::AUITestCharacter()
 	camera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
 	camera->bUsePawnControlRotation = false;
 
+	itemComponent = CreateDefaultSubobject<UItemComponent>(TEXT("itemComponent"));
+
 }
 
 // Called when the game starts or when spawned
@@ -44,7 +47,8 @@ void AUITestCharacter::BeginPlay()
 		}
 	}
 
-	// CreateWidget()
+	// 레벨 커스텀 할 수 있는 위젯 create
+	CreateMapCustomWidget();
 
 }
 
@@ -122,4 +126,19 @@ void AUITestCharacter::PlayerJumpEnd(const FInputActionValue& Value)
 {
 	StopJumping();
 }
+
+void AUITestCharacter::CreateMapCustomWidget()
+{
+	if (customMapWidgetClass != nullptr)
+	{
+		customMapWidget = CreateWidget<UMapCustomWidget>(GetWorld(), customMapWidgetClass);
+		if (customMapWidget != nullptr)
+		{
+			customMapWidget->AddToViewport();
+
+			customMapWidget->InitializeCustomMap(customMapWidgetClass, itemComponent, 160.f);
+		}
+	}
+}
+
 
