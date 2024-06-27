@@ -81,12 +81,6 @@ int32 AWH_PotionGimmick::OnMyActive(AActor* ActivePlayer)
 	case 0:
 		Extincion(ActivePlayer);
 		break;
-		/*case 1:
-			Poisoned(ActivePlayer);
-			break;
-		case 2:
-			Berserk();
-			break;*/
 	case 1:
 		SelfExplosion(ActivePlayer);
 		break;
@@ -112,16 +106,6 @@ void AWH_PotionGimmick::Extincion(AActor* ActivePlayer)
 		player->Death_EndMan();
 	}
 }
-
-//void AWH_PotionGimmick::Poisoned(AActor* ActivePlayer)
-//{
-//	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Poisoned"));
-//}
-//
-//void AWH_PotionGimmick::Berserk()
-//{
-//	UE_LOG(LogTemp, Warning, TEXT(" Death 3 : Berserk"));
-//}
 
 void AWH_PotionGimmick::SelfExplosion(AActor* ActivePlayer)
 {

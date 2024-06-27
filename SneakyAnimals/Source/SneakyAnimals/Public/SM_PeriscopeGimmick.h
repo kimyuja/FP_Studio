@@ -4,20 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Gimmick.h"
-#include "WH_PotionGimmick.generated.h"
+#include "SM_PeriscopeGimmick.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SNEAKYANIMALS_API AWH_PotionGimmick : public AGimmick
+class SNEAKYANIMALS_API ASM_PeriscopeGimmick : public AGimmick
 {
 	GENERATED_BODY()
+	public:
 
-
-public:
-
-	AWH_PotionGimmick();
+	ASM_PeriscopeGimmick();
 
 protected:
 
@@ -52,18 +50,16 @@ private:
 
 	FTimerHandle boomT;
 
-	// 점점 작아져서 본인 사망
-	void Extincion(AActor* ActivePlayer);
-	// 마신 사람이 터져서 전체 사망
-	void SelfExplosion(AActor* ActivePlayer);
+	// 잠망경이 돌아가서 얼굴을 쳤다.
+	void PeriscopeSpin(AActor* ActivePlayer);
+	// 잠망경 손잡이가 떨어져서 발을 쳤다.
+	void ByeHandle(AActor* ActivePlayer);
 	// 잠긴 문을 열 수 있게 됨(능력 획득)
-	void knowledgeinjection();
+	void HandleShake();
 
 	UFUNCTION()
 	void SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
 	void SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-	
 };

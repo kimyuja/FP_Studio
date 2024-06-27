@@ -1,15 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "WH_WitchCauldronGimmick.h"
+#include "SM_PeriscopeGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "TestPlayer.h"
-#include "ClearDoor.h"
 
-AWH_WitchCauldronGimmick::AWH_WitchCauldronGimmick()
+ASM_PeriscopeGimmick::ASM_PeriscopeGimmick()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -25,16 +24,16 @@ AWH_WitchCauldronGimmick::AWH_WitchCauldronGimmick()
 	object->SetupAttachment(base);
 
 	activeObject = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Active Object"));
-	activeObject->SetupAttachment(base);
+	activeObject->SetupAttachment(object);
 	activeObject->SetRelativeLocation(FVector(0, 0, -150.0));
 
 
-	trigger->OnComponentBeginOverlap.AddDynamic(this, &AWH_WitchCauldronGimmick::SetCanActiveT);
-	trigger->OnComponentEndOverlap.AddDynamic(this, &AWH_WitchCauldronGimmick::SetCanActiveF);
+	trigger->OnComponentBeginOverlap.AddDynamic(this, &ASM_PeriscopeGimmick::SetCanActiveT);
+	trigger->OnComponentEndOverlap.AddDynamic(this, &ASM_PeriscopeGimmick::SetCanActiveF);
 }
 
 
-void AWH_WitchCauldronGimmick::BeginPlay()
+void ASM_PeriscopeGimmick::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -44,9 +43,17 @@ void AWH_WitchCauldronGimmick::BeginPlay()
 
 }
 
-void AWH_WitchCauldronGimmick::Tick(float DeltaTime)
+void ASM_PeriscopeGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	lerpTime += DeltaTime;
+
+	if (lerpTime > 1)
+	{
+		lerpTime = 0;
+		GetWorldTimerManager().PauseTimer(boomT);
+	}
 
 	if (bCanActive)
 	{
@@ -59,9 +66,8 @@ void AWH_WitchCauldronGimmick::Tick(float DeltaTime)
 }
 
 
-int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
+int32 ASM_PeriscopeGimmick::OnMyActive(AActor* ActivePlayer)
 {
-	bCanActive = false;
 
 	if (bIsFinished)
 	{
@@ -73,13 +79,13 @@ int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 	switch (activeType)
 	{
 	case 0:
-		BlindFog();
+		PeriscopeSpin(ActivePlayer);
 		break;
 	case 1:
-		HereIsAWitch();
+		ByeHandle(ActivePlayer);
 		break;
 	case 2:
-		KindWitch();
+		HandleShake();
 		break;
 	default:
 		break;
@@ -90,54 +96,28 @@ int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 	return activeType;
 }
 
-void AWH_WitchCauldronGimmick::BlindFog()
+void ASM_PeriscopeGimmick::PeriscopeSpin(AActor* ActivePlayer)
 {
 	bCanActive = false;
-
-	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BlindFog"));
-
-	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-	{
-		//players.Add(*it);
-		it->Respawn();
-	}
-
-	//int targetNum = FMath::RandRange(0, players.Num() - 1);
-
-	//players[targetNum]->Respawn();
+	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : PeriscopeSpin"));
+	
 }
 
-void AWH_WitchCauldronGimmick::HereIsAWitch()
+void ASM_PeriscopeGimmick::ByeHandle(AActor* ActivePlayer)
 {
 	bCanActive = false;
-	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : HereIsAWitch"));
+	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : ByeHandle"));
 
-	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-	{
-		players.Add(*it);
-	}
-
-	int targetNum = FMath::RandRange(0, players.Num() - 1);
-
-	players[targetNum]->Respawn();
 }
 
-void AWH_WitchCauldronGimmick::KindWitch()
+void ASM_PeriscopeGimmick::HandleShake()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 
-	for (TActorIterator<AClearDoor> it(GetWorld()); it; ++it)
-	{
-		if (it->roomType == 0)
-		{
-			it->OpenDoor();
-		}
-	}
-
 }
 
-void AWH_WitchCauldronGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ASM_PeriscopeGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (bIsFinished)
 	{
@@ -156,7 +136,7 @@ void AWH_WitchCauldronGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComp
 	}
 }
 
-void AWH_WitchCauldronGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+void ASM_PeriscopeGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
@@ -172,5 +152,3 @@ void AWH_WitchCauldronGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComp
 		UE_LOG(LogTemp, Warning, TEXT("RTY"));
 	}
 }
-
-
