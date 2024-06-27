@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "ItemComponent.h"
 #include "MapCustomWidget.generated.h"
 
 /**
@@ -14,4 +15,13 @@ class SNEAKYANIMALS_API UMapCustomWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void InitializeCustomMap(UClass* customMapClass, UItemComponent* itemComponent, float tileSize);
+
+protected:
+    UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
+    class UW_CustomMap* CustomMapWidget;
+
+
 };

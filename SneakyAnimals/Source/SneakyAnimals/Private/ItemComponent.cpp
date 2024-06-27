@@ -10,7 +10,8 @@ UItemComponent::UItemComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	columns = 5;
+	rows = 5;
 }
 
 

@@ -40,7 +40,7 @@ bool UW_ItemSlot::Initialize()
 	// 마우스가 클릭한 정확한 위치값 받아오기
 	btn->SetClickMethod(EButtonClickMethod::PreciseClick);
 	btn->SetTouchMethod(EButtonTouchMethod::PreciseTap);
-	btn->IsFocusable = false;
+	// btn->IsFocusable = false;
 
 
 	return true;
