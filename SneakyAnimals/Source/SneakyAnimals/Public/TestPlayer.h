@@ -51,10 +51,25 @@ public:
 	class UInputAction* ia_activeG;
 
 	UPROPERTY(EditDefaultsOnly, Category = Test)
+	class UInputAction* ia_emo1;
+
+	UPROPERTY(EditDefaultsOnly, Category = Test)
+	class UInputAction* ia_emo2;
+
+	UPROPERTY(EditDefaultsOnly, Category = Test)
+	class UInputAction* ia_emo3;
+
+	UPROPERTY(EditDefaultsOnly, Category = Test)
 	FVector respawnLoc = FVector(0, 0, 80);
 	
 	UPROPERTY(EditDefaultsOnly, Category = Test)
 	TSubclassOf<class UStaticMesh> broom;
+
+	UPROPERTY(EditDefaultsOnly, Category = Test)
+	TSubclassOf<UUserWidget> emoUI;
+
+	UPROPERTY(EditDefaultsOnly, Category = Test)
+	class UWidgetComponent* emoticonUI;
 
 	bool bCanActive;
 
@@ -88,6 +103,8 @@ public:
 	void PlayerJumpEnd(const FInputActionValue& Value);
 
 	void ActiveGimmick(const FInputActionValue& Value);
+
+	void ShowEmo(const FInputActionValue& Value);
 
 	void FadeInOut(bool bInOut);
 

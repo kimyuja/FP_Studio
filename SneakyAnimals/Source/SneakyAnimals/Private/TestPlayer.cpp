@@ -16,6 +16,8 @@
 #include "WH_PotionGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetMathLibrary.h>
 #include "SM_PeriscopeGimmick.h"
+#include "UserEmoticon.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -37,7 +39,14 @@ ATestPlayer::ATestPlayer()
 	camera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
 	camera->bUsePawnControlRotation = false;
 	
+	emoticonUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Emoticon UI"));
+	emoticonUI->SetupAttachment(RootComponent);
+	emoticonUI->SetRelativeLocation(FVector(100,0,120));
+	emoticonUI->SetDrawSize(FVector2D(100,100));
+	emoticonUI->SetWidgetClass(emoUI);
 
+	bReplicates = true;
+	SetReplicateMovement(true);
 }
 
 // Called when the game starts or when spawned
@@ -52,7 +61,6 @@ void ATestPlayer::BeginPlay()
 			Subsystem->AddMappingContext(imc_testmove, 0);
 		}
 	}
-
 }
 
 // Called every frame
@@ -91,6 +99,10 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		// 시야회전
 		enhancedinput->BindAction(ia_look, ETriggerEvent::Triggered, this, &ATestPlayer::Look);
 		enhancedinput->BindAction(ia_activeG, ETriggerEvent::Started, this, &ATestPlayer::ActiveGimmick);
+
+		enhancedinput->BindAction(ia_emo1, ETriggerEvent::Started, this, &ATestPlayer::ShowEmo);
+		enhancedinput->BindAction(ia_emo2, ETriggerEvent::Started, this, &ATestPlayer::ActiveGimmick);
+		enhancedinput->BindAction(ia_emo3, ETriggerEvent::Started, this, &ATestPlayer::ActiveGimmick);
 	}
 	else
 	{
@@ -189,6 +201,11 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 			}
 		}
 	}
+}
+
+void ATestPlayer::ShowEmo(const FInputActionValue& Value)
+{
+	Cast<UUserEmoticon>(emoUI)->ShowEmoticon(0);
 }
 
 void ATestPlayer::FadeInOut(bool bInOut)
