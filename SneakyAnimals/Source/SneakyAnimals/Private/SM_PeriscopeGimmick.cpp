@@ -104,7 +104,7 @@ void ASM_PeriscopeGimmick::PeriscopeSpin(AActor* ActivePlayer)
 	GetWorldTimerManager().SetTimer(spinT, [&]()
 		{
 			float rot = FMath::Lerp(0, -90.0, lerpTime * 2);
-			activeObject->SetRelativeRotation(FRotator(0 , rot , 90));
+			activeObject->SetRelativeRotation(FRotator(0 , rot , 0));
 		}, 0.03f, true, 0);
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
@@ -134,7 +134,7 @@ void ASM_PeriscopeGimmick::HandleShake()
 	GetWorldTimerManager().SetTimer(clearSpinT, [&]()
 		{
 			float rot = FMath::Lerp(0, 360.0, lerpTime);
-			activeObject->SetRelativeRotation(FRotator(0, rot, 90));
+			activeObject->SetRelativeRotation(FRotator(0, rot, 0));
 		}, 0.03f, true, 0);
 
 }
