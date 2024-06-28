@@ -51,3 +51,51 @@ struct FUserProfileResult
     UPROPERTY(BlueprintReadWrite)
     bool success;
 };
+
+USTRUCT(Atomic, BlueprintType)
+struct FStructure_SessionInfo
+{
+    GENERATED_BODY()
+
+    UPROPERTY(BlueprintReadWrite)
+    FString ServerName;
+
+    UPROPERTY(BlueprintReadWrite)
+    int32 MaxPlayers;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FSessionResult
+{
+    GENERATED_BODY()
+
+    UPROPERTY(BlueprintReadOnly, Category = "Session")
+    FString ServerName;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Session")
+    int32 CurrentPlayers;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Session")
+    int32 MaxPlayers;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Session")
+    int32 PingInMs;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FMyBlueprintSessionResult
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly)
+	FString ServerName;
+
+	UPROPERTY(BlueprintReadOnly)
+	int32 CurrentPlayers;
+
+	UPROPERTY(BlueprintReadOnly)
+	int32 MaxPlayers;
+
+	UPROPERTY(BlueprintReadOnly)
+	int32 PinginMs;
+};

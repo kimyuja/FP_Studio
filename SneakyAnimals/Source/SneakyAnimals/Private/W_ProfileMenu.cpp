@@ -17,6 +17,8 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/TextBlock.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h>
 #include "W_SmallProfile.h"
+#include "W_MainMenu.h"
+#include "W_Tooltip.h"
 
 void UW_ProfileMenu::SetParentWidget(UUserWidget* InParentWidget)
 {
@@ -40,11 +42,11 @@ void UW_ProfileMenu::OnUsername_Textbox_Changed(const FText& Text)
 void UW_ProfileMenu::OnSave_BtnClicked()
 {
 	// structure user profile 만들기
-	S_UserProfile->Username = New_Username;
-	S_UserProfile->User_Avatar = Selected_Avatar;
+	S_UserProfile.Username = New_Username;
+	S_UserProfile.User_Avatar = Selected_Avatar;
 
 	// function library 의 save user profile 함수 만들기. 거기에 save game에다가 structure user profile 을 저장한다.
-	if (UFL_General::Save_UserProfile(*S_UserProfile))
+	if (UFL_General::Save_UserProfile(S_UserProfile))
 	{
 		Get_UserProfile();
 
@@ -62,6 +64,18 @@ void UW_ProfileMenu::OnSave_BtnClicked()
 	}
 }
 
+void UW_ProfileMenu::OnBack_BtnClicked()
+{
+	UWidget::RemoveFromParent();
+	UW_MainMenu* m = Cast<UW_MainMenu>(ParentWidget);
+	m->SetVerticalBoxButtonContainerVisibility(ESlateVisibility::Visible);
+}
+
+void UW_ProfileMenu::OnCancel_BtnClicked()
+{
+	Get_UserProfile();
+}
+
 UW_ProfileMenu::UW_ProfileMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	// DT_Available_Avatars 를 로드한다.
@@ -72,11 +86,18 @@ UW_ProfileMenu::UW_ProfileMenu(const FObjectInitializer& ObjectInitializer) : Su
 	}
 
 
-	// WB_ProfileMenu 위젯 블루프린트 클래스를 로드한다.
+	// WB_AvailableAvatar 위젯 블루프린트 클래스를 로드한다.
 	static ConstructorHelpers::FClassFinder<UW_AvailableAvatar> WidgetBPClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/KYJ/Widgets/MainMenu/WB_AvailableAvatar.WB_AvailableAvatar_C'"));
 	if (WidgetBPClass.Succeeded())
 	{
 		AvailableAvatar_bp = WidgetBPClass.Class;
+	}
+
+	// WB_Tooltip 위젯 블루프린트 클래스를 로드한다.
+	static ConstructorHelpers::FClassFinder<UW_Tooltip> WidgetBPClass2(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/KYJ/Widgets/General/WB_Tooltip.WB_Tooltip_C'"));
+	if (WidgetBPClass2.Succeeded())
+	{
+		Tooltip_bp = WidgetBPClass2.Class;
 	}
 }
 
@@ -102,7 +123,16 @@ void UW_ProfileMenu::NativeConstruct()
 
 	Populate_AvailableAvatars();
 
-	// Get User Profile 해야 함 Function Library
+	Get_UserProfile();
+
+	Tooltip_inst = CreateWidget<UW_Tooltip>(this, Tooltip_bp, FName("tooltip1"));
+	
+	if (Tooltip_inst)
+	{
+		Tooltip_inst->Tooltip_Title = FText::FromString(TEXT("Set a username"));
+		Tooltip_inst->Tooltip_Description = FText::FromString(TEXT("Max 12 characters"));
+	}
+	Username_Textbox->SetToolTip(Tooltip_inst);
 
 	// Event Bind
 	if (Username_Textbox)
@@ -115,15 +145,14 @@ void UW_ProfileMenu::NativeConstruct()
 		Save_Btn->Button->OnClicked.AddDynamic(this, &UW_ProfileMenu::OnSave_BtnClicked);
 	}
 
-	// 나머지 버튼 만들 때 주석 해제해 알겠지
-	//if (Back_Btn)
-	//{
-	//	Back_Btn->Button->OnClicked.AddDynamic(this, &UW_ProfileMenu::OnBack_BtnClicked);
-	//}
-	//if (Cancel_Btn)
-	//{
-	//	Cancel_Btn->Button->OnClicked.AddDynamic(this, &UW_ProfileMenu::OnCancel_BtnClicked);
-	//}
+	if (Back_Btn)
+	{
+		Back_Btn->Button->OnClicked.AddDynamic(this, &UW_ProfileMenu::OnBack_BtnClicked);
+	}
+	if (Cancel_Btn)
+	{
+		Cancel_Btn->Button->OnClicked.AddDynamic(this, &UW_ProfileMenu::OnCancel_BtnClicked);
+	}
 }
 
 void UW_ProfileMenu::Populate_AvailableAvatars()
@@ -160,6 +189,7 @@ void UW_ProfileMenu::Get_UserProfile()
 
 	if (UserProfileResult.success)
 	{
+		S_UserProfile = UserProfileResult.S_UserProfile;
 		// User Profile이 성공적으로 로드 되었다면
 		Username_Text->SetText(UserProfileResult.S_UserProfile.Username);
 		Username_Textbox->Textbox->SetText(FText::FromString(""));

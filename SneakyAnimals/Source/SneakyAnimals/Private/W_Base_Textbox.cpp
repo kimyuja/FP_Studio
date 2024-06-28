@@ -5,13 +5,13 @@
 void UW_Base_Textbox::OnTextChanged(const FText& InText)
 {
 	// 텍스트가 바뀌면 delegate 실행
-	OnMyTextChanged.Broadcast();
+	OnMyTextChanged.Broadcast(InText);
 }
 
 void UW_Base_Textbox::OnTextCommitted(const FText& InText, ETextCommit::Type CommitMethod)
 {
 	// 텍스트 입력을 완료했을 때 delegate 실행
-	OnMyTextCommitted.Broadcast();
+	OnMyTextCommitted.Broadcast(InText, CommitMethod);
 }
 
 void UW_Base_Textbox::NativeConstruct()

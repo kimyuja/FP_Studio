@@ -59,14 +59,26 @@ public:
     UPROPERTY(EditAnywhere, Category="MySettings")
 	TSubclassOf<class UW_AvailableAvatar> AvailableAvatar_bp;
 
+    UPROPERTY(EditAnywhere, Category = "MySettings", BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UW_Tooltip> Tooltip_bp;
+
 	UPROPERTY()
 	class UW_AvailableAvatar* AvailableAvatar_inst;
+
+	UPROPERTY(EditAnywhere, Category = "MySettings", BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	class UW_Tooltip* Tooltip_inst;
 
     UFUNCTION()
     void OnUsername_Textbox_Changed(const FText& Text);
     
     UFUNCTION()
     void OnSave_BtnClicked();
+    
+    UFUNCTION()
+    void OnBack_BtnClicked();
+    
+    UFUNCTION()
+    void OnCancel_BtnClicked();
 
 protected:
     virtual void NativeConstruct() override;
@@ -76,7 +88,7 @@ protected:
 private:
     TObjectPtr<UDataTable> DT_Available_Avatars;
     FStructure_Available_Avatars* S_Available_Avatars;
-    FStructure_UserProfile* S_UserProfile;
+    FStructure_UserProfile S_UserProfile;
     
     void Get_UserProfile();
 };

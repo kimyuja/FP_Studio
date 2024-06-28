@@ -34,22 +34,35 @@ public:
 	UPROPERTY(EditAnywhere, Category = "MySettings", meta = (BindWidget))
 	class UVerticalBox* VerticalBox_ButtonContainer;
 
-	// HostGame 기능 구현할 때 주석 풀기
-    //UFUNCTION()
-    //void OnHostGame_BtnClicked();
-
     UFUNCTION()
     void OnProfile_BtnClicked();
+	
+	UFUNCTION()
+    void OnHostGame_BtnClicked();
+	
+	UFUNCTION()
+    void OnJoinGame_BtnClicked();
 
 	UPROPERTY(EditAnywhere, Category="MySettings")
 	TSubclassOf<class UW_ProfileMenu> ProfileMenu_bp;
+	
+	UPROPERTY(EditAnywhere, Category="MySettings")
+	TSubclassOf<class UW_HostGameMenu> HostGameMenu_bp;
+	
+	UPROPERTY(EditAnywhere, Category="MySettings")
+	TSubclassOf<class UW_ServerBrowserMenu> JoinGameMenu_bp;
 
 	UPROPERTY()
 	class UW_ProfileMenu* ProfileMenu_inst;
+	
+	UPROPERTY()
+	class UW_HostGameMenu* HostGameMenu_inst;
+	
+	UPROPERTY()
+	class UW_ServerBrowserMenu* JoinGameMenu_inst;
+
+	void SetVerticalBoxButtonContainerVisibility(ESlateVisibility InVisibility);
 
 protected:
 	virtual void NativeConstruct() override;
-
-private:
-	void SetVerticalBoxButtonContainerVisibility(ESlateVisibility InVisibility);
 };

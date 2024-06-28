@@ -4,8 +4,10 @@
 #include "Blueprint/UserWidget.h"
 #include "W_Base_Textbox.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMyTextChanged);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMyTextCommitted);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMyTextChanged);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMyTextCommitted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMyTextChanged, const FText&, InText);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMyTextCommitted, const FText&, InText, ETextCommit::Type, CommitMethod);
 
 /**
  * 
