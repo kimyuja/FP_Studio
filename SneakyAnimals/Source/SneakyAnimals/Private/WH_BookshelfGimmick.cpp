@@ -110,7 +110,7 @@ void AWH_BookshelfGimmick::FallOver()
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 	{
-		activeObject->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		//activeObject->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		float rot = FMath::Lerp(0, -90.0, lerpTime);
 		//float loc = FMath::Lerp(0.0, 50.0, lerpTime);
 		//rot = FMath::Clamp(rot, 0, 90.0);
