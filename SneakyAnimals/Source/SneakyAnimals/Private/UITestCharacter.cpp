@@ -47,9 +47,6 @@ void AUITestCharacter::BeginPlay()
 		}
 	}
 
-	// 레벨 커스텀 할 수 있는 위젯 create
-	CreateMapCustomWidget();
-
 }
 
 // Called every frame
@@ -127,18 +124,18 @@ void AUITestCharacter::PlayerJumpEnd(const FInputActionValue& Value)
 	StopJumping();
 }
 
-void AUITestCharacter::CreateMapCustomWidget()
-{
-	if (customMapWidgetClass != nullptr)
-	{
-		customMapWidget = CreateWidget<UMapCustomWidget>(GetWorld(), customMapWidgetClass);
-		if (customMapWidget != nullptr)
-		{
-			customMapWidget->AddToViewport();
-
-			customMapWidget->InitializeCustomMap(customMapWidgetClass, itemComponent, 160.f);
-		}
-	}
-}
+//void AUITestCharacter::CreateMapCustomWidget()
+//{
+//	if (customMapWidgetClass != nullptr)
+//	{
+//		customMapWidget = CreateWidget<UMapCustomWidget>(GetWorld(), customMapWidgetClass);
+//		if (customMapWidget != nullptr)
+//		{
+//			customMapWidget->AddToViewport();
+//
+//			customMapWidget->InitializeCustomMap(customMapWidgetClass, 160.f);
+//		}
+//	}
+//}
 
 

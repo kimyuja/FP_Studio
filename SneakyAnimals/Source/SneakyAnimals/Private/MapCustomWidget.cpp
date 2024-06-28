@@ -4,15 +4,23 @@
 #include "MapCustomWidget.h"
 #include "W_CustomMap.h"
 
-void UMapCustomWidget::InitializeCustomMap(UClass* customMapClass, UItemComponent* itemComponent, float tileSize)
+bool UMapCustomWidget::Initialize()
 {
-	if (customMapClass != nullptr)
+	bool Success = Super::Initialize();
+	if (!Success) return false;
+	Super::NativeConstruct();
+
+	return true;
+}
+
+void UMapCustomWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	if (CustomMapWidget != nullptr)
 	{
-		CustomMapWidget = CreateWidget<UW_CustomMap>(GetWorld(), customMapClass);
-		if (CustomMapWidget != nullptr)
-		{
-			CustomMapWidget->AddToViewport();
-			CustomMapWidget->InitializeWidget(itemComponent, tileSize);
-		}
+		CustomMapWidget->InitializeWidget(tileSize);
+
 	}
 }
+

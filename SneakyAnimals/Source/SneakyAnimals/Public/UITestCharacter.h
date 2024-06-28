@@ -72,8 +72,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
     class UMapCustomWidget* MapCustomWidget;
 
-	UFUNCTION()
-    void CreateMapCustomWidget();
+	// UFUNCTION()
+    // void CreateMapCustomWidget();
 
 	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     // class UItemComponent* itemComponent;

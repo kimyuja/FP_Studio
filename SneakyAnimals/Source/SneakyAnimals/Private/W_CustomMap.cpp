@@ -8,41 +8,27 @@
 #include <ItemComponent.h>
 #include "LineStructure.h"
 #include <../../../../../../../Source/Runtime/Experimental/ChaosCore/Public/Chaos/Array.h>
+#include "Slate/WidgetTransform.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h>
 
-void UW_CustomMap::NativeConstruct()
+UW_CustomMap::UW_CustomMap(const FObjectInitializer& ObjectInitializer):Super(ObjectInitializer)
 {
-	Super::NativeConstruct();
-
-	if (itemComponent)
+	/*AActor* TempActor = GetWorld()->SpawnActor<AActor>();
+	if (TempActor)
 	{
-		itemComponent = CreateDefaultSubobject<UItemComponent>(TEXT("itemComponent"));
-	}
-
-	/*if (!itemComponent)
-    {
-        itemComponent = NewObject<UItemComponent>(this, TEXT("ItemComponent"));
-        itemComponent->RegisterComponent();
-    }*/
-	
-	if (gridBorder && gridCanvasPanel)
-	{
-		gridBorder->SetContent(gridCanvasPanel);
-		
-		UCanvasPanelSlot* canvasSlot = Cast<UCanvasPanelSlot>(gridBorder->Slot);
-
-		if (canvasSlot)
+		itemComponent = NewObject<UItemComponent>(TempActor, UItemComponent::StaticClass());
+		if (itemComponent)
 		{
-			/*float sizeX = itemComponent->columns * tileSize;
-			float sizeY = itemComponent->rows * tileSize;
-			canvasSlot->SetSize(FVector2D(sizeX, sizeY));*/
-			canvasSlot->SetSize(FVector2D(160.f, 160.f));
-
-			UE_LOG(LogTemp, Warning, TEXT("colums : %d"), itemComponent->columns);
-			UE_LOG(LogTemp, Warning, TEXT("rows : %d"), itemComponent->rows);
-			UE_LOG(LogTemp, Warning, TEXT("tileSize : %f"), tileSize);
+			TempActor->AddOwnedComponent(itemComponent);
 		}
+		TempActor->Destroy();
 	}
 
+	if (!itemComponent)
+	{
+		itemComponent = NewObject<UItemComponent>(this, TEXT("ItemComponent"));
+
+	}*/
 }
 
 bool UW_CustomMap::Initialize()
@@ -56,19 +42,46 @@ bool UW_CustomMap::Initialize()
 	return true;
 }
 
-void UW_CustomMap::InitializeWidget(UItemComponent* ItemComponent, float Tilesize)
+void UW_CustomMap::NativeConstruct()
 {
-	/*UE_LOG(LogTemp, Warning, TEXT("initialized widget to set size"));
+	Super::NativeConstruct();
+	// UItemComponent* itemComponent = Cast<UItemComponent>()
 
-	UCanvasPanelSlot* canvasSlot = Cast<UCanvasPanelSlot>(gridBorder->Slot);
+	//if (itemComponent)
+	//{
+	//	// itemComponent = CreateDefaultSubobject<UItemComponent>(TEXT("itemComponent"));
+	//}
+
+	if (gridBorder && gridCanvasPanel)
+	{
+		gridBorder->SetContent(gridCanvasPanel);
+	}
+
+	/*for (int i = 0; i < 10; ++i) {
+		UE_LOG(LogTemp,  Warning, TEXT("%d "), i);
+	}*/
+
+}
+
+void UW_CustomMap::InitializeWidget(float Tilesize)
+{
+	// UCanvasPanelSlot* canvasSlot = Cast<UCanvasPanelSlot>(gridBorder->Slot);
+	canvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(gridBorder);
 
 	if (canvasSlot)
 	{
-		float sizeX = itemComponent->columns * tileSize;
-		float sizeY = itemComponent->rows * tileSize;
-		canvasSlot->SetSize(FVector2D(sizeX, sizeY));
-	}*/
 
+		float sizeX = columns * tileSize;
+		float sizeY = rows * tileSize;
+
+		// float sizeX = itemComponent->columns * tileSize;
+		// float sizeY = itemComponent->rows * tileSize;
+
+		canvasSlot->SetSize(FVector2D(sizeX, sizeY));
+
+	}
+
+	// CreateLineSegments();
 }
 
 void UW_CustomMap::CreateLineSegments()
@@ -80,14 +93,15 @@ void UW_CustomMap::CreateLineSegments()
 
 void UW_CustomMap::CreateVerticalLine()
 {
-	float X;	// 로컬변수
+	float X;
+	
+	ULineStructure newLine;
 
-	for (int32 i = 0; i < itemComponent->columns; ++i) {
+	for (int32 i = 0; i < columns; ++i) {
 		X = tileSize * i;
 
-		ULineStructure newLine;
 		newLine.start = FVector2D(X, 0.0f);
-		newLine.end = FVector2D(X, tileSize * itemComponent->rows);
+		newLine.end = FVector2D(X, tileSize * rows);
 
 		lines.Add(&newLine);
 	}
@@ -95,27 +109,33 @@ void UW_CustomMap::CreateVerticalLine()
 
 void UW_CustomMap::CreateHorizantalLine()
 {
-	float Y;	// 로컬변수
+	float Y;
+	
+	ULineStructure newline;
 
-	for (int32 i = 0; i < itemComponent->rows; ++i) {
+	for (int32 i = 0; i < rows; ++i) {
 		Y = tileSize * i;
 
-		ULineStructure newline;
-		newline.start = FVector2D(0, Y);
-		newline.end = FVector2D(tileSize * itemComponent->columns, Y);
+		newline.start = FVector2D(0.0f, Y);
+		newline.end = FVector2D(tileSize * columns, Y);
 
 		lines.Add(&newline);
 	}
 }
 
-//int32 UW_CustomMap::OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const
-//{
-//	int32 RetLayerId = Super::OnPaint(Args, AllottedGeometry, MyCullingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
-//
-//	FVector2D TopLeft = AllottedGeometry.GetLocalPositionAtCoordinates(FVector2D(0.0f, 0.0f));
-//
-//	// Lines 배열을 순회하며 그리기 작업 수행
-//	
-//
-//	return RetLayerId;
-//}
+// int32 UW_CustomMap::OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled)
+// {
+
+
+	// return RetLayerId;
+// }
+
+void UW_CustomMap::DrawGridLine()
+{
+	FVector2D TopLeft = canvasSlot->GetPosition();
+	UE_LOG(LogTemp, Warning, TEXT("TopLeft position : (%f, %f)"), TopLeft.X, TopLeft.Y);
+
+	// FVector2D TopLeft = gridBorder->GetCachedGeometry().GetLocalTopLeft();
+
+
+}

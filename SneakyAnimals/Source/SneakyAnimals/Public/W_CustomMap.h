@@ -16,8 +16,10 @@ class SNEAKYANIMALS_API UW_CustomMap : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	virtual void NativeConstruct() override;
+	UW_CustomMap(const FObjectInitializer& ObjectInitializer);
+
 	virtual bool Initialize() override;
+	virtual void NativeConstruct() override;
 
 protected:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -27,14 +29,23 @@ protected:
 	class UCanvasPanel* gridCanvasPanel;
 
 public:
+	UPROPERTY(EditAnywhere)
+	class UCanvasPanelSlot* canvasSlot;
+	
 	UFUNCTION(BlueprintCallable, Category = "UI")
-	void InitializeWidget(UItemComponent* ItemComponent, float Tilesize);
+	void InitializeWidget(float Tilesize);
 
-    UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
-    class UItemComponent* itemComponent;
+    // UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
+    // class UItemComponent* itemComponent;
 
     UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
     float tileSize = 160.f;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Constants")
+	int32 columns = 5;
+	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Constants")
+	int32 rows = 5;
 
 
 private:
@@ -51,6 +62,8 @@ private:
 	TArray<class ULineStructure*> lines;
 
 	/*UFUNCTION(BlueprintCallable, Category = "Custom")
-	virtual int32 OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;*/
+	virtual int32 OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled);*/
 
+	UFUNCTION(BlueprintCallable, Category = "Custom")
+	void DrawGridLine();
 };
