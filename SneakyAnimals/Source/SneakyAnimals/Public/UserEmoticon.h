@@ -31,6 +31,8 @@ public:
 
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime)override;
 
+	FTimerHandle closeT;
+
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UImage* curEmoticon;
 
@@ -49,7 +51,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	TArray<class UTexture2D*> turtleEmoticons;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EPlayerType playerType = EPlayerType::COW;
 
 	UFUNCTION()

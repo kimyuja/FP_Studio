@@ -31,7 +31,7 @@ ATestPlayer::ATestPlayer()
 
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	cameraBoom->SetupAttachment(GetMesh());
-	cameraBoom->SetRelativeLocation(FVector(0, 0, 90));
+	cameraBoom->SetRelativeLocation(FVector(0, 0, 250));
 	cameraBoom->TargetArmLength = 0;
 	cameraBoom->bUsePawnControlRotation = true;
 
@@ -40,8 +40,8 @@ ATestPlayer::ATestPlayer()
 	camera->bUsePawnControlRotation = false;
 	
 	emoticonUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Emoticon UI"));
-	emoticonUI->SetupAttachment(RootComponent);
-	emoticonUI->SetRelativeLocation(FVector(100,0,120));
+	emoticonUI->SetupAttachment(camera);
+	emoticonUI->SetRelativeLocation(FVector(100,0,0));
 	emoticonUI->SetDrawSize(FVector2D(100,100));
 	emoticonUI->SetWidgetClass(emoUI);
 
@@ -205,7 +205,8 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 
 void ATestPlayer::ShowEmo(const FInputActionValue& Value)
 {
-	Cast<UUserEmoticon>(emoUI)->ShowEmoticon(0);
+	float inputNum = Value.Get<float>();
+	Cast<UUserEmoticon>(emoticonUI->GetWidget())->ShowEmoticon(inputNum - 1);
 }
 
 void ATestPlayer::FadeInOut(bool bInOut)

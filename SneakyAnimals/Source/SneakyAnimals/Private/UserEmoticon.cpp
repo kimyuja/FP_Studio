@@ -8,8 +8,8 @@ void UUserEmoticon::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	curEmoticon->SetVisibility(ESlateVisibility::Hidden);
-	curEmoticon->SetRenderScale(FVector2D(0,0));
+	//curEmoticon->SetVisibility(ESlateVisibility::Hidden);
+	//curEmoticon->SetRenderScale(FVector2D(0,0));
 }
 
 void UUserEmoticon::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -20,6 +20,10 @@ void UUserEmoticon::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 
 void UUserEmoticon::ShowEmoticon(int32 emoNum)
 {
+	if (GetWorld()->GetTimerManager().IsTimerActive(closeT))
+	{
+		return;
+	}
 	switch (playerType)
 	{
 	case EPlayerType::COW:
@@ -39,9 +43,8 @@ void UUserEmoticon::ShowEmoticon(int32 emoNum)
 	}
 	curEmoticon->SetVisibility(ESlateVisibility::Visible);
 	PlayAnimation(EmoticonAnim);
-	FTimerHandle closeT;
 	GetWorld()->GetTimerManager().SetTimer(closeT, [&]()
 	{
 		curEmoticon->SetVisibility(ESlateVisibility::Hidden);
-	}, 3.0, false, 0);
+	}, 1.0, false, 3.0);
 }
