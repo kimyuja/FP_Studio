@@ -10,25 +10,11 @@
 #include <../../../../../../../Source/Runtime/Experimental/ChaosCore/Public/Chaos/Array.h>
 #include "Slate/WidgetTransform.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h>
+#include "Rendering/DrawElements.h"
+#include "Layout/Geometry.h"
 
-UW_CustomMap::UW_CustomMap(const FObjectInitializer& ObjectInitializer):Super(ObjectInitializer)
+UW_CustomMap::UW_CustomMap(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	/*AActor* TempActor = GetWorld()->SpawnActor<AActor>();
-	if (TempActor)
-	{
-		itemComponent = NewObject<UItemComponent>(TempActor, UItemComponent::StaticClass());
-		if (itemComponent)
-		{
-			TempActor->AddOwnedComponent(itemComponent);
-		}
-		TempActor->Destroy();
-	}
-
-	if (!itemComponent)
-	{
-		itemComponent = NewObject<UItemComponent>(this, TEXT("ItemComponent"));
-
-	}*/
 }
 
 bool UW_CustomMap::Initialize()
@@ -57,9 +43,36 @@ void UW_CustomMap::NativeConstruct()
 		gridBorder->SetContent(gridCanvasPanel);
 	}
 
-	/*for (int i = 0; i < 10; ++i) {
-		UE_LOG(LogTemp,  Warning, TEXT("%d "), i);
-	}*/
+	Invalidate(EInvalidateWidget::LayoutAndVolatility);
+
+	GetWorld()->GetTimerManager().SetTimer(DrawGridLineTimerHandle, this, &UW_CustomMap::DrawGridLine, 0.1f, false);
+
+
+	// DrawGridLine();
+}
+
+int32 UW_CustomMap::NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const
+{
+	int32 RetLayerId = Super::NativePaint(Args, AllottedGeometry, MyCullingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
+
+	FVector2D topLeft = GetGridBorderTopLeft();
+
+	// Draw each line
+	for (const ULineStructure* Line : lines)
+	{
+		FSlateDrawElement::MakeLines(
+			OutDrawElements,
+			RetLayerId,
+			AllottedGeometry.ToPaintGeometry(),
+			TArray<FVector2D>({ topLeft + Line->start, topLeft + Line->end }),
+			ESlateDrawEffect::None,
+			FLinearColor::Gray,
+			true,
+			1.0f
+		);
+	}
+
+	return RetLayerId;
 
 }
 
@@ -74,9 +87,6 @@ void UW_CustomMap::InitializeWidget(float Tilesize)
 		float sizeX = columns * tileSize;
 		float sizeY = rows * tileSize;
 
-		// float sizeX = itemComponent->columns * tileSize;
-		// float sizeY = itemComponent->rows * tileSize;
-
 		canvasSlot->SetSize(FVector2D(sizeX, sizeY));
 
 	}
@@ -86,6 +96,7 @@ void UW_CustomMap::InitializeWidget(float Tilesize)
 
 void UW_CustomMap::CreateLineSegments()
 {
+	lines.Empty();
 	CreateVerticalLine();
 	CreateHorizantalLine();
 
@@ -94,48 +105,62 @@ void UW_CustomMap::CreateLineSegments()
 void UW_CustomMap::CreateVerticalLine()
 {
 	float X;
-	
-	ULineStructure newLine;
 
-	for (int32 i = 0; i < columns; ++i) {
+	for (int32 i = 0; i <= columns; ++i) {
 		X = tileSize * i;
 
-		newLine.start = FVector2D(X, 0.0f);
-		newLine.end = FVector2D(X, tileSize * rows);
+		ULineStructure* newLine = NewObject<ULineStructure>();
+		newLine->start = FVector2D(X, 0.0f);
+		newLine->end = FVector2D(X, tileSize * rows);
 
-		lines.Add(&newLine);
+		lines.Add(newLine);
 	}
 }
 
 void UW_CustomMap::CreateHorizantalLine()
 {
 	float Y;
-	
-	ULineStructure newline;
 
-	for (int32 i = 0; i < rows; ++i) {
+	for (int32 i = 0; i <= rows; ++i) {
 		Y = tileSize * i;
 
-		newline.start = FVector2D(0.0f, Y);
-		newline.end = FVector2D(tileSize * columns, Y);
+		ULineStructure* newLine = NewObject<ULineStructure>();
+		newLine->start = FVector2D(0.0f, Y);
+		newLine->end = FVector2D(tileSize * columns, Y);
 
-		lines.Add(&newline);
+		lines.Add(newLine);
 	}
 }
 
-// int32 UW_CustomMap::OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled)
-// {
-
-
-	// return RetLayerId;
-// }
 
 void UW_CustomMap::DrawGridLine()
 {
-	FVector2D TopLeft = canvasSlot->GetPosition();
-	UE_LOG(LogTemp, Warning, TEXT("TopLeft position : (%f, %f)"), TopLeft.X, TopLeft.Y);
 
-	// FVector2D TopLeft = gridBorder->GetCachedGeometry().GetLocalTopLeft();
+	CreateLineSegments();
 
+	if (IsInViewport())
+	{
+		Invalidate(EInvalidateWidget::LayoutAndVolatility);
+	}
 
+}
+
+FVector2D UW_CustomMap::GetGridBorderTopLeft() const
+{
+
+	FGeometry geometry = gridBorder->GetCachedGeometry();
+	FVector2D absolutePosition = geometry.GetAbsolutePosition();
+	FVector2D localPosition = geometry.AbsoluteToLocal(absolutePosition);
+	FVector2D borderSize = geometry.GetLocalSize();
+
+	// 중앙 기준으로 절반 크기를 빼서 좌표 계산
+	FVector2D topLeft = localPosition - (borderSize * 0.5f);
+
+	// FVector2D TopLeft = FVector2D(0.f, 0.f);
+
+	UE_LOG(LogTemp, Warning, TEXT("Absolute position : (%f, %f)"), absolutePosition.X, absolutePosition.Y);
+	UE_LOG(LogTemp, Warning, TEXT("Size : (%f, %f)"), borderSize.X, borderSize.Y);
+	UE_LOG(LogTemp, Warning, TEXT("TopLeft position : (%f, %f)"), topLeft.X, topLeft.Y);
+
+	return topLeft;
 }

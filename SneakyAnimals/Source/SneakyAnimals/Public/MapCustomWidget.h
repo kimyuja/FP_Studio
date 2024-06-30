@@ -22,7 +22,7 @@ public:
 protected:
     UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
     class UW_CustomMap* CustomMapWidget;
-	
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
-	float tileSize = 160.f;
+	float tileSize;
 };

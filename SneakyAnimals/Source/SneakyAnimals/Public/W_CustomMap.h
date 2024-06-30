@@ -20,6 +20,7 @@ public:
 
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override;
+	virtual int32 NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
 
 protected:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -61,9 +62,11 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "UI")
 	TArray<class ULineStructure*> lines;
 
-	/*UFUNCTION(BlueprintCallable, Category = "Custom")
-	virtual int32 OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled);*/
 
 	UFUNCTION(BlueprintCallable, Category = "Custom")
 	void DrawGridLine();
+
+	FVector2D GetGridBorderTopLeft() const;
+
+	FTimerHandle DrawGridLineTimerHandle;
 };

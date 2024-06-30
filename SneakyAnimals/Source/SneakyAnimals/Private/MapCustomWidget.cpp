@@ -8,7 +8,6 @@ bool UMapCustomWidget::Initialize()
 {
 	bool Success = Super::Initialize();
 	if (!Success) return false;
-	Super::NativeConstruct();
 
 	return true;
 }
@@ -17,10 +16,10 @@ void UMapCustomWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (CustomMapWidget != nullptr)
+	/*if (CustomMapWidget != nullptr)
 	{
 		CustomMapWidget->InitializeWidget(tileSize);
 
-	}
+	}*/
 }
 
