@@ -16,34 +16,30 @@ class SNEAKYANIMALS_API UW_ItemSlot : public UUserWidget
 
 protected:
 	virtual void NativeConstruct() override;
-	virtual bool Initialize();
+	virtual bool Initialize() override;
 
-
-private:
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	//class UTexture2D* itemImg;
-	class UButton* btn;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	//class UTexture2D* itemImg;
-	class UImage* img;
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	class UTexture2D* itemImg;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	//class UTexture2D* itemImg;
+	class UButton* itemBtn;
 
-	// 버튼인덱스
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	int32 itemSlot;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	//class UTexture2D* itemImg;
+	class UImage* itemIcon;
 
-	// 각 슬롯 위로 드래그 할 때 실행될 버튼 스타일
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	FButtonStyle EnabledButtonStyle;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (BindWidget))
+	//class UTexture2D* itemImg;
+	class UTextBlock* itemCost;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	FButtonStyle DragOverStyle;
+	// UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UPROPERTY(EditAnywhere)
+	class UMapCustomWidget* mapCustomWidget;
+
+	UFUNCTION()
+	void OnItemBtnClicked();
+
+	UFUNCTION(BlueprintCallable)
+	void SetMapCustomWidget(UMapCustomWidget* Widget);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	FButtonStyle DefaultButtonStyle;
-
 };

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "ItemComponent.h"
+#include "W_ItemSlot.h"
 #include "MapCustomWidget.generated.h"
 
 /**
@@ -25,4 +26,18 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	float tileSize;
+
+private:
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* maxCost;
+
+public:
+	int32 maxCostAsInt(int32 cost) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Custom")
+	void UpdateMaxCost(int32 newCost);
+
+	//UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	//TArray<UW_ItemSlot*> ItemSlotWidgets;
+
 };
