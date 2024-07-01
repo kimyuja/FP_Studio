@@ -20,6 +20,8 @@ void UItemComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
+	columns = 5;
+	rows = 5;
 	
 }
 

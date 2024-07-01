@@ -36,8 +36,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void InitializeWidget(float Tilesize);
 
-    // UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
-    // class UItemComponent* itemComponent;
+    UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
+    class UItemComponent* itemComponent;
 
     UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
     float tileSize = 160.f;

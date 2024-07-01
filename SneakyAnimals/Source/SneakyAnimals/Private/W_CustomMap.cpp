@@ -12,6 +12,9 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h>
 #include "Rendering/DrawElements.h"
 #include "Layout/Geometry.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
+#include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
+#include <UITestCharacter.h>
 
 UW_CustomMap::UW_CustomMap(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -31,12 +34,13 @@ bool UW_CustomMap::Initialize()
 void UW_CustomMap::NativeConstruct()
 {
 	Super::NativeConstruct();
-	// UItemComponent* itemComponent = Cast<UItemComponent>()
 
-	//if (itemComponent)
-	//{
-	//	// itemComponent = CreateDefaultSubobject<UItemComponent>(TEXT("itemComponent"));
-	//}
+	
+	/*
+	if (itemComponent)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("itemComponent is not nullptr"));
+	}*/
 
 	if (gridBorder && gridCanvasPanel)
 	{
@@ -47,6 +51,7 @@ void UW_CustomMap::NativeConstruct()
 
 	GetWorld()->GetTimerManager().SetTimer(DrawGridLineTimerHandle, this, &UW_CustomMap::DrawGridLine, 0.1f, false);
 
+	UE_LOG(LogTemp, Warning, TEXT("itemComponent->columns : %d, itemComponent->rows : %d"), itemComponent->columns, itemComponent->rows);
 
 	// DrawGridLine();
 }
@@ -79,13 +84,34 @@ int32 UW_CustomMap::NativePaint(const FPaintArgs& Args, const FGeometry& Allotte
 void UW_CustomMap::InitializeWidget(float Tilesize)
 {
 	// UCanvasPanelSlot* canvasSlot = Cast<UCanvasPanelSlot>(gridBorder->Slot);
+
+	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	/*if (!playerCharacter)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("playerCharacter is nullptr"));
+	}*/
+
+	AUITestCharacter* uiTestPlayer = Cast<AUITestCharacter>(playerCharacter);
+	if (!uiTestPlayer)
+	{
+		// UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer is nullptr"));
+	}
+	if (uiTestPlayer)
+	{
+		itemComponent = uiTestPlayer->FindComponentByClass<UItemComponent>();
+		// UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer is not nullptr"));
+	}
+
+
 	canvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(gridBorder);
 
 	if (canvasSlot)
 	{
 
-		float sizeX = columns * tileSize;
-		float sizeY = rows * tileSize;
+		/*float sizeX = itemComponent->columns * tileSize;
+		float sizeY = itemComponent->rows * tileSize;*/
+		float sizeX = itemComponent->columns * tileSize;
+		float sizeY = itemComponent->rows * tileSize;
 
 		canvasSlot->SetSize(FVector2D(sizeX, sizeY));
 

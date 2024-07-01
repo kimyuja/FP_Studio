@@ -57,8 +57,6 @@ void UMapCustomWidget::InitializeItemSlots()
 {	
 	// if(!itemSlotWidget) return;
 
-	UE_LOG(LogTemp, Warning, TEXT("111111111111111111111111"));
-
 	UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(GetRootWidget());
 
 	for (int32 i = 0; i < 4; i++) {
@@ -75,7 +73,8 @@ void UMapCustomWidget::InitializeItemSlots()
 
 			if (canvasSlot)
 			{
-				canvasSlot->SetPosition(FVector2D(100.0f, 100.0f + i * 150.0f));
+				canvasSlot->SetAnchors(FAnchors(0.5f, 0.5f));
+				canvasSlot->SetPosition(FVector2D(550.0f, -300.0f + i * 150.0f));
 			}
 
 			itemSlotWidgets.Add(newItemSlot);

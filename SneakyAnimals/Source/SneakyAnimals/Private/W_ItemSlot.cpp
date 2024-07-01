@@ -25,8 +25,19 @@ void UW_ItemSlot::NativeConstruct()
 	Super::NativeConstruct(); 
 	
 	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	
+	if (!playerCharacter)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("playerCharacter is nullptr"));
+	}
+	playerCharacter->SetActorLocation(FVector(2000,0,0));
+
 	AUITestCharacter* uiTestPlayer = Cast<AUITestCharacter>(playerCharacter);
+
+
+	if (!uiTestPlayer)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer is nullptr"));
+	}
 
 	if (itemBtn)
 	{
