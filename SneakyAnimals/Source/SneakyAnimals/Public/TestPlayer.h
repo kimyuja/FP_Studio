@@ -93,6 +93,8 @@ public:
 
 	FTimerHandle endManT;
 
+	FTimerHandle ThunderT;
+
 	UPROPERTY()
 	TObjectPtr<AClearDoor> CheckDoor;
 
@@ -123,4 +125,6 @@ public:
 	void Death_PoorDrive(bool bIsBestDriver);
 
 	void Death_EndMan();
+
+	void Death_Thunderclap();
 };

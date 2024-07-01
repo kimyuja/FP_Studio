@@ -42,8 +42,6 @@ void ASM_PressButtonGimmick::BeginPlay()
 
 	SetActiveType(Myactivetype);
 
-	//trigger->SetBoxExtent(activeRange);
-
 }
 
 void ASM_PressButtonGimmick::Tick(float DeltaTime)
@@ -106,7 +104,7 @@ void ASM_PressButtonGimmick::Waterbomb()
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(pressT, [&]()
 		{
-			float loc = FMath::Lerp(0, -1.0, lerpTime);
+			float loc = FMath::Lerp(0, -3.0, lerpTime);
 			activeObject->SetRelativeLocation(FVector(0, 0, 90 + loc));
 		}, 0.03f, true, 0);
 	for (TActorIterator<ATrapDoor> it(GetWorld()); it; ++it)

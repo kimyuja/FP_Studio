@@ -19,6 +19,7 @@
 #include "UserEmoticon.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 #include "SM_PressButtonGimmick.h"
+#include "SM_ComputerGimmick.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -72,10 +73,13 @@ void ATestPlayer::Tick(float DeltaTime)
 	lerpTime += DeltaTime;
 	if (lerpTime > 1)
 	{
-		lerpTime = 0;
 		GetWorldTimerManager().PauseTimer(falloverT);
 		GetWorldTimerManager().PauseTimer(poorDriveT);
-		GetWorldTimerManager().PauseTimer(endManT);
+		GetWorldTimerManager().PauseTimer(endManT);	
+	}
+	if (lerpTime > 5.0)
+	{
+		GetWorldTimerManager().PauseTimer(ThunderT);
 	}
 
 	if (bCanActive)
@@ -210,6 +214,14 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 				bCanOpenDoor = true;
 			}
 		}
+		else if (Cast<ASM_ComputerGimmick>(g))
+		{
+			int32 key = Cast<ASM_ComputerGimmick>(g)->OnMyActive(this);
+			if (key == 2)
+			{
+				bCanOpenDoor = true;
+			}
+		}
 	}
 }
 
@@ -259,6 +271,8 @@ void ATestPlayer::Respawn(float delaytime)
 		cameraBoom->SetRelativeLocation(FVector(0,0,250.0));
 		FadeInOut(false);
 		bIsDie = false;
+		bIsBlack = false;
+		GetWorldTimerManager().ClearAllTimersForObject(this);
 	}, 1.0, false, 3.0);
 	
 }
@@ -384,5 +398,16 @@ void ATestPlayer::Death_EndMan()
 			GetMesh()->SetRelativeScale3D(GetMesh()->GetRelativeScale3D() * FVector(size, size, size));
 		}, 0.03f, true, 0);
 	Respawn();
+}
+
+void ATestPlayer::Death_Thunderclap()
+{
+	GetWorldTimerManager().SetTimer(ThunderT, [&]()
+	{
+		APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+		cameraManager->StartCameraFade(0, 1.0f, 0.25f, FColor::White);
+	}, 0.25, true , 0);
+	bIsBlack = true;
+	Respawn(5.0);
 }
 
