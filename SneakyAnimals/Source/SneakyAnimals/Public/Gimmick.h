@@ -37,4 +37,16 @@ public:
 
 	UFUNCTION()
 	void SetActiveType(int32 aType);
+	
+	UFUNCTION(BlueprintCallable, Category = "Items")
+	UItemObject* GetDefaultItemObject();
+
+	UFUNCTION(BlueprintCallable, Category = "Items")
+	void InitializeItemObject();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
+	class UItemObject* itemObject;
+
+
+
 };

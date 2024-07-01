@@ -34,10 +34,18 @@ private:
 public:
 	int32 maxCostAsInt(int32 cost) const;
 
-	UFUNCTION(BlueprintCallable, Category = "Custom")
+	UFUNCTION(BlueprintCallable, Category = "UI")
 	void UpdateMaxCost(int32 newCost);
 
-	//UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	//TArray<UW_ItemSlot*> ItemSlotWidgets;
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void InitializeItemSlots();
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	TArray<UW_ItemSlot*> itemSlotWidgets;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UUserWidget> itemSlotWidgetClass;
+
+	UW_ItemSlot* itemSlotWidget;
 
 };

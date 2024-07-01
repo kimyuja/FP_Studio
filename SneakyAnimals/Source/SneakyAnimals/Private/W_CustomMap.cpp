@@ -158,9 +158,9 @@ FVector2D UW_CustomMap::GetGridBorderTopLeft() const
 
 	// FVector2D TopLeft = FVector2D(0.f, 0.f);
 
-	UE_LOG(LogTemp, Warning, TEXT("Absolute position : (%f, %f)"), absolutePosition.X, absolutePosition.Y);
+	/*UE_LOG(LogTemp, Warning, TEXT("Absolute position : (%f, %f)"), absolutePosition.X, absolutePosition.Y);
 	UE_LOG(LogTemp, Warning, TEXT("Size : (%f, %f)"), borderSize.X, borderSize.Y);
-	UE_LOG(LogTemp, Warning, TEXT("TopLeft position : (%f, %f)"), topLeft.X, topLeft.Y);
+	UE_LOG(LogTemp, Warning, TEXT("TopLeft position : (%f, %f)"), topLeft.X, topLeft.Y);*/
 
 
 	/*FGeometry geometry = gridBorder->GetCachedGeometry();
