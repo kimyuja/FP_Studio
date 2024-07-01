@@ -22,8 +22,7 @@ bool UW_ItemSlot::Initialize()
 
 void UW_ItemSlot::NativeConstruct()
 {
-	Super::NativeConstruct();
-
+	Super::NativeConstruct(); 
 	
 	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	
