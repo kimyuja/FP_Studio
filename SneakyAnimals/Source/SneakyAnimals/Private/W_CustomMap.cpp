@@ -154,13 +154,26 @@ FVector2D UW_CustomMap::GetGridBorderTopLeft() const
 	FVector2D borderSize = geometry.GetLocalSize();
 
 	// 중앙 기준으로 절반 크기를 빼서 좌표 계산
-	FVector2D topLeft = localPosition - (borderSize * 0.5f);
+	FVector2D topLeft = localPosition/* - (borderSize * 0.5f)*/;
 
 	// FVector2D TopLeft = FVector2D(0.f, 0.f);
 
 	UE_LOG(LogTemp, Warning, TEXT("Absolute position : (%f, %f)"), absolutePosition.X, absolutePosition.Y);
 	UE_LOG(LogTemp, Warning, TEXT("Size : (%f, %f)"), borderSize.X, borderSize.Y);
 	UE_LOG(LogTemp, Warning, TEXT("TopLeft position : (%f, %f)"), topLeft.X, topLeft.Y);
+
+
+	/*FGeometry geometry = gridBorder->GetCachedGeometry();
+	FVector2D localPosition = geometry.GetLocalSize() * -0.5f;
+
+	UCanvasPanelSlot* CanvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(gridBorder);
+	if (CanvasSlot)
+	{
+		FVector2D AbsolutePosition = CanvasSlot->GetPosition();
+		localPosition += AbsolutePosition;
+	}
+
+	FVector2D topLeft = localPosition;*/
 
 	return topLeft;
 }
