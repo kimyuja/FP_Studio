@@ -8,6 +8,8 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "TestPlayer.h"
+#include "TrapDoor.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
 
 ASM_PressButtonGimmick::ASM_PressButtonGimmick()
 {
@@ -53,7 +55,7 @@ void ASM_PressButtonGimmick::Tick(float DeltaTime)
 	if (lerpTime > 1)
 	{
 		lerpTime = 0;
-		GetWorldTimerManager().PauseTimer(spinT);
+		GetWorldTimerManager().PauseTimer(pressT);
 	}
 
 	if (bCanActive)
@@ -101,27 +103,43 @@ void ASM_PressButtonGimmick::Waterbomb()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : Waterbomb"));
-
+	lerpTime = 0;
+	GetWorldTimerManager().SetTimer(pressT, [&]()
+		{
+			float loc = FMath::Lerp(0, -1.0, lerpTime);
+			activeObject->SetRelativeLocation(FVector(0, 0, 90 + loc));
+		}, 0.03f, true, 0);
+	for (TActorIterator<ATrapDoor> it(GetWorld()); it; ++it)
+	{
+		it->OpenDoor();
+	}
+	for (TActorIterator<ATestPlayer> player(GetWorld()); player; ++player)
+	{
+		player->Respawn();
+	}
+	FLatentActionInfo actionInfo;
+	UKismetSystemLibrary::Delay(GetWorld(),3.0, actionInfo);
 }
 
 void ASM_PressButtonGimmick::Blinklife()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Blinklife"));
-	
+	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	{
+		it->BlackScreen();
+		players.Add(*it);
+	}
+
+	int targetNum = FMath::RandRange(0, players.Num() - 1);
+
+	players[targetNum]->Respawn();
 }
 
 void ASM_PressButtonGimmick::Autopilot()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
-	lerpTime = 0;
-	GetWorldTimerManager().SetTimer(clearSpinT, [&]()
-		{
-			float rot = FMath::Lerp(0, 360.0, lerpTime);
-			activeObject->SetRelativeRotation(FRotator(0, rot, 90));
-		}, 0.03f, true, 0);
-
 }
 
 void ASM_PressButtonGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

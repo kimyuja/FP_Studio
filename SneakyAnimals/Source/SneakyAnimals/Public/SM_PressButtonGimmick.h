@@ -48,9 +48,9 @@ public:
 private:
 
 	float lerpTime;
+	FTimerHandle pressT;
 
-	FTimerHandle spinT;
-	FTimerHandle clearSpinT;
+	TArray<class ATestPlayer*> players;
 
 	// 문 열려서 물 들어옴
 	void Waterbomb();

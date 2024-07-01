@@ -18,6 +18,7 @@
 #include "SM_PeriscopeGimmick.h"
 #include "UserEmoticon.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
+#include "SM_PressButtonGimmick.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -159,6 +160,7 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 {
 	if (bCanActive)
 	{
+		bCanActive = false;
 		UE_LOG(LogTemp, Warning, TEXT("Fail %d"), bCanActive);
 		if (Cast<AWH_BookshelfGimmick>(g))
 		{
@@ -200,6 +202,14 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 				bCanOpenDoor = true;
 			}
 		}
+		else if (Cast<ASM_PressButtonGimmick>(g))
+		{
+			int32 key = Cast<ASM_PressButtonGimmick>(g)->OnMyActive(this);
+			if (key == 2)
+			{
+				bCanOpenDoor = true;
+			}
+		}
 	}
 }
 
@@ -215,16 +225,28 @@ void ATestPlayer::FadeInOut(bool bInOut)
 	if (bInOut)
 	{
 		cameraManager->StartCameraFade(0,1.0f, 1.0f, FColor::Black, false, true);
+		bIsBlack = true;
 	}
 	else
 	{
 		cameraManager->StartCameraFade(1.0f, 0, 1.5f, FColor::Black);
+		bIsBlack = false;
 	}
+}
+
+void ATestPlayer::BlackScreen()
+{
+	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+	cameraManager->StartCameraFade(0, 1.0f, 0.1f, FColor::Black, false, true);
+	bIsBlack = true;
 }
 
 void ATestPlayer::Respawn(float delaytime)
 {
-	FadeInOut(true);
+	if (!bIsBlack)
+	{
+		FadeInOut(true);
+	}
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	FTimerHandle respawnT;
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
@@ -234,7 +256,7 @@ void ATestPlayer::Respawn(float delaytime)
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
 		GetMesh()->SetRelativeRotation(FRotator(0,-90,0));
 		SetActorLocation(respawnLoc);
-		cameraBoom->SetRelativeLocation(FVector(0,0,90.0));
+		cameraBoom->SetRelativeLocation(FVector(0,0,250.0));
 		FadeInOut(false);
 		bIsDie = false;
 	}, 1.0, false, 3.0);
@@ -276,7 +298,7 @@ void ATestPlayer::Death_Fallover()
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 		{
-			float eye = FMath::Lerp(90.0, 0, lerpTime);
+			float eye = FMath::Lerp(250.0, 0, lerpTime);
 			float tall = FMath::Lerp(1.0, 0.3, lerpTime);
 			cameraBoom->SetRelativeLocation(FVector(0,0,eye));
 			GetMesh()->SetRelativeScale3D(GetMesh()->GetRelativeScale3D() * FVector(1,1,tall));

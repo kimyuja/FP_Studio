@@ -79,6 +79,8 @@ public:
 
 	bool bIsGoodDriver = false;
 
+	bool bIsBlack = false;
+
 	int32 activeReturn;
 
 	float lerpTime;
@@ -107,6 +109,8 @@ public:
 	void ShowEmo(const FInputActionValue& Value);
 
 	void FadeInOut(bool bInOut);
+
+	void BlackScreen();
 
 	void Respawn(float delaytime = 3.0f);
 

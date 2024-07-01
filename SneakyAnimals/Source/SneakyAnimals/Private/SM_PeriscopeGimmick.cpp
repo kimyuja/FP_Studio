@@ -22,6 +22,7 @@ ASM_PeriscopeGimmick::ASM_PeriscopeGimmick()
 
 	object = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Object"));
 	object->SetupAttachment(base);
+	object->SetRelativeLocation(FVector(0, 0, 150.0));
 
 	activeObject = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Active Object"));
 	activeObject->SetupAttachment(object);
