@@ -8,8 +8,8 @@ void UUserEmoticon::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	//curEmoticon->SetVisibility(ESlateVisibility::Hidden);
-	//curEmoticon->SetRenderScale(FVector2D(0,0));
+	curEmoticon->SetVisibility(ESlateVisibility::Hidden);
+	curEmoticon->SetRenderScale(FVector2D(0,0));
 }
 
 void UUserEmoticon::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
