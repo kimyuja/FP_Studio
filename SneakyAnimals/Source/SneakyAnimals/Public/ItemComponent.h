@@ -31,9 +31,47 @@ public:
 	int32 rows;
 
 	UFUNCTION(BlueprintCallable)
-	bool TryAddItem(class UItemObject* itemObject);
+	bool TryAddItem(UItemObject* ItemObject);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Constants")
-	TArray<class UItemObject*> Items;
+	TArray<class UItemObject*> items;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Constants")
+	TArray<FTileStructureTemp> tiles;
+
+	// 그리드 내 배치 가능한 공간
+	UFUNCTION(BlueprintCallable)
+	bool IsRoomAvailable(UItemObject* ItemObject, int32 TopLeftIndex);
+
+	UFUNCTION(BlueprintCallable)
+	bool CheckEmptySlot(FTileStructureTemp tile);
+
+	// macro
+	UFUNCTION(BlueprintCallable)
+	bool ForEachIndex(UItemObject* ItemObject, int32 TopLeftIndex);
+
+	//UFUNCTION(BlueprintCallable)  
+	//class UTileStructure* IndexToTile(int32 Index) const;
+
+	//// macro -> 타일이 유효한지 여부 확인
+	//UFUNCTION(BlueprintCallable)
+	//bool IsTileValid(UTileStructure* Tile);
+	//
+	//UFUNCTION(BlueprintCallable)
+	//int TileToIndex(UTileStructure* Tile);
+
+	UFUNCTION(BlueprintCallable)  
+	FTileStructureTemp IndexToTile(int32 Index) const;
+
+	// macro -> 타일이 유효한지 여부 확인
+	UFUNCTION(BlueprintCallable)
+	bool IsTileValid(FTileStructureTemp Tile);
 	
+	UFUNCTION(BlueprintCallable)
+	int32 TileToIndex(FTileStructureTemp Tile);
+
+	UFUNCTION(BlueprintCallable)
+	UItemObject* GetItemAtIndex(int32 Index);
+
+
 };

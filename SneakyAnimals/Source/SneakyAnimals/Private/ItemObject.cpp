@@ -3,3 +3,7 @@
 
 #include "ItemObject.h"
 
+FIntPoint UItemObject::GetDimensions() const
+{
+	return FIntPoint();
+}

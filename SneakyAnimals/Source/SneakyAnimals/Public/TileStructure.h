@@ -7,8 +7,21 @@
 #include "TileStructure.generated.h"
 
 /**
- * 
+ *
  */
+
+USTRUCT(BlueprintType)
+struct FTileStructureTemp
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 X;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Y;
+};
+
 UCLASS()
 class SNEAKYANIMALS_API UTileStructure : public UDataStructure
 {
@@ -17,7 +30,7 @@ class SNEAKYANIMALS_API UTileStructure : public UDataStructure
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 X;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Y;
 
