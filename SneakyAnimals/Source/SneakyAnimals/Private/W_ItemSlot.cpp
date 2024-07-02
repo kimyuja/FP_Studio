@@ -8,6 +8,8 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include "UITestCharacter.h"
 #include "MapCustomWidget.h"
+#include "ItemComponent.h"
+#include "ItemObject.h"
 #include "Components/TextBlock.h"
 
 bool UW_ItemSlot::Initialize()
@@ -38,6 +40,13 @@ void UW_ItemSlot::NativeConstruct()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer is nullptr"));
 	}
+	
+	if (uiTestPlayer)
+	{
+		itemComponent = uiTestPlayer->FindComponentByClass<UItemComponent>();
+
+		UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer connect itemComponent"));
+	}
 
 	if (itemBtn)
 	{
@@ -48,7 +57,11 @@ void UW_ItemSlot::NativeConstruct()
 	{
 		UE_LOG(LogTemp, Error, TEXT("mapCustomWidget is not set!"));
 	}
-
+	itemObject = NewObject<UItemObject>(this);
+	if (!itemObject)
+	{
+		UE_LOG(LogTemp, Error, TEXT("itemObject is not set!"));
+	}
 }
 
 void UW_ItemSlot::OnItemBtnClicked()
@@ -67,6 +80,11 @@ void UW_ItemSlot::OnItemBtnClicked()
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("mapCustomWidget is null!"));
+	}
+
+	if (itemComponent && itemObject)
+	{
+		itemComponent->TryAddItem(itemObject);
 	}
 }
 

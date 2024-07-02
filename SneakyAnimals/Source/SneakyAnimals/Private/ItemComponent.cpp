@@ -34,3 +34,13 @@ void UItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	// ...
 }
 
+bool UItemComponent::TryAddItem(UItemObject* itemObject)
+{
+	if (itemObject)
+	{
+		
+		return true;
+	}
+	return false;
+}
+

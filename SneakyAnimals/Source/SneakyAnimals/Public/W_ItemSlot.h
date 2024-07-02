@@ -36,10 +36,16 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UMapCustomWidget* mapCustomWidget;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void OnItemBtnClicked();
 
 	UFUNCTION(BlueprintCallable)
 	void SetMapCustomWidget(UMapCustomWidget* Widget);
+
+    UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
+    class UItemComponent* itemComponent;
+	
+    UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
+    class UItemObject* itemObject;
 	
 };

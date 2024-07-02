@@ -29,5 +29,11 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Constants")
 	int32 rows;
+
+	UFUNCTION(BlueprintCallable)
+	bool TryAddItem(class UItemObject* itemObject);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Constants")
+	TArray<class UItemObject*> Items;
 	
 };
