@@ -78,8 +78,6 @@ int32 AWH_BroomstickGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	Super::OnMyActive(ActivePlayer);
-
 	bCanActive = false;
 
 	switch (activeType)

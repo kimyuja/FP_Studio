@@ -74,8 +74,6 @@ int32 ASM_ComputerGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	Super::OnMyActive(ActivePlayer);
-
 	switch (activeType)
 	{
 	case 0:

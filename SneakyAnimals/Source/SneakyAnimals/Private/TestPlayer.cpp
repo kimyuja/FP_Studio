@@ -77,7 +77,7 @@ void ATestPlayer::Tick(float DeltaTime)
 		GetWorldTimerManager().PauseTimer(poorDriveT);
 		GetWorldTimerManager().PauseTimer(endManT);	
 	}
-	if (lerpTime > 5.0)
+	if (lerpTime > 4.0)
 	{
 		GetWorldTimerManager().PauseTimer(ThunderT);
 	}
@@ -166,61 +166,10 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 	{
 		bCanActive = false;
 		UE_LOG(LogTemp, Warning, TEXT("Fail %d"), bCanActive);
-		if (Cast<AWH_BookshelfGimmick>(g))
+		int32 key = g->OnMyActive(this);
+		if (key == 2)
 		{
-			int32 key = Cast<AWH_BookshelfGimmick>(g)->OnMyActive(this);
-			if (key == 2)
-			{
-				bCanOpenDoor = true;
-			}
-		}
-		else if (Cast<AWH_WitchCauldronGimmick>(g))
-		{
-			int32 key = Cast<AWH_WitchCauldronGimmick>(g)->OnMyActive(this);
-			if (key == 2)
-			{
-				bCanOpenDoor = true;
-			}
-		}
-		else if (Cast<AWH_BroomstickGimmick>(g))
-		{
-			int32 key = Cast<AWH_BroomstickGimmick>(g)->OnMyActive(this);
-			if (key == 2)
-			{
-				bCanOpenDoor = true;
-			}
-		}
-		else if (Cast<AWH_PotionGimmick>(g))
-		{
-			int32 key = Cast<AWH_PotionGimmick>(g)->OnMyActive(this);
-			if (key == 2)
-			{
-				bCanOpenDoor = true;
-			}
-		}
-		else if (Cast<ASM_PeriscopeGimmick>(g))
-		{
-			int32 key = Cast<ASM_PeriscopeGimmick>(g)->OnMyActive(this);
-			if (key == 2)
-			{
-				bCanOpenDoor = true;
-			}
-		}
-		else if (Cast<ASM_PressButtonGimmick>(g))
-		{
-			int32 key = Cast<ASM_PressButtonGimmick>(g)->OnMyActive(this);
-			if (key == 2)
-			{
-				bCanOpenDoor = true;
-			}
-		}
-		else if (Cast<ASM_ComputerGimmick>(g))
-		{
-			int32 key = Cast<ASM_ComputerGimmick>(g)->OnMyActive(this);
-			if (key == 2)
-			{
-				bCanOpenDoor = true;
-			}
+			bCanOpenDoor = true;
 		}
 	}
 }
@@ -402,6 +351,8 @@ void ATestPlayer::Death_EndMan()
 
 void ATestPlayer::Death_Thunderclap()
 {
+	bIsDie = true;
+	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(ThunderT, [&]()
 	{
 		APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);

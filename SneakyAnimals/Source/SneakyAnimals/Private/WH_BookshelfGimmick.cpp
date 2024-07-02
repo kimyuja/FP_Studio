@@ -77,8 +77,6 @@ int32 AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	//Super::OnMyActive(ActivePlayer);
-
 	UE_LOG(LogTemp, Warning, TEXT("%d"), activeType);
 
 	bCanActive = false;

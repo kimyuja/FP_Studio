@@ -68,8 +68,6 @@ int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	Super::OnMyActive(ActivePlayer);
-
 	switch (activeType)
 	{
 	case 0:

@@ -74,8 +74,6 @@ int32 AWH_PotionGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	Super::OnMyActive(ActivePlayer);
-
 	switch (activeType)
 	{
 	case 0:
