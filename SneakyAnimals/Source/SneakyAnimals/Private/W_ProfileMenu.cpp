@@ -34,7 +34,7 @@ void UW_ProfileMenu::OnUsername_Textbox_Changed(const FText& Text)
 	// 텍스트가 안 비어있으면
 	FString TextStr = UKismetStringLibrary::GetSubstring(Text.ToString(), 0, 12);
 
-	New_Username = UKismetTextLibrary::Conv_StringToText(TextStr);
+	New_Username = FText::FromString(TextStr);
 
 	Username_Textbox->Textbox->SetText(New_Username);
 }

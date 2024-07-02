@@ -132,9 +132,18 @@ void UFL_General::Set_SessionInfo(UObject* WorldContextObject, FString ServerNam
 	if (World)
 	{
 		UGI_SneakyAnimals* gi = Cast<UGI_SneakyAnimals>(World->GetGameInstance());
-		FStructure_SessionInfo S_SessionInfo;
-		S_SessionInfo.ServerName = ServerName;
-		S_SessionInfo.MaxPlayers = MaxPlayers;
+
+		#pragma region old version
+		// old version
+		//FStructure_SessionInfo S_SessionInfo;
+		//S_SessionInfo.ServerName = ServerName;
+		//S_SessionInfo.MaxPlayers = MaxPlayers;
+		#pragma endregion
+
+		// new version
+		FSessionInfo S_SessionInfo;
+		S_SessionInfo.hostName = ServerName;
+		S_SessionInfo.maxPlayerCount = MaxPlayers;
 		gi->S_SessionInfo = S_SessionInfo;
 	}
 	return;

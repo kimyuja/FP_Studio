@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
 #include "UObject/NoExportTypes.h"
+#include "Interfaces/OnlineSessionInterface.h"
+#include "OnlineSessionSettings.h"
 #include "DataStructure.generated.h"
 
 /**
@@ -52,50 +54,40 @@ struct FUserProfileResult
     bool success;
 };
 
-USTRUCT(Atomic, BlueprintType)
-struct FStructure_SessionInfo
-{
-    GENERATED_BODY()
-
-    UPROPERTY(BlueprintReadWrite)
-    FString ServerName;
-
-    UPROPERTY(BlueprintReadWrite)
-    int32 MaxPlayers;
-};
-
-USTRUCT(Atomic, BlueprintType)
-struct FSessionResult
-{
-    GENERATED_BODY()
-
-    UPROPERTY(BlueprintReadOnly, Category = "Session")
-    FString ServerName;
-
-    UPROPERTY(BlueprintReadOnly, Category = "Session")
-    int32 CurrentPlayers;
-
-    UPROPERTY(BlueprintReadOnly, Category = "Session")
-    int32 MaxPlayers;
-
-    UPROPERTY(BlueprintReadOnly, Category = "Session")
-    int32 PingInMs;
-};
-
-USTRUCT(Atomic, BlueprintType)
-struct FMyBlueprintSessionResult
+USTRUCT(BlueprintType)
+struct FSessionInfo
 {
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly)
-	FString ServerName;
-
+	FString roomName;
 	UPROPERTY(BlueprintReadOnly)
-	int32 CurrentPlayers;
-
+	FString hostName;
 	UPROPERTY(BlueprintReadOnly)
-	int32 MaxPlayers;
-
+	FString userName;
 	UPROPERTY(BlueprintReadOnly)
-	int32 PinginMs;
+	int32 maxPlayerCount;
+	UPROPERTY(BlueprintReadOnly)
+	int32 currentPlayerCount;
+	UPROPERTY(BlueprintReadOnly)
+	int32 pingMs;
+
+	int32 index;
+
+	FORCEINLINE void Set(int32 _index, const FOnlineSessionSearchResult& item) {
+		index = _index;
+		//item.Session.SessionSettings.Get(FName("ROOM_NAME"), roomName);
+		//item.Session.SessionSettings.Get(FName("HOST_NAME"), hostName);
+		// 방장의 이름
+		userName = item.Session.OwningUserName;
+		// 최대 플레이어 수
+		maxPlayerCount = item.Session.SessionSettings.NumPublicConnections;
+		// 현재 방에 들어온 플레이어 수
+		currentPlayerCount = maxPlayerCount - item.Session.NumOpenPublicConnections;
+		pingMs = item.PingInMs;
+	}
+
+	FORCEINLINE FString ToString() {
+		return FString::Printf(TEXT("%s, %s, %s, (%d/%d), %dms"), *roomName, *hostName, *userName, currentPlayerCount, maxPlayerCount, pingMs);
+	}
 };

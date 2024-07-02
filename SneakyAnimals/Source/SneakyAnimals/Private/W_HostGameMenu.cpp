@@ -9,7 +9,12 @@
 
 void UW_HostGameMenu::OnHostLobby_BtnClicked()
 {
-	gi->UGI_SneakyAnimals::CreateSession(UGameplayStatics::GetPlayerController(GetWorld(),0), MaxAmount_SessionConnections, bConnectionType_LAN, true);
+	// old version
+	//gi->UGI_SneakyAnimals::CreateSession(UGameplayStatics::GetPlayerController(GetWorld(),0), MaxAmount_SessionConnections, bConnectionType_LAN, true);
+
+	// new version
+	FString DynamicName = "Room_" + FString::FromInt(FMath::Rand());
+	gi->UGI_SneakyAnimals::CreateSession(DynamicName, MaxAmount_SessionConnections);
 }
 
 void UW_HostGameMenu::OnBack_BtnClicked()
@@ -66,22 +71,24 @@ void UW_HostGameMenu::NativeConstruct()
 	gi = Cast<UGI_SneakyAnimals>(UGameplayStatics::GetGameInstance(this));
 	if (gi)
 	{
+		// old version
 		gi->OnCreateSessionSuccess.AddDynamic(this, &UW_HostGameMenu::CreateLoadingScreen);
 		gi->OnCreateSessionFailure.AddDynamic(this, &UW_HostGameMenu::CreatePopUp);
 	}
 
 	// Loading Screen Texture2D 경로 설정
-	FStringAssetReference TextureRef(TEXT("/Script/Engine.Texture2D'/Game/KYJ/Assets/Widgets/General/T_Color4_Normal.T_Color4_Normal'"));
+	FSoftObjectPath TextureRef(TEXT("/Game/KYJ/Assets/Widgets/General/T_Color4_Normal.T_Color4_Normal"));
+
 	// Loading Screen Texture2D 로드
 	T_Color4_Normal = Cast<UTexture2D>(TextureRef.TryLoad());
 }
 
 void UW_HostGameMenu::OnMaxPlayerSwitchedHandler(const FString& SelectedOption)
 {
-	bConnectionType_LAN = (FString("LAN") == SelectedOption);
+	MaxAmount_SessionConnections = UKismetStringLibrary::Conv_StringToInt(SelectedOption);
 }
 
 void UW_HostGameMenu::OnConnectionTypeSwitchedHandler(const FString& SelectedOption)
 {
-	MaxAmount_SessionConnections = UKismetStringLibrary::Conv_StringToInt(SelectedOption);
+	bConnectionType_LAN = (FString("LAN") == SelectedOption);
 }

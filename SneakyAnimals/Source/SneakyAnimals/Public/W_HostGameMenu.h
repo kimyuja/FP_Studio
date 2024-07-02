@@ -30,7 +30,7 @@ public:
 	bool bConnectionType_LAN;
 
 	UPROPERTY()
-	int32 MaxAmount_SessionConnections;
+	int32 MaxAmount_SessionConnections = 4;
 
     UFUNCTION()
     void OnHostLobby_BtnClicked();
