@@ -39,6 +39,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Constants")
 	TArray<FTileStructureTemp> tiles;
 
+	// 변경되어 상태가 바뀌었음을 의미
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Constants")
+	bool isDirty;
+
 	// 그리드 내 배치 가능한 공간
 	UFUNCTION(BlueprintCallable)
 	bool IsRoomAvailable(UItemObject* ItemObject, int32 TopLeftIndex);
@@ -73,5 +77,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UItemObject* GetItemAtIndex(int32 Index);
 
+	UFUNCTION(BlueprintCallable)
+	UItemObject* AddItemAt(UItemObject* ItemObject, int32 TopLeftIndex);
 
 };

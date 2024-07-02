@@ -51,9 +51,14 @@ bool UItemComponent::TryAddItem(UItemObject* ItemObject)
 {
 	if (ItemObject)
 	{
-		for (UItemObject* item : items)
+		for (int32 idx = 0; idx < items.Num(); idx++)
 		{
+			bool bRoomAvailable = IsRoomAvailable(ItemObject, idx);
 
+			if (bRoomAvailable)
+			{
+
+			}
 		}
 		return true;
 	}
@@ -62,6 +67,8 @@ bool UItemComponent::TryAddItem(UItemObject* ItemObject)
 
 bool UItemComponent::IsRoomAvailable(UItemObject* ItemObject, int32 TopLeftIndex)
 {
+	// itemObject를 위한 공간이 존재하는지 여부 확인
+
 	FIntPoint itemDimension = ItemObject->GetDimensions();
 	FTileStructureTemp topLeftTile = IndexToTile(TopLeftIndex);
 
@@ -70,25 +77,33 @@ bool UItemComponent::IsRoomAvailable(UItemObject* ItemObject, int32 TopLeftIndex
 
 	bool bFind = false;
 
+	// 항목이 leftTop의 인덱스에 추가될 경우 차지하게 될 인벤토리 내부의 타일 반복 탐색
 	for (int32 i = topLeftTile.X; i < iLastIdx; i++)
 	{
 		for (int32 j = topLeftTile.Y; j < jLastIdx; j++)
 		{
-			
+
 			FTileStructureTemp tile;
 			tile.X = i;
 			tile.Y = j;
 
+			// 타일이 유효한지 확인
+			// return 값이 false인 경우 : 사용 가능한 공간 없음
+			// return 값이 true인 경우(유효한 경우) : 사용 가능한 공간 존재 => 해당 타일 반환
 			bFind = CheckEmptySlot(tile);
 
 			/*if(bFind == false)
 				return false;*/
 
-			if(bFind)
+			if (bFind)
 			{
-				if (GetItemAtIndex(TileToIndex(tile)))
+				// 유효한 타일의 인덱스를 확인하여
+				// 인덱스 위치의 인벤토리가 완전히 비어있으면 true 반환 (인덱스 유효)
+				// 
+				if (GetItemAtIndex(TileToIndex(tile)) != nullptr)
 				{
-					return true;
+					return false; // 애매하다 이게 맞나
+
 				}
 			}
 			else
@@ -239,14 +254,59 @@ UItemObject* UItemComponent::GetItemAtIndex(int32 Index)
 {
 	bool bValid = items.IsValidIndex(Index);
 
+	UItemObject* ItemObject = items[Index];
+
 	if (bValid)
 	{
-		return items[Index];
+		return ItemObject;
 	}
 	else
 	{
 		return nullptr;
 	}
 
+
+	/*bValid = false;
+
+	if (!items.IsValidIndex(Index))
+	{
+		return nullptr;
+	}
+
+	UItemObject* ItemObject = items[Index];
+
+	if (IsValid(ItemObject))
+	{
+		bValid = true;
+		return ItemObject;
+	}
+
+	return nullptr;*/
+
 }
 
+UItemObject* UItemComponent::AddItemAt(UItemObject* ItemObject, int32 TopLeftIndex)
+{
+	FIntPoint itemDimension = ItemObject->GetDimensions();
+	FTileStructureTemp topLeftTile = IndexToTile(TopLeftIndex);
+
+	int32 iLastIdx = topLeftTile.X + itemDimension.X;
+	int32 jLastIdx = topLeftTile.Y + itemDimension.Y;
+
+	for (int32 i = topLeftTile.X; i < iLastIdx; i++)
+	{
+		for (int32 j = topLeftTile.Y; j < jLastIdx; j++)
+		{
+			FTileStructureTemp tile;
+			tile.X = i;
+			tile.Y = j;
+
+			int32 itemIdx = TileToIndex(tile);
+
+			// setArrayElem으로 Items를 targetArray로 받고 itemIdx를 Index로 받고 ItmeObject를 Item으로 받음
+		}
+	}
+	isDirty = true;
+
+	return nullptr;
+}
