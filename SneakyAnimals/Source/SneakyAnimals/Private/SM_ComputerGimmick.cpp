@@ -10,6 +10,8 @@
 #include "TestPlayer.h"
 #include "TrapDoor.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
+#include "SM_ComputerMoniter.h"
 
 ASM_ComputerGimmick::ASM_ComputerGimmick()
 {
@@ -33,6 +35,17 @@ ASM_ComputerGimmick::ASM_ComputerGimmick()
 
 	trigger->OnComponentBeginOverlap.AddDynamic(this, &ASM_ComputerGimmick::SetCanActiveT);
 	trigger->OnComponentEndOverlap.AddDynamic(this, &ASM_ComputerGimmick::SetCanActiveF);
+
+	moniterUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Emoticon UI"));
+	moniterUI->SetupAttachment(activeObject);
+	moniterUI->SetRelativeLocation(FVector(0, -3.6, 128.5));
+	moniterUI->SetRelativeRotation(FRotator(0, -90.0, 0));
+	moniterUI->SetDrawSize(FVector2D(115, 30));
+
+	if (moniter)
+	{
+		moniterUI->SetWidgetClass(moniter);
+	}
 }
 
 
@@ -109,13 +122,18 @@ void ASM_ComputerGimmick::SelfExplosion()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : SelfExplosion"));
-
+	Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetWarning();
+	for (TActorIterator<ATestPlayer> player(GetWorld()); player; ++player)
+	{
+		player->Respawn();
+	}
 }
 
 void ASM_ComputerGimmick::SOS()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
+	Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetHelp();
 }
 
 void ASM_ComputerGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

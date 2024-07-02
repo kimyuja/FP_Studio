@@ -15,7 +15,25 @@ class SNEAKYANIMALS_API USM_ComputerMoniter : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	
 	virtual void NativeConstruct()override;
 
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime)override;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UImage* moniter1;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UImage* moniter2;
+
+	UPROPERTY(EditAnywhere)
+	class UTexture2D* warningScreen;
+
+	UPROPERTY(EditAnywhere)
+	class UTexture2D* sosScreen;
+
+	UFUNCTION()
+	void SetWarning();
+
+	UFUNCTION()
+	void SetHelp();
+
 };

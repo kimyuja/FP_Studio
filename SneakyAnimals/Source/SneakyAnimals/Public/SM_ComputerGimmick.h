@@ -45,8 +45,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector activeRange;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> moniter;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UWidgetComponent* moniterUI;
+
 private:
 
+	
 	float lerpTime;
 	FTimerHandle pressT;
 
