@@ -3,8 +3,8 @@
 
 #include "ItemComponent.h"
 #include "ItemObject.h"
-#include <TileStructure.h>
-#include <../../../../../../../Source/Runtime/CoreUObject/Public/UObject/NoExportTypes.h>
+#include "TileStructure.h"
+// #include <../../../../../../../Source/Runtime/CoreUObject/Public/UObject/NoExportTypes.h>
 
 // Sets default values for this component's properties
 UItemComponent::UItemComponent()
@@ -61,7 +61,7 @@ bool UItemComponent::TryAddItem(UItemObject* ItemObject)
 			if (bRoomAvailable)
 			{
 				AddItemAt(ItemObject, idx);
-				
+
 				return true;
 			}
 		}
@@ -238,8 +238,8 @@ bool UItemComponent::IsTileValid(FTileStructureTemp Tile)
 
 	bool condition1 = (Tile.X >= 0);
 	bool condition2 = (Tile.Y >= 0);
-	bool condition3 = (Tile.X < 0);
-	bool condition4 = (Tile.Y < 0);
+	bool condition3 = (Tile.X < columns);
+	bool condition4 = (Tile.Y < rows);
 	/*
 	// 이게 맞는거 같은데 영상에선 위에 코드를 쓴다..
 	bool condition3 = (Tile.X < columns);
@@ -315,4 +315,29 @@ UItemObject* UItemComponent::AddItemAt(UItemObject* ItemObject, int32 TopLeftInd
 	isDirty = true;
 
 	return nullptr;
+}
+
+TMap<FTileStructureTemp, UItemObject*> UItemComponent::GetAllItems() const
+{
+	TMap<FTileStructureTemp, UItemObject*> AllItems;
+
+	// 배열의 모든 항목 또는 모든 타일을 반복하고 실제로 항목이 있는지 확인
+	for (int32 idx = 0; idx < items.Num(); idx++)
+	{
+		UItemObject* currentItem = items[idx];
+
+		if(IsValid(currentItem))
+		{
+			FTileStructureTemp currentTile = IndexToTile(idx);
+
+			// 맵에 항목 추가 여부 확인
+			if(!AllItems.Contains(currentTile))
+			{
+				AllItems.Add(currentTile, currentItem);
+			}
+		}
+
+	}
+
+	return AllItems; 
 }

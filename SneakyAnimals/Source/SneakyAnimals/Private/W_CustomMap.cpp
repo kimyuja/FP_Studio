@@ -12,6 +12,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/WidgetLayoutLibrary.h>
 #include "Rendering/DrawElements.h"
 #include "Layout/Geometry.h"
+#include "TileStructure.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <UITestCharacter.h>
@@ -118,6 +119,16 @@ void UW_CustomMap::InitializeWidget(float Tilesize)
 	}
 
 	// CreateLineSegments();
+}
+
+void UW_CustomMap::Refresh()
+{
+	gridCanvasPanel->ClearChildren();
+
+	itemComponent->GetAllItems();
+
+	TArray<FTileStructureTemp> keys;
+	
 }
 
 void UW_CustomMap::CreateLineSegments()

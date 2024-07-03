@@ -80,4 +80,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UItemObject* AddItemAt(UItemObject* ItemObject, int32 TopLeftIndex);
 
+	UFUNCTION(BlueprintCallable, Category="Custom")
+	TMap<FTileStructureTemp, UItemObject*> GetAllItems() const;
+
 };

@@ -49,6 +49,7 @@ public:
 	int32 rows = 5;
 
 
+
 private:
 	UFUNCTION(BlueprintCallable, Category = "Custom")
 	void CreateLineSegments();
@@ -59,7 +60,7 @@ private:
 	UFUNCTION(BlueprintCallable, Category = "Custom")
 	void CreateHorizantalLine();
 	
-	UPROPERTY(VisibleAnywhere, Category = "UI")
+	UPROPERTY(VisibleAnywhere, Category = "Custom")
 	TArray<class ULineStructure*> lines;
 
 
@@ -69,4 +70,11 @@ private:
 	FVector2D GetGridBorderTopLeft() const;
 
 	FTimerHandle DrawGridLineTimerHandle;
+
+	
+	UFUNCTION(BlueprintCallable, Category = "Custom")
+	void Refresh();
+
+
+
 };

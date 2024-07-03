@@ -84,7 +84,12 @@ void UW_ItemSlot::OnItemBtnClicked()
 
 	if (itemComponent && itemObject)
 	{
-		itemComponent->TryAddItem(itemObject);
+		if (itemComponent->TryAddItem(itemObject))
+		{
+			int newCost = mapCustomWidget->maxCostAsInt(itemCostAsInt);
+			mapCustomWidget->UpdateMaxCost(newCost * -1);
+		}
+		
 	}
 }
 
