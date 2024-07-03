@@ -10,6 +10,7 @@
 #include "SM_PressButtonGimmick.h"
 #include "SM_ComputerGimmick.h"
 #include "TestPlayer.h"
+#include "SM_WhistleGimmick.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -46,37 +47,41 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
 		return -1;
 	}
-	int32 key;
+	int32 _key;
 	if (Cast<AWH_BookshelfGimmick>(this))
 	{
-		key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(ActivePlayer);
+		_key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 	else if (Cast<AWH_WitchCauldronGimmick>(this))
 	{
-		key = Cast<AWH_WitchCauldronGimmick>(this)->OnMyActive(ActivePlayer);
+		_key = Cast<AWH_WitchCauldronGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 	else if (Cast<AWH_BroomstickGimmick>(this))
 	{
-		key = Cast<AWH_BroomstickGimmick>(this)->OnMyActive(ActivePlayer);
+		_key = Cast<AWH_BroomstickGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 	else if (Cast<AWH_PotionGimmick>(this))
 	{
-		key = Cast<AWH_PotionGimmick>(this)->OnMyActive(ActivePlayer);
+		_key = Cast<AWH_PotionGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 	else if (Cast<ASM_PeriscopeGimmick>(this))
 	{
-		key = Cast<ASM_PeriscopeGimmick>(this)->OnMyActive(ActivePlayer);
+		_key = Cast<ASM_PeriscopeGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 	else if (Cast<ASM_PressButtonGimmick>(this))
 	{
-		key = Cast<ASM_PressButtonGimmick>(this)->OnMyActive(ActivePlayer);
+		_key = Cast<ASM_PressButtonGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 	else if (Cast<ASM_ComputerGimmick>(this))
 	{
-		key = Cast<ASM_ComputerGimmick>(this)->OnMyActive(ActivePlayer);
+		_key = Cast<ASM_ComputerGimmick>(this)->OnMyActive(ActivePlayer);
+	}
+	else if (Cast<ASM_WhistleGimmick>(this))
+	{
+		_key = Cast<ASM_WhistleGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 
-	return key;
+	return _key;
 }
 
 void AGimmick::SetActiveType(int32 aType)
