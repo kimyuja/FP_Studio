@@ -29,8 +29,8 @@ AWH_WitchCauldronGimmick::AWH_WitchCauldronGimmick()
 	activeObject->SetRelativeLocation(FVector(0, 0, -150.0));
 
 
-	trigger->OnComponentBeginOverlap.AddDynamic(this, &AWH_WitchCauldronGimmick::SetCanActiveT);
-	trigger->OnComponentEndOverlap.AddDynamic(this, &AWH_WitchCauldronGimmick::SetCanActiveF);
+	trigger->OnComponentBeginOverlap.AddDynamic(this, &AGimmick::SetCanActiveT);
+	trigger->OnComponentEndOverlap.AddDynamic(this, &AGimmick::SetCanActiveF);
 }
 
 
@@ -135,40 +135,40 @@ void AWH_WitchCauldronGimmick::KindWitch()
 
 }
 
-void AWH_WitchCauldronGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (bIsFinished)
-	{
-		return;
-	}
-	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
-	if (player)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		player->bCanActive = true;
-		//OnMyActive(OtherActor);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
-	}
-}
-
-void AWH_WitchCauldronGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
-	if (player)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		player->bCanActive = false;
-		player->g = nullptr;
-		bCanActive = false;
-		//OnMyActive(OtherActor);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
-	}
-}
+//void AWH_WitchCauldronGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+//{
+//	if (bIsFinished)
+//	{
+//		return;
+//	}
+//	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+//	if (player)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+//		player->bCanActive = true;
+//		//OnMyActive(OtherActor);
+//	}
+//	else
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+//	}
+//}
+//
+//void AWH_WitchCauldronGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+//{
+//	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+//	if (player)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+//		player->bCanActive = false;
+//		player->g = nullptr;
+//		bCanActive = false;
+//		//OnMyActive(OtherActor);
+//	}
+//	else
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+//	}
+//}
 
 

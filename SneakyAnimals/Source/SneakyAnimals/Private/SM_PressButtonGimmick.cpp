@@ -31,8 +31,8 @@ ASM_PressButtonGimmick::ASM_PressButtonGimmick()
 	activeObject->SetRelativeLocation(FVector(0, 0, -150.0));
 
 
-	trigger->OnComponentBeginOverlap.AddDynamic(this, &ASM_PressButtonGimmick::SetCanActiveT);
-	trigger->OnComponentEndOverlap.AddDynamic(this, &ASM_PressButtonGimmick::SetCanActiveF);
+	trigger->OnComponentBeginOverlap.AddDynamic(this, &AGimmick::SetCanActiveT);
+	trigger->OnComponentEndOverlap.AddDynamic(this, &AGimmick::SetCanActiveF);
 }
 
 
@@ -138,38 +138,38 @@ void ASM_PressButtonGimmick::Autopilot()
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }
 
-void ASM_PressButtonGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (bIsFinished)
-	{
-		return;
-	}
-	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
-	if (player)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		player->bCanActive = true;
-		//OnMyActive(OtherActor);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
-	}
-}
-
-void ASM_PressButtonGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
-	if (player)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		player->bCanActive = false;
-		player->g = nullptr;
-		bCanActive = false;
-		//OnMyActive(OtherActor);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
-	}
-}
+//void ASM_PressButtonGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+//{
+//	if (bIsFinished)
+//	{
+//		return;
+//	}
+//	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+//	if (player)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+//		player->bCanActive = true;
+//		//OnMyActive(OtherActor);
+//	}
+//	else
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+//	}
+//}
+//
+//void ASM_PressButtonGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+//{
+//	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+//	if (player)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+//		player->bCanActive = false;
+//		player->g = nullptr;
+//		bCanActive = false;
+//		//OnMyActive(OtherActor);
+//	}
+//	else
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+//	}
+//}

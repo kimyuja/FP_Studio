@@ -9,6 +9,7 @@
 #include "SM_PeriscopeGimmick.h"
 #include "SM_PressButtonGimmick.h"
 #include "SM_ComputerGimmick.h"
+#include "TestPlayer.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -83,6 +84,42 @@ void AGimmick::SetActiveType(int32 aType)
 	activeType = aType;
 }
 
+void AGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (bIsFinished)
+	{
+		return;
+	}
+	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+	if (player)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+		player->bCanActive = true;
+		//OnMyActive(OtherActor);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+	}
+}
+
+void AGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+	if (player)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+		player->bCanActive = false;
+		player->g = nullptr;
+		bCanActive = false;
+		//OnMyActive(OtherActor);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+	}
+}
+
 // ¼±¹Î
 UItemObject* AGimmick::GetDefaultItemObject()
 {
@@ -101,4 +138,5 @@ void AGimmick::InitializeItemObject()
 		itemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
 	}
 }
+
 //

@@ -33,8 +33,8 @@ ASM_ComputerGimmick::ASM_ComputerGimmick()
 	activeObject->SetRelativeLocation(FVector(0, 0, -150.0));
 
 
-	trigger->OnComponentBeginOverlap.AddDynamic(this, &ASM_ComputerGimmick::SetCanActiveT);
-	trigger->OnComponentEndOverlap.AddDynamic(this, &ASM_ComputerGimmick::SetCanActiveF);
+	trigger->OnComponentBeginOverlap.AddDynamic(this, &AGimmick::SetCanActiveT);
+	trigger->OnComponentEndOverlap.AddDynamic(this, &AGimmick::SetCanActiveF);
 
 	moniterUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Emoticon UI"));
 	moniterUI->SetupAttachment(activeObject);
@@ -136,36 +136,36 @@ void ASM_ComputerGimmick::SOS()
 	Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetHelp();
 }
 
-void ASM_ComputerGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (bIsFinished)
-	{
-		return;
-	}
-	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
-	if (player)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		player->bCanActive = true;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
-	}
-}
-
-void ASM_ComputerGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
-	if (player)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		player->bCanActive = false;
-		player->g = nullptr;
-		bCanActive = false;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
-	}
-}
+//void ASM_ComputerGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+//{
+//	if (bIsFinished)
+//	{
+//		return;
+//	}
+//	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+//	if (player)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+//		player->bCanActive = true;
+//	}
+//	else
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+//	}
+//}
+//
+//void ASM_ComputerGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+//{
+//	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+//	if (player)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+//		player->bCanActive = false;
+//		player->g = nullptr;
+//		bCanActive = false;
+//	}
+//	else
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+//	}
+//}

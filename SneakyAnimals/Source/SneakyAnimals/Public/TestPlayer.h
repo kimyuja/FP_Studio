@@ -81,8 +81,6 @@ public:
 
 	bool bIsBlack = false;
 
-	int32 activeReturn;
-
 	float lerpTime;
 
 	class AGimmick* g;

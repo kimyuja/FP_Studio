@@ -29,8 +29,8 @@ ASM_PeriscopeGimmick::ASM_PeriscopeGimmick()
 	activeObject->SetRelativeLocation(FVector(0, 0, -150.0));
 
 
-	trigger->OnComponentBeginOverlap.AddDynamic(this, &ASM_PeriscopeGimmick::SetCanActiveT);
-	trigger->OnComponentEndOverlap.AddDynamic(this, &ASM_PeriscopeGimmick::SetCanActiveF);
+	trigger->OnComponentBeginOverlap.AddDynamic(this, &AGimmick::SetCanActiveT);
+	trigger->OnComponentEndOverlap.AddDynamic(this, &AGimmick::SetCanActiveF);
 }
 
 
@@ -138,38 +138,38 @@ void ASM_PeriscopeGimmick::HandleShake()
 
 }
 
-void ASM_PeriscopeGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (bIsFinished)
-	{
-		return;
-	}
-	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
-	if (player)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		player->bCanActive = true;
-		//OnMyActive(OtherActor);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
-	}
-}
-
-void ASM_PeriscopeGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
-	if (player)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
-		player->bCanActive = false;
-		player->g = nullptr;
-		bCanActive = false;
-		//OnMyActive(OtherActor);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
-	}
-}
+//void ASM_PeriscopeGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+//{
+//	if (bIsFinished)
+//	{
+//		return;
+//	}
+//	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+//	if (player)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+//		player->bCanActive = true;
+//		//OnMyActive(OtherActor);
+//	}
+//	else
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+//	}
+//}
+//
+//void ASM_PeriscopeGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+//{
+//	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
+//	if (player)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+//		player->bCanActive = false;
+//		player->g = nullptr;
+//		bCanActive = false;
+//		//OnMyActive(OtherActor);
+//	}
+//	else
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+//	}
+//}
