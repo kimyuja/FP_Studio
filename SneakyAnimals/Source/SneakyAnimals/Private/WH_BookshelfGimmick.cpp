@@ -2,12 +2,14 @@
 
 
 #include "WH_BookshelfGimmick.h"
+#include "Gimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include "TestPlayer.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "FlyBook.h"
+#include "ItemObject.h"
 
 AWH_BookshelfGimmick::AWH_BookshelfGimmick()
 {
@@ -66,6 +68,24 @@ void AWH_BookshelfGimmick::Tick(float DeltaTime)
 		activeObject->SetRenderCustomDepth(false);
 
 	}
+}
+
+// ¼±¹Î
+UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
+{
+	UItemObject* newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(3, 1);
+		newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf.M_IconBookshelf"));
+		newItemObject->iconRotated90 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90.M_IconBookshelf_R90"));
+		newItemObject->iconRotated180 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90.M_IconBookshelf_R180"));
+		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90.M_IconBookshelf_R270"));
+		newItemObject->bRotated = false;
+		newItemObject->itemClass = AWH_BookshelfGimmick::StaticClass();
+	}
+	return newItemObject;
 }
 
 
@@ -172,5 +192,6 @@ void AWH_BookshelfGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponen
 	{
 		UE_LOG(LogTemp, Warning, TEXT("RTY"));
 	}
+
 }
 

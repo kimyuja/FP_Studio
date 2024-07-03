@@ -39,7 +39,7 @@ public:
 	void SetActiveType(int32 aType);
 	
 	UFUNCTION(BlueprintCallable, Category = "Items")
-	UItemObject* GetDefaultItemObject();
+	virtual UItemObject* GetDefaultItemObject();
 
 	UFUNCTION(BlueprintCallable, Category = "Items")
 	void InitializeItemObject();

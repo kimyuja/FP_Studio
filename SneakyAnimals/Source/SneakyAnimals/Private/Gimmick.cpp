@@ -24,10 +24,11 @@ void AGimmick::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// ¼±¹Î
 	if (!IsValid(itemObject)) {
 		itemObject = GetDefaultItemObject();
 	}
-	
+	// 
 }
 
 // Called every frame
@@ -82,6 +83,7 @@ void AGimmick::SetActiveType(int32 aType)
 	activeType = aType;
 }
 
+// ¼±¹Î
 UItemObject* AGimmick::GetDefaultItemObject()
 {
 	if (!itemObject)
@@ -99,3 +101,4 @@ void AGimmick::InitializeItemObject()
 		itemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
 	}
 }
+//

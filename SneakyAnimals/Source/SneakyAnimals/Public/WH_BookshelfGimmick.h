@@ -24,6 +24,10 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
+	// 선민
+	// 부모 클래스에서 선언된 UFUNCTION을 자식 클래스에서 재정의할 때는 자식 클래스에서 UFUNCTION 매크로를 다시 선언할 필요가 없음
+	virtual UItemObject* GetDefaultItemObject() override;
+
 public:
 
 	virtual int32 OnMyActive(AActor* ActivePlayer);
@@ -48,6 +52,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector activeRange;
+
+
 
 private:
 	

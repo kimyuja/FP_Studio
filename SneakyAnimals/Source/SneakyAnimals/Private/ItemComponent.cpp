@@ -23,8 +23,6 @@ void UItemComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	columns = 5;
-	rows = 5;
 
 	int32 arraySize = columns * rows;
 
@@ -36,6 +34,8 @@ void UItemComponent::BeginPlay()
 	{
 		tiles.Add(FTileStructureTemp(i % columns, i / columns));
 	}
+
+	items.SetNum(arraySize);
 }
 
 
@@ -49,18 +49,23 @@ void UItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 bool UItemComponent::TryAddItem(UItemObject* ItemObject)
 {
+	// 그리드에 추가하려는 아이템을 받고 이 아이템이 유효한지 확인
 	if (ItemObject)
 	{
+		// leftTop 부터 시작해 rightBottom 까지 그리드의 각 타일에 대해 해당 타일 주변에 추가할 아이템을 배치할 수 있는 만큼의 공간이 있는지 확인  
 		for (int32 idx = 0; idx < items.Num(); idx++)
 		{
 			bool bRoomAvailable = IsRoomAvailable(ItemObject, idx);
 
+			// 공간이 있다면 인덱스에 항목 추가하고 true 반환
 			if (bRoomAvailable)
 			{
-
+				AddItemAt(ItemObject, idx);
+				
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	return false;
 }
@@ -304,6 +309,7 @@ UItemObject* UItemComponent::AddItemAt(UItemObject* ItemObject, int32 TopLeftInd
 			int32 itemIdx = TileToIndex(tile);
 
 			// setArrayElem으로 Items를 targetArray로 받고 itemIdx를 Index로 받고 ItmeObject를 Item으로 받음
+			items.Insert(ItemObject, itemIdx);
 		}
 	}
 	isDirty = true;

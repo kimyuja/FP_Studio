@@ -16,10 +16,28 @@ class SNEAKYANIMALS_API UItemObject : public UObject
 
 public:
 	// 개체의 크기를 나타내는 변수 -> 그리드 내부의 실제 크기 추적
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
 	FIntPoint dimensions;
 
 	UFUNCTION(BlueprintCallable)
 	FIntPoint GetDimensions() const;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
+	UMaterialInterface* icon;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
+	UMaterialInterface* iconRotated90;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
+	UMaterialInterface* iconRotated180;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
+	UMaterialInterface* iconRotated270;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
+	bool bRotated;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
+	TSubclassOf<class AGimmick> itemClass;
 	
 }; 
