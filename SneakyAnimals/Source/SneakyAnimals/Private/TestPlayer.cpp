@@ -62,7 +62,7 @@ void ATestPlayer::BeginPlay()
 	clearUI = Cast<UW_StageClear>(CreateWidget(GetWorld(),stageClearUI));
 	if (clearUI)
 	{
-		clearUI->AddToViewport();
+		clearUI->AddToViewport(1);
 		clearUI->SetVisibility(ESlateVisibility::Hidden);
 	}
 

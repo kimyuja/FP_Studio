@@ -24,6 +24,7 @@ void UUserEmoticon::ShowEmoticon(int32 emoNum)
 	{
 		return;
 	}
+	UE_LOG(LogTemp, Warning, TEXT("Show!!!"));
 	switch (playerType)
 	{
 	case EPlayerType::COW:
