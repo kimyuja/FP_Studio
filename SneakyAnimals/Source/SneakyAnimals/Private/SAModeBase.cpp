@@ -5,9 +5,17 @@
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "TestPlayer.h"
 
+void ASAModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+    Super::InitGame(MapName,Options,ErrorMessage);
+    SetClearInstance();
+    stageNum++;
+    UE_LOG(LogTemp, Warning, TEXT("Start"));
+}
+
 void ASAModeBase::SetClearInstance()
 {
-    stageNum = 0;
+    stageNum = 1;
 
     clearTime.Empty();
 
@@ -50,19 +58,24 @@ void ASAModeBase::SetPlayerNum()
 
 void ASAModeBase::SetDeathCountUp(int32 playerNum)
 {
+    UE_LOG(LogTemp, Warning, TEXT("stage %d : Player %d"), stageNum, playerNum);
     switch (stageNum)
     {
     case 1:
         deathCount1[playerNum]++;
+        UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount1[playerNum]);
         break;
     case 2:
         deathCount2[playerNum]++;
+        UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount2[playerNum]);
         break;
     case 3:
         deathCount3[playerNum]++;
+        UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount3[playerNum]);
         break;
     case 4:
         deathCount4[playerNum]++;
+        UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount4[playerNum]);
         break;
     default:
         break;

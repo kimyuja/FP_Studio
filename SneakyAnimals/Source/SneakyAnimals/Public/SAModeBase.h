@@ -16,6 +16,8 @@ class SNEAKYANIMALS_API ASAModeBase : public AGameModeBase
 
 public:
 
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 stageNum = 0;
 
@@ -37,13 +39,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<int32> voteCount;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void SetClearInstance();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void SetPlayerNum();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void SetDeathCountUp(int32 playerNum);
 
 };
