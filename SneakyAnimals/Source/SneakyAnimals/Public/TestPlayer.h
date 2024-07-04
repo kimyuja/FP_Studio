@@ -131,4 +131,11 @@ public:
 	void Death_Thunderclap();
 
 	void Toggle_CharacterCustomization_Implementation();
+
+    // Timer function
+    UFUNCTION()
+    void SetThirdPersonView();
+
+	UFUNCTION(NetMulticast, Reliable)
+    void Multicast_SetThirdPersonView();
 };

@@ -20,6 +20,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 #include "SM_PressButtonGimmick.h"
 #include "SM_ComputerGimmick.h"
+#include "GM_Lobby.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -40,11 +41,11 @@ ATestPlayer::ATestPlayer()
 	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	camera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
 	camera->bUsePawnControlRotation = false;
-	
+
 	emoticonUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Emoticon UI"));
 	emoticonUI->SetupAttachment(camera);
-	emoticonUI->SetRelativeLocation(FVector(100,0,0));
-	emoticonUI->SetDrawSize(FVector2D(100,100));
+	emoticonUI->SetRelativeLocation(FVector(100, 0, 0));
+	emoticonUI->SetDrawSize(FVector2D(100, 100));
 	emoticonUI->SetWidgetClass(emoUI);
 
 	bReplicates = true;
@@ -56,7 +57,21 @@ void ATestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	
+
+	// 게임 모드에 따라서 카메라 위치를 1인칭, 3인칭으로 바꾸기
+	// Lobby_Level : 3인칭, 이유 : 자신의 캐릭터 커스터마이징이 바뀌는 게 보여야 해서
+	// Game_Level : 1인칭, 이유 : 기믹이랑 상호작용하려면 1인칭이 편해서
+	AGameModeBase* GameMode = GetWorld()->GetAuthGameMode();
+	if (GameMode)
+	{
+		AGM_Lobby* gm_lobby = Cast<AGM_Lobby>(GameMode);
+		if (gm_lobby)
+		{
+			FTimerHandle cameraT;
+			GetWorldTimerManager().SetTimer(cameraT,this, &ATestPlayer::SetThirdPersonView, 1.0, false);
+		}
+	}
+
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
@@ -69,6 +84,11 @@ void ATestPlayer::BeginPlay()
 void ATestPlayer::Toggle_CharacterCustomization_Implementation()
 {
 	UE_LOG(LogTemp, Warning, TEXT("toggle test"));
+}
+
+void ATestPlayer::SetThirdPersonView()
+{
+	Multicast_SetThirdPersonView();
 }
 
 // Called every frame
@@ -366,5 +386,18 @@ void ATestPlayer::Death_Thunderclap()
 	}, 0.25, true , 0);
 	bIsBlack = true;
 	Respawn(5.0);
+}
+
+void ATestPlayer::Multicast_SetThirdPersonView_Implementation()
+{
+	// 3인칭 설정
+	cameraBoom->TargetArmLength = 300.0f;
+	cameraBoom->SetRelativeLocation(FVector(0, 0, 85));
+	cameraBoom->bUsePawnControlRotation = false;
+	camera->bUsePawnControlRotation = true;
+	cameraBoom->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	// 본인 보이게 설정
+	GetMesh()->SetOwnerNoSee(false);
 }
 
