@@ -15,14 +15,15 @@ class SNEAKYANIMALS_API ASAModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
+	ASAModeBase();
 
-	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)override;
+	virtual void Tick(float DeltaTime)override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 stageNum = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<int32> clearTime;
+	TArray<float> clearTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<int32> deathCount1;
@@ -39,6 +40,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<int32> voteCount;
 
+	UPROPERTY(EditAnywhere)
+	bool bOnGame = false;
+	
+	UFUNCTION(BlueprintCallable)
+	void SetStageStart();
+
 	UFUNCTION(BlueprintCallable)
 	void SetClearInstance();
 
@@ -47,5 +54,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetDeathCountUp(int32 playerNum);
+
+	UFUNCTION(BlueprintCallable)
+	FText MakeClearTime();
 
 };

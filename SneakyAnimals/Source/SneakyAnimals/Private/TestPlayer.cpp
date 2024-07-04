@@ -21,6 +21,8 @@
 #include "SM_PressButtonGimmick.h"
 #include "SM_ComputerGimmick.h"
 #include "GM_Lobby.h"
+#include "W_StageClear.h"
+#include "SAModeBase.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -57,6 +59,24 @@ void ATestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	clearUI = Cast<UW_StageClear>(CreateWidget(GetWorld(),stageClearUI));
+	if (clearUI)
+	{
+		clearUI->AddToViewport();
+		clearUI->SetVisibility(ESlateVisibility::Hidden);
+	}
+
+	gameMode = Cast<ASAModeBase>(GetWorld()->GetAuthGameMode());
+	if (gameMode)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Game Mode Set"));
+		gameMode->SetClearInstance();
+		gameMode->SetStageStart();
+		if(HasAuthority())
+		{
+			gameMode->SetPlayerNum();
+		}
+	}
 
 	// 게임 모드에 따라서 카메라 위치를 1인칭, 3인칭으로 바꾸기
 	// Lobby_Level : 3인칭, 이유 : 자신의 캐릭터 커스터마이징이 바뀌는 게 보여야 해서
@@ -196,6 +216,9 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 		if (key == 2)
 		{
 			bCanOpenDoor = true;
+			gameMode->bOnGame = false;
+			clearUI->SetWidgetState();
+			clearUI->SetVisibility(ESlateVisibility::Visible);
 		}
 	}
 }

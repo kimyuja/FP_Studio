@@ -5,12 +5,27 @@
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "TestPlayer.h"
 
-void ASAModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+
+
+ASAModeBase::ASAModeBase()
 {
-    Super::InitGame(MapName,Options,ErrorMessage);
-    SetClearInstance();
-    stageNum++;
-    UE_LOG(LogTemp, Warning, TEXT("Start"));
+    PrimaryActorTick.bStartWithTickEnabled = true; //플레이하자마자 Tick처리
+    PrimaryActorTick.bCanEverTick = true; // Tick처리를 가능하게함
+}
+
+void ASAModeBase::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+    if (bOnGame)
+    {
+        clearTime[stageNum - 1] += DeltaTime; 
+    }
+}
+
+void ASAModeBase::SetStageStart()
+{
+    bOnGame = true;
+    //clearTime[stageNum] = 0;
 }
 
 void ASAModeBase::SetClearInstance()
@@ -41,7 +56,7 @@ void ASAModeBase::SetPlayerNum()
     TArray<int32> playerNums = { 0,1,2,3 };
     int32 LastIndex = playerNums.Num() - 1;
     int count = 0;
-    for (int32 i = 0; i <= 20; ++i)
+    for (int32 i = 0; i <= LastIndex; ++i)
     {
         int32 Index = FMath::RandRange(0, LastIndex);
         if (i != Index)
@@ -80,4 +95,39 @@ void ASAModeBase::SetDeathCountUp(int32 playerNum)
     default:
         break;
     }
+}
+
+FText ASAModeBase::MakeClearTime()
+{
+    if (clearTime[stageNum - 1] < 10.0f)
+    {
+        return FText::FromString("00 : 0" +FString::FromInt(clearTime[stageNum - 1]));
+    }
+    else if (clearTime[stageNum - 1] < 60.0f)
+    {
+        return FText::FromString("00 : " + FString::FromInt(clearTime[stageNum - 1]));
+    }
+    else if (clearTime[stageNum - 1] < 70.0f)
+    {
+        return FText::FromString("01 : 0" + FString::FromInt((int)clearTime[stageNum - 1] % 60));
+    }
+    else if (clearTime[stageNum - 1] < 120.0f)
+    {
+        return FText::FromString("01 : " + FString::FromInt((int)clearTime[stageNum - 1] % 60));
+    }
+    else if (clearTime[stageNum - 1] < 130.0f)
+    {
+        return FText::FromString("02 : 0" + FString::FromInt((int)clearTime[stageNum - 1] % 60));
+    }
+    else if (clearTime[stageNum - 1] < 180.0f)
+    {
+        return FText::FromString("02 : " + FString::FromInt((int)clearTime[stageNum - 1] % 60));
+    }
+    else
+    {
+        return FText::FromString("03 : 00");
+    }
+
+    /*FString clearS = FString::FromInt(clearTime[stageNum - 1]/60) + ":" + FString::FromInt((int)clearTime[stageNum - 1] % 60);
+    return FText::FromString(clearS);*/
 }

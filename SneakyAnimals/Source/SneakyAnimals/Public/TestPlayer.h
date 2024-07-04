@@ -72,6 +72,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Test)
 	class UWidgetComponent* emoticonUI;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> stageClearUI;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UW_StageClear* clearUI;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	class ASAModeBase* gameMode;
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int32 playerNum;
 
