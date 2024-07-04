@@ -11,6 +11,8 @@
 #include "SM_ComputerGimmick.h"
 #include "TestPlayer.h"
 #include "SM_WhistleGimmick.h"
+#include "SAModeBase.h"
+#include "SAGameInstance.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -25,6 +27,8 @@ AGimmick::AGimmick()
 void AGimmick::BeginPlay()
 {
 	Super::BeginPlay();
+
+	gameMode = Cast<ASAModeBase>(GetWorld()->GetAuthGameMode());
 
 	// ¼±¹Î
 	if (!IsValid(itemObject)) {
@@ -47,7 +51,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
 		return -1;
 	}
-	int32 _key;
+	_key = 0;
 	if (Cast<AWH_BookshelfGimmick>(this))
 	{
 		_key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(ActivePlayer);
@@ -79,6 +83,12 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	else if (Cast<ASM_WhistleGimmick>(this))
 	{
 		_key = Cast<ASM_WhistleGimmick>(this)->OnMyActive(ActivePlayer);
+	}
+
+	if (_key != 2)
+	{
+		gameMode->SetDeathCountUp(Cast<ATestPlayer>(ActivePlayer)->playerNum);
+		UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
 	}
 
 	return _key;

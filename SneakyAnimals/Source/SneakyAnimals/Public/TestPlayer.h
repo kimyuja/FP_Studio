@@ -71,6 +71,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Test)
 	class UWidgetComponent* emoticonUI;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int32 playerNum;
+
 	bool bCanActive;
 
 	bool bCanOpenDoor = false;

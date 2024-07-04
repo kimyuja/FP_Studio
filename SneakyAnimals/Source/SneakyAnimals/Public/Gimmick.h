@@ -24,6 +24,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	int32 activeType = 0;
 
+	UPROPERTY(EditAnywhere)
+	class ASAModeBase* gameMode;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -31,6 +34,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	int32 _key;
 
 	UFUNCTION()
 	int32 OnMyActive(AActor* ActivePlayer);
