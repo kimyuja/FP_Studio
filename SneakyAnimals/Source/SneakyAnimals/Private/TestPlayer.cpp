@@ -56,6 +56,7 @@ void ATestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
@@ -63,6 +64,11 @@ void ATestPlayer::BeginPlay()
 			Subsystem->AddMappingContext(imc_testmove, 0);
 		}
 	}
+}
+
+void ATestPlayer::Toggle_CharacterCustomization_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("toggle test"));
 }
 
 // Called every frame

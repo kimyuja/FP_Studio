@@ -5,12 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include <../../../../../../../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputActionValue.h>
+#include "I_LobbyToggleInterface.h"
 #include "TestPlayer.generated.h"
 
 class AClearDoor;
 
 UCLASS()
-class SNEAKYANIMALS_API ATestPlayer : public ACharacter
+class SNEAKYANIMALS_API ATestPlayer : public ACharacter, public II_LobbyToggleInterface
 {
 	GENERATED_BODY()
 
@@ -128,4 +129,6 @@ public:
 	void Death_EndMan();
 
 	void Death_Thunderclap();
+
+	void Toggle_CharacterCustomization_Implementation();
 };
