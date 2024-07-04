@@ -47,5 +47,8 @@ public:
 	
     UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
     class UItemObject* itemObject;
+
+	UPROPERTY(BlueprintReadWrite)
+	class AWH_BookshelfGimmick* findBookshelfGimmick;
 	
 };

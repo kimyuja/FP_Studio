@@ -7,6 +7,8 @@
 #include "ItemComponent.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryChangedDelegate);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SNEAKYANIMALS_API UItemComponent : public UActorComponent
 {
@@ -81,6 +83,16 @@ public:
 	UItemObject* AddItemAt(UItemObject* ItemObject, int32 TopLeftIndex);
 
 	UFUNCTION(BlueprintCallable, Category="Custom")
-	TMap<FTileStructureTemp, UItemObject*> GetAllItems() const;
+	TMap<UItemObject*, FTileStructureTemp> GetAllItems() const;
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveItem(class UItemObject* _ItemObject);
+
+	// µ®∏Æ∞‘¿Ã∆Æ
+	FOnInventoryChangedDelegate OnInventoryChanged;
+
+	UFUNCTION()
+	void ChangeInventory();
+
 
 };

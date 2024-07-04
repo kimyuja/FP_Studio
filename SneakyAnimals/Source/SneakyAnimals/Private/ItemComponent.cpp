@@ -45,6 +45,14 @@ void UItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+
+	if (isDirty)
+	{
+		isDirty = false;
+
+		OnInventoryChanged.Broadcast();
+
+	}
 }
 
 bool UItemComponent::TryAddItem(UItemObject* ItemObject)
@@ -317,9 +325,9 @@ UItemObject* UItemComponent::AddItemAt(UItemObject* ItemObject, int32 TopLeftInd
 	return nullptr;
 }
 
-TMap<FTileStructureTemp, UItemObject*> UItemComponent::GetAllItems() const
+TMap<UItemObject* , FTileStructureTemp> UItemComponent::GetAllItems() const
 {
-	TMap<FTileStructureTemp, UItemObject*> AllItems;
+	TMap<UItemObject*, FTileStructureTemp> AllItems;
 
 	// 배열의 모든 항목 또는 모든 타일을 반복하고 실제로 항목이 있는지 확인
 	for (int32 idx = 0; idx < items.Num(); idx++)
@@ -331,13 +339,23 @@ TMap<FTileStructureTemp, UItemObject*> UItemComponent::GetAllItems() const
 			FTileStructureTemp currentTile = IndexToTile(idx);
 
 			// 맵에 항목 추가 여부 확인
-			if(!AllItems.Contains(currentTile))
+			if(!AllItems.Contains(currentItem))
 			{
-				AllItems.Add(currentTile, currentItem);
+				AllItems.Add(currentItem, currentTile);
 			}
 		}
 
 	}
 
 	return AllItems; 
+}
+
+void UItemComponent::RemoveItem(UItemObject* _ItemObject)
+{
+		
+}
+
+void UItemComponent::ChangeInventory()
+{
+	isDirty = true;
 }

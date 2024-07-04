@@ -11,6 +11,7 @@
 #include "ItemComponent.h"
 #include "ItemObject.h"
 #include "Components/TextBlock.h"
+#include "WH_BookshelfGimmick.h"
 
 bool UW_ItemSlot::Initialize()
 {
@@ -67,6 +68,8 @@ void UW_ItemSlot::NativeConstruct()
 void UW_ItemSlot::OnItemBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item button clicked!"));
+	
+	//findBookshelfGimmick->GetDefaultItemObject();
 
 	FString itemCostText = itemCost->GetText().ToString();
 	int itemCostAsInt = FCString::Atoi(*itemCostText);

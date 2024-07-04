@@ -19,9 +19,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
 	FIntPoint dimensions;
 
-	UFUNCTION(BlueprintCallable)
-	FIntPoint GetDimensions() const;
-
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
 	UMaterialInterface* icon;
 
@@ -39,5 +36,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
 	TSubclassOf<class AGimmick> itemClass;
+
+	UFUNCTION(BlueprintCallable)
+	FIntPoint GetDimensions() const;
 	
+	UFUNCTION(BlueprintCallable)
+	UMaterialInterface* GetIcon() const;
 }; 

@@ -16,6 +16,9 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <UITestCharacter.h>
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanel.h>
+#include "W_ItemImg.h"
+#include <../../../../../../../Source/Runtime/Core/Public/Delegates/Delegate.h>
 
 UW_CustomMap::UW_CustomMap(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -29,6 +32,8 @@ bool UW_CustomMap::Initialize()
 	if (!gridBorder) return false;
 
 	gridBorder->SetPadding(0.0f);
+
+
 	return true;
 }
 
@@ -117,18 +122,58 @@ void UW_CustomMap::InitializeWidget(float Tilesize)
 		canvasSlot->SetSize(FVector2D(sizeX, sizeY));
 
 	}
-
 	// CreateLineSegments();
-}
+
+	Refresh();
+	
+	itemComponent->OnInventoryChanged.AddDynamic(this, &UW_CustomMap::Refresh);
+} 
 
 void UW_CustomMap::Refresh()
 {
 	gridCanvasPanel->ClearChildren();
 
-	itemComponent->GetAllItems();
+	TMap<UItemObject*, FTileStructureTemp> allItems = itemComponent->GetAllItems();
 
-	TArray<FTileStructureTemp> keys;
-	
+	TArray<UItemObject*> keys;
+	allItems.GetKeys(keys);
+
+	for (UItemObject* key : keys)
+	{
+		// CreateWidget()
+		FTileStructureTemp* topLeftTile= allItems.Find(key);
+		UItemObject* itemObejct = key;
+
+		UW_ItemImg* newItemImg = CreateWidget<UW_ItemImg>(GetWorld(), ItemImgWidgetClass);
+
+		if (newItemImg)
+		{
+			newItemImg->tileSize = tileSize;
+			newItemImg->itemObject = itemObejct;
+
+
+			if (newItemImg)
+			{
+				// 델리게이트 바인딩
+				newItemImg->OnRemoved.AddDynamic(this, &UW_CustomMap::OnItemRemoved);
+				
+				UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(newItemImg));
+
+				if (tempCanvasSlot)
+				{
+					tempCanvasSlot->SetAutoSize(true);
+					tempCanvasSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
+				}
+			}
+			
+		}
+
+	}
+}
+
+void UW_CustomMap::OnItemRemoved(class UItemObject* _ItemObject)
+{
+	itemComponent->RemoveItem(_ItemObject);
 }
 
 void UW_CustomMap::CreateLineSegments()

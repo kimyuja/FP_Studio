@@ -28,6 +28,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UCanvasPanel* gridCanvasPanel;
+	
+    UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
+	class UW_ItemImg* itemImageWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	TSubclassOf<UUserWidget> ItemImgWidgetClass;
 
 public:
 	UPROPERTY(EditAnywhere)
@@ -48,6 +54,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Constants")
 	int32 rows = 5;
 
+	UFUNCTION(BlueprintCallable, Category = "Custom")
+	void Refresh();
 
 
 private:
@@ -71,9 +79,11 @@ private:
 
 	FTimerHandle DrawGridLineTimerHandle;
 
-	
-	UFUNCTION(BlueprintCallable, Category = "Custom")
-	void Refresh();
+public:
+
+	// 델리게이트 바인딩 할 함수
+	UFUNCTION()
+	void OnItemRemoved(class UItemObject* _ItemObject);
 
 
 
