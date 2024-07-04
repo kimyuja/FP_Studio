@@ -19,6 +19,7 @@ protected:
 
 public:
 	virtual void SetupInputComponent() override;
+	APC_Lobby();
 
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -30,4 +31,11 @@ public:
 
 	UFUNCTION()
 	void Toggle_CharacterCustomization();
+
+	UPROPERTY(EditAnywhere, Category="MySettings")
+	TSubclassOf<class UW_Character_Customization> Character_Customization_bp;
+
+	UPROPERTY()
+	class UW_Character_Customization* Character_Customization_inst;
+
 };

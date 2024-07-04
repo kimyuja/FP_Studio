@@ -8,7 +8,7 @@
 APC_MainMenu::APC_MainMenu()
 {
 	// WB_MainMenu 위젯 블루프린트 클래스를 로드한다.
-	static ConstructorHelpers::FClassFinder<UW_MainMenu> WidgetBPClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/KYJ/Widgets/MainMenu/WB_MainMenu.WB_MainMenu'"));
+	static ConstructorHelpers::FClassFinder<UW_MainMenu> WidgetBPClass(TEXT("/Game/KYJ/Widgets/MainMenu/WB_MainMenu.WB_MainMenu_C"));
 	if (WidgetBPClass.Succeeded())
 	{
 		MainMenu_bp = WidgetBPClass.Class;
