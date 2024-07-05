@@ -8,6 +8,11 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/SizeBox.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Engine/Font.h>
 
+UW_Base_Button::UW_Base_Button(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+    FontObject = Cast<UFont>(StaticLoadObject(UFont::StaticClass(), nullptr, TEXT("/Engine/EngineFonts/Roboto.Roboto")));
+}
+
 void UW_Base_Button::Setup()
 {
 	Set_ButtonStyle(NormalImage, HoveredImage, PressedImage, FontColor);
@@ -94,8 +99,6 @@ void UW_Base_Button::NativePreConstruct()
 void UW_Base_Button::NativeConstruct()
 {
     Super::NativeConstruct();
-
-    FontObject = Cast<UFont>(StaticLoadObject(UFont::StaticClass(), nullptr, TEXT("/Engine/EngineFonts/Roboto.Roboto")));
 
     Setup();
 

@@ -139,6 +139,7 @@ public:
 
 	void Death_Thunderclap();
 
+	UFUNCTION()
 	void Toggle_CharacterCustomization_Implementation();
 
     // Timer function

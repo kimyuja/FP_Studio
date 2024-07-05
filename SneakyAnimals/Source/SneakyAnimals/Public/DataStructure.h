@@ -54,6 +54,36 @@ struct FUserProfileResult
     bool success;
 };
 
+USTRUCT(Atomic, BlueprintType)
+struct FStructure_Available_Characters : public FTableRowBase
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString Name;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UTexture2D* ItemImage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    USkeletalMesh* Mesh;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 ItemID;
+};
+
+USTRUCT(BlueprintType)
+struct FStructure_Player_Appearance
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly)
+	FStructure_Available_Characters Character;
+	
+	//UPROPERTY(BlueprintReadOnly)
+	//FStructure_Available_Accessories_Hat Hat_Slot;
+};
+
 USTRUCT(BlueprintType)
 struct FSessionInfo
 {
