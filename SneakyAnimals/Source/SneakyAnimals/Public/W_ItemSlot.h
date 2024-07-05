@@ -50,5 +50,19 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	class AWH_BookshelfGimmick* findBookshelfGimmick;
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void SpawnBookshelfGimmick();
+
+	UPROPERTY(BlueprintReadWrite)
+	class AWH_BookshelfGimmick* AssociatedActor;
+
+	const UWorld* World;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<AWH_BookshelfGimmick> ShelfTest;
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void SetItemIcon(const FString& TexturePath);
 	
 };
