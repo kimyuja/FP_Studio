@@ -8,6 +8,8 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/UserWidget.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanel.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanelSlot.h>
+#include "WH_BookshelfGimmick.h"
+#include "Kismet/GameplayStatics.h"
 
 bool UMapCustomWidget::Initialize()
 {
@@ -20,7 +22,7 @@ bool UMapCustomWidget::Initialize()
 void UMapCustomWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	
+
 	// itemSlotWidget = Cast<UW_ItemSlot>(CreateWidget(this, itemSlotWidgetClass));
 
 	InitializeItemSlots();
@@ -37,8 +39,8 @@ int32 UMapCustomWidget::maxCostAsInt(int32 cost) const
 	if (maxCost)
 	{
 		FString maxCostText = maxCost->GetText().ToString();
-		
-		return FCString::Atoi(*maxCostText)-cost;
+
+		return FCString::Atoi(*maxCostText) - cost;
 
 	}
 
@@ -54,7 +56,7 @@ void UMapCustomWidget::UpdateMaxCost(int32 newCost)
 }
 
 void UMapCustomWidget::InitializeItemSlots()
-{	
+{
 	// if(!itemSlotWidget) return;
 
 	UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(GetRootWidget());
@@ -80,5 +82,29 @@ void UMapCustomWidget::InitializeItemSlots()
 			itemSlotWidgets.Add(newItemSlot);
 		}
 	}
+
+	UW_ItemSlot* bookShelfBtn = Cast<UW_ItemSlot>(itemSlotWidgets[0]);
+	UW_ItemSlot* broomstickBtn = Cast<UW_ItemSlot>(itemSlotWidgets[1]);
+	UW_ItemSlot* posionBtn = Cast<UW_ItemSlot>(itemSlotWidgets[2]);
+	UW_ItemSlot* cauldronBtn = Cast<UW_ItemSlot>(itemSlotWidgets[3]);
+
+	
+
+	if (bookShelfBtn)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("bookshelf instance created"));
+
+	}
+
+	// itemSlotWidgets[0]->itemCost->SetText(FText::FromString("999"));
+
+	// 액터를 월드에서 호출하여 내부에서 작업할 수 있게 만듬
+	//AWH_BookshelfGimmick* tempClass = Cast<AWH_BookshelfGimmick>(UGameplayStatics::GetActorOfClass(GetWorld()));
+
+	// 호출된 액터는 해당 슬롯이 눌리면 반응
+	//
+
+
 }
+
 

@@ -40,6 +40,7 @@ void AWH_BookshelfGimmick::BeginPlay()
 	Super::BeginPlay();
 
 	SetActiveType(Myactivetype);
+	UE_LOG(LogTemp, Warning, TEXT("BookShelf Spawned at BeginPlay"));
 
 	//trigger->SetBoxExtent(activeRange);
 
@@ -74,7 +75,7 @@ void AWH_BookshelfGimmick::Tick(float DeltaTime)
 UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 {
 
-	UE_LOG(LogTemp, Warning, TEXT("123131213131"));
+	//UE_LOG(LogTemp, Warning, TEXT("123131213131"));
 
 	UItemObject* newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
 
@@ -82,9 +83,9 @@ UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 	{
 		newItemObject->dimensions = FIntPoint(3, 1);
 		newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf.M_IconBookshelf"));
-		newItemObject->iconRotated90 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90.M_IconBookshelf_R90"));
-		newItemObject->iconRotated180 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90.M_IconBookshelf_R180"));
-		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90.M_IconBookshelf_R270"));
+		newItemObject->iconRotated90 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90"));
+		newItemObject->iconRotated180 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R180"));
+		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R270"));
 		newItemObject->bRotated = false;
 		newItemObject->itemClass = AWH_BookshelfGimmick::StaticClass();
 	}
