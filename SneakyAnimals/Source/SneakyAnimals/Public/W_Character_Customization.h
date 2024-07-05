@@ -68,7 +68,7 @@ private:
 
 
 	TObjectPtr<UDataTable> DT_Available_Characters;
-	FStructure_Available_Characters* S_Available_Characters;
+	FStructure_Available_Characters S_Available_Characters;
 
 	UFUNCTION()
 	void OnAccessoires_BtnClicked();

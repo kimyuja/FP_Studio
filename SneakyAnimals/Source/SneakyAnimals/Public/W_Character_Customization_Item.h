@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "DataStructure.h"
 #include "W_Character_Customization_Item.generated.h"
 
 /**
@@ -24,7 +25,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "MySettings", meta = (BindWidget))
 	class UImage* Item_Image;
 
-	struct FStructure_Available_Characters* Character;
+	FStructure_Available_Characters Character;
 	
 	//struct FStructure_Available_Accessories* Accessory;
 

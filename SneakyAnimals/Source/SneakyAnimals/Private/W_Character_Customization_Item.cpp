@@ -5,13 +5,21 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Image.h>
 #include "PS_Lobby.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Button.h>
+#include "FL_General.h"
 
 void UW_Character_Customization_Item::OnClickedButton()
 {
 	// 이거 나중에 enum 타입으로 고치기
 	if (ItemType == "Character")
 	{
+		PS_Lobby->Player_Appearance.Character = Character;
+
+		// Save_Player_Appearance
+		//UFL_General::Save_Player_Appearance(Character);
+
+		// SR_Update_Player_Appearance
 		
+
 	}
 	else if (ItemType == "Accessory_Hat")
 	{
@@ -35,7 +43,7 @@ void UW_Character_Customization_Item::Setup()
 	// 이거 나중에 enum 타입으로 고치기
 	if (ItemType == "Character")
 	{
-		Item_Image->SetBrushFromTexture(Character->ItemImage);
+		Item_Image->SetBrushFromTexture(Character.ItemImage);
 	}
 	else if (ItemType == "Accessory_Hat")
 	{

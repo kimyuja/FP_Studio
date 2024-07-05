@@ -14,6 +14,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Image.h>
 #include "W_PopUp.h"
 #include "GI_SneakyAnimals.h"
+#include "SG_PlayerAppearance.h"
 
 TSubclassOf<UUserWidget> UFL_General::WB_LoadingScreen_bp = nullptr;
 TSubclassOf<UUserWidget> UFL_General::WB_PopUp_bp = nullptr;
@@ -72,6 +73,18 @@ FUserProfileResult UFL_General::Get_UserProfile()
 	result.S_UserProfile = FStructure_UserProfile();
 	result.success = false;
 	return result;
+}
+
+bool UFL_General::Save_Player_Appearance(FStructure_Player_Appearance S_Player_Appearance)
+{
+	// Save Game 생성
+	USG_PlayerAppearance* SaveGameObject = Cast<USG_PlayerAppearance>(UGameplayStatics::CreateSaveGameObject(USG_PlayerAppearance::StaticClass()));
+
+	// 데이터 저장
+	SaveGameObject->S_PlayerAppearance = S_Player_Appearance;
+
+	// 저장 슬롯에 데이터를 저장
+	return UGameplayStatics::SaveGameToSlot(SaveGameObject, TEXT("PlayerAppearance_Slot"), 0);
 }
 
 UW_LoadingScreen* UFL_General::Create_LoadingScreen(UObject* WorldContextObject, UTexture2D* LoadingScreenImage, FText LoadingScreenFeedbackText)

@@ -132,13 +132,14 @@ void UW_Character_Customization::Load_Available_Characters()
 	{
 		// WB_Character_Customization_Item 위젯 생성하기
 		// 구조체로 캐스팅하여 데이터 가져오기
-		S_Available_Characters = DT_Available_Characters->FindRow<FStructure_Available_Characters>(RowName, TEXT(""));
+		S_Available_Characters = *(DT_Available_Characters->FindRow<FStructure_Available_Characters>(RowName, TEXT("")));
 
 		Character_Customization_Item_inst = CreateWidget<UW_Character_Customization_Item>(this, Character_Customization_Item_bp, RowName);
 
 		if (Character_Customization_Item_inst)
 		{
-			if (S_Available_Characters)
+			// S_Available_Characters 가 유효하면
+			if (!S_Available_Characters.Name.IsEmpty())
 			{
 				Character_Customization_Item_inst->Character = S_Available_Characters;
 			}
@@ -167,7 +168,7 @@ void UW_Character_Customization::Find_Current_Selected_Character()
 
 	for (UWidget* child : AvailableCharacters_Wrapbox->GetAllChildren()) {
 		WB_Character_Customization_Item = Cast<UW_Character_Customization_Item>(child);
-		if (WB_Character_Customization_Item->Character->ItemID == ps_lobby->Get_Player_Appearance().Character.ItemID)
+		if (WB_Character_Customization_Item->Character.ItemID == ps_lobby->Player_Appearance.Character.ItemID)
 		{
 			bFound = true;
 			break;
