@@ -12,6 +12,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h>
 #include "W_Character_Customization_Item.h"
 #include "PS_Lobby.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/Image.h>
 
 UW_Character_Customization::UW_Character_Customization(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -154,24 +155,35 @@ void UW_Character_Customization::Load_Available_Characters()
 
 void UW_Character_Customization::Find_Current_Selected_Character()
 {
-	//APS_Lobby* ps_lobby = Cast<APS_Lobby>(GetOwningPlayer()->PlayerState);
-	//UW_Character_Customization_Item* WB_Character_Customization_Item;
-	//bool bFound = false;
-	//
-	//// if ps_lobby cast failed
-	//if (!ps_lobby)
-	//{
-	//	return;
-	//}
+	APS_Lobby* ps_lobby = Cast<APS_Lobby>(GetOwningPlayer()->PlayerState);
+	UW_Character_Customization_Item* WB_Character_Customization_Item = nullptr;
+	bool bFound = false;
+	
+	// if ps_lobby cast failed
+	if (!ps_lobby)
+	{
+		return;
+	}
 
-	//for (UWidget* child : AvailableCharacters_Wrapbox->GetAllChildren()) {
-	//	WB_Character_Customization_Item = Cast<UW_Character_Customization_Item>(child);
-	//	if (WB_Character_Customization_Item->Character->ItemID == ps_lobby->Player_Appearance.Character.ItemID)
-	//	{
-	//		bFound = true;
-	//		break;
-	//	}
-	//}
+	for (UWidget* child : AvailableCharacters_Wrapbox->GetAllChildren()) {
+		WB_Character_Customization_Item = Cast<UW_Character_Customization_Item>(child);
+		if (WB_Character_Customization_Item->Character->ItemID == ps_lobby->Get_Player_Appearance().Character.ItemID)
+		{
+			bFound = true;
+			break;
+		}
+	}
+	if (bFound)
+	{
+		WB_Character_Customization_Item->Checkmark_Icon->SetVisibility(ESlateVisibility::Visible);
+		return;
+	}
+	else
+	{
+		UW_Character_Customization_Item* item = Cast<UW_Character_Customization_Item>(AvailableCharacters_Wrapbox->GetAllChildren()[0]);
+		item->Checkmark_Icon->SetVisibility(ESlateVisibility::Visible);
+		return;
+	}
 	
 }
 

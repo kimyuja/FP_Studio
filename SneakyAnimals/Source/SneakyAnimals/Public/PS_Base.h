@@ -18,6 +18,8 @@ protected:
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category="MyPlayerData")
 	FStructure_Player_Appearance Player_Appearance;
 
+
 public:
+	FStructure_Player_Appearance Get_Player_Appearance();
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

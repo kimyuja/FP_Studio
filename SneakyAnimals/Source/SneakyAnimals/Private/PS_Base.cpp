@@ -5,6 +5,11 @@
 #include "Net/UnrealNetwork.h"
 
 
+FStructure_Player_Appearance APS_Base::Get_Player_Appearance()
+{
+	return Player_Appearance;
+}
+
 void APS_Base::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
