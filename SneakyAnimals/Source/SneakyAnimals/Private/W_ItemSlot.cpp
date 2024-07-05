@@ -16,6 +16,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Texture2D.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Engine/AssetManager.h>
+#include "W_CustomMap.h"
 
 bool UW_ItemSlot::Initialize()
 {
@@ -29,14 +30,14 @@ bool UW_ItemSlot::Initialize()
 
 void UW_ItemSlot::NativeConstruct()
 {
-	Super::NativeConstruct(); 
-	
+	Super::NativeConstruct();
+
 	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	if (!playerCharacter)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("playerCharacter is nullptr"));
 	}
-	playerCharacter->SetActorLocation(FVector(2000,0,0));
+	playerCharacter->SetActorLocation(FVector(2000, 0, 0));
 
 	AUITestCharacter* uiTestPlayer = Cast<AUITestCharacter>(playerCharacter);
 
@@ -45,7 +46,7 @@ void UW_ItemSlot::NativeConstruct()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer is nullptr"));
 	}
-	
+
 	if (uiTestPlayer)
 	{
 		itemComponent = uiTestPlayer->FindComponentByClass<UItemComponent>();
@@ -67,16 +68,31 @@ void UW_ItemSlot::NativeConstruct()
 	{
 		UE_LOG(LogTemp, Error, TEXT("itemObject is not set!"));
 	}
+
+
+	switch (itemType)
+	{
+	case 0:
+	{
+		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
+		itemObject = wh1->GetDefaultItemObject();
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 void UW_ItemSlot::OnItemBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item button clicked!"));
-	
+
 	//findBookshelfGimmick->GetDefaultItemObject();
 
 	FString itemCostText = itemCost->GetText().ToString();
 	int itemCostAsInt = FCString::Atoi(*itemCostText);
+
+	itemComponent->TryAddItem(itemObject);
 
 	if (mapCustomWidget)
 	{
@@ -102,7 +118,10 @@ void UW_ItemSlot::OnItemBtnClicked()
 	//}
 
 	SpawnBookshelfGimmick();
-	
+
+	gridWidget->Refresh();
+
+
 }
 
 void UW_ItemSlot::SetMapCustomWidget(UMapCustomWidget* Widget)
@@ -152,10 +171,10 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 	//	//	AssociatedActor = SpawnedActor;
 	//	//}
 
-	//	//if (AssociatedActor != nullptr)
-	//	//{
-	//	//	UE_LOG(LogTemp, Warning, TEXT("bookshelf actor be Spawnd!"));
-	//	//}
+	if (AssociatedActor != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("bookshelf actor be Spawnd!"));
+	}
 
 	//	//AssociatedActor->
 	//}

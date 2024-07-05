@@ -8,6 +8,7 @@
 #include "timerManager.h"
 #include "ItemObject.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanelSlot.h>
+#include "W_CustomMap.h"
 
 
 bool UW_ItemImg::Initialize()
@@ -34,7 +35,6 @@ void UW_ItemImg::NativeConstruct()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("itemobject is nullptr in itemImg code"));
 	}
-
 
 
 }

@@ -24,6 +24,8 @@ void UMapCustomWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
+	CustomMapWidget = Cast<UW_CustomMap>(CreateWidget(this, gWidget));
+
 	// itemSlotWidget = Cast<UW_ItemSlot>(CreateWidget(this, itemSlotWidgetClass));
 
 	InitializeItemSlots();
@@ -91,6 +93,12 @@ void UMapCustomWidget::InitializeItemSlots()
 
 	FString fromIcon1 = TEXT("/Game/RTY/Texture/Icon/bookShelf");
 	bookShelfBtn->SetItemIcon(fromIcon1);
+	bookShelfBtn->gridWidget = CustomMapWidget;
+	bookShelfBtn->itemType = 0;
+
+
+
+
 	bookShelfBtn->itemIcon->SetRenderScale(FVector2D(1.4f, 1.4f));
 	FString fromIcon2 = TEXT("/Game/RTY/Texture/Icon/broomStick.broomStick");
 	broomstickBtn->SetItemIcon(fromIcon2);

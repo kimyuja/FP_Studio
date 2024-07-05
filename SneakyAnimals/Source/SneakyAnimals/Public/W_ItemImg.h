@@ -55,4 +55,7 @@ public:
 	UFUNCTION()
 	void RemoveItem(class UItemObject* _ItemObject);
 
+	UPROPERTY()
+	class UW_CustomMap* customMapComp;
+
 };

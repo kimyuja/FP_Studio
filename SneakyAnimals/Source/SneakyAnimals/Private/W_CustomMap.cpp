@@ -41,7 +41,7 @@ void UW_CustomMap::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	
+
 	/*
 	if (itemComponent)
 	{
@@ -60,6 +60,10 @@ void UW_CustomMap::NativeConstruct()
 	UE_LOG(LogTemp, Warning, TEXT("itemComponent->columns : %d, itemComponent->rows : %d"), itemComponent->columns, itemComponent->rows);
 
 	// DrawGridLine();
+
+	//Refresh();
+
+	//itemComponent->OnInventoryChanged.AddDynamic(this, &UW_CustomMap::Refresh);
 }
 
 int32 UW_CustomMap::NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const
@@ -123,15 +127,26 @@ void UW_CustomMap::InitializeWidget(float Tilesize)
 
 	}
 	// CreateLineSegments();
+	UE_LOG(LogTemp, Warning, TEXT("Draw"));
 
 	Refresh();
-	
+
 	itemComponent->OnInventoryChanged.AddDynamic(this, &UW_CustomMap::Refresh);
-} 
+}
 
 void UW_CustomMap::Refresh()
 {
-	gridCanvasPanel->ClearChildren();
+	UE_LOG(LogTemp, Warning, TEXT("Refresh Func Start"));
+
+	if (gridCanvasPanel)
+	{
+		gridCanvasPanel->ClearChildren();
+
+	}
+	else if (!gridCanvasPanel)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("gridcanvaspanel val is nullptr"));
+	}
 
 	TMap<UItemObject*, FTileStructureTemp> allItems = itemComponent->GetAllItems();
 
@@ -141,7 +156,7 @@ void UW_CustomMap::Refresh()
 	for (UItemObject* key : keys)
 	{
 		// CreateWidget()
-		FTileStructureTemp* topLeftTile= allItems.Find(key);
+		FTileStructureTemp* topLeftTile = allItems.Find(key);
 		UItemObject* itemObejct = key;
 
 		UW_ItemImg* newItemImg = CreateWidget<UW_ItemImg>(GetWorld(), ItemImgWidgetClass);
@@ -156,7 +171,7 @@ void UW_CustomMap::Refresh()
 			{
 				// 델리게이트 바인딩
 				newItemImg->OnRemoved.AddDynamic(this, &UW_CustomMap::OnItemRemoved);
-				
+
 				UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(newItemImg));
 
 				if (tempCanvasSlot)
@@ -165,7 +180,7 @@ void UW_CustomMap::Refresh()
 					tempCanvasSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
 				}
 			}
-			
+
 		}
 
 	}
