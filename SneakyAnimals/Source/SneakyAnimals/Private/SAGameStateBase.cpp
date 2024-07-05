@@ -12,6 +12,7 @@ ASAGameStateBase::ASAGameStateBase()
 {
     PrimaryActorTick.bStartWithTickEnabled = true; //플레이하자마자 Tick처리
     PrimaryActorTick.bCanEverTick = true; // Tick처리를 가능하게함
+    bReplicates = true;
 }
 
 void ASAGameStateBase::Tick(float DeltaTime)
@@ -31,27 +32,26 @@ void ASAGameStateBase::SetStageStart()
 
 void ASAGameStateBase::SetClearInstance()
 {
-    /*stageNum = 1;
+	stageNum = 1;
 
-    clearTime.Empty();
+	clearTime.Empty();
 
-    deathCount1.Empty();
-    deathCount2.Empty();
-    deathCount3.Empty();
-    deathCount4.Empty();
+	deathCount1.Empty();
+	deathCount2.Empty();
+	deathCount3.Empty();
+	deathCount4.Empty();
 
-    for (int i = 0; i < 4; i++)
-    {
-        clearTime.Add(0);
-        deathCount1.Add(0);
-        deathCount2.Add(0);
-        deathCount3.Add(0);
-        deathCount4.Add(0);
-    }
+	for (int i = 0; i < 4; i++)
+	{
+		clearTime.Add(0);
+		deathCount1.Add(0);
+		deathCount2.Add(0);
+		deathCount3.Add(0);
+		deathCount4.Add(0);
+	}
 
-    voteCount.Empty();*/
+	voteCount.Empty();
 
-    MultiRPC_SetClearInstance();
 }
 
 void ASAGameStateBase::SetPlayerNum()
@@ -77,27 +77,28 @@ void ASAGameStateBase::SetPlayerNum()
 void ASAGameStateBase::SetDeathCountUp(int32 playerNum)
 {
     UE_LOG(LogTemp, Warning, TEXT("stage %d : Player %d"), stageNum, playerNum);
-    switch (stageNum)
-    {
-    case 1:
-        deathCount1[playerNum]++;
-        UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount1[playerNum]);
-        break;
-    case 2:
-        deathCount2[playerNum]++;
-        UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount2[playerNum]);
-        break;
-    case 3:
-        deathCount3[playerNum]++;
-        UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount3[playerNum]);
-        break;
-    case 4:
-        deathCount4[playerNum]++;
-        UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount4[playerNum]);
-        break;
-    default:
-        break;
-    }
+
+	switch (stageNum)
+	{
+	case 1:
+		deathCount1[playerNum]++;
+		UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount1[playerNum]);
+		break;
+	case 2:
+		deathCount2[playerNum]++;
+		UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount2[playerNum]);
+		break;
+	case 3:
+		deathCount3[playerNum]++;
+		UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount3[playerNum]);
+		break;
+	case 4:
+		deathCount4[playerNum]++;
+		UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount4[playerNum]);
+		break;
+	default:
+		break;
+	}
 }
 
 FText ASAGameStateBase::MakeClearTime()
@@ -135,33 +136,6 @@ FText ASAGameStateBase::MakeClearTime()
     return FText::FromString(clearS);*/
 }
 
-void ASAGameStateBase::ServerRPC_SetClearInstance_Implementation()
-{
-
-}
-
-void ASAGameStateBase::MultiRPC_SetClearInstance_Implementation()
-{
-    stageNum = 1;
-
-    clearTime.Empty();
-
-    deathCount1.Empty();
-    deathCount2.Empty();
-    deathCount3.Empty();
-    deathCount4.Empty();
-
-    for (int i = 0; i < 4; i++)
-    {
-        clearTime.Add(0);
-        deathCount1.Add(0);
-        deathCount2.Add(0);
-        deathCount3.Add(0);
-        deathCount4.Add(0);
-    }
-
-    voteCount.Empty();
-}
 
 void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {

@@ -59,11 +59,5 @@ public:
 	UFUNCTION()
 	void SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	UFUNCTION(Server, Reliable)
-	void ServerRPC_OnMyActive(AActor* _activePlayer);
-
-	UFUNCTION(NetMulticast, Reliable)
-	void MultiRPC_OnMyActive(AActor* activeP);
-
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

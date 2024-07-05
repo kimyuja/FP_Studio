@@ -58,11 +58,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FText MakeClearTime();
 
-	UFUNCTION(Server, Reliable)
-	void ServerRPC_SetClearInstance();
-
-	UFUNCTION(NetMulticast, Reliable)
-	void MultiRPC_SetClearInstance();
-
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;	
 };

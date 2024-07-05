@@ -111,6 +111,7 @@ void ASM_WhistleGimmick::BabyShark()
 	int targetNum = FMath::RandRange(0, players.Num() - 1);
 
 	players[targetNum]->Respawn(5.0);
+	players[targetNum]->DeathCounting();
 }
 
 void ASM_WhistleGimmick::IronSupplementation(AActor* ActivePlayer)
@@ -122,6 +123,7 @@ void ASM_WhistleGimmick::IronSupplementation(AActor* ActivePlayer)
 	if (player)
 	{
 		player->Respawn();
+		player->DeathCounting();
 	}
 }
 

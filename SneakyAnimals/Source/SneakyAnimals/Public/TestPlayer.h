@@ -121,6 +121,8 @@ public:
 
 	void ShowEmo(const FInputActionValue& Value);
 
+	void DeathCounting();
+
 	void FadeInOut(bool bInOut);
 
 	void BlackScreen();
@@ -149,10 +151,10 @@ public:
     void Multicast_SetThirdPersonView();
 
 	UFUNCTION(Server, Reliable)
-	void ServerRPC_ActiveGimmick();
+	void ServerRPC_ActiveGimmick(ATestPlayer* aP);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MultiRPC_ActiveGimmick();
+	void MultiRPC_ActiveGimmick(ATestPlayer* _aP);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

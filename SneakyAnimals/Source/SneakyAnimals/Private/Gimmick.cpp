@@ -23,6 +23,8 @@ AGimmick::AGimmick()
 	PrimaryActorTick.bCanEverTick = true;
 
 	itemObject = nullptr;
+
+	bReplicates = true;
 }
 
 // Called when the game starts or when spawned
@@ -49,7 +51,7 @@ void AGimmick::Tick(float DeltaTime)
 
 int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 {
-	/*if (!bCanActive)
+	if (!bCanActive)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
 		return -1;
@@ -88,17 +90,15 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 		_key = Cast<ASM_WhistleGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 
-	if (_key != 2)
+	/*if (_key != 2)
 	{
-		gameMode->SetDeathCountUp(Cast<ATestPlayer>(ActivePlayer)->playerNum);
+		gameState->SetDeathCountUp(Cast<ATestPlayer>(ActivePlayer)->playerNum);
 		UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
 	}*/
-	if (HasAuthority())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Auth"));
-	}
-	MultiRPC_OnMyActive(ActivePlayer);
-
+	//ServerRPC_OnMyActive(ActivePlayer);
+	UE_LOG(LogTemp, Warning, TEXT("Auth"));
+	
+	//ServerRPC_OnMyActive(ActivePlayer);
 	return _key;
 }
 
@@ -140,103 +140,6 @@ void AGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* O
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("RTY"));
-	}
-}
-
-void AGimmick::ServerRPC_OnMyActive_Implementation(AActor* _activePlayer)
-{
-	/*if (!bCanActive)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
-		return;
-	}
-	if (!this)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("I lost me"));
-		return;
-	}
-	_key = 0;
-	if (Cast<AWH_BookshelfGimmick>(this))
-	{
-		_key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(_activePlayer);
-	}
-	else if (Cast<AWH_WitchCauldronGimmick>(this))
-	{
-		_key = Cast<AWH_WitchCauldronGimmick>(this)->OnMyActive(_activePlayer);
-	}
-	else if (Cast<AWH_BroomstickGimmick>(this))
-	{
-		_key = Cast<AWH_BroomstickGimmick>(this)->OnMyActive(_activePlayer);
-	}
-	else if (Cast<AWH_PotionGimmick>(this))
-	{
-		_key = Cast<AWH_PotionGimmick>(this)->OnMyActive(_activePlayer);
-	}
-	else if (Cast<ASM_PeriscopeGimmick>(this))
-	{
-		_key = Cast<ASM_PeriscopeGimmick>(this)->OnMyActive(_activePlayer);
-	}
-	else if (Cast<ASM_PressButtonGimmick>(this))
-	{
-		_key = Cast<ASM_PressButtonGimmick>(this)->OnMyActive(_activePlayer);
-	}
-	else if (Cast<ASM_ComputerGimmick>(this))
-	{
-		_key = Cast<ASM_ComputerGimmick>(this)->OnMyActive(_activePlayer);
-	}
-	else if (Cast<ASM_WhistleGimmick>(this))
-	{
-		_key = Cast<ASM_WhistleGimmick>(this)->OnMyActive(_activePlayer);
-	}
-
-	if (_key != 2)
-	{
-		gameState->SetDeathCountUp(Cast<ATestPlayer>(_activePlayer)->playerNum);
-		UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
-	}*/
-	MultiRPC_OnMyActive(_activePlayer);
-	UE_LOG(LogTemp, Warning, TEXT("Server"));
-}
-
-void AGimmick::MultiRPC_OnMyActive_Implementation(AActor* activeP)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Multi"));
-	if (Cast<AWH_BookshelfGimmick>(this))
-	{
-		_key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(activeP);
-	}
-	else if (Cast<AWH_WitchCauldronGimmick>(this))
-	{
-		_key = Cast<AWH_WitchCauldronGimmick>(this)->OnMyActive(activeP);
-	}
-	else if (Cast<AWH_BroomstickGimmick>(this))
-	{
-		_key = Cast<AWH_BroomstickGimmick>(this)->OnMyActive(activeP);
-	}
-	else if (Cast<AWH_PotionGimmick>(this))
-	{
-		_key = Cast<AWH_PotionGimmick>(this)->OnMyActive(activeP);
-	}
-	else if (Cast<ASM_PeriscopeGimmick>(this))
-	{
-		_key = Cast<ASM_PeriscopeGimmick>(this)->OnMyActive(activeP);
-	}
-	else if (Cast<ASM_PressButtonGimmick>(this))
-	{
-		_key = Cast<ASM_PressButtonGimmick>(this)->OnMyActive(activeP);
-	}
-	else if (Cast<ASM_ComputerGimmick>(this))
-	{
-		_key = Cast<ASM_ComputerGimmick>(this)->OnMyActive(activeP);
-	}
-	else if (Cast<ASM_WhistleGimmick>(this))
-	{
-		_key = Cast<ASM_WhistleGimmick>(this)->OnMyActive(activeP);
-	}
-	if (_key != 2)
-	{
-		gameState->SetDeathCountUp(Cast<ATestPlayer>(activeP)->playerNum);
-		UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
 	}
 }
 

@@ -115,6 +115,7 @@ void ASM_ComputerGimmick::Electrocution(AActor* ActivePlayer)
 	if (player)
 	{
 		player->Death_Thunderclap();
+		player->DeathCounting();
 	}
 }
 
@@ -126,6 +127,7 @@ void ASM_ComputerGimmick::SelfExplosion()
 	for (TActorIterator<ATestPlayer> player(GetWorld()); player; ++player)
 	{
 		player->Respawn();
+		player->DeathCounting();
 	}
 }
 

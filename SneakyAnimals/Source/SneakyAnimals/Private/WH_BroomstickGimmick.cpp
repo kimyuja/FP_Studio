@@ -118,6 +118,7 @@ void AWH_BroomstickGimmick::BroomSmash(AActor* ActivePlayer)
 	if (player)
 	{
 		player->Death_Homerun((player->GetActorLocation() - GetActorLocation()).GetSafeNormal());
+		player->DeathCounting();
 	}
 
 	
@@ -135,6 +136,7 @@ void AWH_BroomstickGimmick::PoorDriver(AActor* ActivePlayer)
 	if (player)
 	{
 		player->Death_PoorDrive(false);
+		player->DeathCounting();
 	}
 	FTimerHandle broomBurstT;
 	GetWorldTimerManager().SetTimer(broomBurstT, [&]()

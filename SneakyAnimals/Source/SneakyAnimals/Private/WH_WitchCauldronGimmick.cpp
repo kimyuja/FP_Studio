@@ -97,6 +97,7 @@ void AWH_WitchCauldronGimmick::BlindFog()
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
 		//players.Add(*it);
+		it->DeathCounting();
 		it->Respawn();
 	}
 
@@ -118,6 +119,7 @@ void AWH_WitchCauldronGimmick::HereIsAWitch()
 	int targetNum = FMath::RandRange(0, players.Num() - 1);
 
 	players[targetNum]->Respawn();
+	players[targetNum]->DeathCounting();
 }
 
 void AWH_WitchCauldronGimmick::KindWitch()

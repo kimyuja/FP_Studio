@@ -112,6 +112,7 @@ void ASM_PressButtonGimmick::Waterbomb()
 	for (TActorIterator<ATestPlayer> player(GetWorld()); player; ++player)
 	{
 		player->Respawn();
+		player->DeathCounting();
 	}
 	FLatentActionInfo actionInfo;
 	UKismetSystemLibrary::Delay(GetWorld(),3.0, actionInfo);
@@ -130,6 +131,7 @@ void ASM_PressButtonGimmick::Blinklife()
 	int targetNum = FMath::RandRange(0, players.Num() - 1);
 
 	players[targetNum]->Respawn();
+	players[targetNum]->DeathCounting();
 }
 
 void ASM_PressButtonGimmick::Autopilot()

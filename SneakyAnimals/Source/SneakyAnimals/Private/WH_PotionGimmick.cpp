@@ -102,6 +102,7 @@ void AWH_PotionGimmick::Extincion(AActor* ActivePlayer)
 	if (player)
 	{
 		player->Death_EndMan();
+		player->DeathCounting();
 	}
 }
 
@@ -115,6 +116,7 @@ void AWH_PotionGimmick::SelfExplosion(AActor* ActivePlayer)
 		if (FVector::Dist(GetActorLocation(), it->GetActorLocation()) < 500.0)
 		{
 			it->Death_Homerun((ActivePlayer->GetActorLocation() - GetActorLocation()).GetSafeNormal(), 5000.0);
+			it->DeathCounting();
 		}
 	}
 }

@@ -1,3 +1,4 @@
+
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
@@ -54,6 +55,7 @@ ATestPlayer::ATestPlayer()
 
 	bReplicates = true;
 	SetReplicateMovement(true);
+
 }
 
 // Called when the game starts or when spawned
@@ -71,7 +73,11 @@ void ATestPlayer::BeginPlay()
 	if (gameState)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Game Mode Set"));
-		gameState->SetClearInstance();
+		if (IsLocallyControlled())
+		{
+			gameState->SetClearInstance();
+		}
+		
 		gameState->SetStageStart();
 		if(HasAuthority())
 		{
@@ -222,13 +228,24 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 			clearUI->SetVisibility(ESlateVisibility::Visible);
 		}
 	}*/
-	MultiRPC_ActiveGimmick();
+	ATestPlayer* target = this;
+
+	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), target->GetActorLocation().X, target->GetActorLocation().Y, target->GetActorLocation().Z);
+	if (IsLocallyControlled())
+	{
+		ServerRPC_ActiveGimmick(target);
+	}
 }
 
 void ATestPlayer::ShowEmo(const FInputActionValue& Value)
 {
 	float inputNum = Value.Get<float>();
 	Cast<UUserEmoticon>(emoticonUI->GetWidget())->ShowEmoticon(inputNum - 1);
+}
+
+void ATestPlayer::DeathCounting()
+{
+	gameState->SetDeathCountUp(playerNum);
 }
 
 void ATestPlayer::FadeInOut(bool bInOut)
@@ -426,17 +443,20 @@ void ATestPlayer::Multicast_SetThirdPersonView_Implementation()
 	GetMesh()->SetOwnerNoSee(false);
 }
 
-void ATestPlayer::ServerRPC_ActiveGimmick_Implementation()
+void ATestPlayer::ServerRPC_ActiveGimmick_Implementation(ATestPlayer* aP)
 {
-	MultiRPC_ActiveGimmick();
+	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), aP->GetActorLocation().X, aP->GetActorLocation().Y, aP->GetActorLocation().Z);
+	MultiRPC_ActiveGimmick(aP);
 }
 
-void ATestPlayer::MultiRPC_ActiveGimmick_Implementation()
+void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 {
 	if (bCanActive)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("aP = %f, %f, %f"), _aP->GetActorLocation().X, _aP->GetActorLocation().Y, _aP->GetActorLocation().Z);
+		UE_LOG(LogTemp, Warning, TEXT("P = %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
 		bCanActive = false;
-		int32 key = g->OnMyActive(this);
+		int32 key = g->OnMyActive(_aP);
 		UE_LOG(LogTemp, Warning, TEXT("Fail %d"), key);
 		if (key == 2)
 		{
@@ -445,6 +465,11 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation()
 			clearUI->SetWidgetState();
 			clearUI->SetVisibility(ESlateVisibility::Visible);
 		}
+		/*if (key != 2)
+		{
+			gameState->SetDeathCountUp(_aP->playerNum);
+			UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
+		}*/
 	}
 }
 

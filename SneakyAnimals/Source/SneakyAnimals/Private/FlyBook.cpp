@@ -60,6 +60,7 @@ void AFlyBook::AttackRandomPlayer()
 	else
 	{
 		players[targetNum]->Respawn();
+		players[targetNum]->DeathCounting();
 		Destroy();
 	}
 }
