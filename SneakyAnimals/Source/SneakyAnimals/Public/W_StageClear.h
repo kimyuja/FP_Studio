@@ -36,7 +36,7 @@ public:
 	class UTextBlock* ClearTime;
 
 	UPROPERTY()
-	class ASAModeBase* gameMode;
+	class ASAGameStateBase* gameState;
 
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetState();

@@ -13,6 +13,8 @@
 #include "SM_WhistleGimmick.h"
 #include "SAModeBase.h"
 #include "SAGameInstance.h"
+#include <../../../../../../../Source/Runtime/Engine/Public/Net/UnrealNetwork.h>
+#include "SAGameStateBase.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -28,7 +30,8 @@ void AGimmick::BeginPlay()
 {
 	Super::BeginPlay();
 
-	gameMode = Cast<ASAModeBase>(GetWorld()->GetAuthGameMode());
+	gameState = Cast<ASAGameStateBase>(GetWorld()->GetGameState());
+	
 
 	// ¼±¹Î
 	if (!IsValid(itemObject)) {
@@ -46,7 +49,7 @@ void AGimmick::Tick(float DeltaTime)
 
 int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 {
-	if (!bCanActive)
+	/*if (!bCanActive)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
 		return -1;
@@ -89,7 +92,12 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	{
 		gameMode->SetDeathCountUp(Cast<ATestPlayer>(ActivePlayer)->playerNum);
 		UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
+	}*/
+	if (HasAuthority())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Auth"));
 	}
+	MultiRPC_OnMyActive(ActivePlayer);
 
 	return _key;
 }
@@ -133,6 +141,110 @@ void AGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* O
 	{
 		UE_LOG(LogTemp, Warning, TEXT("RTY"));
 	}
+}
+
+void AGimmick::ServerRPC_OnMyActive_Implementation(AActor* _activePlayer)
+{
+	/*if (!bCanActive)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
+		return;
+	}
+	if (!this)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("I lost me"));
+		return;
+	}
+	_key = 0;
+	if (Cast<AWH_BookshelfGimmick>(this))
+	{
+		_key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(_activePlayer);
+	}
+	else if (Cast<AWH_WitchCauldronGimmick>(this))
+	{
+		_key = Cast<AWH_WitchCauldronGimmick>(this)->OnMyActive(_activePlayer);
+	}
+	else if (Cast<AWH_BroomstickGimmick>(this))
+	{
+		_key = Cast<AWH_BroomstickGimmick>(this)->OnMyActive(_activePlayer);
+	}
+	else if (Cast<AWH_PotionGimmick>(this))
+	{
+		_key = Cast<AWH_PotionGimmick>(this)->OnMyActive(_activePlayer);
+	}
+	else if (Cast<ASM_PeriscopeGimmick>(this))
+	{
+		_key = Cast<ASM_PeriscopeGimmick>(this)->OnMyActive(_activePlayer);
+	}
+	else if (Cast<ASM_PressButtonGimmick>(this))
+	{
+		_key = Cast<ASM_PressButtonGimmick>(this)->OnMyActive(_activePlayer);
+	}
+	else if (Cast<ASM_ComputerGimmick>(this))
+	{
+		_key = Cast<ASM_ComputerGimmick>(this)->OnMyActive(_activePlayer);
+	}
+	else if (Cast<ASM_WhistleGimmick>(this))
+	{
+		_key = Cast<ASM_WhistleGimmick>(this)->OnMyActive(_activePlayer);
+	}
+
+	if (_key != 2)
+	{
+		gameState->SetDeathCountUp(Cast<ATestPlayer>(_activePlayer)->playerNum);
+		UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
+	}*/
+	MultiRPC_OnMyActive(_activePlayer);
+	UE_LOG(LogTemp, Warning, TEXT("Server"));
+}
+
+void AGimmick::MultiRPC_OnMyActive_Implementation(AActor* activeP)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Multi"));
+	if (Cast<AWH_BookshelfGimmick>(this))
+	{
+		_key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(activeP);
+	}
+	else if (Cast<AWH_WitchCauldronGimmick>(this))
+	{
+		_key = Cast<AWH_WitchCauldronGimmick>(this)->OnMyActive(activeP);
+	}
+	else if (Cast<AWH_BroomstickGimmick>(this))
+	{
+		_key = Cast<AWH_BroomstickGimmick>(this)->OnMyActive(activeP);
+	}
+	else if (Cast<AWH_PotionGimmick>(this))
+	{
+		_key = Cast<AWH_PotionGimmick>(this)->OnMyActive(activeP);
+	}
+	else if (Cast<ASM_PeriscopeGimmick>(this))
+	{
+		_key = Cast<ASM_PeriscopeGimmick>(this)->OnMyActive(activeP);
+	}
+	else if (Cast<ASM_PressButtonGimmick>(this))
+	{
+		_key = Cast<ASM_PressButtonGimmick>(this)->OnMyActive(activeP);
+	}
+	else if (Cast<ASM_ComputerGimmick>(this))
+	{
+		_key = Cast<ASM_ComputerGimmick>(this)->OnMyActive(activeP);
+	}
+	else if (Cast<ASM_WhistleGimmick>(this))
+	{
+		_key = Cast<ASM_WhistleGimmick>(this)->OnMyActive(activeP);
+	}
+	if (_key != 2)
+	{
+		gameState->SetDeathCountUp(Cast<ATestPlayer>(activeP)->playerNum);
+		UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
+	}
+}
+
+void AGimmick::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AGimmick, _key);
 }
 
 // ¼±¹Î

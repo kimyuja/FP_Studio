@@ -3,19 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
-#include "SAModeBase.generated.h"
+#include "GameFramework/GameState.h"
+#include "SAGameState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SNEAKYANIMALS_API ASAModeBase : public AGameModeBase
+class SNEAKYANIMALS_API ASAGameState : public AGameState
 {
 	GENERATED_BODY()
 
 public:
-	ASAModeBase();
+
+	ASAGameState();
 
 	virtual void Tick(float DeltaTime)override;
 

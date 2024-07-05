@@ -3,19 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
-#include "SAModeBase.generated.h"
+#include "GameFramework/GameStateBase.h"
+#include "SAGameStateBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SNEAKYANIMALS_API ASAModeBase : public AGameModeBase
+class SNEAKYANIMALS_API ASAGameStateBase : public AGameStateBase
 {
 	GENERATED_BODY()
-
 public:
-	ASAModeBase();
+
+	ASAGameStateBase();
 
 	virtual void Tick(float DeltaTime)override;
 
@@ -64,5 +64,5 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_SetClearInstance();
 
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;	
 };

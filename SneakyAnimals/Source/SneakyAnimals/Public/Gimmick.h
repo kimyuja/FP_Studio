@@ -25,7 +25,7 @@ public:
 	int32 activeType = 0;
 
 	UPROPERTY(EditAnywhere)
-	class ASAModeBase* gameMode;
+	class ASAGameStateBase* gameState;
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,6 +35,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(Replicated)
 	int32 _key;
 
 	UFUNCTION()
@@ -58,4 +59,11 @@ public:
 	UFUNCTION()
 	void SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_OnMyActive(AActor* _activePlayer);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_OnMyActive(AActor* activeP);
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

@@ -79,9 +79,9 @@ public:
 	class UW_StageClear* clearUI;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	class ASAModeBase* gameMode;
+	class ASAGameStateBase* gameState;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(Replicated,EditAnywhere,BlueprintReadWrite)
 	int32 playerNum;
 
 	bool bCanActive;
@@ -147,4 +147,12 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
     void Multicast_SetThirdPersonView();
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_ActiveGimmick();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_ActiveGimmick();
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

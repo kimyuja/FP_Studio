@@ -1,35 +1,35 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SAModeBase.h"
+#include "SAGameState.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "TestPlayer.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/Net/UnrealNetwork.h>
 
 
 
-ASAModeBase::ASAModeBase()
+ASAGameState::ASAGameState()
 {
     PrimaryActorTick.bStartWithTickEnabled = true; //플레이하자마자 Tick처리
     PrimaryActorTick.bCanEverTick = true; // Tick처리를 가능하게함
 }
 
-void ASAModeBase::Tick(float DeltaTime)
+void ASAGameState::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
     if (bOnGame)
     {
-        clearTime[stageNum - 1] += DeltaTime; 
+        clearTime[stageNum - 1] += DeltaTime;
     }
 }
 
-void ASAModeBase::SetStageStart()
+void ASAGameState::SetStageStart()
 {
     bOnGame = true;
     //clearTime[stageNum] = 0;
 }
 
-void ASAModeBase::SetClearInstance()
+void ASAGameState::SetClearInstance()
 {
     /*stageNum = 1;
 
@@ -54,7 +54,7 @@ void ASAModeBase::SetClearInstance()
     MultiRPC_SetClearInstance();
 }
 
-void ASAModeBase::SetPlayerNum()
+void ASAGameState::SetPlayerNum()
 {
     TArray<int32> playerNums = { 0,1,2,3 };
     int32 LastIndex = playerNums.Num() - 1;
@@ -74,7 +74,7 @@ void ASAModeBase::SetPlayerNum()
     }
 }
 
-void ASAModeBase::SetDeathCountUp(int32 playerNum)
+void ASAGameState::SetDeathCountUp(int32 playerNum)
 {
     UE_LOG(LogTemp, Warning, TEXT("stage %d : Player %d"), stageNum, playerNum);
     switch (stageNum)
@@ -100,11 +100,11 @@ void ASAModeBase::SetDeathCountUp(int32 playerNum)
     }
 }
 
-FText ASAModeBase::MakeClearTime()
+FText ASAGameState::MakeClearTime()
 {
     if (clearTime[stageNum - 1] < 10.0f)
     {
-        return FText::FromString("00 : 0" +FString::FromInt(clearTime[stageNum - 1]));
+        return FText::FromString("00 : 0" + FString::FromInt(clearTime[stageNum - 1]));
     }
     else if (clearTime[stageNum - 1] < 60.0f)
     {
@@ -135,12 +135,12 @@ FText ASAModeBase::MakeClearTime()
     return FText::FromString(clearS);*/
 }
 
-void ASAModeBase::ServerRPC_SetClearInstance_Implementation()
+void ASAGameState::ServerRPC_SetClearInstance_Implementation()
 {
-    
+
 }
 
-void ASAModeBase::MultiRPC_SetClearInstance_Implementation()
+void ASAGameState::MultiRPC_SetClearInstance_Implementation()
 {
     stageNum = 1;
 
@@ -163,16 +163,16 @@ void ASAModeBase::MultiRPC_SetClearInstance_Implementation()
     voteCount.Empty();
 }
 
-void ASAModeBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void ASAGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-    DOREPLIFETIME(ASAModeBase, stageNum);
-    DOREPLIFETIME(ASAModeBase, deathCount1);
-    DOREPLIFETIME(ASAModeBase, deathCount2);
-    DOREPLIFETIME(ASAModeBase, deathCount3);
-    DOREPLIFETIME(ASAModeBase, deathCount4);
-    DOREPLIFETIME(ASAModeBase, clearTime);
-    DOREPLIFETIME(ASAModeBase, voteCount);
-    DOREPLIFETIME(ASAModeBase, bOnGame);
+    DOREPLIFETIME(ASAGameState, stageNum);
+    DOREPLIFETIME(ASAGameState, deathCount1);
+    DOREPLIFETIME(ASAGameState, deathCount2);
+    DOREPLIFETIME(ASAGameState, deathCount3);
+    DOREPLIFETIME(ASAGameState, deathCount4);
+    DOREPLIFETIME(ASAGameState, clearTime);
+    DOREPLIFETIME(ASAGameState, voteCount);
+    DOREPLIFETIME(ASAGameState, bOnGame);
 }

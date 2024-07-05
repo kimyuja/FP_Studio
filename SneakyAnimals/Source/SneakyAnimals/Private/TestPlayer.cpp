@@ -23,6 +23,8 @@
 #include "GM_Lobby.h"
 #include "W_StageClear.h"
 #include "SAModeBase.h"
+#include <../../../../../../../Source/Runtime/Engine/Public/Net/UnrealNetwork.h>
+#include "SAGameStateBase.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -65,16 +67,15 @@ void ATestPlayer::BeginPlay()
 		clearUI->AddToViewport(1);
 		clearUI->SetVisibility(ESlateVisibility::Hidden);
 	}
-
-	gameMode = Cast<ASAModeBase>(GetWorld()->GetAuthGameMode());
-	if (gameMode)
+	gameState = Cast<ASAGameStateBase>(GetWorld()->GetGameState());
+	if (gameState)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Game Mode Set"));
-		gameMode->SetClearInstance();
-		gameMode->SetStageStart();
+		gameState->SetClearInstance();
+		gameState->SetStageStart();
 		if(HasAuthority())
 		{
-			gameMode->SetPlayerNum();
+			gameState->SetPlayerNum();
 		}
 	}
 
@@ -208,7 +209,7 @@ void ATestPlayer::PlayerJumpEnd(const FInputActionValue& Value)
 
 void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 {
-	if (bCanActive)
+	/*if (bCanActive)
 	{
 		bCanActive = false;
 		UE_LOG(LogTemp, Warning, TEXT("Fail %d"), bCanActive);
@@ -220,7 +221,8 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 			clearUI->SetWidgetState();
 			clearUI->SetVisibility(ESlateVisibility::Visible);
 		}
-	}
+	}*/
+	MultiRPC_ActiveGimmick();
 }
 
 void ATestPlayer::ShowEmo(const FInputActionValue& Value)
@@ -424,3 +426,31 @@ void ATestPlayer::Multicast_SetThirdPersonView_Implementation()
 	GetMesh()->SetOwnerNoSee(false);
 }
 
+void ATestPlayer::ServerRPC_ActiveGimmick_Implementation()
+{
+	MultiRPC_ActiveGimmick();
+}
+
+void ATestPlayer::MultiRPC_ActiveGimmick_Implementation()
+{
+	if (bCanActive)
+	{
+		bCanActive = false;
+		int32 key = g->OnMyActive(this);
+		UE_LOG(LogTemp, Warning, TEXT("Fail %d"), key);
+		if (key == 2)
+		{
+			bCanOpenDoor = true;
+			gameState->bOnGame = false;
+			clearUI->SetWidgetState();
+			clearUI->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
+}
+
+void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ATestPlayer, playerNum);
+}
