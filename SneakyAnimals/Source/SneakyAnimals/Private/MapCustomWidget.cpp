@@ -8,6 +8,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/UserWidget.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanel.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanelSlot.h>
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/Image.h>
 #include "WH_BookshelfGimmick.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -88,7 +89,14 @@ void UMapCustomWidget::InitializeItemSlots()
 	UW_ItemSlot* posionBtn = Cast<UW_ItemSlot>(itemSlotWidgets[2]);
 	UW_ItemSlot* cauldronBtn = Cast<UW_ItemSlot>(itemSlotWidgets[3]);
 
-	
+	FString fromIcon1 = TEXT("/Game/RTY/Texture/Icon/bookShelf");
+	bookShelfBtn->SetItemIcon(fromIcon1);
+	FString fromIcon2 = TEXT("/Game/RTY/Texture/Icon/broomStick.broomStick");
+	broomstickBtn->SetItemIcon(fromIcon2);
+	FString fromIcon3 = TEXT("/Game/RTY/Texture/Icon/Table.Table");
+	posionBtn->SetItemIcon(fromIcon3);
+	FString fromIcon4 = TEXT("/Game/RTY/Texture/Icon/pot.pot");
+	cauldronBtn->SetItemIcon(fromIcon4);
 
 	if (bookShelfBtn)
 	{

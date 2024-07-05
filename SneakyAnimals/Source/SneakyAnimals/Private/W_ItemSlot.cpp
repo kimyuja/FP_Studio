@@ -14,6 +14,8 @@
 #include "Components/TextBlock.h"
 #include "WH_BookshelfGimmick.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/Texture2D.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Engine/AssetManager.h>
 
 bool UW_ItemSlot::Initialize()
 {
@@ -87,17 +89,17 @@ void UW_ItemSlot::OnItemBtnClicked()
 		UE_LOG(LogTemp, Error, TEXT("mapCustomWidget is null!"));
 	}
 
-	if (itemComponent && itemObject)
-	{
-		
-		if (itemComponent->TryAddItem(itemObject))
-		{
-			int newCost = mapCustomWidget->maxCostAsInt(itemCostAsInt);
-			mapCustomWidget->UpdateMaxCost(newCost * -1);
-			//UE_LOG(LogTemp, Warning, TEXT("Ready to Add Item"));
-		}
-		//UE_LOG(LogTemp, Warning, TEXT("Object is Same"));
-	}
+	//if (itemComponent && itemObject)
+	//{
+	//	
+	//	if (itemComponent->TryAddItem(itemObject))
+	//	{
+	//		int newCost = mapCustomWidget->maxCostAsInt(itemCostAsInt);
+	//		mapCustomWidget->UpdateMaxCost(newCost * -1);
+	//		//UE_LOG(LogTemp, Warning, TEXT("Ready to Add Item"));
+	//	}
+	//	//UE_LOG(LogTemp, Warning, TEXT("Object is Same"));
+	//}
 
 	SpawnBookshelfGimmick();
 	
@@ -157,4 +159,20 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 
 	//	//AssociatedActor->
 	//}
+}
+
+void UW_ItemSlot::SetItemIcon(const FString& TexturePath)
+{
+	// 텍스처 로드
+	UTexture2D* ItemTexture = LoadObject<UTexture2D>(nullptr, *TexturePath);
+	if (ItemTexture && itemIcon)
+	{
+		// 이미지 위젯의 브러시 설정
+		itemIcon->SetBrushFromTexture(ItemTexture);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to load texture or itemIcon is null"));
+	}
+
 }

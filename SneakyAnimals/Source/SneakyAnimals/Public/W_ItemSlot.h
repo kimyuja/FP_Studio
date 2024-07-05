@@ -51,7 +51,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	class AWH_BookshelfGimmick* findBookshelfGimmick;
 
-	UFUNCTION(BlueprintCallable, Category = "Item Slot")
+	UFUNCTION(BlueprintCallable, Category = "UI")
 	void SpawnBookshelfGimmick();
 
 	UPROPERTY(BlueprintReadWrite)
@@ -61,5 +61,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AWH_BookshelfGimmick> ShelfTest;
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void SetItemIcon(const FString& TexturePath);
 	
 };
