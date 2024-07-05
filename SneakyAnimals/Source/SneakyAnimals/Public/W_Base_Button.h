@@ -16,6 +16,8 @@ class SNEAKYANIMALS_API UW_Base_Button : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	UW_Base_Button(const FObjectInitializer& ObjectInitializer);
+
 	UPROPERTY(EditAnywhere, Category = "MySettings", meta = (BindWidget))
 	class UButton* Button;
 

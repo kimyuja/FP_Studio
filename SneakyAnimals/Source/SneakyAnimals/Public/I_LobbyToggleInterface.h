@@ -18,5 +18,6 @@ class SNEAKYANIMALS_API II_LobbyToggleInterface
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Action")
 	void Toggle_CharacterCustomization();
+
 	virtual void Toggle_CharacterCustomization_Implementation() {};
 };
