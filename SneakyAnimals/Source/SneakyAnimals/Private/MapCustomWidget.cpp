@@ -77,7 +77,7 @@ void UMapCustomWidget::InitializeItemSlots()
 			if (canvasSlot)
 			{
 				canvasSlot->SetAnchors(FAnchors(0.5f, 0.5f));
-				canvasSlot->SetPosition(FVector2D(550.0f, -300.0f + i * 150.0f));
+				canvasSlot->SetPosition(FVector2D(400.0f, -380.0f + i * 180.0f));
 			}
 
 			itemSlotWidgets.Add(newItemSlot);
@@ -91,6 +91,7 @@ void UMapCustomWidget::InitializeItemSlots()
 
 	FString fromIcon1 = TEXT("/Game/RTY/Texture/Icon/bookShelf");
 	bookShelfBtn->SetItemIcon(fromIcon1);
+	bookShelfBtn->itemIcon->SetRenderScale(FVector2D(1.4f, 1.4f));
 	FString fromIcon2 = TEXT("/Game/RTY/Texture/Icon/broomStick.broomStick");
 	broomstickBtn->SetItemIcon(fromIcon2);
 	FString fromIcon3 = TEXT("/Game/RTY/Texture/Icon/Table.Table");
