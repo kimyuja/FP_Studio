@@ -35,7 +35,7 @@ void UW_HostGameMenu::CreateLoadingScreen()
 	// 타이머를 실행하고싶다.
 	FTimerHandle handle;
 	GetWorld()->GetTimerManager().SetTimer(handle, [&]() {
-			UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("GameMaps")), true, FString(TEXT("listen")));
+			UGameplayStatics::OpenLevel(GetWorld(), FName(TEXT("Lobby_Level")), true, FString(TEXT("listen")));
 		}, 2.0f, false);
 
 }
