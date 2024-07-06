@@ -43,7 +43,7 @@ public:
 
 	// 변경되어 상태가 바뀌었음을 의미
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Constants")
-	bool isDirty;
+	bool isDirty = false;
 
 	// 그리드 내 배치 가능한 공간
 	UFUNCTION(BlueprintCallable)
@@ -71,10 +71,10 @@ public:
 
 	// macro -> 타일이 유효한지 여부 확인
 	UFUNCTION(BlueprintCallable)
-	bool IsTileValid(FTileStructureTemp Tile);
+	bool IsTileValid(FTileStructureTemp Tile) const;
 	
 	UFUNCTION(BlueprintCallable)
-	int32 TileToIndex(FTileStructureTemp Tile);
+	int32 TileToIndex(FTileStructureTemp Tile) const; 
 
 	UFUNCTION(BlueprintCallable)
 	UItemObject* GetItemAtIndex(int32 Index);
@@ -93,6 +93,10 @@ public:
 
 	UFUNCTION()
 	void ChangeInventory();
+
+
+	UFUNCTION()
+	bool CheckIsValid(bool b);
 
 
 };

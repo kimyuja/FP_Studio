@@ -50,7 +50,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Items")
 	void InitializeItemObject();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	class UItemObject* itemObject;
 
 	UFUNCTION()

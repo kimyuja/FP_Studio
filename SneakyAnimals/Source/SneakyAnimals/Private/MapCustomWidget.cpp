@@ -17,6 +17,18 @@ bool UMapCustomWidget::Initialize()
 	bool Success = Super::Initialize();
 	if (!Success) return false;
 
+	// CreateWidget called as nullptr 오류가 뜬다
+	if (!gWidget)
+	{
+		UE_LOG(LogTemp, Error, TEXT("gWidget is null"));
+	}
+
+	if (!itemSlotWidgetClass)
+	{
+		UE_LOG(LogTemp, Error, TEXT("itemSlotWidgetClass is null"));
+	}
+
+
 	return true;
 }
 
@@ -24,9 +36,24 @@ void UMapCustomWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	CustomMapWidget = Cast<UW_CustomMap>(CreateWidget(this, gWidget));
+	if (!gWidget)
+	{
+		UE_LOG(LogTemp, Error, TEXT("gWidget is null"));
+		return;
+	}
 
-	// itemSlotWidget = Cast<UW_ItemSlot>(CreateWidget(this, itemSlotWidgetClass));
+	if (!itemSlotWidgetClass)
+	{
+		UE_LOG(LogTemp, Error, TEXT("itemSlotWidgetClass is null"));
+		return;
+	}
+
+	CustomMapWidget = Cast<UW_CustomMap>(CreateWidget(this, gWidget));
+	if (!CustomMapWidget)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to create CustomMapWidget"));
+		return;
+	}
 
 	InitializeItemSlots();
 
@@ -69,10 +96,10 @@ void UMapCustomWidget::InitializeItemSlots()
 		if (newItemSlot)
 		{
 			newItemSlot->mapCustomWidget = this;
-			// 각 인스턴스에 다른 아이콘과 비용을 설정
-			int32 costInt = 3 * (i + 1) - i;
+
+			/*int32 costInt = 3 * (i + 1) - i;
 			FString costString = FString::FromInt(costInt);
-			newItemSlot->itemCost->SetText(FText::FromString(costString));
+			newItemSlot->itemCost->SetText(FText::FromString(costString));*/
 
 			UCanvasPanelSlot* canvasSlot = rootCanvas->AddChildToCanvas(newItemSlot);
 
@@ -80,38 +107,37 @@ void UMapCustomWidget::InitializeItemSlots()
 			{
 				canvasSlot->SetAnchors(FAnchors(0.5f, 0.5f));
 				canvasSlot->SetPosition(FVector2D(400.0f, -380.0f + i * 180.0f));
-			}
 
-			itemSlotWidgets.Add(newItemSlot);
+
+				itemSlotWidgets.Add(newItemSlot);
+
+
+				switch (i)
+				{
+				case 0:
+					newItemSlot->itemType = 0;
+					break;
+				case 1:
+					newItemSlot->itemType = 1;
+					break;
+				case 2:
+					newItemSlot->itemType = 2;
+					break;
+				case 3:
+					newItemSlot->itemType = 3;
+					break;
+
+				}
+
+				newItemSlot->InitializeItemSlot(i);
+			}
 		}
 	}
 
-	UW_ItemSlot* bookShelfBtn = Cast<UW_ItemSlot>(itemSlotWidgets[0]);
+	/*UW_ItemSlot* bookShelfBtn = Cast<UW_ItemSlot>(itemSlotWidgets[0]);
 	UW_ItemSlot* broomstickBtn = Cast<UW_ItemSlot>(itemSlotWidgets[1]);
 	UW_ItemSlot* posionBtn = Cast<UW_ItemSlot>(itemSlotWidgets[2]);
-	UW_ItemSlot* cauldronBtn = Cast<UW_ItemSlot>(itemSlotWidgets[3]);
-
-	FString fromIcon1 = TEXT("/Game/RTY/Texture/Icon/bookShelf");
-	bookShelfBtn->SetItemIcon(fromIcon1);
-	bookShelfBtn->gridWidget = CustomMapWidget;
-	bookShelfBtn->itemType = 0;
-
-
-
-
-	bookShelfBtn->itemIcon->SetRenderScale(FVector2D(1.4f, 1.4f));
-	FString fromIcon2 = TEXT("/Game/RTY/Texture/Icon/broomStick.broomStick");
-	broomstickBtn->SetItemIcon(fromIcon2);
-	FString fromIcon3 = TEXT("/Game/RTY/Texture/Icon/Table.Table");
-	posionBtn->SetItemIcon(fromIcon3);
-	FString fromIcon4 = TEXT("/Game/RTY/Texture/Icon/pot.pot");
-	cauldronBtn->SetItemIcon(fromIcon4);
-
-	if (bookShelfBtn)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("bookshelf instance created"));
-
-	}
+	UW_ItemSlot* cauldronBtn = Cast<UW_ItemSlot>(itemSlotWidgets[3]);*/
 
 	// itemSlotWidgets[0]->itemCost->SetText(FText::FromString("999"));
 

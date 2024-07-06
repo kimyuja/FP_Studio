@@ -19,7 +19,7 @@
 // Sets default values
 AGimmick::AGimmick()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	itemObject = nullptr;
@@ -33,7 +33,7 @@ void AGimmick::BeginPlay()
 	Super::BeginPlay();
 
 	gameState = Cast<ASAGameStateBase>(GetWorld()->GetGameState());
-	
+
 
 	// ¼±¹Î
 	if (!IsValid(itemObject)) {
@@ -97,7 +97,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	}*/
 	//ServerRPC_OnMyActive(ActivePlayer);
 	UE_LOG(LogTemp, Warning, TEXT("Auth"));
-	
+
 	//ServerRPC_OnMyActive(ActivePlayer);
 	return _key;
 }
@@ -162,11 +162,10 @@ UItemObject* AGimmick::GetDefaultItemObject()
 }
 
 void AGimmick::InitializeItemObject()
-{	
-	if (!itemObject)
-	{
-		itemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
-	}
+{
+
+	itemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
 }
 
-//
+// 

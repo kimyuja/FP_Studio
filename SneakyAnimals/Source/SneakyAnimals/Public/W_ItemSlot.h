@@ -70,4 +70,11 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	int32 itemType;
+
+	UFUNCTION(BlueprintCallable)
+	void InitializeItemSlot(int32 _ItemType);
+
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentCost();
+
 };

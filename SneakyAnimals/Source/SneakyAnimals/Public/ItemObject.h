@@ -34,6 +34,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
 	bool bRotated;
 
+	// AGimmic 클래스를 class reference 타입으로 변수 생성
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
 	TSubclassOf<class AGimmick> itemClass;
 
