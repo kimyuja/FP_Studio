@@ -15,6 +15,15 @@ ASAGameStateBase::ASAGameStateBase()
     bReplicates = true;
 }
 
+void ASAGameStateBase::BeginPlay()
+{
+    Super::BeginPlay();
+    for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+    {
+        players.Add(*it);
+    }
+}
+
 void ASAGameStateBase::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
@@ -48,6 +57,7 @@ void ASAGameStateBase::SetClearInstance()
 		deathCount2.Add(0);
 		deathCount3.Add(0);
 		deathCount4.Add(0);
+        stageLoc.Add(FVector(0,0,0));
 	}
 
 	voteCount.Empty();
@@ -137,6 +147,19 @@ FText ASAGameStateBase::MakeClearTime()
 }
 
 
+void ASAGameStateBase::MoveNextStage()
+{
+    if (stageLoc.Num() == 0)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("No %d stage Location"), stageNum);
+        return;
+    }
+    for (int32 i = 0; i < players.Num(); i++)
+    {
+        players[i]->SetActorLocation(stageLoc[stageNum]);
+    }
+}
+
 void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -149,4 +172,5 @@ void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
     DOREPLIFETIME(ASAGameStateBase, clearTime);
     DOREPLIFETIME(ASAGameStateBase, voteCount);
     DOREPLIFETIME(ASAGameStateBase, bOnGame);
+    DOREPLIFETIME(ASAGameStateBase, stageLoc);
 }

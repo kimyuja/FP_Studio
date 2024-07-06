@@ -139,6 +139,12 @@ void ATestPlayer::Tick(float DeltaTime)
 	{
 		GimmickSearch();
 	}
+
+	if (clearUI->curtime > 5 && HasAuthority())
+	{
+		gameState->MoveNextStage();
+		clearUI->curtime = 0;
+	}
 }
 
 // Called to bind functionality to input
@@ -250,6 +256,7 @@ void ATestPlayer::DeathCounting()
 
 void ATestPlayer::FadeInOut(bool bInOut)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Player %d FadeInOut"), playerNum);
 	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(),0);
 	if (bInOut)
 	{
@@ -276,6 +283,7 @@ void ATestPlayer::Respawn(float delaytime)
 	{
 		FadeInOut(true);
 	}
+	UE_LOG(LogTemp, Warning, TEXT("Player %d Respawn"), playerNum);
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	FTimerHandle respawnT;
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
@@ -463,13 +471,10 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 			bCanOpenDoor = true;
 			gameState->bOnGame = false;
 			clearUI->SetWidgetState();
+			clearUI->bIsClear = true;
+			
 			clearUI->SetVisibility(ESlateVisibility::Visible);
 		}
-		/*if (key != 2)
-		{
-			gameState->SetDeathCountUp(_aP->playerNum);
-			UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
-		}*/
 	}
 }
 

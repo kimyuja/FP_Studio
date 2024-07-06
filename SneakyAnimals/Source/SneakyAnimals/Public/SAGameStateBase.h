@@ -17,6 +17,8 @@ public:
 
 	ASAGameStateBase();
 
+	virtual void BeginPlay()override;
+
 	virtual void Tick(float DeltaTime)override;
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
@@ -42,6 +44,12 @@ public:
 
 	UPROPERTY(Replicated, EditAnywhere)
 	bool bOnGame = false;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FVector> stageLoc;
+
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
+	TArray<class ATestPlayer*> players;
 	
 	UFUNCTION(BlueprintCallable)
 	void SetStageStart();
@@ -57,6 +65,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FText MakeClearTime();
+
+	UFUNCTION(BlueprintCallable)
+	void MoveNextStage();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;	
 };

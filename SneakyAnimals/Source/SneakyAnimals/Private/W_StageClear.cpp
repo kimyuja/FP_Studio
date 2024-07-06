@@ -2,7 +2,6 @@
 
 
 #include "W_StageClear.h"
-#include "SAModeBase.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/TextBlock.h>
 #include "SAGameStateBase.h"
 
@@ -10,15 +9,49 @@ void UW_StageClear::NativeConstruct()
 {
 	Super::NativeConstruct();
 	gameState = Cast<ASAGameStateBase>(GetWorld()->GetGameState());
-	if (gameState)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GameMode"));
-	}
 }
 
 void UW_StageClear::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry,InDeltaTime);
+
+	if (bIsClear)
+	{
+		curtime += InDeltaTime;
+	}
+
+	if (curtime > 0)
+	{
+		NextRoundTime->SetText(FText::FromString(TEXT("5")));
+		UE_LOG(LogTemp, Warning, TEXT("5"));
+	}
+	else if (curtime > 1)
+	{
+		NextRoundTime->SetText(FText::FromString(TEXT("4")));
+		UE_LOG(LogTemp, Warning, TEXT("4"));
+	}
+	else if (curtime > 2)
+	{
+		NextRoundTime->SetText(FText::FromString(TEXT("3")));
+		UE_LOG(LogTemp, Warning, TEXT("3"));
+	}
+	else if (curtime > 3)
+	{
+		NextRoundTime->SetText(FText::FromString(TEXT("2")));
+		UE_LOG(LogTemp, Warning, TEXT("2"));
+	}
+	else if (curtime > 4)
+	{
+		NextRoundTime->SetText(FText::FromString(TEXT("1")));
+		UE_LOG(LogTemp, Warning, TEXT("1"));
+	}
+	else if (curtime > 5)
+	{
+		NextRoundTime->SetText(FText::FromString(TEXT("0")));
+		UE_LOG(LogTemp, Warning, TEXT("0"));
+		bIsClear = false;
+		curtime = 0;
+	}
 }
 
 void UW_StageClear::SetWidgetState()

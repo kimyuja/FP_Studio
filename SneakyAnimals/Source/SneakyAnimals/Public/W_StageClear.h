@@ -35,8 +35,15 @@ public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* ClearTime;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* NextRoundTime;
+	
 	UPROPERTY()
 	class ASAGameStateBase* gameState;
+
+	float curtime;
+
+	bool bIsClear = false;
 
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetState();
