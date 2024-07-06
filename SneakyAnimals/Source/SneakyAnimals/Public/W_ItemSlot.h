@@ -33,7 +33,7 @@ public:
 	class UTextBlock* itemCost;
 
 	// UPROPERTY(EditAnywhere, meta = (BindWidget))
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UMapCustomWidget* mapCustomWidget;
 
 	UFUNCTION(BlueprintCallable)

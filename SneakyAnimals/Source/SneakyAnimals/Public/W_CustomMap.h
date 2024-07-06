@@ -82,8 +82,11 @@ private:
 public:
 
 	// 델리게이트 바인딩 할 함수
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void OnItemRemoved(class UItemObject* _ItemObject);
+
+	UFUNCTION(BlueprintCallable)
+	void ItemImgRefresh();
 
 
 

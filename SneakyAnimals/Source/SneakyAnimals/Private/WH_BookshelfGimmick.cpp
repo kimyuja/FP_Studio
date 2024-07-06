@@ -75,7 +75,7 @@ void AWH_BookshelfGimmick::Tick(float DeltaTime)
 UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 {
 
-	//UE_LOG(LogTemp, Warning, TEXT("123131213131"));
+	UE_LOG(LogTemp, Warning, TEXT("123131213131"));
 
 	UItemObject* newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
 

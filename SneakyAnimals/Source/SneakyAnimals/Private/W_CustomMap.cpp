@@ -191,6 +191,11 @@ void UW_CustomMap::OnItemRemoved(class UItemObject* _ItemObject)
 	itemComponent->RemoveItem(_ItemObject);
 }
 
+void UW_CustomMap::ItemImgRefresh()
+{
+	itemImageWidget->Refresh();
+}
+
 void UW_CustomMap::CreateLineSegments()
 {
 	lines.Empty();

@@ -57,6 +57,7 @@ void UItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	}
 }
 
+// TryAddItem은 버튼을 누르는 시점에서 버튼의 itemObject를 받아 호출시켜줘야 해
 bool UItemComponent::TryAddItem(UItemObject* _ItemObject)
 {
 	// 그리드에 추가하려는 아이템을 받고 이 아이템이 유효한지 확인
@@ -77,28 +78,15 @@ bool UItemComponent::TryAddItem(UItemObject* _ItemObject)
 		}
 		return false;
 	}
-	return false;
+	return false;	// 이건 없어도 될지도
 }
 
 bool UItemComponent::IsRoomAvailable(UItemObject* __ItemObject, int32 __TopLeftIndex)
 {
 	// itemObject를 위한 공간이 존재하는지 여부 확인
-	/*
-	FIntPoint itemDimension_ = __ItemObject->GetDimensions();
-	FTileStructureTemp topLeftTile_ = IndexToTile(__TopLeftIndex);
-
-	int32 iLastIdx = topLeftTile_.X + itemDimension_.X;
-	int32 jLastIdx = topLeftTile_.Y + itemDimension_.Y;
-
-	bool bFind = false;
-
-	// item이 leftTop의 인덱스에 추가될 경우 차지하게 될 인벤토리 내부의 타일 반복 탐색
-	for (int32 i = topLeftTile_.X; i < iLastIdx; i++)
-	{
-		for (int32 j = topLeftTile_.Y; j < jLastIdx; j++)
-		*/
 	FIntPoint itemDimension = __ItemObject->GetDimensions();
 	FTileStructureTemp topLeftTile = IndexToTile(__TopLeftIndex);
+
 	int32 iLastIdx = topLeftTile.X + itemDimension.X;
 	int32 jLastIdx = topLeftTile.Y + itemDimension.Y;
 
@@ -107,6 +95,7 @@ bool UItemComponent::IsRoomAvailable(UItemObject* __ItemObject, int32 __TopLeftI
 	{
 		return false;
 	}
+	// item이 leftTop의 인덱스에 추가될 경우 차지하게 될 인벤토리 내부의 타일 반복 탐색
 	for (int32 i = topLeftTile.X; i < iLastIdx; i++)
 	{
 		for (int32 j = topLeftTile.Y; j < jLastIdx; j++)
@@ -142,7 +131,7 @@ bool UItemComponent::IsRoomAvailable(UItemObject* __ItemObject, int32 __TopLeftI
 
 			if (!bFind)
 			{
-				return bFind;
+				return false;	// 흠 이거 맞겠지
 			}
 		}
 	}
@@ -295,15 +284,15 @@ UItemObject* UItemComponent::GetItemAtIndex(int32 Index)
 
 	UItemObject* ItemObjectTemp = items[Index];
 
-	if (bValid)
+	if (!bValid)
 	{
-		return ItemObjectTemp;
-		// CheckIsValid(true);
+		CheckIsValid(false);
+		return nullptr;
 	}
 	else
 	{
-		return nullptr;
-		// CheckIsValid(false);
+		CheckIsValid(true);
+		return ItemObjectTemp;
 	}
 
 
@@ -326,7 +315,7 @@ UItemObject* UItemComponent::GetItemAtIndex(int32 Index)
 
 }
 
-UItemObject* UItemComponent::AddItemAt(UItemObject* _ItemObject_, int32 _TopLeftIndex_)
+void UItemComponent::AddItemAt(UItemObject* _ItemObject_, int32 _TopLeftIndex_)
 {
 	FIntPoint itemDimension = _ItemObject_->GetDimensions();
 	FTileStructureTemp topLeftTile = IndexToTile(_TopLeftIndex_);
@@ -349,8 +338,6 @@ UItemObject* UItemComponent::AddItemAt(UItemObject* _ItemObject_, int32 _TopLeft
 		}
 	}
 	isDirty = true;
-
-	return nullptr;
 }
 
 TMap<UItemObject*, FTileStructureTemp> UItemComponent::GetAllItems() const
@@ -360,16 +347,16 @@ TMap<UItemObject*, FTileStructureTemp> UItemComponent::GetAllItems() const
 	// 배열의 모든 항목 또는 모든 타일을 반복하고 실제로 항목이 있는지 확인
 	for (int32 idx = 0; idx < items.Num(); idx++)
 	{
-		UItemObject* currentItem = items[idx];
+		UItemObject* currentItemObject = items[idx];
 
-		if (IsValid(currentItem))
-		{
+		if (IsValid(currentItemObject))
+		{  
 			FTileStructureTemp currentTile = IndexToTile(idx);
 
 			// 맵에 항목 추가 여부 확인
-			if (!AllItems.Contains(currentItem))
+			if (!AllItems.Contains(currentItemObject))
 			{
-				AllItems.Add(currentItem, currentTile);
+				AllItems.Add(currentItemObject, currentTile);
 			}
 		}
 

@@ -66,42 +66,14 @@ void UW_ItemSlot::NativeConstruct()
 	{
 		UE_LOG(LogTemp, Error, TEXT("mapCustomWidget is not set!"));
 	}
+
 	itemObject = NewObject<UItemObject>(this);
+
 	if (!itemObject)
 	{
 		UE_LOG(LogTemp, Error, TEXT("itemObject is not set!"));
 	}
 
-
-	switch (itemType)
-	{
-	case 0:
-	{
-		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
-		itemObject = wh1->GetDefaultItemObject();
-		break;
-	}
-	case 1:
-	{
-		AWH_BroomstickGimmick* wh2 = GetWorld()->SpawnActor<AWH_BroomstickGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
-		itemObject = wh2->GetDefaultItemObject();
-		break;
-	}
-	case 2:
-	{
-		AWH_BookshelfGimmick* wh3 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
-		itemObject = wh3->GetDefaultItemObject();
-		break;
-	}
-	case 3:
-	{
-		AWH_BookshelfGimmick* wh4 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
-		itemObject = wh4->GetDefaultItemObject();
-		break;
-	}
-	default:
-		break;
-	}
 }
 
 void UW_ItemSlot::OnItemBtnClicked()
@@ -109,7 +81,16 @@ void UW_ItemSlot::OnItemBtnClicked()
 	UE_LOG(LogTemp, Warning, TEXT("Item button clicked!"));
 
 	SetCurrentCost();
-
+	SpawnBookshelfGimmick();
+	// gridWidget->ItemImgRefresh();
+	if (this->itemType == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("this itemtype is 0"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("this itemtype is not 0"));
+	}
 	//findBookshelfGimmick->GetDefaultItemObject();
 
 	//if (itemComponent && itemObject)
@@ -124,12 +105,12 @@ void UW_ItemSlot::OnItemBtnClicked()
 	//	//UE_LOG(LogTemp, Warning, TEXT("Object is Same"));
 	//}
 
-	SpawnBookshelfGimmick();
 
 	// gridWidget->Refresh();
 
 
 }
+
 
 void UW_ItemSlot::SetMapCustomWidget(UMapCustomWidget* Widget)
 {
@@ -155,11 +136,23 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 	FTransform SpawnTransform;
 
 	AWH_BookshelfGimmick* TempSpawnActor = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, SpawnLocation, SpawnRotation, SpawnParams);
+
+	switch (itemType)
+	{
+	case 0:
+	{
+		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
+		itemObject = wh1->GetDefaultItemObject();
+		itemComponent->TryAddItem(itemObject);
+
+		gridWidget->ItemImgRefresh();
+
+		break;
+	}
+	}
 	//if (UWorld* World = GetWorld())
 	//{
 	//	FActorSpawnParameters SpawnParams;
-
-	//	
 
 	//	FTransform SpawnTransform;
 
@@ -181,8 +174,8 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 	if (AssociatedActor != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("bookshelf actor be Spawnd!"));
-	}
 
+	}
 }
 
 void UW_ItemSlot::SetItemIcon(const FString& TexturePath)
@@ -234,9 +227,9 @@ void UW_ItemSlot::InitializeItemSlot(int32 _ItemType)
 		itemCost->SetText(FText::FromString("8"));
 		break;
 	}
+
 	}
 }
-
 void UW_ItemSlot::SetCurrentCost()
 {
 	FString itemCostText = itemCost->GetText().ToString();
@@ -255,3 +248,38 @@ void UW_ItemSlot::SetCurrentCost()
 		UE_LOG(LogTemp, Error, TEXT("mapCustomWidget is null!"));
 	}
 }
+
+void ItemSlotBindGimmickActor(int32 _ItemType_)
+{
+	/*switch (_ItemType_)
+	{
+	case 0:
+	{
+		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
+		itemObject = wh1->GetDefaultItemObject();
+		itemComponent->TryAddItem(itemObject);
+		break;
+	}
+	case 1:
+	{
+		AWH_BroomstickGimmick* wh2 = GetWorld()->SpawnActor<AWH_BroomstickGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
+		itemObject = wh2->GetDefaultItemObject();
+		break;
+	}
+	case 2:
+	{
+		AWH_BookshelfGimmick* wh3 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
+		itemObject = wh3->GetDefaultItemObject();
+		break;
+	}
+	case 3:
+	{
+		AWH_BookshelfGimmick* wh4 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
+		itemObject = wh4->GetDefaultItemObject();
+		break;
+	}
+	default:
+		break;
+	}*/
+}
+
