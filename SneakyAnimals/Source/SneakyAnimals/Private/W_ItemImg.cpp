@@ -9,6 +9,7 @@
 #include "ItemObject.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanelSlot.h>
 #include "W_CustomMap.h"
+#include <Blueprint/WidgetLayoutLibrary.h>
 
 
 bool UW_ItemImg::Initialize()
@@ -39,6 +40,7 @@ void UW_ItemImg::NativeConstruct()
 
 }
 
+// 인벤토리를 다시 그릴 때마다 호출
 void UW_ItemImg::Refresh()
 {
 	if (itemObject != nullptr)
@@ -49,15 +51,23 @@ void UW_ItemImg::Refresh()
 		backgroundSizeBox->SetWidthOverride(size.X);
 		backgroundSizeBox->SetHeightOverride(size.Y);
 	}
+	else 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ItemObject is nullptr at ItemImgWidget"));
+	}
 
 	if (itemImage)
 	{
-		UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(itemImage->Slot);
+		// UCanvasPanelSlot* itemImgToCanvasSlot = Cast<UCanvasPanelSlot>(itemImage->Slot);
 
-		if (CanvasSlot)
+		UCanvasPanelSlot* itemImgToCanvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(itemImage);
+
+		if (itemImgToCanvasSlot)
 		{
-			CanvasSlot->SetSize(size);
+			itemImgToCanvasSlot->SetSize(size);
 		}
+
+		itemImage->SetBrush(GetIconImage());
 	}
 
 
@@ -74,8 +84,7 @@ FSlateBrush UW_ItemImg::GetIconImage() const
 		if (iconMaterial)
 		{
 			brush.SetResourceObject(iconMaterial);
-			brush.ImageSize.X = size.X;
-			brush.ImageSize.Y = size.Y;
+			brush.ImageSize = FVector2D(FMath::TruncToFloat(size.X), FMath::TruncToFloat(size.Y));
 		}
 	}
 

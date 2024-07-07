@@ -59,8 +59,19 @@ public:
 
 	const UWorld* World;
 
+	// 버튼에 연결할 아이템
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<AWH_BookshelfGimmick> ShelfTest;
+	TSubclassOf<class AWH_BookshelfGimmick> ShelfG;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<class AWH_BroomstickGimmick> BroomG;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<class AWH_PotionGimmick> PotionG;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<class AWH_WitchCauldronGimmick> potG;
+	// 
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void SetItemIcon(const FString& TexturePath);

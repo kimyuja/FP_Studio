@@ -82,7 +82,7 @@ void UW_ItemSlot::OnItemBtnClicked()
 
 	SetCurrentCost();
 	SpawnBookshelfGimmick();
-	// gridWidget->ItemImgRefresh();
+
 	if (this->itemType == 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("this itemtype is 0"));
@@ -135,18 +135,43 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 
 	FTransform SpawnTransform;
 
-	AWH_BookshelfGimmick* TempSpawnActor = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, SpawnLocation, SpawnRotation, SpawnParams);
+	AWH_BookshelfGimmick* TempSpawnActor = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, SpawnLocation, SpawnRotation, SpawnParams);
 
 	switch (itemType)
 	{
 	case 0:
 	{
-		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
+		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, FVector(0, 0, -50000), FRotator::ZeroRotator);
 		itemObject = wh1->GetDefaultItemObject();
-		itemComponent->TryAddItem(itemObject);
+		/*if (IsValid(itemObject)) {
+			UE_LOG(LogTemp, Warning, TEXT("IsValidIsValidIsValid"));
+		}*/
 
-		gridWidget->ItemImgRefresh();
 
+		UTexture2D* ItemTexture000 = LoadObject<UTexture2D>(nullptr, TEXT("/Game/RTY/Texture/Icon/bookShelf"));
+
+		if (ItemTexture000)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("000000000000000000success"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("111111111111fail"));
+		}
+
+		if (itemComponent->TryAddItem(itemObject))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
+			
+			/*if (gridWidget)
+			{
+				gridWidget->Refresh();
+			}*/
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+		}
 		break;
 	}
 	}

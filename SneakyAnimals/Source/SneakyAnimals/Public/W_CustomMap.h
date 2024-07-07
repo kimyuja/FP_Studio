@@ -85,9 +85,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void OnItemRemoved(class UItemObject* _ItemObject);
 
-	UFUNCTION(BlueprintCallable)
-	void ItemImgRefresh();
-
 
 
 };

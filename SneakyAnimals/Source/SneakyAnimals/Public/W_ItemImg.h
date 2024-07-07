@@ -30,6 +30,7 @@ protected:
 	
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UImage* itemImage;
+
 public:
 
     UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")

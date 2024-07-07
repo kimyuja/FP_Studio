@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class SNEAKYANIMALS_API AWH_BookshelfGimmick : public AGimmick
 {
 	GENERATED_BODY()
@@ -53,7 +53,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector activeRange;
-
 
 
 private:

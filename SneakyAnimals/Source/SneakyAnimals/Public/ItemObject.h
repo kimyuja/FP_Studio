@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class SNEAKYANIMALS_API UItemObject : public UObject
 {
 	GENERATED_BODY()
