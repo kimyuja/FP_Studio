@@ -163,9 +163,6 @@ UItemObject* AGimmick::GetDefaultItemObject()
 
 void AGimmick::InitializeItemObject()
 {
-
 	itemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
-
 }
-
 // 

@@ -19,6 +19,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanel.h>
 #include "W_ItemImg.h"
 #include <../../../../../../../Source/Runtime/Core/Public/Delegates/Delegate.h>
+#include <ItemManager.h>
 
 UW_CustomMap::UW_CustomMap(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -149,6 +150,7 @@ void UW_CustomMap::Refresh()
 		UE_LOG(LogTemp, Warning, TEXT("gridcanvaspanel val is nullptr"));
 	}
 
+	UItemManager* ItemManager = UItemManager::Get();
 	
 	TMap<UItemObject*, FTileStructureTemp> allItems = itemComponent->GetAllItems();
 
@@ -177,15 +179,29 @@ void UW_CustomMap::Refresh()
 				// 델리게이트 바인딩
 				newItemImg->OnRemoved.AddDynamic(this, &UW_CustomMap::OnItemRemoved);
 
-				UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(newItemImg));
+				
+				// UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(newItemImg));
+
+				UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChildToCanvas(newItemImg));
 
 				if (tempCanvasSlot)
 				{
-					tempCanvasSlot->SetAutoSize(true);
-					tempCanvasSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
+					// tempCanvasSlot->SetAutoSize(true);
+					tempCanvasSlot->SetSize(FVector2D(itemObejct->dimensions.X * tileSize, itemObejct->dimensions.Y * tileSize));
+					
+					tempCanvasSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y*tileSize));
+
 				}
+
+				UE_LOG(LogTemp, Warning, TEXT("position: (%f, %f)"), tempCanvasSlot->GetPosition().X, tempCanvasSlot->GetPosition().Y);
+		
+				UE_LOG(LogTemp, Warning, TEXT("size : (%f, %f)"), tempCanvasSlot->GetSize().X, tempCanvasSlot->GetSize().Y);
 			}
 
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("fail to new item image widget create"));
 		}
 		
 	}

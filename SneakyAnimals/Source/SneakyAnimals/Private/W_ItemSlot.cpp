@@ -20,6 +20,7 @@
 #include "Engine/Texture2D.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Engine/AssetManager.h>
 #include "W_CustomMap.h"
+#include <ItemManager.h>
 
 bool UW_ItemSlot::Initialize()
 {
@@ -130,26 +131,23 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 {
 	FActorSpawnParameters SpawnParams;
 
-	FVector SpawnLocation = FVector(100.0f, 100.0f, 100.0f);
+	FVector SpawnLocation = FVector(0.f, 0.f, 100.0f);
 	FRotator SpawnRotation = FRotator::ZeroRotator;
 
 	FTransform SpawnTransform;
 
-	AWH_BookshelfGimmick* TempSpawnActor = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, SpawnLocation, SpawnRotation, SpawnParams);
+	// AWH_BookshelfGimmick* TempSpawnActor = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, SpawnLocation, SpawnRotation, SpawnParams);
 
 	switch (itemType)
 	{
 	case 0:
 	{
-		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, FVector(0, 0, -50000), FRotator::ZeroRotator);
+		//AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, FVector(0, 0, 10), FRotator::ZeroRotator);
+		
+		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(AWH_BookshelfGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+
 		itemObject = wh1->GetDefaultItemObject();
-		/*if (IsValid(itemObject)) {
-			UE_LOG(LogTemp, Warning, TEXT("IsValidIsValidIsValid"));
-		}*/
-
-
-		UTexture2D* ItemTexture000 = LoadObject<UTexture2D>(nullptr, TEXT("/Game/RTY/Texture/Icon/bookShelf"));
-
+		/*
 		if (ItemTexture000)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("000000000000000000success"));
@@ -157,20 +155,26 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 		else
 		{
 			UE_LOG(LogTemp, Warning, TEXT("111111111111fail"));
-		}
+		}*/
 
-		if (itemComponent->TryAddItem(itemObject))
+		// 싱글톤 패턴을 사용해 UItemManager 클래스의 인스턴스에 접근
+		// UItemManager* ItemManager = UItemManager::Get();
+
+		// if (ItemManager)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
-			
-			/*if (gridWidget)
+			if (itemComponent->TryAddItem(itemObject))
 			{
-				gridWidget->Refresh();
-			}*/
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
+
+				/*if (gridWidget)
+				{
+					gridWidget->Refresh();
+				}*/
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+			}
 		}
 		break;
 	}

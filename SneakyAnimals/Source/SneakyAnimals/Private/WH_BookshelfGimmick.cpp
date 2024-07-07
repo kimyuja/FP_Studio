@@ -79,20 +79,20 @@ void AWH_BookshelfGimmick::Tick(float DeltaTime)
 UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 {
 
-	UE_LOG(LogTemp, Warning, TEXT("123131213131"));
+	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
 
 	UItemObject* newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
 
 	if (newItemObject)
 	{
-		newItemObject->dimensions = FIntPoint(3, 1);
-		newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/RTY/Texture/Icon/bookShelf"));
+		newItemObject->dimensions = FIntPoint(2, 1);
+		newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf"));
 		newItemObject->iconRotated90 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90"));
 		newItemObject->iconRotated180 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R180"));
 		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R270"));
 		newItemObject->bRotated = false;
 		newItemObject->itemClass = AWH_BookshelfGimmick::StaticClass();
-		UE_LOG(LogTemp, Warning, TEXT("987987987987987"));
+		// UE_LOG(LogTemp, Warning, TEXT("987987987987987"));
 	}
 	return newItemObject;
 }

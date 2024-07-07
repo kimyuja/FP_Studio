@@ -10,6 +10,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanelSlot.h>
 #include "W_CustomMap.h"
 #include <Blueprint/WidgetLayoutLibrary.h>
+#include <W_ItemSlot.h>
 
 
 bool UW_ItemImg::Initialize()
@@ -37,12 +38,15 @@ void UW_ItemImg::NativeConstruct()
 		UE_LOG(LogTemp, Warning, TEXT("itemobject is nullptr in itemImg code"));
 	}
 
+	/*UW_ItemSlot* itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
+	itemObject = itemSlotW->itemObject;*/
 
 }
 
 // 인벤토리를 다시 그릴 때마다 호출
 void UW_ItemImg::Refresh()
 {
+	
 	if (itemObject != nullptr)
 	{
 		size.X = itemObject->GetDimensions().X * tileSize;

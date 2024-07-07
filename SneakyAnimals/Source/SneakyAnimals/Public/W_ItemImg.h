@@ -59,4 +59,7 @@ public:
 	UPROPERTY()
 	class UW_CustomMap* customMapComp;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<UUserWidget> itemSlotWidget;
+
 };
