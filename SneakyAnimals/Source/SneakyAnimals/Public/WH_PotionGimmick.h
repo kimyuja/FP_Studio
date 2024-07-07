@@ -26,6 +26,8 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 public:
+	virtual UItemObject* GetDefaultItemObject() override;
+
 	virtual int32 OnMyActive(AActor* ActivePlayer);
 	
 	UPROPERTY(EditDefaultsOnly)

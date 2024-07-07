@@ -6,6 +6,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
+#include "ItemObject.h"
 #include "TestPlayer.h"
 #include "ClearDoor.h"
 
@@ -58,6 +59,25 @@ void AWH_WitchCauldronGimmick::Tick(float DeltaTime)
 	}
 }
 
+
+UItemObject* AWH_WitchCauldronGimmick::GetDefaultItemObject()
+{
+	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+
+	UItemObject* newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(1, 1);
+		newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf"));
+		newItemObject->iconRotated90 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90"));
+		newItemObject->iconRotated180 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R180"));
+		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R270"));
+		newItemObject->bRotated = false;
+		newItemObject->itemClass = AWH_WitchCauldronGimmick::StaticClass();
+	}
+	return newItemObject;
+}
 
 int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 {

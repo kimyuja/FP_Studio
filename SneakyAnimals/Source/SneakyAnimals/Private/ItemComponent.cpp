@@ -72,7 +72,6 @@ bool UItemComponent::TryAddItem(UItemObject* _ItemObject)
 			if (bRoomAvailable)
 			{
 				AddItemAt(_ItemObject, idx);
-
 				return true;
 			}
 		}
@@ -90,11 +89,16 @@ bool UItemComponent::IsRoomAvailable(UItemObject* __ItemObject, int32 __TopLeftI
 	int32 iLastIdx = topLeftTile.X + itemDimension.X;
 	int32 jLastIdx = topLeftTile.Y + itemDimension.Y;
 
-	bool bFind = false;
-	if (topLeftTile.X >= iLastIdx || topLeftTile.Y >= jLastIdx)
+	// bool bFind = false;
+	if (topLeftTile.X > columns || topLeftTile.Y > rows)
 	{
 		return false;
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("topLeftTile: %d"), topLeftTile.X);
+	UE_LOG(LogTemp, Warning, TEXT("iLastIdx: %d"), iLastIdx);
+
+
 	// item이 leftTop의 인덱스에 추가될 경우 차지하게 될 인벤토리 내부의 타일 반복 탐색
 	for (int32 i = topLeftTile.X; i < iLastIdx; i++)
 	{
@@ -108,7 +112,11 @@ bool UItemComponent::IsRoomAvailable(UItemObject* __ItemObject, int32 __TopLeftI
 			// 타일이 유효한지 확인
 			// return 값이 false인 경우 : 사용 가능한 공간 없음
 			// return 값이 true인 경우(유효한 경우) : 사용 가능한 공간 존재 => 해당 타일 반환
-			bFind = CheckEmptySlot(tile);
+			bool bFind = CheckEmptySlot(tile);
+
+
+			/*UE_LOG(LogTemp, Warning, TEXT("bFind: %d"), bFind);
+			UE_LOG(LogTemp, Warning, TEXT("i: %d, j: %d"), i, j);*/
 
 			/*if(bFind == false)
 				return false;*/
@@ -129,14 +137,19 @@ bool UItemComponent::IsRoomAvailable(UItemObject* __ItemObject, int32 __TopLeftI
 				//	return false;
 				//}
 
-			if (!bFind)
+			//if (!bFind)
+			//{
+			//	return false;	// 흠 이거 맞겠지
+			//}
+			if (bFind)
 			{
-				return false;	// 흠 이거 맞겠지
+				return true;	// 흠 이거 맞겠지
 			}
+			
 		}
 	}
 
-	return true;
+	return false;
 }
 
 bool UItemComponent::CheckEmptySlot(FTileStructureTemp tile)
@@ -263,10 +276,6 @@ bool UItemComponent::IsTileValid(FTileStructureTemp Tile) const
 	bool condition2 = (Tile.Y >= 0);
 	bool condition3 = (Tile.X < columns);
 	bool condition4 = (Tile.Y < rows);
-	/*
-	// 이게 맞는거 같은데 영상에선 위에 코드를 쓴다..
-	bool condition3 = (Tile.X < columns);
-	bool condition4 = (Tile.Y < rows);*/
 
 	bool allCondition = condition1 && condition2 && condition3 && condition4;
 
