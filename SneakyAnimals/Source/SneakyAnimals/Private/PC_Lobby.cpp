@@ -16,6 +16,8 @@ void APC_Lobby::BeginPlay()
 	{
 		Subsystem->AddMappingContext(Lobby_InputMappingContext, 0);
 	}
+
+	UWidgetBlueprintLibrary::SetInputMode_GameOnly(this);
 }
 
 void APC_Lobby::SetupInputComponent()
