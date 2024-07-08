@@ -130,8 +130,8 @@ void UW_CustomMap::InitializeWidget(float Tilesize)
 	// CreateLineSegments();
 	UE_LOG(LogTemp, Warning, TEXT("Draw"));
 
-	Refresh();
-
+	Refresh(); // 맨 처음 초기화
+	
 	itemComponent->OnInventoryChanged.AddDynamic(this, &UW_CustomMap::Refresh);
 }
 
@@ -150,7 +150,7 @@ void UW_CustomMap::Refresh()
 		UE_LOG(LogTemp, Warning, TEXT("gridcanvaspanel val is nullptr"));
 	}
 
-	UItemManager* ItemManager = UItemManager::Get();
+	// UItemManager* ItemManager = UItemManager::Get();
 	
 	TMap<UItemObject*, FTileStructureTemp> allItems = itemComponent->GetAllItems();
 
@@ -178,8 +178,7 @@ void UW_CustomMap::Refresh()
 			{
 				// 델리게이트 바인딩
 				newItemImg->OnRemoved.AddDynamic(this, &UW_CustomMap::OnItemRemoved);
-
-				
+ 
 				// UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(newItemImg));
 
 				UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChildToCanvas(newItemImg));

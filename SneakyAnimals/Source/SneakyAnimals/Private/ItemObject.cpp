@@ -1,4 +1,4 @@
-   // Fill out your copyright notice in the Description page of Project Settings.
+    // Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "ItemObject.h"
@@ -13,7 +13,7 @@ UMaterialInterface* UItemObject::GetIcon() const
 {
     if (bRotated)
     {
-        switch (dimensions.Y) // Assuming Dimensions.Y indicates the rotation state
+        switch (dimensions.Y) // 돌아가는건 dimensions.Y를 기준으로 확인 가능
         {
         case 90:
             return iconRotated90;
