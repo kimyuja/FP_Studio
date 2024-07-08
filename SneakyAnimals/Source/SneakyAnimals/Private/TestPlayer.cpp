@@ -115,7 +115,7 @@ void ATestPlayer::Toggle_CharacterCustomization_Implementation()
 
 void ATestPlayer::SetThirdPersonView()
 {
-	Multicast_SetThirdPersonView();
+	MultiRPC_SetThirdPersonView();
 }
 
 // Called every frame
@@ -173,6 +173,10 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		UE_LOG(LogTemp, Warning, TEXT("Fail"));
 	}
 
+}
+
+void ATestPlayer::OnRep_Current_SkeletalMesh()
+{
 }
 
 void ATestPlayer::Move(const FInputActionValue& Value)
@@ -438,7 +442,7 @@ void ATestPlayer::Death_Thunderclap()
 	Respawn(5.0);
 }
 
-void ATestPlayer::Multicast_SetThirdPersonView_Implementation()
+void ATestPlayer::MultiRPC_SetThirdPersonView_Implementation()
 {
 	// 3ÀÎÄª ¼³Á¤
 	cameraBoom->TargetArmLength = 300.0f;
