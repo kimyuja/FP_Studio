@@ -21,6 +21,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Engine/AssetManager.h>
 #include "W_CustomMap.h"
 #include <ItemManager.h>
+#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 
 bool UW_ItemSlot::Initialize()
 {
@@ -138,30 +139,96 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 
 	// AWH_BookshelfGimmick* TempSpawnActor = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, SpawnLocation, SpawnRotation, SpawnParams);
 
-	switch (itemType)
+	for (TActorIterator<AWH_BookshelfGimmick> It(GetWorld()); It; ++It)
 	{
-	case 0:
-	{
-		//AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, FVector(0, 0, 10), FRotator::ZeroRotator);
-		
-		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(AWH_BookshelfGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+		AWH_BookshelfGimmick* bookShelfG = *It;
 
-		itemObject = wh1->GetDefaultItemObject();
-		/*
-		if (ItemTexture000)
+		FString newName = "";
+
+		if (bookShelfG)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("000000000000000000success"));
+			// MyActiveType에 따라 이름 설정
+			switch (bookShelfG->Myactivetype)
+			{
+			case 0:
+			{
+				// 다같이 죽는 기믹
+				newName = TEXT("bookShelf_G1");
+				break;
+			}
+			case 1:
+			{
+				// 실행 시킨 사람만 죽는 기믹
+				newName = TEXT("bookShelf_G2");
+				break;
+			}
+			case 2:
+			{
+				// 레벨 클리어 기믹
+				newName = TEXT("bookShelf_G3");
+				break;
+			}
+			default:
+			{
+				newName = TEXT("bookShelf_GNULL");
+				break;
+			}
+			}
+
+			bookShelfG->Rename(*newName);
 		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("111111111111fail"));
-		}*/
 
-		// 싱글톤 패턴을 사용해 UItemManager 클래스의 인스턴스에 접근
-		// UItemManager* ItemManager = UItemManager::Get();
 
-		// if (ItemManager)
+		switch (itemType)
 		{
+		case 0:
+		{
+			////AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, FVector(0, 0, 10), FRotator::ZeroRotator);
+			//
+			//AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(AWH_BookshelfGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+
+			//itemObject = wh1->GetDefaultItemObject();
+			///*
+			//if (ItemTexture000)
+			//{
+			//	UE_LOG(LogTemp, Warning, TEXT("000000000000000000success"));
+			//}
+			//else
+			//{
+			//	UE_LOG(LogTemp, Warning, TEXT("111111111111fail"));
+			//}*/
+
+			//// 싱글톤 패턴을 사용해 UItemManager 클래스의 인스턴스에 접근
+			//// UItemManager* ItemManager = UItemManager::Get();
+
+			//// if (ItemManager)
+			//{
+			//	if (itemComponent->TryAddItem(itemObject))
+			//	{
+			//		UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
+			//	}
+			//	else
+			//	{
+			//		UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+			//	}
+			//}
+
+			if (bookShelfG->GetName() == TEXT("bookShelf_G1"))
+			{
+				FVector currentLoc = bookShelfG->GetActorLocation();
+				currentLoc.Z += 300;
+				bookShelfG->SetActorLocation(currentLoc);
+			}
+
+			break;
+		}
+
+		case 1:
+		{
+			AWH_BroomstickGimmick* wh2 = GetWorld()->SpawnActor<AWH_BroomstickGimmick>(AWH_BroomstickGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+
+			itemObject = wh2->GetDefaultItemObject();
+
 			if (itemComponent->TryAddItem(itemObject))
 			{
 				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
@@ -170,60 +237,44 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 			{
 				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
 			}
+
+			break;
 		}
-		break;
-	}
-	case 1:
-	{
-		AWH_BroomstickGimmick* wh2 = GetWorld()->SpawnActor<AWH_BroomstickGimmick>(AWH_BroomstickGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
-
-		itemObject = wh2->GetDefaultItemObject();
-
-		if (itemComponent->TryAddItem(itemObject))
+		case 2:
 		{
-			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
+			AWH_PotionGimmick* wh3 = GetWorld()->SpawnActor<AWH_PotionGimmick>(AWH_PotionGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+
+			itemObject = wh3->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+			}
+
+			break;
 		}
-		else
+		case 3:
 		{
-			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+			AWH_WitchCauldronGimmick* wh4 = GetWorld()->SpawnActor<AWH_WitchCauldronGimmick>(AWH_WitchCauldronGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+
+			itemObject = wh4->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+			}
+
+			break;
 		}
-
-		break;
-	}
-	case 2:
-	{
-		AWH_PotionGimmick* wh3 = GetWorld()->SpawnActor<AWH_PotionGimmick>(AWH_PotionGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
-
-		itemObject = wh3->GetDefaultItemObject();
-
-		if (itemComponent->TryAddItem(itemObject))
-		{
-			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
 		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
-		}
-
-		break;
-	}
-	case 3:
-	{
-		AWH_WitchCauldronGimmick* wh4 = GetWorld()->SpawnActor<AWH_WitchCauldronGimmick>(AWH_WitchCauldronGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
-
-		itemObject = wh4->GetDefaultItemObject();
-
-		if (itemComponent->TryAddItem(itemObject))
-		{
-			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
-		}
-
-		break;
-	}
 	}
 	//if (UWorld* World = GetWorld())
 	//{
@@ -314,11 +365,15 @@ void UW_ItemSlot::SetCurrentCost()
 
 	if (mapCustomWidget)
 	{
+		if (mapCustomWidget->ValidCost())
+		{
+			int newCost = mapCustomWidget->maxCostAsInt(itemCostAsInt);
 
-		int newCost = mapCustomWidget->maxCostAsInt(itemCostAsInt);
+			mapCustomWidget->UpdateMaxCost(newCost);
+			UE_LOG(LogTemp, Warning, TEXT("Result: %d"), newCost);
 
-		mapCustomWidget->UpdateMaxCost(newCost);
-		UE_LOG(LogTemp, Warning, TEXT("Result: %d"), newCost);
+		}
+
 	}
 	else
 	{

@@ -32,7 +32,7 @@ private:
 	class UTextBlock* maxCost;
 
 public:
-	int32 maxCostAsInt(int32 cost) const;
+	int32 maxCostAsInt(int32 cost);
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void UpdateMaxCost(int32 newCost);
@@ -50,5 +50,12 @@ public:
 	TSubclassOf<UW_CustomMap> gWidget;
 
 	UW_ItemSlot* itemSlotWidget;
+	
+	UFUNCTION(BlueprintCallable)
+	bool ValidCost();
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 _currentCost;
+
 
 };

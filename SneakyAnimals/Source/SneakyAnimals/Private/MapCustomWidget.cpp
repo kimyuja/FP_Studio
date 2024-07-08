@@ -64,13 +64,25 @@ void UMapCustomWidget::NativeConstruct()
 	}*/
 }
 
-int32 UMapCustomWidget::maxCostAsInt(int32 cost) const
+int32 UMapCustomWidget::maxCostAsInt(int32 cost)
 {
 	if (maxCost)
 	{
 		FString maxCostText = maxCost->GetText().ToString();
 
-		return FCString::Atoi(*maxCostText) - cost;
+		int32 temp = (int32)FCString::Atoi(*maxCostText) - cost;
+
+		_currentCost = temp;
+
+		if (_currentCost >= 0)
+		{
+			// ValidCost(true);
+			return _currentCost;
+		}
+		else 
+		{
+			// ValidCost(false);
+		}
 
 	}
 
@@ -150,4 +162,14 @@ void UMapCustomWidget::InitializeItemSlots()
 
 }
 
-
+bool UMapCustomWidget::ValidCost()
+{
+	if (_currentCost >= 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
