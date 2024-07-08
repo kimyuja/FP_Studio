@@ -99,5 +99,8 @@ public:
 	UFUNCTION()
 	bool CheckIsValid(bool b);
 
+	UPROPERTY(EditAnywhere)
+	bool checkcheckbool;
+
 
 };

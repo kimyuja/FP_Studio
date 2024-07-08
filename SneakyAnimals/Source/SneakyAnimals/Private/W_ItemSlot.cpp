@@ -165,17 +165,63 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 			if (itemComponent->TryAddItem(itemObject))
 			{
 				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
-
-				/*if (gridWidget)
-				{
-					gridWidget->Refresh();
-				}*/
 			}
 			else
 			{
 				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
 			}
 		}
+		break;
+	}
+	case 1:
+	{
+		AWH_BroomstickGimmick* wh2 = GetWorld()->SpawnActor<AWH_BroomstickGimmick>(AWH_BroomstickGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+
+		itemObject = wh2->GetDefaultItemObject();
+
+		if (itemComponent->TryAddItem(itemObject))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+		}
+
+		break;
+	}
+	case 2:
+	{
+		AWH_PotionGimmick* wh3 = GetWorld()->SpawnActor<AWH_PotionGimmick>(AWH_PotionGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+
+		itemObject = wh3->GetDefaultItemObject();
+
+		if (itemComponent->TryAddItem(itemObject))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+		}
+
+		break;
+	}
+	case 3:
+	{
+		AWH_WitchCauldronGimmick* wh4 = GetWorld()->SpawnActor<AWH_WitchCauldronGimmick>(AWH_WitchCauldronGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+
+		itemObject = wh4->GetDefaultItemObject();
+
+		if (itemComponent->TryAddItem(itemObject))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
+		}
+
 		break;
 	}
 	}
@@ -239,21 +285,21 @@ void UW_ItemSlot::InitializeItemSlot(int32 _ItemType)
 	{
 		FString fromIcon2 = TEXT("/Game/RTY/Texture/Icon/broomStick.broomStick");
 		SetItemIcon(fromIcon2);
-		itemCost->SetText(FText::FromString("5"));
+		itemCost->SetText(FText::FromString("6"));
 		break;
 	}
 	case 2:
 	{
 		FString fromIcon3 = TEXT("/Game/RTY/Texture/Icon/Table.Table");
 		SetItemIcon(fromIcon3);
-		itemCost->SetText(FText::FromString("6"));
+		itemCost->SetText(FText::FromString("4"));
 		break;
 	}
 	case 3:
 	{
 		FString fromIcon4 = TEXT("/Game/RTY/Texture/Icon/pot.pot");
 		SetItemIcon(fromIcon4);
-		itemCost->SetText(FText::FromString("8"));
+		itemCost->SetText(FText::FromString("7"));
 		break;
 	}
 
@@ -264,11 +310,13 @@ void UW_ItemSlot::SetCurrentCost()
 	FString itemCostText = itemCost->GetText().ToString();
 	int itemCostAsInt = FCString::Atoi(*itemCostText);
 
-	itemComponent->TryAddItem(itemObject);
+	// itemComponent->TryAddItem(itemObject);
 
 	if (mapCustomWidget)
 	{
+
 		int newCost = mapCustomWidget->maxCostAsInt(itemCostAsInt);
+
 		mapCustomWidget->UpdateMaxCost(newCost);
 		UE_LOG(LogTemp, Warning, TEXT("Result: %d"), newCost);
 	}
