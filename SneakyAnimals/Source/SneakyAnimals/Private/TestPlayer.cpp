@@ -177,6 +177,13 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void ATestPlayer::OnRep_Current_SkeletalMesh()
 {
+	if (Current_SkeletalMesh->IsValidLowLevelFast())
+	{
+		GetMesh()->SetSkinnedAssetAndUpdate(Current_SkeletalMesh);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("ATestPlayer Current_SkeletalMesh is not valid"));
+	}
 }
 
 void ATestPlayer::Move(const FInputActionValue& Value)
@@ -503,4 +510,6 @@ void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ATestPlayer, playerNum);
+
+	DOREPLIFETIME(ATestPlayer, Current_SkeletalMesh);
 }
