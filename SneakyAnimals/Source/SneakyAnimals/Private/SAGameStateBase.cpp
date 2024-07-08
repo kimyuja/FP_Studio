@@ -18,10 +18,6 @@ ASAGameStateBase::ASAGameStateBase()
 void ASAGameStateBase::BeginPlay()
 {
     Super::BeginPlay();
-    for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-    {
-        players.Add(*it);
-    }
 }
 
 void ASAGameStateBase::Tick(float DeltaTime)
@@ -57,8 +53,13 @@ void ASAGameStateBase::SetClearInstance()
 		deathCount2.Add(0);
 		deathCount3.Add(0);
 		deathCount4.Add(0);
-        stageLoc.Add(FVector(0,0,0));
+        //stageLoc.Add(FVector(0,0,0));
 	}
+    stageLoc.Add(FVector(0, 0, 0));
+    stageLoc.Add(FVector(50000, -50000, 0));
+    stageLoc.Add(FVector(0, 1000, 0));
+    stageLoc.Add(FVector(-1000, 0, 0));
+    stageLoc.Add(FVector(0, -1000, 0));
 
 	voteCount.Empty();
 
@@ -92,19 +93,19 @@ void ASAGameStateBase::SetDeathCountUp(int32 playerNum)
 	{
 	case 1:
 		deathCount1[playerNum]++;
-		UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount1[playerNum]);
+		//UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount1[playerNum]);
 		break;
 	case 2:
 		deathCount2[playerNum]++;
-		UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount2[playerNum]);
+		//UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount2[playerNum]);
 		break;
 	case 3:
 		deathCount3[playerNum]++;
-		UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount3[playerNum]);
+		//UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount3[playerNum]);
 		break;
 	case 4:
 		deathCount4[playerNum]++;
-		UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount4[playerNum]);
+		//UE_LOG(LogTemp, Warning, TEXT("deathCount %d"), deathCount4[playerNum]);
 		break;
 	default:
 		break;
@@ -147,8 +148,15 @@ FText ASAGameStateBase::MakeClearTime()
 }
 
 
-void ASAGameStateBase::MoveNextStage()
+void ASAGameStateBase::MoveNextStage(FVector moveLoc)
 {
+    if (players.Num() == 0)
+    {
+        for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+        {
+            players.Add(*it);
+        }
+    }
     if (stageLoc.Num() == 0)
     {
         UE_LOG(LogTemp, Warning, TEXT("No %d stage Location"), stageNum);
@@ -156,8 +164,10 @@ void ASAGameStateBase::MoveNextStage()
     }
     for (int32 i = 0; i < players.Num(); i++)
     {
-        players[i]->SetActorLocation(stageLoc[stageNum]);
+        players[i]->SetActorLocation(moveLoc);
+        UE_LOG(LogTemp, Warning, TEXT("player %d Move"), i);
     }
+    stageNum++;
 }
 
 void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

@@ -39,7 +39,7 @@ ATestPlayer::ATestPlayer()
 
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	cameraBoom->SetupAttachment(GetMesh());
-	cameraBoom->SetRelativeLocation(FVector(0, 0, 250));
+	cameraBoom->SetRelativeLocation(FVector(0, 0, 170));
 	cameraBoom->TargetArmLength = 0;
 	cameraBoom->bUsePawnControlRotation = true;
 
@@ -79,10 +79,8 @@ void ATestPlayer::BeginPlay()
 		}
 		
 		gameState->SetStageStart();
-		if(HasAuthority())
-		{
-			gameState->SetPlayerNum();
-		}
+		gameState->SetPlayerNum();
+		
 	}
 
 	// 게임 모드에 따라서 카메라 위치를 1인칭, 3인칭으로 바꾸기
@@ -142,7 +140,7 @@ void ATestPlayer::Tick(float DeltaTime)
 
 	if (clearUI->curtime > 5 && HasAuthority())
 	{
-		gameState->MoveNextStage();
+		ServerRPC_MoveStage();
 		clearUI->curtime = 0;
 	}
 }
@@ -174,6 +172,8 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	}
 
 }
+
+
 
 void ATestPlayer::OnRep_Current_SkeletalMesh()
 {
@@ -395,7 +395,7 @@ void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
 					FVector burstLoc = (CheckDoor->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 					FRotator burstRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), CheckDoor->GetActorLocation());
 					UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), burstLoc.X, burstLoc.Y, burstLoc.Z);
-					Controller->SetControlRotation(FRotator(0, burstRot.Yaw, burstRot.Roll));
+					//Controller->SetControlRotation(FRotator(0, burstRot.Yaw, burstRot.Roll));
 					UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), burstRot.Pitch, burstRot.Yaw, burstRot.Roll);
 					//SetActorRotation(burstRot);
 					SetActorLocation(GetActorLocation() + speed * burstLoc, true);
@@ -458,6 +458,10 @@ void ATestPlayer::MultiRPC_SetThirdPersonView_Implementation()
 void ATestPlayer::ServerRPC_ActiveGimmick_Implementation(ATestPlayer* aP)
 {
 	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), aP->GetActorLocation().X, aP->GetActorLocation().Y, aP->GetActorLocation().Z);
+	if (clearUI->bIsClear)
+	{
+		return;
+	}
 	MultiRPC_ActiveGimmick(aP);
 }
 
@@ -480,6 +484,18 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 			clearUI->SetVisibility(ESlateVisibility::Visible);
 		}
 	}
+}
+
+void ATestPlayer::ServerRPC_MoveStage_Implementation()
+{
+	MultiRPC_MoveStage(gameState->stageLoc[gameState->stageNum]);
+}
+
+void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
+{
+	gameState->MoveNextStage(moveLoc);
+	respawnLoc = moveLoc;
+	clearUI->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

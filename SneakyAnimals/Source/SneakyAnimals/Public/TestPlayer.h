@@ -60,7 +60,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Test)
 	class UInputAction* ia_emo3;
 
-	UPROPERTY(EditDefaultsOnly, Category = Test)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite ,Category = Test)
 	FVector respawnLoc = FVector(0, 0, 80);
 	
 	UPROPERTY(EditDefaultsOnly, Category = Test)
@@ -75,7 +75,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> stageClearUI;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditAnywhere)
 	class UW_StageClear* clearUI;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
@@ -84,7 +84,7 @@ public:
 	UPROPERTY(Replicated,EditAnywhere,BlueprintReadWrite)
 	int32 playerNum;
 
-	UPROPERTY(ReplicatedUsing=OnRep_Current_SkeletalMesh)
+	UPROPERTY(ReplicatedUsing = OnRep_Current_SkeletalMesh)
 	USkeletalMesh* Current_SkeletalMesh;
 
 	UFUNCTION()
@@ -155,13 +155,19 @@ public:
     void SetThirdPersonView();
 
 	UFUNCTION(NetMulticast, Reliable)
-    void MultiRPC_SetThirdPersonView();
+	void MultiRPC_SetThirdPersonView();
 
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_ActiveGimmick(ATestPlayer* aP);
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_ActiveGimmick(ATestPlayer* _aP);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_MoveStage();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_MoveStage(FVector moveLoc);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

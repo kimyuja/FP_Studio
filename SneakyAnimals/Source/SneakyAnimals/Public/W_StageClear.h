@@ -37,6 +37,9 @@ public:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* NextRoundTime;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* LevelNum_Text;
 	
 	UPROPERTY()
 	class ASAGameStateBase* gameState;

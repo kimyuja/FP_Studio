@@ -45,7 +45,7 @@ public:
 	UPROPERTY(Replicated, EditAnywhere)
 	bool bOnGame = false;
 
-	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite)
 	TArray<FVector> stageLoc;
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
@@ -67,7 +67,7 @@ public:
 	FText MakeClearTime();
 
 	UFUNCTION(BlueprintCallable)
-	void MoveNextStage();
+	void MoveNextStage(FVector moveLoc);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;	
 };
