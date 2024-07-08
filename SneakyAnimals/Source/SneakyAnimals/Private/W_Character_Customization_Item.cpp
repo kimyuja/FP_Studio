@@ -15,10 +15,10 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->Player_Appearance.Character = Character;
 
 		// Save_Player_Appearance
-		//UFL_General::Save_Player_Appearance(Character);
+		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
 
 		// SR_Update_Player_Appearance
-		
+		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
 
 	}
 	else if (ItemType == "Accessory_Hat")

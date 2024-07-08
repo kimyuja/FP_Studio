@@ -58,6 +58,8 @@ public:
 	UPROPERTY()
 	class UW_Character_Customization_Item* Character_Customization_Item_inst;
 
+	void Refresh_Widget();
+
 protected:
 	virtual void NativeConstruct() override;
 

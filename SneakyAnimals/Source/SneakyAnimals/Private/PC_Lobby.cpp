@@ -113,3 +113,17 @@ void APC_Lobby::Toggle_CharacterCustomization()
 
 
 }
+
+void APC_Lobby::ClientRPC_Update_Character_Customization_Panel_Implementation()
+{
+	Update_Character_Customization_Widget();
+}
+
+void APC_Lobby::Update_Character_Customization_Widget()
+{
+	if (Character_Customization_inst->IsValidLowLevelFast())
+	{
+		Character_Customization_inst->Refresh_Widget();
+	}
+	return;
+}

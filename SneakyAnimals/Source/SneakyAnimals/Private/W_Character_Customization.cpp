@@ -81,6 +81,12 @@ void UW_Character_Customization::Set_ActiveTab(UButton* Button_Target)
 	Button_Target->SetStyle(btn_Style_Selected);
 }
 
+void UW_Character_Customization::Refresh_Widget()
+{
+	Load_Available_Characters();
+	//Load_Available_Accessories();
+}
+
 void UW_Character_Customization::NativeConstruct()
 {
 	Super::NativeConstruct();

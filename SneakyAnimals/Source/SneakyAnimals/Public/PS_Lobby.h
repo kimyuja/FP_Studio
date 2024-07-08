@@ -14,4 +14,6 @@ class SNEAKYANIMALS_API APS_Lobby : public APS_Base
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void OnRep_Player_Appearance_OR() override;
 };

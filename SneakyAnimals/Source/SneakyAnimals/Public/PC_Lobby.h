@@ -38,4 +38,10 @@ public:
 	UPROPERTY()
 	class UW_Character_Customization* Character_Customization_inst;
 
+	UFUNCTION(Client, Reliable)
+	void ClientRPC_Update_Character_Customization_Panel();
+
+	void Update_Character_Customization_Widget();
+
+
 };

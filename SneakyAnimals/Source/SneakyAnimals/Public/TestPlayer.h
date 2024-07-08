@@ -84,6 +84,12 @@ public:
 	UPROPERTY(Replicated,EditAnywhere,BlueprintReadWrite)
 	int32 playerNum;
 
+	UPROPERTY(ReplicatedUsing=OnRep_Current_SkeletalMesh)
+	USkeletalMesh* Current_SkeletalMesh;
+
+	UFUNCTION()
+	void OnRep_Current_SkeletalMesh();
+
 	bool bCanActive;
 
 	bool bCanOpenDoor = false;
@@ -149,7 +155,7 @@ public:
     void SetThirdPersonView();
 
 	UFUNCTION(NetMulticast, Reliable)
-    void Multicast_SetThirdPersonView();
+    void MultiRPC_SetThirdPersonView();
 
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_ActiveGimmick(ATestPlayer* aP);

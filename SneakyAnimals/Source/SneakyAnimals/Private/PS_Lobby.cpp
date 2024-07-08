@@ -2,4 +2,38 @@
 
 
 #include "PS_Lobby.h"
+#include "PC_Lobby.h"
+#include "TestPlayer.h"
 
+void APS_Lobby::OnRep_Player_Appearance_OR()
+{
+	UE_LOG(LogTemp, Warning, TEXT("APS_Lobby OnRep_Player_Appearance_OR Override"));
+	if (HasAuthority())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("APS_Lobby HasAuthority"));
+		// OC_Update_CharacterCustomizationPanel()
+		auto* pc_lobby = Cast<APC_Lobby>(GetPlayerController());
+		pc_lobby->ClientRPC_Update_Character_Customization_Panel();
+
+		auto* player = Cast<ATestPlayer>(pc_lobby->AController::K2_GetPawn());
+		
+		// player의 Current_SkeletalMesh를 Player_Appearance.Character.Mesh로 바꾼다
+		player->Current_SkeletalMesh = Player_Appearance.Character.Mesh;
+
+		// player의 OnRep_Current_SkeletalMesh가 실행된다.
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("APS_Lobby NOT HasAuthority"));
+		//// OC_Update_CharacterCustomizationPanel()
+		//auto* pc_lobby = Cast<APC_Lobby>(GetPlayerController());
+		//pc_lobby->ClientRPC_Update_Character_Customization_Panel();
+
+		//auto* player = Cast<ATestPlayer>(pc_lobby->AController::K2_GetPawn());
+
+		//// player의 Current_SkeletalMesh를 Player_Appearance.Character.Mesh로 바꾼다
+		//player->Current_SkeletalMesh = Player_Appearance.Character.Mesh;
+
+		//// player의 OnRep_Current_SkeletalMesh가 실행된다.
+	}
+}
