@@ -304,7 +304,7 @@ void ATestPlayer::Respawn(float delaytime)
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
 		GetMesh()->SetRelativeRotation(FRotator(0,-90,0));
 		SetActorLocation(respawnLoc);
-		cameraBoom->SetRelativeLocation(FVector(0,0,250.0));
+		cameraBoom->SetRelativeLocation(FVector(0,0, 170));
 		FadeInOut(false);
 		bIsDie = false;
 		bIsBlack = false;

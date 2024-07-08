@@ -24,6 +24,7 @@ AWH_WitchCauldronGimmick::AWH_WitchCauldronGimmick()
 
 	object = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Object"));
 	object->SetupAttachment(base);
+	object->SetRelativeLocation(FVector(0, 0, -1000.0));
 
 	activeObject = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Active Object"));
 	activeObject->SetupAttachment(base);
@@ -48,6 +49,19 @@ void AWH_WitchCauldronGimmick::BeginPlay()
 void AWH_WitchCauldronGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (lerpTime > 10.0)
+	{
+		GetWorldTimerManager().PauseTimer(fogT);
+		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+		{
+			//players.Add(*it);
+			it->DeathCounting();
+			it->Respawn();
+		}
+		lerpTime = 0;
+	}
+
 
 	if (bCanActive)
 	{
@@ -114,12 +128,18 @@ void AWH_WitchCauldronGimmick::BlindFog()
 
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BlindFog"));
 
-	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-	{
-		//players.Add(*it);
-		it->DeathCounting();
-		it->Respawn();
-	}
+	GetWorldTimerManager().SetTimer(fogT, [&]()
+		{
+			if (object->GetComponentLocation().Z >= 0)
+			{
+				return;
+			}
+			float loc = FMath::Lerp(object->GetComponentLocation().Z, 0, 0.03);
+			object->SetRelativeLocation(FVector(0,0,loc));
+			lerpTime += GetWorld()->DeltaTimeSeconds * 5.0;
+		}, 0.03f, true, 0);
+
+	
 
 	//int targetNum = FMath::RandRange(0, players.Num() - 1);
 

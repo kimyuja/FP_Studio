@@ -51,7 +51,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector activeRange;
 
+
+
 private:
+	
+	float lerpTime;
+
+	FTimerHandle fogT;
 
 	// 미쳐서 본인 빼고 다 사망
 	void BlindFog();
