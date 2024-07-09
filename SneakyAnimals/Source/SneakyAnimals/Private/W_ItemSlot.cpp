@@ -22,6 +22,7 @@
 #include "W_CustomMap.h"
 #include <ItemManager.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
+#include <TestPlayer.h>
 
 bool UW_ItemSlot::Initialize()
 {
@@ -44,19 +45,19 @@ void UW_ItemSlot::NativeConstruct()
 	}
 	playerCharacter->SetActorLocation(FVector(2000, 0, 0));
 
-	AUITestCharacter* uiTestPlayer = Cast<AUITestCharacter>(playerCharacter);
+	ATestPlayer* TestPlayer = Cast<ATestPlayer>(playerCharacter);
 
 
-	if (!uiTestPlayer)
+	if (!TestPlayer)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer is nullptr"));
+		UE_LOG(LogTemp, Warning, TEXT("TestPlayer is nullptr"));
 	}
 
-	if (uiTestPlayer)
+	if (TestPlayer)
 	{
-		itemComponent = uiTestPlayer->FindComponentByClass<UItemComponent>();
+		itemComponent = TestPlayer->FindComponentByClass<UItemComponent>();
 
-		UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer connect itemComponent"));
+		UE_LOG(LogTemp, Warning, TEXT("TestPlayer connect itemComponent"));
 	}
 
 	if (itemBtn)
@@ -185,40 +186,33 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 		{
 			////AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, FVector(0, 0, 10), FRotator::ZeroRotator);
 			//
-			//AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(AWH_BookshelfGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+			/*AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(AWH_BookshelfGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
 
-			//itemObject = wh1->GetDefaultItemObject();
-			///*
-			//if (ItemTexture000)
-			//{
-			//	UE_LOG(LogTemp, Warning, TEXT("000000000000000000success"));
-			//}
-			//else
-			//{
-			//	UE_LOG(LogTemp, Warning, TEXT("111111111111fail"));
-			//}*/
+			itemObject = wh1->GetDefaultItemObject();*/
+			/*
+			if (ItemTexture000)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("000000000000000000success"));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("111111111111fail"));
+			}*/
 
 			//// 싱글톤 패턴을 사용해 UItemManager 클래스의 인스턴스에 접근
 			//// UItemManager* ItemManager = UItemManager::Get();
 
-			//// if (ItemManager)
-			//{
-			//	if (itemComponent->TryAddItem(itemObject))
-			//	{
-			//		UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
-			//	}
-			//	else
-			//	{
-			//		UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
-			//	}
-			//}
 
 			if (bookShelfG->GetName() == TEXT("bookShelf_G1"))
 			{
 				FVector currentLoc = bookShelfG->GetActorLocation();
 				currentLoc.Z += 300;
 				bookShelfG->SetActorLocation(currentLoc);
+
+				itemObject = bookShelfG->GetDefaultItemObject();
+				itemComponent->TryAddItem(itemObject);
 			}
+			
 
 			break;
 		}

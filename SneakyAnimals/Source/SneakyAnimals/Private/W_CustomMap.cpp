@@ -20,6 +20,7 @@
 #include "W_ItemImg.h"
 #include <../../../../../../../Source/Runtime/Core/Public/Delegates/Delegate.h>
 #include <ItemManager.h>
+#include <TestPlayer.h>
 
 UW_CustomMap::UW_CustomMap(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -102,14 +103,14 @@ void UW_CustomMap::InitializeWidget(float Tilesize)
 		UE_LOG(LogTemp, Warning, TEXT("playerCharacter is nullptr"));
 	}*/
 
-	AUITestCharacter* uiTestPlayer = Cast<AUITestCharacter>(playerCharacter);
-	if (!uiTestPlayer)
+	ATestPlayer* TestPlayer = Cast<ATestPlayer>(playerCharacter);
+	if (!TestPlayer)
 	{
 		// UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer is nullptr"));
 	}
-	if (uiTestPlayer)
+	if (TestPlayer)
 	{
-		itemComponent = uiTestPlayer->FindComponentByClass<UItemComponent>();
+		itemComponent = TestPlayer->FindComponentByClass<UItemComponent>();
 		// UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer is not nullptr"));
 	}
 
