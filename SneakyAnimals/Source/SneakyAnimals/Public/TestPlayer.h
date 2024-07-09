@@ -84,6 +84,9 @@ public:
 	UPROPERTY(Replicated,EditAnywhere,BlueprintReadWrite)
 	int32 playerNum;
 
+	UPROPERTY(Replicated,EditAnywhere,BlueprintReadWrite)
+	int32 playerType;
+
 	UPROPERTY(ReplicatedUsing = OnRep_Current_SkeletalMesh)
 	USkeletalMesh* Current_SkeletalMesh;
 
