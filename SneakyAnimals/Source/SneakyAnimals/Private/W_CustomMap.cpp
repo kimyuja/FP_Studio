@@ -20,7 +20,7 @@
 #include "W_ItemImg.h"
 #include <../../../../../../../Source/Runtime/Core/Public/Delegates/Delegate.h>
 #include <ItemManager.h>
-#include <TestPlayer.h>
+#include "TestPlayer.h"
 
 UW_CustomMap::UW_CustomMap(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -59,7 +59,7 @@ void UW_CustomMap::NativeConstruct()
 
 	GetWorld()->GetTimerManager().SetTimer(DrawGridLineTimerHandle, this, &UW_CustomMap::DrawGridLine, 0.1f, false);
 
-	UE_LOG(LogTemp, Warning, TEXT("itemComponent->columns : %d, itemComponent->rows : %d"), itemComponent->columns, itemComponent->rows);
+	/*UE_LOG(LogTemp, Warning, TEXT("itemComponent->columns : %d, itemComponent->rows : %d"), itemComponent->columns, itemComponent->rows);*/
 
 	// DrawGridLine();
 
@@ -113,22 +113,18 @@ void UW_CustomMap::InitializeWidget(float Tilesize)
 		itemComponent = TestPlayer->FindComponentByClass<UItemComponent>();
 		// UE_LOG(LogTemp, Warning, TEXT("uiTestPlayer is not nullptr"));
 	}
-
-
 	canvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(gridBorder);
-
+	
 	if (canvasSlot)
 	{
 
 		/*float sizeX = itemComponent->columns * tileSize;
 		float sizeY = itemComponent->rows * tileSize;*/
-		float sizeX = itemComponent->columns * tileSize;
-		float sizeY = itemComponent->rows * tileSize;
-
-		canvasSlot->SetSize(FVector2D(sizeX, sizeY));
-
+		float sizeX = itemComponent->columns * Tilesize;
+		float sizeY = itemComponent->rows * Tilesize;
+		UE_LOG(LogTemp, Warning, TEXT("%f, %f"), sizeX, sizeY);
+		canvasSlot->SetSize(FVector2D(6000, 6000));
 	}
-	// CreateLineSegments();
 	UE_LOG(LogTemp, Warning, TEXT("Draw"));
 
 	Refresh(); // 맨 처음 초기화

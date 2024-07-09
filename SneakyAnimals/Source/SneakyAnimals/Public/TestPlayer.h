@@ -90,6 +90,34 @@ public:
 	UPROPERTY(ReplicatedUsing = OnRep_Current_SkeletalMesh)
 	USkeletalMesh* Current_SkeletalMesh;
 
+	//
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+    TSubclassOf<UUserWidget> C_WitchHouseMap;
+
+	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+    TSubclassOf<UUserWidget> C_SubmarineMap;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+    TSubclassOf<UUserWidget> C_BankMap;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+    TSubclassOf<UUserWidget> C_SupermarketMap;
+
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
+    class UItemComponent* itemComponent;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	class UMapCustomWidget* MapCustomWidget;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
+	class UItemObject* itemObject;
+
+	
+    UFUNCTION(BlueprintCallable, Category = "CreateWidget")
+	void CreateSelectedWidget();
+	//
+
 	UFUNCTION()
 	void OnRep_Current_SkeletalMesh();
 

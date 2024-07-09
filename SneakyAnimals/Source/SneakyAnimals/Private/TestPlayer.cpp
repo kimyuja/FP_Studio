@@ -24,8 +24,12 @@
 #include "GM_Lobby.h"
 #include "W_StageClear.h"
 #include "SAModeBase.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/UserWidget.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/Net/UnrealNetwork.h>
 #include "SAGameStateBase.h"
+#include "ItemComponent.h"
+#include "MapCustomWidget.h"
+#include "W_CustomMap.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -56,12 +60,16 @@ ATestPlayer::ATestPlayer()
 	bReplicates = true;
 	SetReplicateMovement(true);
 
+	/*itemComponent = CreateDefaultSubobject<UItemComponent>(TEXT("itemComponent"));*/
+
 }
 
 // Called when the game starts or when spawned
 void ATestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	itemComponent = FindComponentByClass<UItemComponent>();
 	
 	clearUI = Cast<UW_StageClear>(CreateWidget(GetWorld(),stageClearUI));
 	if (clearUI)
@@ -174,6 +182,36 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 }
 
 
+
+void ATestPlayer::CreateSelectedWidget()
+{
+	UMapCustomWidget* CustomMapWidget = nullptr;
+
+	switch(playerNum)
+	{
+	case 0:
+		CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_WitchHouseMap));
+		break;
+	case 1:
+		CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_SubmarineMap));
+		break;
+	case 2:
+		CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_BankMap));
+		break;
+	case 3:
+		CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_SupermarketMap));
+		break;
+	default:
+		break;
+	}
+
+	if (CustomMapWidget)
+	{
+		CustomMapWidget->AddToViewport();
+		CustomMapWidget->CustomMapGridWidget->InitializeWidget(160.f);
+		
+	}
+}
 
 void ATestPlayer::OnRep_Current_SkeletalMesh()
 {

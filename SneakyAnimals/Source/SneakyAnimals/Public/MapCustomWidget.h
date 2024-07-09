@@ -20,9 +20,8 @@ public:
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override;
 
-protected:
     UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
-    class UW_CustomMap* CustomMapWidget;
+    class UW_CustomMap* CustomMapGridWidget;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	float tileSize;

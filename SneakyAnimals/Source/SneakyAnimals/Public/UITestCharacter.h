@@ -63,7 +63,7 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
     class UMapCustomWidget* customMapWidget;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="UI")
     class UItemComponent* itemComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")

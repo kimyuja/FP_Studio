@@ -48,10 +48,10 @@ void UMapCustomWidget::NativeConstruct()
 		return;
 	}
 
-	CustomMapWidget = Cast<UW_CustomMap>(CreateWidget(this, gWidget));
-	if (!CustomMapWidget)
+	CustomMapGridWidget = Cast<UW_CustomMap>(CreateWidget(this, gWidget));
+	if (!CustomMapGridWidget)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to create CustomMapWidget"));
+		UE_LOG(LogTemp, Error, TEXT("Failed to create CustomMapGridWidget"));
 		return;
 	}
 

@@ -42,7 +42,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void InitializeWidget(float Tilesize);
 
-    UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
     class UItemComponent* itemComponent;
 
     UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
