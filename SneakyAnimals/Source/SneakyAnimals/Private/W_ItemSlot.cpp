@@ -43,7 +43,7 @@ void UW_ItemSlot::NativeConstruct()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("playerCharacter is nullptr"));
 	}
-	playerCharacter->SetActorLocation(FVector(2000, 0, 0));
+	// playerCharacter->SetActorLocation(FVector(2000, 0, 0));
 
 	ATestPlayer* TestPlayer = Cast<ATestPlayer>(playerCharacter);
 

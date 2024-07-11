@@ -122,7 +122,7 @@ void AGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* O
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+		//UE_LOG(LogTemp, Warning, TEXT("RTY"));
 	}
 }
 
@@ -139,7 +139,7 @@ void AGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* O
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+		//UE_LOG(LogTemp, Warning, TEXT("RTY"));
 	}
 }
 

@@ -34,6 +34,9 @@ public:
 	class UCameraComponent* camera;
 
 	UPROPERTY(EditDefaultsOnly, Category = Test)
+	class UCameraComponent* customCamera;
+
+	UPROPERTY(EditDefaultsOnly, Category = Test)
 	class USpringArmComponent* cameraBoom;
 
 	UPROPERTY(EditDefaultsOnly, Category = Test)
@@ -143,6 +146,8 @@ public:
 
 	FTimerHandle ThunderT;
 
+	APlayerController* con;
+
 	UPROPERTY()
 	TObjectPtr<AClearDoor> CheckDoor;
 
@@ -177,6 +182,12 @@ public:
 	void Death_EndMan();
 
 	void Death_Thunderclap();
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_StartGetFinalScore();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_StartGetFinalScore();
 
 	UFUNCTION()
 	void Toggle_CharacterCustomization_Implementation();

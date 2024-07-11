@@ -79,7 +79,7 @@ void AWH_BookshelfGimmick::Tick(float DeltaTime)
 UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 {
 
-	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+	//UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
 
 	UItemObject* newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
 

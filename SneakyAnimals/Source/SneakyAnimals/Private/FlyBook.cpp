@@ -54,7 +54,7 @@ void AFlyBook::AttackRandomPlayer()
 	if (FVector::Dist(GetActorLocation(), players[targetNum]->GetActorLocation()) > 100.0f)
 	{
 		FVector targetLoc = (players[targetNum]->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), targetLoc.X, targetLoc.Y, targetLoc.Z);
+		//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), targetLoc.X, targetLoc.Y, targetLoc.Z);
 		SetActorLocation(GetActorLocation() + targetLoc * 1.0f);
 	}
 	else

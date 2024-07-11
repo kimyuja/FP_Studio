@@ -30,6 +30,8 @@
 #include "ItemComponent.h"
 #include "MapCustomWidget.h"
 #include "W_CustomMap.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Camera/CameraActor.h>
+#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -50,6 +52,11 @@ ATestPlayer::ATestPlayer()
 	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	camera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
 	camera->bUsePawnControlRotation = false;
+
+	customCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Custom Camera"));
+	customCamera->SetupAttachment(GetMesh());
+	customCamera->SetRelativeLocation(FVector(0, 500, 170));
+	customCamera->SetRelativeRotation(FRotator(0,-90,0));
 
 	emoticonUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Emoticon UI"));
 	emoticonUI->SetupAttachment(camera);
@@ -285,7 +292,7 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 	}*/
 	ATestPlayer* target = this;
 
-	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), target->GetActorLocation().X, target->GetActorLocation().Y, target->GetActorLocation().Z);
+	//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), target->GetActorLocation().X, target->GetActorLocation().Y, target->GetActorLocation().Z);
 	if (IsLocallyControlled())
 	{
 		ServerRPC_ActiveGimmick(target);
@@ -408,7 +415,7 @@ void ATestPlayer::Death_Homerun(FVector impactLoc, float power)
 
 void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%d"), bIsBestDriver);
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), bIsBestDriver);
 	bIsGoodDriver = bIsBestDriver;
 	bCanActive = false;
 	lerpTime = 0;
@@ -439,9 +446,9 @@ void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
 				{
 					FVector burstLoc = (CheckDoor->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 					FRotator burstRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), CheckDoor->GetActorLocation());
-					UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), burstLoc.X, burstLoc.Y, burstLoc.Z);
+					//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), burstLoc.X, burstLoc.Y, burstLoc.Z);
 					//Controller->SetControlRotation(FRotator(0, burstRot.Yaw, burstRot.Roll));
-					UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), burstRot.Pitch, burstRot.Yaw, burstRot.Roll);
+					//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), burstRot.Pitch, burstRot.Yaw, burstRot.Roll);
 					//SetActorRotation(burstRot);
 					SetActorLocation(GetActorLocation() + speed * burstLoc, true);
 				}
@@ -487,6 +494,29 @@ void ATestPlayer::Death_Thunderclap()
 	Respawn(5.0);
 }
 
+void ATestPlayer::ServerRPC_StartGetFinalScore_Implementation()
+{
+	MultiRPC_StartGetFinalScore();
+}
+
+void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
+{
+	con = GetWorld()->GetFirstPlayerController();
+	DisableInput(con);
+	SetActorRotation(FRotator(0, 90, 0));
+	SetActorLocation(FVector(0, 0, 0));
+	for (TActorIterator<ACameraActor> it(GetWorld()); it; ++it)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Find"));
+		if (it->ActorHasTag(TEXT("Final")))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Find"));
+			con->SetViewTargetWithBlend(*it, 0.2f);
+			camera->SetRelativeLocation(camera->GetRelativeLocation() + it->GetActorLocation());
+		}
+	}
+}
+
 void ATestPlayer::MultiRPC_SetThirdPersonView_Implementation()
 {
 	// 3ÀÎÄª ¼³Á¤
@@ -502,7 +532,7 @@ void ATestPlayer::MultiRPC_SetThirdPersonView_Implementation()
 
 void ATestPlayer::ServerRPC_ActiveGimmick_Implementation(ATestPlayer* aP)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), aP->GetActorLocation().X, aP->GetActorLocation().Y, aP->GetActorLocation().Z);
+	//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), aP->GetActorLocation().X, aP->GetActorLocation().Y, aP->GetActorLocation().Z);
 	if (clearUI->bIsClear)
 	{
 		return;
@@ -514,11 +544,11 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 {
 	if (bCanActive)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("aP = %f, %f, %f"), _aP->GetActorLocation().X, _aP->GetActorLocation().Y, _aP->GetActorLocation().Z);
-		UE_LOG(LogTemp, Warning, TEXT("P = %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+		//UE_LOG(LogTemp, Warning, TEXT("aP = %f, %f, %f"), _aP->GetActorLocation().X, _aP->GetActorLocation().Y, _aP->GetActorLocation().Z);
+		//UE_LOG(LogTemp, Warning, TEXT("P = %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
 		bCanActive = false;
 		int32 key = g->OnMyActive(_aP);
-		UE_LOG(LogTemp, Warning, TEXT("Fail %d"), key);
+		//UE_LOG(LogTemp, Warning, TEXT("Fail %d"), key);
 		if (key == 2)
 		{
 			bCanOpenDoor = true;
@@ -534,6 +564,7 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 void ATestPlayer::ServerRPC_MoveStage_Implementation()
 {
 	MultiRPC_MoveStage(gameState->stageLoc[gameState->stageNum]);
+	UE_LOG(LogTemp, Warning, TEXT("Stage %d"), gameState->stageNum);
 }
 
 void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
@@ -541,6 +572,10 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	gameState->MoveNextStage(moveLoc);
 	respawnLoc = moveLoc;
 	clearUI->SetVisibility(ESlateVisibility::Hidden);
+	if (gameState->stageNum > 1)
+	{
+		ServerRPC_StartGetFinalScore();
+	}
 }
 
 void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
