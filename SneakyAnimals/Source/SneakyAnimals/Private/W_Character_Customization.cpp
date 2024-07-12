@@ -22,6 +22,27 @@ UW_Character_Customization::UW_Character_Customization(const FObjectInitializer&
 	{
 		DT_Available_Characters = InGameAvailableCharactersTable.Object;
 	}
+	
+	// DT_Available_Accessories 를 로드한다.
+	static ConstructorHelpers::FObjectFinder<UDataTable> InGameAvailableAccessoriesTable(TEXT("/Game/KYJ/Data/DT_Available_Accessories"));
+	if (InGameAvailableAccessoriesTable.Succeeded())
+	{
+		DT_Available_Accessories = InGameAvailableAccessoriesTable.Object;
+	}
+	
+	// DT_Available_Skins 를 로드한다.
+	static ConstructorHelpers::FObjectFinder<UDataTable> InGameAvailableSkinsTable(TEXT("/Game/KYJ/Data/DT_Available_Skins"));
+	if (InGameAvailableSkinsTable.Succeeded())
+	{
+		DT_Available_Skins = InGameAvailableSkinsTable.Object;
+	}
+	
+	// DT_Available_Eyes 를 로드한다.
+	static ConstructorHelpers::FObjectFinder<UDataTable> InGameAvailableEyesTable(TEXT("/Game/KYJ/Data/DT_Available_Eyes"));
+	if (InGameAvailableEyesTable.Succeeded())
+	{
+		DT_Available_Eyes = InGameAvailableEyesTable.Object;
+	}
 
 	// WB_Character_Customization_Item 위젯 블루프린트 클래스를 로드한다.
 	static ConstructorHelpers::FClassFinder<UW_Character_Customization_Item> WidgetBPClass(TEXT("/Game/KYJ/Widgets/Lobby/WB_Character_Customization_Item.WB_Character_Customization_Item_C"));
@@ -41,6 +62,9 @@ void UW_Character_Customization::Switch_ActiveTab(int32 ActiveIndex)
 		break;
 	case 1:
 		Set_ActiveTab(Accessoires_Btn->Button);
+		break;
+	case 2:
+		Set_ActiveTab(Skins_Btn->Button);
 		break;
 	default:
 		break;
@@ -65,6 +89,7 @@ void UW_Character_Customization::Set_ActiveTab(UButton* Button_Target)
 
 	Characters_Btn->Button->SetStyle(btn_Style);
 	Accessoires_Btn->Button->SetStyle(btn_Style);
+	Skins_Btn->Button->SetStyle(btn_Style);
 
 	// Sets a button to selected
 	FSlateBrush HoveredBrush = CreateSlateBrushFromTexture(T_Color1_Hovered);
@@ -84,7 +109,9 @@ void UW_Character_Customization::Set_ActiveTab(UButton* Button_Target)
 void UW_Character_Customization::Refresh_Widget()
 {
 	Load_Available_Characters();
-	//Load_Available_Accessories();
+	Load_Available_Accessories();
+	Load_Available_Skins();
+	Load_Available_Eyes();
 }
 
 void UW_Character_Customization::NativeConstruct()
@@ -94,6 +121,9 @@ void UW_Character_Customization::NativeConstruct()
 	Switch_ActiveTab(0);
 
 	Load_Available_Characters();
+	Load_Available_Accessories();
+	Load_Available_Skins();
+	Load_Available_Eyes();
 
 	// Button Event Bind
 	if (Characters_Btn)
@@ -104,6 +134,11 @@ void UW_Character_Customization::NativeConstruct()
 	if (Accessoires_Btn)
 	{
 		Accessoires_Btn->Button->OnClicked.AddDynamic(this, &UW_Character_Customization::OnAccessoires_BtnClicked);
+	}
+	
+	if (Skins_Btn)
+	{
+		Skins_Btn->Button->OnClicked.AddDynamic(this, &UW_Character_Customization::OnSkins_BtnClicked);
 	}
 
 	if (Close_Btn)
@@ -160,9 +195,107 @@ void UW_Character_Customization::Load_Available_Characters()
 	Find_Current_Selected_Character();
 }
 
+void UW_Character_Customization::Load_Available_Accessories()
+{
+	AvailableAccessoires_Wrapbox->ClearChildren();
+
+	FPermissionListOwners MyOutRowNames;
+	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Accessories, MyOutRowNames);
+
+	for (FName RowName : MyOutRowNames)
+	{
+		// WB_Character_Customization_Item 위젯 생성하기
+		// 구조체로 캐스팅하여 데이터 가져오기
+		S_Available_Accessories = *(DT_Available_Accessories->FindRow<FStructure_Available_Accessories>(RowName, TEXT("")));
+
+		Character_Customization_Item_inst = CreateWidget<UW_Character_Customization_Item>(this, Character_Customization_Item_bp, RowName);
+
+		if (Character_Customization_Item_inst)
+		{
+			// S_Available_Accessories 가 유효하면
+			if (!S_Available_Accessories.Name.IsEmpty())
+			{
+				Character_Customization_Item_inst->Accessories = S_Available_Accessories;
+			}
+			Character_Customization_Item_inst->SetOwningPlayer(GetOwningPlayer());
+			Character_Customization_Item_inst->ItemType = "Accessories";
+
+			// Add Child
+			AvailableAccessoires_Wrapbox->AddChild(Character_Customization_Item_inst);
+		}
+	}
+
+	Find_Current_Selected_Accessories();
+}
+
+void UW_Character_Customization::Load_Available_Skins()
+{
+	AvailableSkins_Wrapbox->ClearChildren();
+
+	FPermissionListOwners MyOutRowNames;
+	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Skins, MyOutRowNames);
+
+	for (FName RowName : MyOutRowNames)
+	{
+		// WB_Character_Customization_Item 위젯 생성하기
+		// 구조체로 캐스팅하여 데이터 가져오기
+		S_Available_Skins = *(DT_Available_Skins->FindRow<FStructure_Available_Skins>(RowName, TEXT("")));
+
+		Character_Customization_Item_inst = CreateWidget<UW_Character_Customization_Item>(this, Character_Customization_Item_bp, RowName);
+
+		if (Character_Customization_Item_inst)
+		{
+			// S_Available_Skins 가 유효하면
+			if (!S_Available_Skins.Name.IsEmpty())
+			{
+				Character_Customization_Item_inst->Skins = S_Available_Skins;
+			}
+			Character_Customization_Item_inst->SetOwningPlayer(GetOwningPlayer());
+			Character_Customization_Item_inst->ItemType = "Skins";
+
+			// Add Child
+			AvailableSkins_Wrapbox->AddChild(Character_Customization_Item_inst);
+		}
+	}
+
+	Find_Current_Selected_Skins();
+}
+
+void UW_Character_Customization::Load_Available_Eyes()
+{
+	FPermissionListOwners MyOutRowNames;
+	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Eyes, MyOutRowNames);
+
+	for (FName RowName : MyOutRowNames)
+	{
+		// WB_Character_Customization_Item 위젯 생성하기
+		// 구조체로 캐스팅하여 데이터 가져오기
+		S_Available_Eyes = *(DT_Available_Eyes->FindRow<FStructure_Available_Eyes>(RowName, TEXT("")));
+
+		Character_Customization_Item_inst = CreateWidget<UW_Character_Customization_Item>(this, Character_Customization_Item_bp, RowName);
+
+		if (Character_Customization_Item_inst)
+		{
+			// S_Available_Eyes 가 유효하면
+			if (!S_Available_Eyes.Name.IsEmpty())
+			{
+				Character_Customization_Item_inst->Eyes = S_Available_Eyes;
+			}
+			Character_Customization_Item_inst->SetOwningPlayer(GetOwningPlayer());
+			Character_Customization_Item_inst->ItemType = "Eyes";
+
+			// Add Child
+			AvailableSkins_Wrapbox->AddChild(Character_Customization_Item_inst);
+		}
+	}
+
+	Find_Current_Selected_Eyes();
+}
+
 void UW_Character_Customization::Find_Current_Selected_Character()
 {
 	APS_Lobby* ps_lobby = Cast<APS_Lobby>(GetOwningPlayer()->PlayerState);
+
 	UW_Character_Customization_Item* WB_Character_Customization_Item = nullptr;
 	bool bFound = false;
 	
@@ -194,6 +327,112 @@ void UW_Character_Customization::Find_Current_Selected_Character()
 	
 }
 
+void UW_Character_Customization::Find_Current_Selected_Accessories()
+{
+	APS_Lobby* ps_lobby = Cast<APS_Lobby>(GetOwningPlayer()->PlayerState);
+
+	UW_Character_Customization_Item* WB_Character_Customization_Item = nullptr;
+	bool bFound = false;
+
+	// if ps_lobby cast failed
+	if (!ps_lobby)
+	{
+		return;
+	}
+
+	for (UWidget* child : AvailableAccessoires_Wrapbox->GetAllChildren()) {
+		WB_Character_Customization_Item = Cast<UW_Character_Customization_Item>(child);
+		if (WB_Character_Customization_Item->Accessories.ItemID == ps_lobby->Player_Appearance.Accessories_Slot.ItemID)
+		{
+			bFound = true;
+			break;
+		}
+	}
+	if (bFound)
+	{
+		WB_Character_Customization_Item->Checkmark_Icon->SetVisibility(ESlateVisibility::Visible);
+		return;
+	}
+	else
+	{
+		UW_Character_Customization_Item* item = Cast<UW_Character_Customization_Item>(AvailableAccessoires_Wrapbox->GetAllChildren()[0]);
+		item->Checkmark_Icon->SetVisibility(ESlateVisibility::Visible);
+		return;
+	}
+}
+
+void UW_Character_Customization::Find_Current_Selected_Skins()
+{
+	APS_Lobby* ps_lobby = Cast<APS_Lobby>(GetOwningPlayer()->PlayerState);
+
+	UW_Character_Customization_Item* WB_Character_Customization_Item = nullptr;
+	bool bFound = false;
+
+	// if ps_lobby cast failed
+	if (!ps_lobby)
+	{
+		return;
+	}
+
+	// Eyes 첫 인덱스 찾아내기 위해서 Skins 의 개수를 저장해놔야 함
+	TArray<UWidget*> allChildren = AvailableSkins_Wrapbox->GetAllChildren();
+	SkinsNum = allChildren.Num();
+
+	for (UWidget* child : allChildren) {
+		WB_Character_Customization_Item = Cast<UW_Character_Customization_Item>(child);
+		if (WB_Character_Customization_Item->Skins.ItemID == ps_lobby->Player_Appearance.Skins_Slot.ItemID)
+		{
+			bFound = true;
+			break;
+		}
+	}
+	if (bFound)
+	{
+		WB_Character_Customization_Item->Checkmark_Icon->SetVisibility(ESlateVisibility::Visible);
+		return;
+	}
+	else
+	{
+		UW_Character_Customization_Item* item = Cast<UW_Character_Customization_Item>(AvailableSkins_Wrapbox->GetAllChildren()[0]);
+		item->Checkmark_Icon->SetVisibility(ESlateVisibility::Visible);
+		return;
+	}
+}
+
+void UW_Character_Customization::Find_Current_Selected_Eyes()
+{
+	APS_Lobby* ps_lobby = Cast<APS_Lobby>(GetOwningPlayer()->PlayerState);
+
+	UW_Character_Customization_Item* WB_Character_Customization_Item = nullptr;
+	bool bFound = false;
+
+	// if ps_lobby cast failed
+	if (!ps_lobby)
+	{
+		return;
+	}
+
+	for (UWidget* child : AvailableSkins_Wrapbox->GetAllChildren()) {
+		WB_Character_Customization_Item = Cast<UW_Character_Customization_Item>(child);
+		if ((WB_Character_Customization_Item->ItemType == "Eyes") && WB_Character_Customization_Item->Eyes.ItemID == ps_lobby->Player_Appearance.Eyes_Slot.ItemID)
+		{
+			bFound = true;
+			break;
+		}
+	}
+	if (bFound)
+	{
+		WB_Character_Customization_Item->Checkmark_Icon->SetVisibility(ESlateVisibility::Visible);
+		return;
+	}
+	else
+	{
+		UW_Character_Customization_Item* item = Cast<UW_Character_Customization_Item>(AvailableSkins_Wrapbox->GetAllChildren()[SkinsNum]);
+		item->Checkmark_Icon->SetVisibility(ESlateVisibility::Visible);
+		return;
+	}
+}
+
 void UW_Character_Customization::OnCharacters_BtnClicked()
 {
 	Switch_ActiveTab(0);
@@ -202,6 +441,11 @@ void UW_Character_Customization::OnCharacters_BtnClicked()
 void UW_Character_Customization::OnAccessoires_BtnClicked()
 {
 	Switch_ActiveTab(1);
+}
+
+void UW_Character_Customization::OnSkins_BtnClicked()
+{
+	Switch_ActiveTab(2);
 }
 
 

@@ -72,6 +72,60 @@ struct FStructure_Available_Characters : public FTableRowBase
     int32 ItemID;
 };
 
+USTRUCT(Atomic, BlueprintType)
+struct FStructure_Available_Accessories : public FTableRowBase
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString Name;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UTexture2D* ItemImage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    USkeletalMesh* Mesh;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 ItemID;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FStructure_Available_Skins : public FTableRowBase
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString Name;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UTexture2D* ItemImage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UMaterial* Material;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 ItemID;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FStructure_Available_Eyes : public FTableRowBase
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString Name;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UTexture2D* ItemImage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UMaterial* Material;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 ItemID;
+};
+
 USTRUCT(BlueprintType)
 struct FStructure_Player_Appearance
 {
@@ -80,8 +134,14 @@ struct FStructure_Player_Appearance
 	UPROPERTY(BlueprintReadOnly)
 	FStructure_Available_Characters Character;
 	
-	//UPROPERTY(BlueprintReadOnly)
-	//FStructure_Available_Accessories_Hat Hat_Slot;
+	UPROPERTY(BlueprintReadOnly)
+	FStructure_Available_Accessories Accessories_Slot;
+	
+	UPROPERTY(BlueprintReadOnly)
+	FStructure_Available_Skins Skins_Slot;
+	
+	UPROPERTY(BlueprintReadOnly)
+	FStructure_Available_Eyes Eyes_Slot;
 };
 
 USTRUCT(BlueprintType)
