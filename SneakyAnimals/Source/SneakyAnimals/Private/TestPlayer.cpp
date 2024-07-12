@@ -43,6 +43,19 @@ ATestPlayer::ATestPlayer()
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
 	GetMesh()->SetOwnerNoSee(true);
 
+	// �Ǽ��縮 ���̷�Ż �޽� ������Ʈ�� �ʱ�ȭ�ϰ� �ڽ����� ����
+	SM_Accessories = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Accessories"));
+	SM_Accessories->SetupAttachment(GetMesh());
+
+	// �ִϸ��̼� ��������Ʈ�� �ε��ϰ� ����
+	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> AnimBlueprint(TEXT("/Script/Engine.AnimBlueprint'/Game/Characters/Mannequins/Animations/ABP_Quinn.ABP_Quinn_C'"));
+	if (AnimBlueprint.Succeeded())
+	{
+		AnimationBlueprintClass = AnimBlueprint.Object->GeneratedClass;
+		SM_Accessories->SetAnimInstanceClass(AnimationBlueprintClass);
+	}
+	
+
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	cameraBoom->SetupAttachment(GetMesh());
 	cameraBoom->SetRelativeLocation(FVector(0, 0, 170));
@@ -124,6 +137,7 @@ void ATestPlayer::BeginPlay()
 void ATestPlayer::Toggle_CharacterCustomization_Implementation()
 {
 	UE_LOG(LogTemp, Warning, TEXT("toggle test"));
+	//UE_LOG(LogTemp, Warning, TEXT("toggle test"));
 }
 
 void ATestPlayer::SetThirdPersonView()
@@ -226,8 +240,33 @@ void ATestPlayer::OnRep_Current_SkeletalMesh()
 	{
 		GetMesh()->SetSkinnedAssetAndUpdate(Current_SkeletalMesh);
 	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("ATestPlayer Current_SkeletalMesh is not valid"));
+}
+
+void ATestPlayer::OnRep_Current_Accessories()
+{
+	if (Current_Accessories->IsValidLowLevelFast())
+	{
+		SM_Accessories->SetSkinnedAssetAndUpdate(Current_Accessories);
+	}
+	else
+	{
+		SM_Accessories->SetSkinnedAssetAndUpdate(nullptr);
+	}
+}
+
+void ATestPlayer::OnRep_Current_Skins()
+{
+	if (Current_Skins->IsValidLowLevelFast())
+	{
+		GetMesh()->SetMaterialByName(FName(TEXT("M_Bull_Dandelion_BODY")), Current_Skins);
+	}
+}
+
+void ATestPlayer::OnRep_Current_Eyes()
+{
+	if (Current_Eyes->IsValidLowLevelFast())
+	{
+		GetMesh()->SetMaterialByName(FName(TEXT("pasted__M_Bull_Dandelion_EYES")), Current_Eyes);
 	}
 }
 
@@ -586,4 +625,6 @@ void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(ATestPlayer, playerNum);
 
 	DOREPLIFETIME(ATestPlayer, Current_SkeletalMesh);
+	DOREPLIFETIME(ATestPlayer, Current_Accessories);
+	DOREPLIFETIME(ATestPlayer, Current_Skins);
 }

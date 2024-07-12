@@ -21,9 +21,35 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
 
 	}
-	else if (ItemType == "Accessory_Hat")
+	else if (ItemType == "Accessories")
 	{
+		PS_Lobby->Player_Appearance.Accessories_Slot = Accessories;
 
+		// Save_Player_Appearance
+		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+
+		// SR_Update_Player_Appearance
+		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
+	}
+	else if (ItemType == "Skins")
+	{
+		PS_Lobby->Player_Appearance.Skins_Slot = Skins;
+
+		// Save_Player_Appearance
+		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+
+		// SR_Update_Player_Appearance
+		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
+	}
+	else if (ItemType == "Eyes")
+	{
+		PS_Lobby->Player_Appearance.Eyes_Slot = Eyes;
+
+		// Save_Player_Appearance
+		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+
+		// SR_Update_Player_Appearance
+		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
 	}
 }
 
@@ -45,8 +71,16 @@ void UW_Character_Customization_Item::Setup()
 	{
 		Item_Image->SetBrushFromTexture(Character.ItemImage);
 	}
-	else if (ItemType == "Accessory_Hat")
+	else if (ItemType == "Accessories")
 	{
-		
+		Item_Image->SetBrushFromTexture(Accessories.ItemImage);
+	}
+	else if (ItemType == "Skins")
+	{
+		Item_Image->SetBrushFromTexture(Skins.ItemImage);
+	}
+	else if (ItemType == "Eyes")
+	{
+		Item_Image->SetBrushFromTexture(Eyes.ItemImage);
 	}
 }

@@ -9,7 +9,6 @@ void APS_Base::ServerRPC_Update_Player_Appearance_Implementation(const FStructur
 {
 	if (HasAuthority())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("APS_Base ServerRPC_Update_Player_Appearance_Implementation Has Authority"));
 		// Call OnRep_Player_Appearance
 		Player_Appearance = _Player_Appearance;
 		// 클라이언트 뿐만 아니라 서버에서도 OnRep 호출하려면 아래처럼 수동으로 호출해줘야한다.
@@ -19,8 +18,7 @@ void APS_Base::ServerRPC_Update_Player_Appearance_Implementation(const FStructur
 
 void APS_Base::OnRep_Player_Appearance()
 {
-	UE_LOG(LogTemp, Warning, TEXT("APS_Base OnRep_Player_Appearance"));
-	// 자식 클래스에서 오버라이드 된 OnRep_Player_Appearance_OR()를 호출해야 함.. 이게 되나?
+	// 자식 클래스에서 오버라이드 된 OnRep_Player_Appearance_OR()를 호출해야 함
 	OnRep_Player_Appearance_OR();
 }
 
@@ -31,7 +29,6 @@ OR 접미사는 Override의 준말이다.
 */
 void APS_Base::OnRep_Player_Appearance_OR()
 {
-	UE_LOG(LogTemp, Warning, TEXT("APS_Base OnRep_Player_Appearance_OR"));
 }
 
 void APS_Base::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

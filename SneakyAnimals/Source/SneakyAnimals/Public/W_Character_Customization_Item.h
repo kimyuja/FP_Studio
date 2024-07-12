@@ -26,8 +26,10 @@ public:
 	class UImage* Item_Image;
 
 	FStructure_Available_Characters Character;
+	FStructure_Available_Accessories Accessories;
+	FStructure_Available_Skins Skins;
+	FStructure_Available_Eyes Eyes;
 	
-	//struct FStructure_Available_Accessories* Accessory;
 
 	UPROPERTY()
 	FString ItemType;

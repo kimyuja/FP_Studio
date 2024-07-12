@@ -95,6 +95,19 @@ public:
 
 	UPROPERTY(ReplicatedUsing = OnRep_Current_SkeletalMesh)
 	USkeletalMesh* Current_SkeletalMesh;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_Current_Accessories)
+	USkeletalMesh* Current_Accessories;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_Current_Skins)
+	UMaterial* Current_Skins;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_Current_Eyes)
+	UMaterial* Current_Eyes;
+
+    // 악세사리 스켈레탈 메쉬 컴포넌트
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+    USkeletalMeshComponent* SM_Accessories;
 
 	//
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
@@ -126,6 +139,15 @@ public:
 
 	UFUNCTION()
 	void OnRep_Current_SkeletalMesh();
+	
+	UFUNCTION()
+	void OnRep_Current_Accessories();
+	
+	UFUNCTION()
+	void OnRep_Current_Skins();
+	
+	UFUNCTION()
+	void OnRep_Current_Eyes();
 
 	bool bCanActive;
 
@@ -215,4 +237,9 @@ public:
 	void MultiRPC_MoveStage(FVector moveLoc);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+private:
+    // 애니메이션 블루프린트 클래스
+    UPROPERTY(EditAnywhere, Category = "Animation")
+    TSubclassOf<UAnimInstance> AnimationBlueprintClass;
 };
