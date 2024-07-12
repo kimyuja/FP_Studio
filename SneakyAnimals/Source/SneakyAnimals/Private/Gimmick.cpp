@@ -15,6 +15,7 @@
 #include "SAGameInstance.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/Net/UnrealNetwork.h>
 #include "SAGameStateBase.h"
+#include "SP_CartGimmick.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -88,6 +89,10 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	else if (Cast<ASM_WhistleGimmick>(this))
 	{
 		_key = Cast<ASM_WhistleGimmick>(this)->OnMyActive(ActivePlayer);
+	}
+	else if (Cast<ASP_CartGimmick>(this))
+	{
+		_key = Cast<ASP_CartGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 
 	/*if (_key != 2)
