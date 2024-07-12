@@ -78,6 +78,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> stageClearUI;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> voteUI;
+
 	UPROPERTY(EditAnywhere)
 	class UW_StageClear* clearUI;
 
@@ -88,7 +91,7 @@ public:
 	int32 playerNum;
 
 	UPROPERTY(Replicated,EditAnywhere,BlueprintReadWrite)
-	int32 playerType;
+	int32 playerShowNum;
 
 	UPROPERTY(ReplicatedUsing = OnRep_Current_SkeletalMesh)
 	USkeletalMesh* Current_SkeletalMesh;

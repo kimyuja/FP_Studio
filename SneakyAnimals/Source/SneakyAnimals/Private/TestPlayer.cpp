@@ -512,9 +512,10 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Find"));
 			con->SetViewTargetWithBlend(*it, 0.2f);
-			camera->SetRelativeLocation(camera->GetRelativeLocation() + it->GetActorLocation());
+			//camera->SetRelativeLocation(camera->GetRelativeLocation() + it->GetActorLocation());
 		}
 	}
+	CreateWidget(GetWorld(),voteUI)->AddToViewport(0);
 }
 
 void ATestPlayer::MultiRPC_SetThirdPersonView_Implementation()
