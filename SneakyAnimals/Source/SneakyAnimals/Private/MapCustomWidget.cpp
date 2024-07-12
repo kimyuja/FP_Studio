@@ -11,6 +11,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Image.h>
 #include "WH_BookshelfGimmick.h"
 #include "Kismet/GameplayStatics.h"
+#include "NewGridWidget.h"
 
 bool UMapCustomWidget::Initialize()
 {
@@ -48,8 +49,11 @@ void UMapCustomWidget::NativeConstruct()
 		return;
 	}
 
-	CustomMapGridWidget = Cast<UW_CustomMap>(CreateWidget(this, gWidget));
-	if (!CustomMapGridWidget)
+	// CustomMapGridWidget = Cast<UW_CustomMap>(CreateWidget(this, gWidget));
+
+	NewGridWidget = Cast<UNewGridWidget>(CreateWidget(GetWorld(), gWidget));
+
+	if (!NewGridWidget)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Failed to create CustomMapGridWidget"));
 		return;
@@ -57,9 +61,9 @@ void UMapCustomWidget::NativeConstruct()
 
 	InitializeItemSlots();
 
-	/*if (CustomMapWidget != nullptr)
+	/*if (NewGridWidget != nullptr)
 	{
-		CustomMapWidget->InitializeWidget(tileSize);
+		NewGridWidget->GridBorderSetSize(tileSize);
 
 	}*/
 }

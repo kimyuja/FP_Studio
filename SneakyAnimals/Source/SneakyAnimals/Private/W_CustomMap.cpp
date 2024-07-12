@@ -93,10 +93,10 @@ int32 UW_CustomMap::NativePaint(const FPaintArgs& Args, const FGeometry& Allotte
 
 }
 
-void UW_CustomMap::InitializeWidget(float Tilesize)
+void UW_CustomMap::InitializeWidget(float _Tilesize)
 {
 	// UCanvasPanelSlot* canvasSlot = Cast<UCanvasPanelSlot>(gridBorder->Slot);
-
+	
 	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	/*if (!playerCharacter)
 	{
@@ -120,10 +120,10 @@ void UW_CustomMap::InitializeWidget(float Tilesize)
 
 		/*float sizeX = itemComponent->columns * tileSize;
 		float sizeY = itemComponent->rows * tileSize;*/
-		float sizeX = itemComponent->columns * Tilesize;
-		float sizeY = itemComponent->rows * Tilesize;
+		float sizeX = itemComponent->columns * _Tilesize;
+		float sizeY = itemComponent->rows * _Tilesize;
 		UE_LOG(LogTemp, Warning, TEXT("%f, %f"), sizeX, sizeY);
-		canvasSlot->SetSize(FVector2D(6000, 6000));
+		canvasSlot->SetSize(FVector2D(sizeX, sizeY));
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Draw"));
 

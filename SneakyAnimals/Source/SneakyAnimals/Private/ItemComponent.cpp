@@ -358,7 +358,7 @@ void UItemComponent::AddItemAt(UItemObject* _ItemObject_, int32 _TopLeftIndex_)
 	isDirty = true;
 }
 
-TMap<UItemObject*, FTileStructureTemp> UItemComponent::GetAllItems() const
+TMap<UItemObject*, FTileStructureTemp> UItemComponent::GetAllItems()
 {
 	TMap<UItemObject*, FTileStructureTemp> AllItems;
 

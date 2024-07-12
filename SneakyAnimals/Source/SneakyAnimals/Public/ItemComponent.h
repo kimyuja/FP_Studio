@@ -84,7 +84,7 @@ public:
 	void AddItemAt(UItemObject* ItemObject, int32 TopLeftIndex);
 
 	UFUNCTION(BlueprintCallable, Category="Custom")
-	TMap<UItemObject*, FTileStructureTemp> GetAllItems() const;
+	TMap<UItemObject*, FTileStructureTemp> GetAllItems();
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveItem(class UItemObject* _ItemObject);
@@ -94,7 +94,6 @@ public:
 
 	UFUNCTION()
 	void ChangeInventory();
-
 
 	UFUNCTION()
 	bool CheckIsValid(bool b);
