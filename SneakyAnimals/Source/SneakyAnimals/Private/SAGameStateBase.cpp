@@ -45,6 +45,7 @@ void ASAGameStateBase::SetClearInstance()
 	deathCount2.Empty();
 	deathCount3.Empty();
 	deathCount4.Empty();
+    voteCount.Empty();
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -53,6 +54,7 @@ void ASAGameStateBase::SetClearInstance()
 		deathCount2.Add(0);
 		deathCount3.Add(0);
 		deathCount4.Add(0);
+        voteCount.Add(0);
         //stageLoc.Add(FVector(0,0,0));
 	}
     stageLoc.Add(FVector(0, 0, 0));
@@ -61,7 +63,7 @@ void ASAGameStateBase::SetClearInstance()
     stageLoc.Add(FVector(-50000, 50000, 0));
     stageLoc.Add(FVector(-50000, -50000, 0));
 
-	voteCount.Empty();
+	
 
 }
 
