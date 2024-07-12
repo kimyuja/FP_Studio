@@ -43,11 +43,11 @@ ATestPlayer::ATestPlayer()
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
 	GetMesh()->SetOwnerNoSee(true);
 
-	// ï¿½Ç¼ï¿½ï¿½ç¸® ï¿½ï¿½ï¿½Ì·ï¿½Å» ï¿½Þ½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ï°ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ¾Ç¼¼»ç¸® ½ºÄÌ·¹Å» ¸Þ½¬ ÄÄÆ÷³ÍÆ®¸¦ ÃÊ±âÈ­ÇÏ°í ÀÚ½ÄÀ¸·Î ¼³Á¤
 	SM_Accessories = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Accessories"));
 	SM_Accessories->SetupAttachment(GetMesh());
 
-	// ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Îµï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ¾Ö´Ï¸ÞÀÌ¼Ç ºí·çÇÁ¸°Æ®¸¦ ·ÎµåÇÏ°í ¼³Á¤
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> AnimBlueprint(TEXT("/Script/Engine.AnimBlueprint'/Game/Characters/Mannequins/Animations/ABP_Quinn.ABP_Quinn_C'"));
 	if (AnimBlueprint.Succeeded())
 	{
@@ -136,7 +136,6 @@ void ATestPlayer::BeginPlay()
 
 void ATestPlayer::Toggle_CharacterCustomization_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("toggle test"));
 	//UE_LOG(LogTemp, Warning, TEXT("toggle test"));
 }
 
