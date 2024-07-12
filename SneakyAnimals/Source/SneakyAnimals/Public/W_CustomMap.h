@@ -22,7 +22,7 @@ public:
 	virtual void NativeConstruct() override;
 	virtual int32 NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
 
-protected:
+public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UBorder* gridBorder;
 
@@ -35,7 +35,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	TSubclassOf<UUserWidget> ItemImgWidgetClass;
 
-public:
+
 	UPROPERTY(EditAnywhere)
 	class UCanvasPanelSlot* canvasSlot;
 	

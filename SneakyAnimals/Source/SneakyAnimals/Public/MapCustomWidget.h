@@ -20,11 +20,14 @@ public:
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override;
 
-    UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
-    class UW_CustomMap* CustomMapGridWidget;
+	/*UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class UW_CustomMap* CustomMapGridWidget;*/
+
+    UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+    class UNewGridWidget* NewGridWidget;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
-	float tileSize;
+	float tileSize = 160.f;
 
 private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -45,8 +48,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> itemSlotWidgetClass;
 
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UW_CustomMap> gWidget;*/
+		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UW_CustomMap> gWidget;
+	TSubclassOf<UNewGridWidget> gWidget;
 
 	UW_ItemSlot* itemSlotWidget;
 	
