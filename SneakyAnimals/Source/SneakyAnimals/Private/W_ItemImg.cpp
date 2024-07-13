@@ -87,7 +87,8 @@ FSlateBrush UW_ItemImg::GetIconImage() const
 
 		if (iconMaterial)
 		{
-			brush.SetResourceObject(iconMaterial);	// MakeBrushfromMaterail
+			// MakeBrushfromMaterail
+			brush.SetResourceObject(iconMaterial);	
 
 			brush.ImageSize = FVector2D(FMath::TruncToFloat(size.X), FMath::TruncToFloat(size.Y));
 		}

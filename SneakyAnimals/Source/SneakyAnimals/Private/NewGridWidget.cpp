@@ -45,12 +45,42 @@ void UNewGridWidget::NativeConstruct()
 
 	Invalidate(EInvalidateWidget::LayoutAndVolatility);
 
-	// 이 코드 위치 고려 필요
 	// itemImgWidget = CreateWidget<UW_ItemImg>(GetWorld(), itemImgWidgetClass);
-	
-	GetWorld()->GetTimerManager().SetTimer(SetGridSizeTimerHandle, this, &UNewGridWidget::DrawGridLine, 0.1f, false);
 
-	GetWorld()->GetTimerManager().SetTimer(DrawGridLineTimerHandle, this, &UNewGridWidget::DrawGridLine, 0.2f, false);
+	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+
+	if (playerCharacter)
+	{
+		ATestPlayer* myPlayer = Cast<ATestPlayer>(playerCharacter);
+
+		if (myPlayer)
+		{
+			itemComp = myPlayer->GetItemComponent();
+
+			if (!itemComp)
+			{
+				UE_LOG(LogTemp, Error, TEXT("itemComp is null"));
+				return;
+			}
+		}
+	}
+
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().SetTimer(SetGridSizeTimerHandle, [this]()
+			{
+				this->GridBorderSetSize(tileSize);
+			}, 0.1f, false);
+
+		GetWorld()->GetTimerManager().SetTimer(DrawGridLineTimerHandle, [this]()
+			{
+				this->DrawGridLine();
+			}, 0.2f, false);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GetWorld() call failed"));
+	}
 
 }
 
@@ -70,13 +100,20 @@ void UNewGridWidget::DrawGridLine()
 
 FVector2D UNewGridWidget::GetGridBorderTopLeft() const
 {
-	FGeometry geometry = gridBorder->GetCachedGeometry();
+	/*FGeometry geometry = gridBorder->GetCachedGeometry();
 	FVector2D absolutePosition = geometry.GetAbsolutePosition();
 	FVector2D localPosition = geometry.AbsoluteToLocal(absolutePosition);
 	FVector2D borderSize = geometry.GetLocalSize();
 
 
-	FVector2D topLeft = localPosition;
+	FVector2D topLeft = localPosition;*/
+
+	FGeometry geometry = gridBorder->GetCachedGeometry();
+	FVector2D absolutePosition = geometry.GetAbsolutePosition();
+	FVector2D localPosition = geometry.AbsoluteToLocal(absolutePosition);
+	FVector2D borderSize = geometry.GetLocalSize();
+
+	FVector2D topLeft = localPosition/* - (borderSize * 0.5f)*/;
 
 	return topLeft;
 }
@@ -84,36 +121,24 @@ FVector2D UNewGridWidget::GetGridBorderTopLeft() const
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
 {
 	canvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(gridBorder);
-	
-	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
-	if (playerCharacter)
+	if (itemComp && IsValid(canvasSlot))
 	{
-		ATestPlayer* myPlayer = Cast<ATestPlayer>(playerCharacter);
+		float sizeX = itemComp->columns * tileSize;
+		float sizeY = itemComp->rows * tileSize;
 
-		if (myPlayer)
-		{
-			itemComp = myPlayer->GetItemComponent();
-			if (itemComp && IsValid(canvasSlot))
-			{
-				float sizeX = itemComp->columns * 100.f;
-				float sizeY = itemComp->rows * 100.f;
+		/*GetWorld()->GetTimerManager().SetTimer(SetGridSizeTimerHandle, this, &UNewGridWidget::DrawGridLine, 0.1f, false);*/
 
-				GetWorld()->GetTimerManager().SetTimer(SetGridSizeTimerHandle, this, &UNewGridWidget::DrawGridLine, 0.1f, false);
+		canvasSlot->SetSize(FVector2D(sizeX, sizeY));
 
-				// 이게 의미가 없잖아.........
-				canvasSlot->SetSize(FVector2D(sizeX, sizeY));
+		// 레이아웃과 캐싱된 데이터를 무효화하여 즉시 반영
+		Invalidate(EInvalidateWidget::LayoutAndVolatility);
 
-				// 레이아웃과 캐싱된 데이터를 무효화하여 즉시 반영
-				Invalidate(EInvalidateWidget::LayoutAndVolatility);
-
-				UE_LOG(LogTemp, Warning, TEXT("grid size: (%d, %d)"), itemComp->columns, itemComp->rows);
-			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("itemComp is null || canvasPanel is null"));
-			}
-		}
+		UE_LOG(LogTemp, Warning, TEXT("grid size: (%d, %d)"), itemComp->columns, itemComp->rows);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("itemComp is null || canvasPanel is null"));
 	}
 
 	Refresh();
@@ -146,9 +171,8 @@ void UNewGridWidget::Refresh()
 		FTileStructureTemp* topLeftTile = allItems.Find(key);
 		UItemObject* itemObject = key;
 
-		// item을 나타내는 위젯 생성
 		itemImgWidget = CreateWidget<UW_ItemImg>(GetWorld(), itemImgWidgetClass);
-
+		UE_LOG(LogTemp, Warning, TEXT("widget!"));
 		if (itemImgWidget)
 		{
 			itemImgWidget->tileSize = tileSize;
@@ -156,7 +180,21 @@ void UNewGridWidget::Refresh()
 
 			itemImgWidget->OnRemoved.AddDynamic(this, &UNewGridWidget::OnItemRemoved);
 
-			// 흠 이 뒤에 더 이어서 작성해야 해 그런데 파일 하이어라키 보면서 확인해봐 뭔가..? 뭐가 이상하단 말이지..???
+			UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(itemImgWidget));
+
+			if (tempCanvasSlot)
+			{
+				tempCanvasSlot->SetAutoSize(true);
+				// tempCanvasSlot->SetSize(FVector2D(itemImgWidget->itemObject->dimensions.X * tileSize, itemImgWidget->itemObject->dimensions.Y * tileSize));
+				tempCanvasSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
+			}
+			UE_LOG(LogTemp, Warning, TEXT("position: (%f, %f)"), tempCanvasSlot->GetPosition().X, tempCanvasSlot->GetPosition().Y);
+
+			UE_LOG(LogTemp, Warning, TEXT("size : (%f, %f)"), tempCanvasSlot->GetSize().X, tempCanvasSlot->GetSize().Y);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("fail to new item image widget create"));
 		}
 	}
 }
@@ -203,6 +241,7 @@ int32 UNewGridWidget::NativePaint(const FPaintArgs& Args, const FGeometry& Allot
 	int32 RetLayerId = Super::NativePaint(Args, AllottedGeometry, MyCullingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
 
 	FVector2D topLeft = GetGridBorderTopLeft();
+	// UE_LOG(LogTemp, Warning, TEXT("topLeft pos = (%f, %f)"), topLeft.X, topLeft.Y);
 
 	// Draw each line
 	for (const ULineStructure* Line : lines)

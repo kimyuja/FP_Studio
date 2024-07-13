@@ -76,8 +76,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void SetItemIcon(const FString& TexturePath);
 
-	UPROPERTY(EditAnywhere)
-	class UW_CustomMap* gridWidget;
+	/*UPROPERTY(EditAnywhere)
+	class UW_CustomMap* gridWidget;*/
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="UI")
+	class UNewGridWidget* gridWidget;
 
 	UPROPERTY(EditAnywhere)
 	int32 itemType;

@@ -21,6 +21,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Engine/AssetManager.h>
 #include "W_CustomMap.h"
 #include <ItemManager.h>
+#include "NewGridWidget.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include <TestPlayer.h>
 
@@ -83,7 +84,7 @@ void UW_ItemSlot::OnItemBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item button clicked!"));
 
-	SetCurrentCost();
+	// SetCurrentCost();
 	SpawnBookshelfGimmick();
 
 	if (this->itemType == 0)
@@ -199,10 +200,6 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 				UE_LOG(LogTemp, Warning, TEXT("111111111111fail"));
 			}*/
 
-			//// 싱글톤 패턴을 사용해 UItemManager 클래스의 인스턴스에 접근
-			//// UItemManager* ItemManager = UItemManager::Get();
-
-
 			if (bookShelfG->GetName() == TEXT("bookShelf_G1"))
 			{
 				FVector currentLoc = bookShelfG->GetActorLocation();
@@ -211,9 +208,12 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 
 				itemObject = bookShelfG->GetDefaultItemObject();
 				itemComponent->TryAddItem(itemObject);
+				if (itemComponent->TryAddItem(itemObject))
+				{
+					// cost 변경
+					SetCurrentCost();
+				}
 			}
-			
-
 			break;
 		}
 

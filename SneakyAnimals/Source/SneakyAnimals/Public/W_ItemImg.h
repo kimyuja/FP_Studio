@@ -56,8 +56,11 @@ public:
 	UFUNCTION()
 	void RemoveItem(class UItemObject* _ItemObject);
 
-	UPROPERTY()
-	class UW_CustomMap* customMapComp;
+	// UPROPERTY()
+	// class UW_CustomMap* customMapComp;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	class UNewGridWidget* gridWidget;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> itemSlotWidget;
