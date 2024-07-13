@@ -12,6 +12,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 	// 이거 나중에 enum 타입으로 고치기
 	if (ItemType == "Character")
 	{
+		PS_Lobby->Player_Appearance = FStructure_Player_Appearance();
 		PS_Lobby->Player_Appearance.Character = Character;
 
 		// Save_Player_Appearance
@@ -51,6 +52,52 @@ void UW_Character_Customization_Item::OnClickedButton()
 		// SR_Update_Player_Appearance
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
 	}
+	else if (ItemType == "Top")
+	{
+		PS_Lobby->Player_Appearance.Dress_Slot = FStructure_Available_Dress();
+		PS_Lobby->Player_Appearance.Top_Slot = Top;
+
+		// Save_Player_Appearance
+		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+
+		// SR_Update_Player_Appearance
+		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
+	}
+	else if (ItemType == "Bottom")
+	{
+		PS_Lobby->Player_Appearance.Dress_Slot = FStructure_Available_Dress();
+		PS_Lobby->Player_Appearance.Bottom_Slot = Bottom;
+
+		// Save_Player_Appearance
+		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+
+		// SR_Update_Player_Appearance
+		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
+	}
+	else if (ItemType == "Outer")
+	{
+		PS_Lobby->Player_Appearance.Dress_Slot = FStructure_Available_Dress();
+		PS_Lobby->Player_Appearance.Outer_Slot = Outer;
+
+		// Save_Player_Appearance
+		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+
+		// SR_Update_Player_Appearance
+		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
+	}
+	else if (ItemType == "Dress")
+	{
+		PS_Lobby->Player_Appearance.Top_Slot = FStructure_Available_Top();
+		PS_Lobby->Player_Appearance.Bottom_Slot = FStructure_Available_Bottom();
+		PS_Lobby->Player_Appearance.Outer_Slot = FStructure_Available_Outer();
+		PS_Lobby->Player_Appearance.Dress_Slot = Dress;
+
+		// Save_Player_Appearance
+		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+
+		// SR_Update_Player_Appearance
+		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
+	}
 }
 
 void UW_Character_Customization_Item::NativeConstruct()
@@ -82,5 +129,21 @@ void UW_Character_Customization_Item::Setup()
 	else if (ItemType == "Eyes")
 	{
 		Item_Image->SetBrushFromTexture(Eyes.ItemImage);
+	}
+	else if (ItemType == "Top")
+	{
+		Item_Image->SetBrushFromTexture(Top.ItemImage);
+	}
+	else if (ItemType == "Bottom")
+	{
+		Item_Image->SetBrushFromTexture(Bottom.ItemImage);
+	}
+	else if (ItemType == "Outer")
+	{
+		Item_Image->SetBrushFromTexture(Outer.ItemImage);
+	}
+	else if (ItemType == "Dress")
+	{
+		Item_Image->SetBrushFromTexture(Dress.ItemImage);
 	}
 }
