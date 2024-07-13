@@ -110,24 +110,28 @@ public:
     USkeletalMeshComponent* SM_Accessories;
 
 	//
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-    TSubclassOf<UUserWidget> C_WitchHouseMap;
-
-	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-    TSubclassOf<UUserWidget> C_SubmarineMap;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-    TSubclassOf<UUserWidget> C_BankMap;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-    TSubclassOf<UUserWidget> C_SupermarketMap;
-
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="UI")
-    class UItemComponent* itemComponent;
-	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	class UMapCustomWidget* MapCustomWidget;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+    TSubclassOf<UMapCustomWidget> C_WitchHouseMap;
+
+	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+    TSubclassOf<UMapCustomWidget> C_SubmarineMap;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+    TSubclassOf<UMapCustomWidget> C_BankMap;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+    TSubclassOf<UMapCustomWidget> C_SupermarketMap;
+
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="UI")
+    class UItemComponent* itemComponent;
+
+	UFUNCTION(BlueprintCallable, Category="UI")
+	UItemComponent* GetItemComponent() {return itemComponent;}
+	
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
 	class UItemObject* itemObject;

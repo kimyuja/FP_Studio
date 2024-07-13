@@ -80,7 +80,7 @@ ATestPlayer::ATestPlayer()
 	bReplicates = true;
 	SetReplicateMovement(true);
 
-	/*itemComponent = CreateDefaultSubobject<UItemComponent>(TEXT("itemComponent"));*/
+	itemComponent = CreateDefaultSubobject<UItemComponent>(TEXT("itemComponent"));
 
 }
 
@@ -89,7 +89,7 @@ void ATestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	itemComponent = FindComponentByClass<UItemComponent>();
+	// itemComponent = FindComponentByClass<UItemComponent>();
 	
 	clearUI = Cast<UW_StageClear>(CreateWidget(GetWorld(),stageClearUI));
 	if (clearUI)
@@ -228,7 +228,7 @@ void ATestPlayer::CreateSelectedWidget()
 	if (CustomMapWidget)
 	{
 		CustomMapWidget->AddToViewport();
-		CustomMapWidget->CustomMapGridWidget->InitializeWidget(160.f);
+		// CustomMapWidget->CustomMapGridWidget->InitializeWidget(160.f);
 		
 	}
 }
