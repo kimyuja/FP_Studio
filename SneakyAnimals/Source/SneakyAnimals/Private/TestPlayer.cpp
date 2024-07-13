@@ -89,7 +89,11 @@ void ATestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// itemComponent = FindComponentByClass<UItemComponent>();
+	if (!itemComponent)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("itemComponent is null in testplayer"));
+		return;
+	}
 	
 	clearUI = Cast<UW_StageClear>(CreateWidget(GetWorld(),stageClearUI));
 	if (clearUI)

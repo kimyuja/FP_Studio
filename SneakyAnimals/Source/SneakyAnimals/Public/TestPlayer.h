@@ -125,18 +125,15 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
     TSubclassOf<UMapCustomWidget> C_SupermarketMap;
 
-
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="UI")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
     class UItemComponent* itemComponent;
 
 	UFUNCTION(BlueprintCallable, Category="UI")
 	UItemComponent* GetItemComponent() {return itemComponent;}
 	
-
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
 	class UItemObject* itemObject;
 
-	
     UFUNCTION(BlueprintCallable, Category = "CreateWidget")
 	void CreateSelectedWidget();
 	//
