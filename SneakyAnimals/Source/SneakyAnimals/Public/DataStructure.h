@@ -88,6 +88,9 @@ struct FStructure_Available_Accessories : public FTableRowBase
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
     int32 ItemID;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 CharacterID;
 };
 
 USTRUCT(Atomic, BlueprintType)
@@ -106,6 +109,9 @@ struct FStructure_Available_Skins : public FTableRowBase
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
     int32 ItemID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 CharacterID;
 };
 
 USTRUCT(Atomic, BlueprintType)
@@ -124,6 +130,93 @@ struct FStructure_Available_Eyes : public FTableRowBase
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
     int32 ItemID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 CharacterID;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FStructure_Available_Top : public FTableRowBase
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString Name;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UTexture2D* ItemImage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    USkeletalMesh* Mesh;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 ItemID;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 CharacterID;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FStructure_Available_Bottom : public FTableRowBase
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString Name;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UTexture2D* ItemImage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    USkeletalMesh* Mesh;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 ItemID;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 CharacterID;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FStructure_Available_Outer : public FTableRowBase
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString Name;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UTexture2D* ItemImage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    USkeletalMesh* Mesh;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 ItemID;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 CharacterID;
+};
+
+USTRUCT(Atomic, BlueprintType)
+struct FStructure_Available_Dress : public FTableRowBase
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString Name;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UTexture2D* ItemImage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    USkeletalMesh* Mesh;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 ItemID;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 CharacterID;
 };
 
 USTRUCT(BlueprintType)
@@ -142,6 +235,18 @@ struct FStructure_Player_Appearance
 	
 	UPROPERTY(BlueprintReadOnly)
 	FStructure_Available_Eyes Eyes_Slot;
+	
+	UPROPERTY(BlueprintReadOnly)
+	FStructure_Available_Top Top_Slot;
+	
+	UPROPERTY(BlueprintReadOnly)
+	FStructure_Available_Bottom Bottom_Slot;
+
+	UPROPERTY(BlueprintReadOnly)
+	FStructure_Available_Outer Outer_Slot;
+
+	UPROPERTY(BlueprintReadOnly)
+	FStructure_Available_Dress Dress_Slot;
 };
 
 USTRUCT(BlueprintType)
