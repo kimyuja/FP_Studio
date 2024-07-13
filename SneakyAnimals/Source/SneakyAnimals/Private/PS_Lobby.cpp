@@ -20,11 +20,19 @@ void APS_Lobby::OnRep_Player_Appearance_OR()
 		player->Current_Accessories = Player_Appearance.Accessories_Slot.Mesh;
 		player->Current_Skins = Player_Appearance.Skins_Slot.Material;
 		player->Current_Eyes = Player_Appearance.Eyes_Slot.Material;
+		player->Current_Top = Player_Appearance.Top_Slot.Mesh;
+		player->Current_Bottom = Player_Appearance.Bottom_Slot.Mesh;
+		player->Current_Outer = Player_Appearance.Outer_Slot.Mesh;
+		player->Current_Dress = Player_Appearance.Dress_Slot.Mesh;
 
 		// player의 OnRep_Current_SkeletalMesh가 실행된다.
 		player->OnRep_Current_SkeletalMesh();
 		player->OnRep_Current_Accessories();
 		player->OnRep_Current_Skins();
 		player->OnRep_Current_Eyes();
+		player->OnRep_Current_Top();
+		player->OnRep_Current_Bottom();
+		player->OnRep_Current_Outer();
+		player->OnRep_Current_Dress();
 	}
 }

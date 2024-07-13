@@ -29,6 +29,10 @@ public:
 	FStructure_Available_Accessories Accessories;
 	FStructure_Available_Skins Skins;
 	FStructure_Available_Eyes Eyes;
+	FStructure_Available_Top Top;
+	FStructure_Available_Bottom Bottom;
+	FStructure_Available_Outer Outer;
+	FStructure_Available_Dress Dress;
 	
 
 	UPROPERTY()

@@ -45,7 +45,15 @@ ATestPlayer::ATestPlayer()
 
 	// 악세사리 스켈레탈 메쉬 컴포넌트를 초기화하고 자식으로 설정
 	SM_Accessories = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Accessories"));
+	SM_Top = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Top"));
+	SM_Bottom = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Bottom"));
+	SM_Outer = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Outer"));
+	SM_Dress = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Dress"));
 	SM_Accessories->SetupAttachment(GetMesh());
+	SM_Top->SetupAttachment(GetMesh());
+	SM_Bottom->SetupAttachment(GetMesh());
+	SM_Outer->SetupAttachment(GetMesh());
+	SM_Dress->SetupAttachment(GetMesh());
 
 	// 애니메이션 블루프린트를 로드하고 설정
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> AnimBlueprint(TEXT("/Script/Engine.AnimBlueprint'/Game/Characters/Mannequins/Animations/ABP_Quinn.ABP_Quinn_C'"));
@@ -53,6 +61,10 @@ ATestPlayer::ATestPlayer()
 	{
 		AnimationBlueprintClass = AnimBlueprint.Object->GeneratedClass;
 		SM_Accessories->SetAnimInstanceClass(AnimationBlueprintClass);
+		SM_Top->SetAnimInstanceClass(AnimationBlueprintClass);
+		SM_Bottom->SetAnimInstanceClass(AnimationBlueprintClass);
+		SM_Outer->SetAnimInstanceClass(AnimationBlueprintClass);
+		SM_Dress->SetAnimInstanceClass(AnimationBlueprintClass);
 	}
 	
 
@@ -259,17 +271,91 @@ void ATestPlayer::OnRep_Current_Accessories()
 
 void ATestPlayer::OnRep_Current_Skins()
 {
-	if (Current_Skins->IsValidLowLevelFast())
+	// Material Slot 이름을 가져옴
+	TArray<FName> MaterialSlotNames = GetMesh()->GetMaterialSlotNames();
+
+	// 확인할 Material Slot 이름들
+	FName SlotName1(TEXT("M_Bull_Dandelion_BODY"));
+	FName SlotName2(TEXT("M_BUNNY_JESSICA_BODY"));
+	FName SlotName3(TEXT("standardSurface2"));
+	FName SlotName4(TEXT("M_TURTLE_BODY"));
+
+	// Material Slot이 존재하는지 확인하고 설정
+	for (int32 i = 0; i < MaterialSlotNames.Num(); ++i)
 	{
-		GetMesh()->SetMaterialByName(FName(TEXT("M_Bull_Dandelion_BODY")), Current_Skins);
+		if (MaterialSlotNames[i] == SlotName1 || MaterialSlotNames[i] == SlotName2 || MaterialSlotNames[i] == SlotName3 || MaterialSlotNames[i] == SlotName4)
+		{
+			GetMesh()->SetMaterialByName(MaterialSlotNames[i], Current_Skins);
+		}
 	}
 }
 
 void ATestPlayer::OnRep_Current_Eyes()
 {
-	if (Current_Eyes->IsValidLowLevelFast())
+	// Material Slot 이름을 가져옴
+	TArray<FName> MaterialSlotNames = GetMesh()->GetMaterialSlotNames();
+
+	// 확인할 Material Slot 이름들
+	FName SlotName1(TEXT("pasted__M_Bull_Dandelion_EYES"));
+	FName SlotName2(TEXT("M_BUNNY_JESSICA_EYES"));
+	FName SlotName3(TEXT("pasted__standardSurface3"));
+	FName SlotName4(TEXT("M_TURTLE_EYES"));
+
+	// Material Slot이 존재하는지 확인하고 설정
+	for (int32 i = 0; i < MaterialSlotNames.Num(); ++i)
 	{
-		GetMesh()->SetMaterialByName(FName(TEXT("pasted__M_Bull_Dandelion_EYES")), Current_Eyes);
+		if (MaterialSlotNames[i] == SlotName1 || MaterialSlotNames[i] == SlotName2 || MaterialSlotNames[i] == SlotName3 || MaterialSlotNames[i] == SlotName4)
+		{
+			GetMesh()->SetMaterialByName(MaterialSlotNames[i], Current_Eyes);
+		}
+	}
+}
+
+void ATestPlayer::OnRep_Current_Top()
+{
+	if (Current_Top->IsValidLowLevelFast())
+	{
+		SM_Top->SetSkinnedAssetAndUpdate(Current_Top);
+	}
+	else
+	{
+		SM_Top->SetSkinnedAssetAndUpdate(nullptr);
+	}
+}
+
+void ATestPlayer::OnRep_Current_Bottom()
+{
+	if (Current_Bottom->IsValidLowLevelFast())
+	{
+		SM_Bottom->SetSkinnedAssetAndUpdate(Current_Bottom);
+	}
+	else
+	{
+		SM_Bottom->SetSkinnedAssetAndUpdate(nullptr);
+	}
+}
+
+void ATestPlayer::OnRep_Current_Outer()
+{
+	if (Current_Outer->IsValidLowLevelFast())
+	{
+		SM_Outer->SetSkinnedAssetAndUpdate(Current_Outer);
+	}
+	else
+	{
+		SM_Outer->SetSkinnedAssetAndUpdate(nullptr);
+	}
+}
+
+void ATestPlayer::OnRep_Current_Dress()
+{
+	if (Current_Dress->IsValidLowLevelFast())
+	{
+		SM_Dress->SetSkinnedAssetAndUpdate(Current_Dress);
+	}
+	else
+	{
+		SM_Dress->SetSkinnedAssetAndUpdate(nullptr);
 	}
 }
 
@@ -630,4 +716,9 @@ void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(ATestPlayer, Current_SkeletalMesh);
 	DOREPLIFETIME(ATestPlayer, Current_Accessories);
 	DOREPLIFETIME(ATestPlayer, Current_Skins);
+	DOREPLIFETIME(ATestPlayer, Current_Eyes);
+	DOREPLIFETIME(ATestPlayer, Current_Top);
+	DOREPLIFETIME(ATestPlayer, Current_Bottom);
+	DOREPLIFETIME(ATestPlayer, Current_Outer);
+	DOREPLIFETIME(ATestPlayer, Current_Dress);
 }

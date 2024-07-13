@@ -105,9 +105,37 @@ public:
 	UPROPERTY(ReplicatedUsing = OnRep_Current_Eyes)
 	UMaterial* Current_Eyes;
 
+	UPROPERTY(ReplicatedUsing = OnRep_Current_Top)
+	USkeletalMesh* Current_Top;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Current_Bottom)
+	USkeletalMesh* Current_Bottom;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Current_Outer)
+	USkeletalMesh* Current_Outer;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Current_Dress)
+	USkeletalMesh* Current_Dress;
+
     // ¾Ç¼¼»ç¸® ½ºÄÌ·¹Å» ¸Þ½¬ ÄÄÆ÷³ÍÆ®
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
     USkeletalMeshComponent* SM_Accessories;
+
+	// »óÀÇ ½ºÄÌ·¹Å» ¸Þ½¬ ÄÄÆ÷³ÍÆ®
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+    USkeletalMeshComponent* SM_Top;
+
+	// ÇÏÀÇ ½ºÄÌ·¹Å» ¸Þ½¬ ÄÄÆ÷³ÍÆ®
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+    USkeletalMeshComponent* SM_Bottom;
+
+	// ¿ÜÅõ ½ºÄÌ·¹Å» ¸Þ½¬ ÄÄÆ÷³ÍÆ®
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+    USkeletalMeshComponent* SM_Outer;
+
+	// µå·¹½º ½ºÄÌ·¹Å» ¸Þ½¬ ÄÄÆ÷³ÍÆ®
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+    USkeletalMeshComponent* SM_Dress;
 
 	//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
@@ -149,6 +177,18 @@ public:
 	
 	UFUNCTION()
 	void OnRep_Current_Eyes();
+
+	UFUNCTION()
+	void OnRep_Current_Top();
+
+	UFUNCTION()
+	void OnRep_Current_Bottom();
+
+	UFUNCTION()
+	void OnRep_Current_Outer();
+
+	UFUNCTION()
+	void OnRep_Current_Dress();
 
 	bool bCanActive;
 
