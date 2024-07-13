@@ -49,8 +49,8 @@ private:
 
 	float lerpTime;
 
-	FTimerHandle spinT;
 	FTimerHandle roadRollerT;
+	FTimerHandle doorT;
 
 	class ATestPlayer* cartTarget;
 

@@ -56,9 +56,14 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 	}
 	if (cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 100.0)
 	{
-		GetWorldTimerManager().PauseTimer(spinT);
+		GetWorldTimerManager().PauseTimer(roadRollerT);
 		cartTarget->Respawn();
 		cartTarget->DeathCounting();
+		Destroy();
+	}
+	if (Myactivetype == 2 && FVector::Dist(GetActorLocation(), FVector(0)) < 100.0)
+	{
+		GetWorldTimerManager().PauseTimer(doorT);
 		Destroy();
 	}
 
@@ -135,7 +140,7 @@ void ASP_CartGimmick::RoadRoller(AActor* ActivePlayer)
 					{
 						FVector targetLoc = (cartTarget->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 						UE_LOG(LogTemp, Warning, TEXT("Go!"));
-						SetActorLocation(GetActorLocation() + targetLoc * 10.0);
+						SetActorLocation(GetActorLocation() + targetLoc * 100.0);
 					}, 0.03f, true, 0);
 			}
 		}
@@ -147,6 +152,12 @@ void ASP_CartGimmick::RollingCart()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
+	GetWorldTimerManager().SetTimer(doorT, [&]()
+		{
+			FVector targetLoc = (FVector(0, 0, 0) - GetActorLocation()).GetSafeNormal();
+			UE_LOG(LogTemp, Warning, TEXT("Door Boom!"));
+			SetActorLocation(GetActorLocation() + targetLoc * 100.0);
+		}, 0.03f, true, 0);
 	lerpTime = 0;
 
 
