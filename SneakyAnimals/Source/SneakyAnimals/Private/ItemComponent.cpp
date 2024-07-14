@@ -103,9 +103,9 @@ bool UItemComponent::IsRoomAvailable(UItemObject* __ItemObject, int32 __TopLeftI
 
 
 	// item이 leftTop의 인덱스에 추가될 경우 차지하게 될 인벤토리 내부의 타일 반복 탐색
-	for (int32 i = topLeftTile.X; i < iLastIdx - itemDimension.X; i++)
+	for (int32 i = topLeftTile.X; i < iLastIdx; i++)
 	{
-		for (int32 j = topLeftTile.Y; j < jLastIdx - itemDimension.Y; j++)
+		for (int32 j = topLeftTile.Y; j < jLastIdx; j++)
 		{
 
 			FTileStructureTemp tile;
@@ -115,40 +115,9 @@ bool UItemComponent::IsRoomAvailable(UItemObject* __ItemObject, int32 __TopLeftI
 			// 타일이 유효한지 확인
 			// return 값이 false인 경우 : 사용 가능한 공간 없음
 			// return 값이 true인 경우(유효한 경우) : 사용 가능한 공간 존재 => 해당 타일 반환
-			bool bFind = CheckEmptySlot(tile);
-
-
-			/*UE_LOG(LogTemp, Warning, TEXT("bFind: %d"), bFind);
-			UE_LOG(LogTemp, Warning, TEXT("i: %d, j: %d"), i, j);*/
-
-			/*if(bFind == false)
-				return false;*/
-
-				//if (bFind)
-				//{
-				//	// 유효한 타일의 인덱스를 확인하여
-				//	// 인덱스 위치의 인벤토리가 완전히 비어있으면 true 반환 (인덱스 유효)
-				//	// 
-				//	if (GetItemAtIndex(TileToIndex(tile)) != nullptr)
-				//	{
-				//		return false; // 애매하다 이게 맞나
-
-				//	}
-				//}
-				//else
-				//{
-				//	return false;
-				//}
-
-			//if (!bFind)
-			//{
-			//	return false;	// 흠 이거 맞겠지
-			//}
-			if (bFind)
+			if (!CheckEmptySlot(tile))
 			{
-				/*i += itemDimension.X;
-				j += itemDimension.Y;*/
-				return true;	// 흠 이거 맞겠지
+				return false;
 			}
 
 		}
@@ -166,110 +135,48 @@ bool UItemComponent::CheckEmptySlot(FTileStructureTemp tile)
 	}
 	else
 	{
-		// GetItemAtIndex는 itemObject를 리턴함
-		// CheckIsValid() 
-		if (IsValid(GetItemAtIndex(TileToIndex(tile))))
+		//// GetItemAtIndex는 itemObject를 리턴함
+		//// CheckIsValid() 
+		//if (IsValid(GetItemAtIndex(TileToIndex(tile))))
+		//{
+		//	UE_LOG(LogTemp, Warning, TEXT("isvaild"));
+		//	return false;
+		//}// **********************
+		//else {
+		//	if (items.IsValidIndex(TileToIndex(tile)))
+		//	{
+		//		if (items[TileToIndex(tile)] == nullptr)
+		//		{
+		//			return true;
+		//		}
+		//		else
+		//		{
+		//			return false;
+		//		}
+		//	}
+		//	else
+		//	{
+		//		return false;
+		//	}
+		//}
+
+		if (GetItemAtIndex(TileToIndex(tile)))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("isvaild"));
-			return false;
-		}// **********************
-		else {
-			if (items.IsValidIndex(TileToIndex(tile)))
-			{
-				if (items[TileToIndex(tile)] == nullptr)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			else
+			if (IsValid(outItemTemp))
 			{
 				return false;
 			}
+			else
+			{
+				return true;
+			}
+		}
+		else
+		{
+			return false;
 		}
 	}
 }
-
-bool UItemComponent::ForEachIndex(UItemObject* ItemObject, int32 TopLeftIndex)
-{
-	//FIntPoint itemDimension = ItemObject->GetDimensions();
-	//FTileStructureTemp topLeftTile = IndexToTile(TopLeftIndex);
-
-	//int32 iLastIdx = topLeftTile.X + itemDimension.X;
-	//int32 jLastIdx = topLeftTile.Y + itemDimension.Y;
-
-	//for (int32 i = topLeftTile.X; i < iLastIdx; i++)
-	//{
-	//	for (int32 j = topLeftTile.Y; j < jLastIdx; j++)
-	//	{
-	//		//
-	//		FTileStructureTemp tile;
-	//		tile.X = i;
-	//		tile.Y = j;
-
-	//		bool bCheck = IsTileValid(tile);
-	//		if (bCheck == false)
-	//		{
-	//			return false;
-	//		}
-	//		else
-	//		{
-	//			if (items.IsValidIndex(TileToIndex(tile)))
-	//			{
-	//				if (items[TileToIndex(tile)] == nullptr)
-	//				{
-	//					return true;
-	//				}
-	//				else
-	//				{
-	//					return false;
-	//				}
-	//			}
-	//			else
-	//			{
-	//				return false;
-	//			}
-	//		}
-	//	}
-	//}
-
-	return true;
-}
-
-//UTileStructure* UItemComponent::IndexToTile(int32 Index) const
-//{
-//	// 0 에서 n까지 x와 y 좌표로 변환
-//	UTileStructure* tile = NewObject<UTileStructure>();
-//
-//	tile->X = Index % columns;
-//	tile->Y = Index / columns;
-//
-//	return tile;
-//}
-//
-//bool UItemComponent::IsTileValid(UTileStructure* Tile)
-//{
-//	bool condition1 = (Tile->X >= 0);
-//	bool condition2 = (Tile->Y >= 0);
-//	bool condition3 = (Tile->X < 0);
-//	bool condition4 = (Tile->Y < 0);
-//	/*
-//	// 이게 맞는거 같은데 영상에선 위에 코드를 쓴다..
-//	bool condition3 = (Tile.X < columns);
-//	bool condition4 = (Tile.Y < rows);*/
-//
-//	bool allCondition = condition1 && condition2 && condition3 && condition4;
-//
-//	return allCondition;
-//}
-//
-//int UItemComponent::TileToIndex(UTileStructure* Tile)
-//{
-//	return Tile->X + (Tile->Y * columns);
-//}
 
 FTileStructureTemp UItemComponent::IndexToTile(int32 Index) const
 {
@@ -296,9 +203,9 @@ int32 UItemComponent::TileToIndex(FTileStructureTemp Tile) const
 	return Tile.X + (Tile.Y * columns);
 }
 
-UItemObject* UItemComponent::GetItemAtIndex(int32 Index)
+bool UItemComponent::GetItemAtIndex(int32 Index)
 {
-	bool bValid = items.IsValidIndex(Index);
+	/*bool bValid = items.IsValidIndex(Index);
 
 	UItemObject* ItemObjectTemp = items[Index];
 
@@ -311,25 +218,21 @@ UItemObject* UItemComponent::GetItemAtIndex(int32 Index)
 	{
 		CheckIsValid(true);
 		return ItemObjectTemp;
-	}
+	}*/
 
+	bool bValid = items.IsValidIndex(Index);
 
-	/*bValid = false;
-
-	if (!items.IsValidIndex(Index))
+	if (bValid)
 	{
-		return nullptr;
+		outItemTemp = items[Index];
+		return true;
 	}
-
-	UItemObject* ItemObject = items[Index];
-
-	if (IsValid(ItemObject))
+	else
 	{
-		bValid = true;
-		return ItemObject;
+		outItemTemp = nullptr;
+		return false;
 	}
 
-	return nullptr;*/
 
 }
 
@@ -352,7 +255,8 @@ void UItemComponent::AddItemAt(UItemObject* _ItemObject_, int32 _TopLeftIndex_)
 			int32 itemIdx = TileToIndex(tile);
 
 			// setArrayElem으로 Items를 targetArray로 받고 itemIdx를 Index로 받고 ItmeObject를 Item으로 받음
-			items.Insert(_ItemObject_, itemIdx);
+			// items.Insert(_ItemObject_, itemIdx);
+			items[itemIdx] = _ItemObject_;
 		}
 	}
 	isDirty = true;

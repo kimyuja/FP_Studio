@@ -52,20 +52,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool CheckEmptySlot(FTileStructureTemp tile);
 
-	// macro
-	UFUNCTION(BlueprintCallable)
-	bool ForEachIndex(UItemObject* ItemObject, int32 TopLeftIndex);
-
-	//UFUNCTION(BlueprintCallable)  
-	//class UTileStructure* IndexToTile(int32 Index) const;
-
-	//// macro -> 타일이 유효한지 여부 확인
-	//UFUNCTION(BlueprintCallable)
-	//bool IsTileValid(UTileStructure* Tile);
-	//
-	//UFUNCTION(BlueprintCallable)
-	//int TileToIndex(UTileStructure* Tile);
-
 	UFUNCTION(BlueprintCallable)  
 	FTileStructureTemp IndexToTile(int32 Index) const;
 
@@ -77,7 +63,7 @@ public:
 	int32 TileToIndex(FTileStructureTemp Tile) const; 
 
 	UFUNCTION(BlueprintCallable)
-	UItemObject* GetItemAtIndex(int32 Index);
+	bool GetItemAtIndex(int32 Index);
 
 	UFUNCTION(BlueprintCallable)
 	//UItemObject* AddItemAt(UItemObject* ItemObject, int32 TopLeftIndex);
@@ -101,5 +87,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	bool checkcheckbool;
 
+	UPROPERTY(EditAnywhere)
+	class UItemObject* outItemTemp;
 
 };

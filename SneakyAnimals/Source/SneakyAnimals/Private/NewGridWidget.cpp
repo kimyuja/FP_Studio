@@ -82,10 +82,12 @@ void UNewGridWidget::NativeConstruct()
 		UE_LOG(LogTemp, Warning, TEXT("GetWorld() call failed"));
 	}
 
+	itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
 }
 
 void UNewGridWidget::OnItemRemoved(UItemObject* _ItemObject)
 {
+	itemComp->RemoveItem(_ItemObject);
 }
 
 void UNewGridWidget::DrawGridLine()
@@ -100,14 +102,6 @@ void UNewGridWidget::DrawGridLine()
 
 FVector2D UNewGridWidget::GetGridBorderTopLeft() const
 {
-	/*FGeometry geometry = gridBorder->GetCachedGeometry();
-	FVector2D absolutePosition = geometry.GetAbsolutePosition();
-	FVector2D localPosition = geometry.AbsoluteToLocal(absolutePosition);
-	FVector2D borderSize = geometry.GetLocalSize();
-
-
-	FVector2D topLeft = localPosition;*/
-
 	FGeometry geometry = gridBorder->GetCachedGeometry();
 	FVector2D absolutePosition = geometry.GetAbsolutePosition();
 	FVector2D localPosition = geometry.AbsoluteToLocal(absolutePosition);
@@ -143,7 +137,7 @@ void UNewGridWidget::GridBorderSetSize(float _TileSize)
 
 	Refresh();
 
-	itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
+	// itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
 
 }
 
@@ -167,27 +161,36 @@ void UNewGridWidget::Refresh()
 
 	for (UItemObject* key : Keys)
 	{
-		// 그리드에 아이템 추가할 때마다 앞에서부터 위젯 생성된게 여기 문제인 것 같기도
 		FTileStructureTemp* topLeftTile = allItems.Find(key);
 		UItemObject* itemObject = key;
 
-		itemImgWidget = CreateWidget<UW_ItemImg>(GetWorld(), itemImgWidgetClass);
+		UW_ItemImg* newItemImgWidget = CreateWidget<UW_ItemImg>(GetWorld(), itemImgWidgetClass);
 		UE_LOG(LogTemp, Warning, TEXT("widget!"));
-		if (itemImgWidget)
+		if (newItemImgWidget)
 		{
-			itemImgWidget->tileSize = tileSize;
-			itemImgWidget->itemObject = itemObject;
+			newItemImgWidget->tileSize = tileSize;
+			newItemImgWidget->itemObject = itemObject;
 
-			itemImgWidget->OnRemoved.AddDynamic(this, &UNewGridWidget::OnItemRemoved);
+			newItemImgWidget->OnRemoved.AddDynamic(this, &UNewGridWidget::OnItemRemoved);
 
 			UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(itemImgWidget));
 
 			if (tempCanvasSlot)
 			{
+				tempCanvasSlot->SetZOrder(5);
 				tempCanvasSlot->SetAutoSize(true);
 				// tempCanvasSlot->SetSize(FVector2D(itemImgWidget->itemObject->dimensions.X * tileSize, itemImgWidget->itemObject->dimensions.Y * tileSize));
 				tempCanvasSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
+				ESlateVisibility visibility = itemImgWidget->GetVisibility(); 
+				UE_LOG(LogTemp, Warning, TEXT("tempCanvasSlot be maked!"));
+
 			}
+			/*if (itemImgWidget->IsInViewport())
+			{
+				itemImgWidget->RemoveFromParent();
+			}
+			itemImgWidget->AddToViewport();*/
+
 			UE_LOG(LogTemp, Warning, TEXT("position: (%f, %f)"), tempCanvasSlot->GetPosition().X, tempCanvasSlot->GetPosition().Y);
 
 			UE_LOG(LogTemp, Warning, TEXT("size : (%f, %f)"), tempCanvasSlot->GetSize().X, tempCanvasSlot->GetSize().Y);

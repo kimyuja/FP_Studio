@@ -8,10 +8,9 @@
 #include "timerManager.h"
 #include "ItemObject.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanelSlot.h>
-#include "W_CustomMap.h"
 #include <Blueprint/WidgetLayoutLibrary.h>
 #include <W_ItemSlot.h>
-
+#include "NewGridWidget.h"
 
 bool UW_ItemImg::Initialize()
 {

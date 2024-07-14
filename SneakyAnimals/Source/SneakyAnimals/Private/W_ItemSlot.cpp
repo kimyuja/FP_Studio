@@ -95,24 +95,7 @@ void UW_ItemSlot::OnItemBtnClicked()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("this itemtype is not 0"));
 	}
-	//findBookshelfGimmick->GetDefaultItemObject();
-
-	//if (itemComponent && itemObject)
-	//{
-	//	
-	//	if (itemComponent->TryAddItem(itemObject))
-	//	{
-	//		int newCost = mapCustomWidget->maxCostAsInt(itemCostAsInt);
-	//		mapCustomWidget->UpdateMaxCost(newCost * -1);
-	//		//UE_LOG(LogTemp, Warning, TEXT("Ready to Add Item"));
-	//	}
-	//	//UE_LOG(LogTemp, Warning, TEXT("Object is Same"));
-	//}
-
-
-	// gridWidget->Refresh();
-
-
+	
 }
 
 
@@ -185,21 +168,6 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 		{
 		case 0:
 		{
-			////AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, FVector(0, 0, 10), FRotator::ZeroRotator);
-			//
-			/*AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(AWH_BookshelfGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
-
-			itemObject = wh1->GetDefaultItemObject();*/
-			/*
-			if (ItemTexture000)
-			{
-				UE_LOG(LogTemp, Warning, TEXT("000000000000000000success"));
-			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("111111111111fail"));
-			}*/
-
 			if (bookShelfG->GetName() == TEXT("bookShelf_G1"))
 			{
 				FVector currentLoc = bookShelfG->GetActorLocation();
