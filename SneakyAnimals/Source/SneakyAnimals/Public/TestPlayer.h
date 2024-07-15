@@ -58,10 +58,7 @@ public:
 	class UInputAction* ia_emo1;
 
 	UPROPERTY(EditDefaultsOnly, Category = Test)
-	class UInputAction* ia_emo2;
-
-	UPROPERTY(EditDefaultsOnly, Category = Test)
-	class UInputAction* ia_emo3;
+	class UInputAction* ia_currentScore;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite ,Category = Test)
 	FVector respawnLoc = FVector(0, 0, 80);
@@ -83,6 +80,12 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	class UW_StageClear* clearUI;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> mainUIF;
+
+	UPROPERTY(EditAnywhere)
+	class UW_InGameUI* mainUI;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	class ASAGameStateBase* gameState;
@@ -228,6 +231,10 @@ public:
 	void ActiveGimmick(const FInputActionValue& Value);
 
 	void ShowEmo(const FInputActionValue& Value);
+
+	void ShowScore(const FInputActionValue& Value);
+
+	void CloseScore(const FInputActionValue& Value);
 
 	void DeathCounting();
 

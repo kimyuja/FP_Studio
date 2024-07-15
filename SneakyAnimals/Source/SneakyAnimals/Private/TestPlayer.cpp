@@ -32,6 +32,7 @@
 #include "W_CustomMap.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Camera/CameraActor.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
+#include "W_InGameUI.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -128,6 +129,12 @@ void ATestPlayer::BeginPlay()
 		
 	}
 
+	mainUI = Cast<UW_InGameUI>(CreateWidget(GetWorld(), mainUIF));
+	if (mainUI)
+	{
+		mainUI->AddToViewport(2);
+		//mainUI->SetVisibility(ESlateVisibility::Hidden);
+	}
 	// 게임 모드에 따라서 카메라 위치를 1인칭, 3인칭으로 바꾸기
 	// Lobby_Level : 3인칭, 이유 : 자신의 캐릭터 커스터마이징이 바뀌는 게 보여야 해서
 	// Game_Level : 1인칭, 이유 : 기믹이랑 상호작용하려면 1인칭이 편해서
@@ -208,8 +215,9 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		enhancedinput->BindAction(ia_activeG, ETriggerEvent::Started, this, &ATestPlayer::ActiveGimmick);
 
 		enhancedinput->BindAction(ia_emo1, ETriggerEvent::Started, this, &ATestPlayer::ShowEmo);
-		enhancedinput->BindAction(ia_emo2, ETriggerEvent::Started, this, &ATestPlayer::ActiveGimmick);
-		enhancedinput->BindAction(ia_emo3, ETriggerEvent::Started, this, &ATestPlayer::ActiveGimmick);
+
+		enhancedinput->BindAction(ia_currentScore, ETriggerEvent::Started, this, &ATestPlayer::ShowScore);
+		enhancedinput->BindAction(ia_currentScore, ETriggerEvent::Completed, this, &ATestPlayer::CloseScore);
 	}
 	else
 	{
@@ -442,6 +450,16 @@ void ATestPlayer::ShowEmo(const FInputActionValue& Value)
 	Cast<UUserEmoticon>(emoticonUI->GetWidget())->ShowEmoticon(inputNum - 1);
 }
 
+void ATestPlayer::ShowScore(const FInputActionValue& Value)
+{
+	mainUI->SetOverlayShow(true);
+}
+
+void ATestPlayer::CloseScore(const FInputActionValue& Value)
+{
+	mainUI->SetOverlayShow(false);
+}
+
 void ATestPlayer::DeathCounting()
 {
 	gameState->SetDeathCountUp(playerNum);
@@ -491,7 +509,7 @@ void ATestPlayer::Respawn(float delaytime)
 		bIsDie = false;
 		bIsBlack = false;
 		GetWorldTimerManager().ClearAllTimersForObject(this);
-	}, 1.0, false, 3.0);
+	}, 1.0, false, delaytime);
 	
 }
 
@@ -673,6 +691,7 @@ void ATestPlayer::ServerRPC_ActiveGimmick_Implementation(ATestPlayer* aP)
 	//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), aP->GetActorLocation().X, aP->GetActorLocation().Y, aP->GetActorLocation().Z);
 	if (clearUI->bIsClear)
 	{
+		mainUI->bISClear = true;
 		return;
 	}
 	MultiRPC_ActiveGimmick(aP);
@@ -689,11 +708,11 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 		//UE_LOG(LogTemp, Warning, TEXT("Fail %d"), key);
 		if (key == 2)
 		{
+			mainUI->bISClear = true;
 			bCanOpenDoor = true;
 			gameState->bOnGame = false;
 			clearUI->SetWidgetState();
 			clearUI->bIsClear = true;
-			
 			clearUI->SetVisibility(ESlateVisibility::Visible);
 		}
 	}

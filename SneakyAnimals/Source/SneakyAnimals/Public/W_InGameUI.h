@@ -56,9 +56,22 @@ public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* Player4_DeathCount;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UOverlay* DeathCount;
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	class ASAGameStateBase* gameState;
 
+	float gametime;
+
+	bool bISClear = false;
+
 	UFUNCTION()
 	void SetPlayerTD();
+
+	UFUNCTION()
+	void SetStageTimer();
+
+	UFUNCTION()
+	void SetOverlayShow(bool bShow);
 };
