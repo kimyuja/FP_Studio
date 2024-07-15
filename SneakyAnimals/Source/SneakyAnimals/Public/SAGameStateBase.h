@@ -42,6 +42,9 @@ public:
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
 	TArray<int32> voteCount;
 
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
+	TArray<int32> activeCount;
+
 	UPROPERTY(Replicated, EditAnywhere)
 	bool bOnGame = false;
 

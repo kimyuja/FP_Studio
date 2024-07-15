@@ -114,6 +114,7 @@ void ATestPlayer::BeginPlay()
 		clearUI->SetVisibility(ESlateVisibility::Hidden);
 	}
 	gameState = Cast<ASAGameStateBase>(GetWorld()->GetGameState());
+
 	if (gameState)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Game Mode Set"));
