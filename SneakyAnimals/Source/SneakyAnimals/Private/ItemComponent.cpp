@@ -239,10 +239,14 @@ bool UItemComponent::GetItemAtIndex(int32 Index)
 void UItemComponent::AddItemAt(UItemObject* _ItemObject_, int32 _TopLeftIndex_)
 {
 	FIntPoint itemDimension = _ItemObject_->GetDimensions();
+	UE_LOG(LogTemp, Warning, TEXT("!!! ITEMCOMPONENT Dimension XY is %d %d"), itemDimension.X, itemDimension.Y)
 	FTileStructureTemp topLeftTile = IndexToTile(_TopLeftIndex_);
+	UE_LOG(LogTemp, Warning, TEXT("!!! topLeft tile X is %d"), topLeftTile.X);
 
 	int32 iLastIdx = topLeftTile.X + itemDimension.X;
 	int32 jLastIdx = topLeftTile.Y + itemDimension.Y;
+	UE_LOG(LogTemp, Warning, TEXT("!!! iLastIdx is %d / jLastIdx is %d"), iLastIdx, jLastIdx);
+
 
 	for (int32 i = topLeftTile.X; i < iLastIdx; i++)
 	{

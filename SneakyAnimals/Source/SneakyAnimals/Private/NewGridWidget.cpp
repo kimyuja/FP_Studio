@@ -156,9 +156,13 @@ void UNewGridWidget::Refresh()
 
 	TMap<UItemObject*, FTileStructureTemp> allItems = itemComp->GetAllItems();
 
+	UE_LOG(LogTemp, Warning, TEXT("allitems Num : %d"), allItems.Num());
+
 	TArray<UItemObject*> Keys;
 	allItems.GenerateKeyArray(Keys);
 
+	UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(gridCanvasPanel);
+	
 	for (UItemObject* key : Keys)
 	{
 		FTileStructureTemp* topLeftTile = allItems.Find(key);
@@ -169,20 +173,26 @@ void UNewGridWidget::Refresh()
 		if (newItemImgWidget)
 		{
 			newItemImgWidget->tileSize = tileSize;
+			UE_LOG(LogTemp, Warning, TEXT("!!! tileSize : %f"), tileSize);
 			newItemImgWidget->itemObject = itemObject;
+			UE_LOG(LogTemp, Warning, TEXT("!!! itemObject NAME : %s"), *itemObject->GetClass()->GetName());
 
 			newItemImgWidget->OnRemoved.AddDynamic(this, &UNewGridWidget::OnItemRemoved);
 
-			UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(itemImgWidget));
+			// UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(newItemImgWidget));
 
-			if (tempCanvasSlot)
+			UCanvasPanelSlot* imgSlot = rootCanvas->AddChildToCanvas(newItemImgWidget);
+
+			if (imgSlot)
 			{
-				tempCanvasSlot->SetZOrder(5);
-				tempCanvasSlot->SetAutoSize(true);
-				// tempCanvasSlot->SetSize(FVector2D(itemImgWidget->itemObject->dimensions.X * tileSize, itemImgWidget->itemObject->dimensions.Y * tileSize));
-				tempCanvasSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
-				ESlateVisibility visibility = itemImgWidget->GetVisibility(); 
-				UE_LOG(LogTemp, Warning, TEXT("tempCanvasSlot be maked!"));
+				imgSlot->SetZOrder(99);
+				// imgSlot->SetAutoSize(true);
+				// imgSlot->SetSize(FVector2D(320.f, 160.f));
+				imgSlot->SetSize(FVector2D(itemObject->dimensions.X * tileSize, itemObject->dimensions.Y * tileSize));
+				// UE_LOG(LogTemp, Warning, TEXT("!!! itemObject !!!!!!! : %d %d"), itemObject->dimensions.X, itemObject->dimensions.Y);
+				imgSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
+				ESlateVisibility visibility = newItemImgWidget->GetVisibility();
+				// UE_LOG(LogTemp, Warning, TEXT("imgSlot be maked!"));
 
 			}
 			/*if (itemImgWidget->IsInViewport())
@@ -191,9 +201,9 @@ void UNewGridWidget::Refresh()
 			}
 			itemImgWidget->AddToViewport();*/
 
-			UE_LOG(LogTemp, Warning, TEXT("position: (%f, %f)"), tempCanvasSlot->GetPosition().X, tempCanvasSlot->GetPosition().Y);
+			UE_LOG(LogTemp, Warning, TEXT("position: (%f, %f)"), imgSlot->GetPosition().X, imgSlot->GetPosition().Y);
 
-			UE_LOG(LogTemp, Warning, TEXT("size : (%f, %f)"), tempCanvasSlot->GetSize().X, tempCanvasSlot->GetSize().Y);
+			UE_LOG(LogTemp, Warning, TEXT("size : (%f, %f)"), imgSlot->GetSize().X, imgSlot->GetSize().Y);
 		}
 		else
 		{

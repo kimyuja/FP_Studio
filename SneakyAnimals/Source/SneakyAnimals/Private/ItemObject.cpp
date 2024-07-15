@@ -6,6 +6,7 @@
 
 FIntPoint UItemObject::GetDimensions() const
 {
+    // UE_LOG(LogTemp, Warning, TEXT("!!! Dimension XY is %d %d"), dimensions.X, dimension.Y);
 	return dimensions;
 }
 

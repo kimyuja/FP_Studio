@@ -48,11 +48,14 @@ void UW_ItemImg::Refresh()
 	
 	if (itemObject != nullptr)
 	{
-		size.X = itemObject->GetDimensions().X * tileSize;
-		size.Y = itemObject->GetDimensions().Y * tileSize;
+		FIntPoint itemDimensions = itemObject->GetDimensions();
+		size.X = itemDimensions.X * tileSize;
+		size.Y = itemDimensions.Y * tileSize;
 
 		backgroundSizeBox->SetWidthOverride(size.X);
 		backgroundSizeBox->SetHeightOverride(size.Y);
+
+		UE_LOG(LogTemp, Warning, TEXT("GetDimensions XY in itemImg %f %f"), size.X, size.Y);
 	}
 	else 
 	{
@@ -76,7 +79,7 @@ void UW_ItemImg::Refresh()
 
 }
 
-FSlateBrush UW_ItemImg::GetIconImage() const
+FSlateBrush UW_ItemImg::GetIconImage()
 {
 	FSlateBrush brush;
 

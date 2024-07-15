@@ -34,6 +34,9 @@ public:
 	virtual int32 OnMyActive(AActor* ActivePlayer);
 	
 	UPROPERTY(EditDefaultsOnly)
+	class UItemObject* newItemObject;
+	
+	UPROPERTY(EditDefaultsOnly)
 	class USceneComponent* base;
 
 	UPROPERTY(EditDefaultsOnly)

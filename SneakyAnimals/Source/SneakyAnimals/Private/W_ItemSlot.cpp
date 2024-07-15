@@ -175,7 +175,7 @@ void UW_ItemSlot::SpawnBookshelfGimmick()
 				bookShelfG->SetActorLocation(currentLoc);
 
 				itemObject = bookShelfG->GetDefaultItemObject();
-				itemComponent->TryAddItem(itemObject);
+				
 				if (itemComponent->TryAddItem(itemObject))
 				{
 					// cost º¯°æ

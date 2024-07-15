@@ -40,7 +40,7 @@ public:
 	FVector2D size;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Item")
-	float tileSize;
+	float tileSize = 160.f;
 
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	void Refresh();
@@ -48,7 +48,7 @@ public:
 	FTimerHandle timerHandle;
 
 	UFUNCTION(BlueprintCallable, Category = "Binding")
-	FSlateBrush GetIconImage() const;
+	FSlateBrush GetIconImage();
 
 	// 델리게이트 인스턴스 선언
 	FOnRemoved OnRemoved;
