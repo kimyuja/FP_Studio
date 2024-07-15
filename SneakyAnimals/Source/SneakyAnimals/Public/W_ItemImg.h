@@ -17,10 +17,14 @@ class SNEAKYANIMALS_API UW_ItemImg : public UUserWidget
 {
 	GENERATED_BODY()
 
-protected:
+public:
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override;
 
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class USizeBox* backgroundSizeBox;
@@ -30,8 +34,6 @@ protected:
 	
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UImage* itemImage;
-
-public:
 
     UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
     class UItemObject* itemObject;
@@ -53,7 +55,7 @@ public:
 	// 델리게이트 인스턴스 선언
 	FOnRemoved OnRemoved;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void RemoveItem(class UItemObject* _ItemObject);
 
 	// UPROPERTY()
@@ -64,5 +66,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> itemSlotWidget;
+
+	/*virtual void OnDragCancelled(UDragDropOperation* Operation) override;
+	virtual void OnDragDrop(UDragDropOperation* Operation) override;*/
 
 };

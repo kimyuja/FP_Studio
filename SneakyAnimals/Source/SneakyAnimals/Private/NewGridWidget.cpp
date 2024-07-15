@@ -3,7 +3,6 @@
 
 #include "NewGridWidget.h"
 #include "W_ItemImg.h"
-#include <Components/Border.h>
 #include <array>
 #include <Components/CanvasPanel.h>
 #include "Components/CanvasPanelSlot.h"
@@ -19,7 +18,9 @@
 #include "Layout/Geometry.h"
 #include "Rendering/DrawElements.h"
 #include "ItemObject.h"
+#include "Input/Reply.h"
 #include "TileStructure.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/Border.h>
 
 bool UNewGridWidget::Initialize()
 {
@@ -185,16 +186,14 @@ void UNewGridWidget::Refresh()
 
 			if (imgSlot)
 			{
-				imgSlot->SetZOrder(99);
-				// imgSlot->SetAutoSize(true);
-				// imgSlot->SetSize(FVector2D(320.f, 160.f));
+				// imgSlot->SetZOrder(99);
 				imgSlot->SetSize(FVector2D(itemObject->dimensions.X * tileSize, itemObject->dimensions.Y * tileSize));
 				// UE_LOG(LogTemp, Warning, TEXT("!!! itemObject !!!!!!! : %d %d"), itemObject->dimensions.X, itemObject->dimensions.Y);
 				imgSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
-				ESlateVisibility visibility = newItemImgWidget->GetVisibility();
-				// UE_LOG(LogTemp, Warning, TEXT("imgSlot be maked!"));
+				// ESlateVisibility visibility = newItemImgWidget->GetVisibility();
 
 			}
+			
 			/*if (itemImgWidget->IsInViewport())
 			{
 				itemImgWidget->RemoveFromParent();

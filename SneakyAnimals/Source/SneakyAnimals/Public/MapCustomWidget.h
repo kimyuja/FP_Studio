@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "ItemComponent.h"
 #include "W_ItemSlot.h"
+#include "Input/Reply.h"
 #include "MapCustomWidget.generated.h"
 
 /**
@@ -28,6 +29,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	float tileSize = 160.f;
+
+	UPROPERTY(meta = (BindWidget))
+	class UBorder* BackgroundBorder;
 
 private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -61,6 +65,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 _currentCost;
+
+	/*UFUNCTION(BlueprintCallable)
+    FReply OnBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent);*/
 
 
 };

@@ -414,4 +414,10 @@ void UW_ItemSlot::FindAllGimmick()
 	{
 		cauldronActorArr.Add(*It);
 	}
+
+	// 잠수함
+
+	// 은행
+
+	// 슈퍼마켓
 }

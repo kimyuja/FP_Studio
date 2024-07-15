@@ -22,18 +22,7 @@ void UItemComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-
 	int32 arraySize = columns * rows;
-
-	/*tiles.Reset(0);
-
-	tiles.Add(FTileStructureTemp(0, 0));
-
-	for (int32 i = 1; i < arraySize; i++)
-	{
-		tiles.Add(FTileStructureTemp(i % columns, i / columns));
-	}*/
 
 	// items 배열 resize
 	items.SetNum(arraySize);
@@ -135,30 +124,6 @@ bool UItemComponent::CheckEmptySlot(FTileStructureTemp tile)
 	}
 	else
 	{
-		//// GetItemAtIndex는 itemObject를 리턴함
-		//// CheckIsValid() 
-		//if (IsValid(GetItemAtIndex(TileToIndex(tile))))
-		//{
-		//	UE_LOG(LogTemp, Warning, TEXT("isvaild"));
-		//	return false;
-		//}// **********************
-		//else {
-		//	if (items.IsValidIndex(TileToIndex(tile)))
-		//	{
-		//		if (items[TileToIndex(tile)] == nullptr)
-		//		{
-		//			return true;
-		//		}
-		//		else
-		//		{
-		//			return false;
-		//		}
-		//	}
-		//	else
-		//	{
-		//		return false;
-		//	}
-		//}
 
 		if (GetItemAtIndex(TileToIndex(tile)))
 		{
@@ -205,21 +170,6 @@ int32 UItemComponent::TileToIndex(FTileStructureTemp Tile) const
 
 bool UItemComponent::GetItemAtIndex(int32 Index)
 {
-	/*bool bValid = items.IsValidIndex(Index);
-
-	UItemObject* ItemObjectTemp = items[Index];
-
-	if (!bValid)
-	{
-		CheckIsValid(false);
-		return nullptr;
-	}
-	else
-	{
-		CheckIsValid(true);
-		return ItemObjectTemp;
-	}*/
-
 	bool bValid = items.IsValidIndex(Index);
 
 	if (bValid)
@@ -259,7 +209,6 @@ void UItemComponent::AddItemAt(UItemObject* _ItemObject_, int32 _TopLeftIndex_)
 			int32 itemIdx = TileToIndex(tile);
 
 			// setArrayElem으로 Items를 targetArray로 받고 itemIdx를 Index로 받고 ItmeObject를 Item으로 받음
-			// items.Insert(_ItemObject_, itemIdx);
 			items[itemIdx] = _ItemObject_;
 		}
 	}

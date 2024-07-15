@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Input/Reply.h"
 #include "NewGridWidget.generated.h"
 
 /**
@@ -47,8 +48,6 @@ public:
 	FTimerHandle DrawGridLineTimerHandle;
 
 public:
-	/*UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
-	float tileSize = 160.f;*/
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void GridBorderSetSize(float _TileSize);
 	
@@ -73,6 +72,5 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Custom")
 	FVector2D GetGridBorderTopLeft() const;
-
 
 };

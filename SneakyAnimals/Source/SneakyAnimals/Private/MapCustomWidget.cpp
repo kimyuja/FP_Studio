@@ -12,6 +12,9 @@
 #include "WH_BookshelfGimmick.h"
 #include "Kismet/GameplayStatics.h"
 #include "NewGridWidget.h"
+#include "Input/Reply.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/Border.h>
+#include <../../../../../../../Source/Runtime/Core/Public/Delegates/Delegate.h>
 
 bool UMapCustomWidget::Initialize()
 {
@@ -42,6 +45,7 @@ void UMapCustomWidget::NativeConstruct()
 		UE_LOG(LogTemp, Error, TEXT("gWidget is null"));
 		return;
 	}
+
 
 	if (!itemSlotWidgetClass)
 	{
