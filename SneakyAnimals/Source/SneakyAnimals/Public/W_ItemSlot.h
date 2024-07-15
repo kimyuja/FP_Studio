@@ -48,14 +48,8 @@ public:
     UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
     class UItemObject* itemObject;
 
-	UPROPERTY(BlueprintReadWrite)
-	class AWH_BookshelfGimmick* findBookshelfGimmick;
-
 	UFUNCTION(BlueprintCallable, Category = "UI")
-	void SpawnBookshelfGimmick();
-
-	UPROPERTY(BlueprintReadWrite)
-	class AWH_BookshelfGimmick* AssociatedActor;
+	void GimmickActorSetLoc();
 
 	const UWorld* World;
 
@@ -90,5 +84,18 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentCost();
+
+	// ----------------------------------------
+	UFUNCTION(BlueprintCallable)
+	void FindAllGimmick();
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<class AWH_BookshelfGimmick*> bookShelfActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<class AWH_BroomstickGimmick*> broomStickActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<class AWH_PotionGimmick*> potionActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<class AWH_WitchCauldronGimmick*> cauldronActorArr;
 
 };

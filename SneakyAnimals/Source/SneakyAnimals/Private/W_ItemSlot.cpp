@@ -44,7 +44,6 @@ void UW_ItemSlot::NativeConstruct()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("playerCharacter is nullptr"));
 	}
-	// playerCharacter->SetActorLocation(FVector(2000, 0, 0));
 
 	ATestPlayer* TestPlayer = Cast<ATestPlayer>(playerCharacter);
 
@@ -78,24 +77,17 @@ void UW_ItemSlot::NativeConstruct()
 		UE_LOG(LogTemp, Error, TEXT("itemObject is not set!"));
 	}
 
+	FindAllGimmick();
+
 }
 
 void UW_ItemSlot::OnItemBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item button clicked!"));
 
-	// SetCurrentCost();
-	SpawnBookshelfGimmick();
+	GimmickActorSetLoc();
 
-	if (this->itemType == 0)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("this itemtype is 0"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("this itemtype is not 0"));
-	}
-	
+	UE_LOG(LogTemp, Warning, TEXT("this itemtype is %d"), this->itemType);
 }
 
 
@@ -113,157 +105,215 @@ void UW_ItemSlot::SetMapCustomWidget(UMapCustomWidget* Widget)
 	}
 }
 
-void UW_ItemSlot::SpawnBookshelfGimmick()
+void UW_ItemSlot::GimmickActorSetLoc()
 {
-	FActorSpawnParameters SpawnParams;
+	// UE_LOG(LogTemp, Error, TEXT("I'm Here"));
 
-	FVector SpawnLocation = FVector(0.f, 0.f, 100.0f);
-	FRotator SpawnRotation = FRotator::ZeroRotator;
-
-	FTransform SpawnTransform;
-
-	// AWH_BookshelfGimmick* TempSpawnActor = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfG, SpawnLocation, SpawnRotation, SpawnParams);
-
-	for (TActorIterator<AWH_BookshelfGimmick> It(GetWorld()); It; ++It)
+	switch (itemType)
 	{
-		AWH_BookshelfGimmick* bookShelfG = *It;
-
-		FString newName = "";
-
-		if (bookShelfG)
-		{
-			// MyActiveType에 따라 이름 설정
-			switch (bookShelfG->Myactivetype)
-			{
-			case 0:
-			{
-				// 다같이 죽는 기믹
-				newName = TEXT("bookShelf_G1");
-				break;
-			}
-			case 1:
-			{
-				// 실행 시킨 사람만 죽는 기믹
-				newName = TEXT("bookShelf_G2");
-				break;
-			}
-			case 2:
-			{
-				// 레벨 클리어 기믹
-				newName = TEXT("bookShelf_G3");
-				break;
-			}
-			default:
-			{
-				newName = TEXT("bookShelf_GNULL");
-				break;
-			}
-			}
-
-			bookShelfG->Rename(*newName);
-		}
-
-
-		switch (itemType)
-		{
-		case 0:
-		{
-			if (bookShelfG->GetName() == TEXT("bookShelf_G1"))
-			{
-				FVector currentLoc = bookShelfG->GetActorLocation();
-				currentLoc.Z += 300;
-				bookShelfG->SetActorLocation(currentLoc);
-
-				itemObject = bookShelfG->GetDefaultItemObject();
-				
-				if (itemComponent->TryAddItem(itemObject))
-				{
-					// cost 변경
-					SetCurrentCost();
-				}
-			}
-			break;
-		}
-
-		case 1:
-		{
-			AWH_BroomstickGimmick* wh2 = GetWorld()->SpawnActor<AWH_BroomstickGimmick>(AWH_BroomstickGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
-
-			itemObject = wh2->GetDefaultItemObject();
-
-			if (itemComponent->TryAddItem(itemObject))
-			{
-				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
-			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
-			}
-
-			break;
-		}
-		case 2:
-		{
-			AWH_PotionGimmick* wh3 = GetWorld()->SpawnActor<AWH_PotionGimmick>(AWH_PotionGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
-
-			itemObject = wh3->GetDefaultItemObject();
-
-			if (itemComponent->TryAddItem(itemObject))
-			{
-				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
-			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
-			}
-
-			break;
-		}
-		case 3:
-		{
-			AWH_WitchCauldronGimmick* wh4 = GetWorld()->SpawnActor<AWH_WitchCauldronGimmick>(AWH_WitchCauldronGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
-
-			itemObject = wh4->GetDefaultItemObject();
-
-			if (itemComponent->TryAddItem(itemObject))
-			{
-				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Successed!"));
-			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("TryAddItem be Failed!"));
-			}
-
-			break;
-		}
-		}
-	}
-	//if (UWorld* World = GetWorld())
-	//{
-	//	FActorSpawnParameters SpawnParams;
-
-	//	FTransform SpawnTransform;
-
-	//	// 액터 스폰
-	//	//AWH_BookshelfGimmick* TempSpawnActor = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(AWH_BookshelfGimmick::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
-	//	AWH_BookshelfGimmick* TempSpawnActor = World->SpawnActorDeferred<AWH_BookshelfGimmick>(AWH_BookshelfGimmick::StaticClass(), SpawnTransform, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
-
-	//	if(IsValid(TempSpawnActor))	
-	//	{ 
-	//		UE_LOG(LogTemp, Warning, TEXT("SpawnActor valid check")); 
-	//		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Emerald, UKismetStringLibrary::Conv_VectorToString(TempSpawnActor->GetActorLocation()));
-	//	}
-
-	//	//if (SpawnedActor)
-	//	//{
-	//	//	AssociatedActor = SpawnedActor;
-	//	//}
-
-	if (AssociatedActor != nullptr)
+	case 0:
 	{
-		UE_LOG(LogTemp, Warning, TEXT("bookshelf actor be Spawnd!"));
+		if (bookShelfActorArr[0])
+		{
+			FVector currentLoc = bookShelfActorArr[0]->GetActorLocation();
+			currentLoc.Z += 300;
+			bookShelfActorArr[0]->SetActorLocation(currentLoc);
+
+			itemObject = bookShelfActorArr[0]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else if (bookShelfActorArr[1])
+		{
+			FVector currentLoc = bookShelfActorArr[1]->GetActorLocation();
+			currentLoc.Z += 300;
+			bookShelfActorArr[1]->SetActorLocation(currentLoc);
+
+			itemObject = bookShelfActorArr[1]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else if (bookShelfActorArr[2])
+		{
+			FVector currentLoc = bookShelfActorArr[2]->GetActorLocation();
+			currentLoc.Z += 300;
+			bookShelfActorArr[2]->SetActorLocation(currentLoc);
+
+			itemObject = bookShelfActorArr[2]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("bookShelfActorArr is NULL"));
+		}
+		break;
+	}
+	case 1:
+	{
+		if (broomStickActorArr[0])
+		{
+			FVector currentLoc = broomStickActorArr[0]->GetActorLocation();
+			currentLoc.Z += 300;
+			broomStickActorArr[0]->SetActorLocation(currentLoc);
+
+			itemObject = broomStickActorArr[0]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else if (broomStickActorArr[1])
+		{
+			FVector currentLoc = broomStickActorArr[1]->GetActorLocation();
+			currentLoc.Z += 300;
+			broomStickActorArr[1]->SetActorLocation(currentLoc);
+
+			itemObject = broomStickActorArr[1]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else if (broomStickActorArr[2])
+		{
+			FVector currentLoc = broomStickActorArr[2]->GetActorLocation();
+			currentLoc.Z += 300;
+			broomStickActorArr[2]->SetActorLocation(currentLoc);
+
+			itemObject = broomStickActorArr[2]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("broomStickActorArr is NULL"));
+		}
+		break;
+	}
+	case 2:
+	{
+		if (potionActorArr[0])
+		{
+			FVector currentLoc = potionActorArr[0]->GetActorLocation();
+			currentLoc.Z += 300;
+			potionActorArr[0]->SetActorLocation(currentLoc);
+
+			itemObject = potionActorArr[0]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else if (potionActorArr[1])
+		{
+			FVector currentLoc = potionActorArr[1]->GetActorLocation();
+			currentLoc.Z += 300;
+			potionActorArr[1]->SetActorLocation(currentLoc);
+
+			itemObject = potionActorArr[1]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else if (potionActorArr[2])
+		{
+			FVector currentLoc = potionActorArr[2]->GetActorLocation();
+			currentLoc.Z += 300;
+			potionActorArr[2]->SetActorLocation(currentLoc);
+
+			itemObject = potionActorArr[2]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("potionActorArr is NULL"));
+		}
+		break;
+	}
+	case 3:
+	{
+		if (cauldronActorArr[0])
+		{
+			FVector currentLoc = cauldronActorArr[0]->GetActorLocation();
+			currentLoc.Z += 300;
+			cauldronActorArr[0]->SetActorLocation(currentLoc);
+
+			itemObject = cauldronActorArr[0]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else if (cauldronActorArr[1])
+		{
+			FVector currentLoc = cauldronActorArr[1]->GetActorLocation();
+			currentLoc.Z += 300;
+			cauldronActorArr[1]->SetActorLocation(currentLoc);
+
+			itemObject = cauldronActorArr[1]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else if (cauldronActorArr[2])
+		{
+			FVector currentLoc = cauldronActorArr[2]->GetActorLocation();
+			currentLoc.Z += 300;
+			cauldronActorArr[2]->SetActorLocation(currentLoc);
+
+			itemObject = cauldronActorArr[2]->GetDefaultItemObject();
+
+			if (itemComponent->TryAddItem(itemObject))
+			{
+				// cost 변경
+				SetCurrentCost();
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("cauldronActorArr is NULL"));
+		}
+		break;
+	}
 
 	}
+
 }
 
 void UW_ItemSlot::SetItemIcon(const FString& TexturePath)
@@ -333,9 +383,7 @@ void UW_ItemSlot::SetCurrentCost()
 
 			mapCustomWidget->UpdateMaxCost(newCost);
 			UE_LOG(LogTemp, Warning, TEXT("Result: %d"), newCost);
-
 		}
-
 	}
 	else
 	{
@@ -343,37 +391,27 @@ void UW_ItemSlot::SetCurrentCost()
 	}
 }
 
-void ItemSlotBindGimmickActor(int32 _ItemType_)
+void UW_ItemSlot::FindAllGimmick()
 {
-	/*switch (_ItemType_)
-	{
-	case 0:
-	{
-		AWH_BookshelfGimmick* wh1 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
-		itemObject = wh1->GetDefaultItemObject();
-		itemComponent->TryAddItem(itemObject);
-		break;
-	}
-	case 1:
-	{
-		AWH_BroomstickGimmick* wh2 = GetWorld()->SpawnActor<AWH_BroomstickGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
-		itemObject = wh2->GetDefaultItemObject();
-		break;
-	}
-	case 2:
-	{
-		AWH_BookshelfGimmick* wh3 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
-		itemObject = wh3->GetDefaultItemObject();
-		break;
-	}
-	case 3:
-	{
-		AWH_BookshelfGimmick* wh4 = GetWorld()->SpawnActor<AWH_BookshelfGimmick>(ShelfTest, FVector(0, 0, -50000), FRotator::ZeroRotator);
-		itemObject = wh4->GetDefaultItemObject();
-		break;
-	}
-	default:
-		break;
-	}*/
-}
+	// 마녀의 집
 
+	for (TActorIterator<AWH_BookshelfGimmick> It(GetWorld()); It; ++It)
+	{
+		bookShelfActorArr.Add(*It);
+	}
+
+	for (TActorIterator<AWH_BroomstickGimmick> It(GetWorld()); It; ++It)
+	{
+		broomStickActorArr.Add(*It);
+	}
+
+	for (TActorIterator<AWH_PotionGimmick> It(GetWorld()); It; ++It)
+	{
+		potionActorArr.Add(*It);
+	}
+
+	for (TActorIterator<AWH_WitchCauldronGimmick> It(GetWorld()); It; ++It)
+	{
+		cauldronActorArr.Add(*It);
+	}
+}
