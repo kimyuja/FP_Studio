@@ -316,6 +316,9 @@ void ATestPlayer::OnRep_Current_Top()
 	if (Current_Top->IsValidLowLevelFast())
 	{
 		SM_Top->SetSkinnedAssetAndUpdate(Current_Top);
+
+		GetMesh()->SetVisibility(true);
+		SM_Outer->SetVisibility(false);
 	}
 	else
 	{
@@ -328,6 +331,9 @@ void ATestPlayer::OnRep_Current_Bottom()
 	if (Current_Bottom->IsValidLowLevelFast())
 	{
 		SM_Bottom->SetSkinnedAssetAndUpdate(Current_Bottom);
+
+		GetMesh()->SetVisibility(true);
+		SM_Outer->SetVisibility(false);
 	}
 	else
 	{
@@ -340,10 +346,9 @@ void ATestPlayer::OnRep_Current_Outer()
 	if (Current_Outer->IsValidLowLevelFast())
 	{
 		SM_Outer->SetSkinnedAssetAndUpdate(Current_Outer);
-	}
-	else
-	{
-		SM_Outer->SetSkinnedAssetAndUpdate(nullptr);
+
+		GetMesh()->SetVisibility(false);
+		SM_Outer->SetVisibility(true);
 	}
 }
 
@@ -352,6 +357,9 @@ void ATestPlayer::OnRep_Current_Dress()
 	if (Current_Dress->IsValidLowLevelFast())
 	{
 		SM_Dress->SetSkinnedAssetAndUpdate(Current_Dress);
+
+		GetMesh()->SetVisibility(true);
+		SM_Outer->SetVisibility(false);
 	}
 	else
 	{

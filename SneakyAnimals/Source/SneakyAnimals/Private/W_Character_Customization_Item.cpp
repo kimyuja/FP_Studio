@@ -55,6 +55,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 	else if (ItemType == "Top")
 	{
 		PS_Lobby->Player_Appearance.Dress_Slot = FStructure_Available_Dress();
+		PS_Lobby->Player_Appearance.Outer_Slot = FStructure_Available_Outer();
 		PS_Lobby->Player_Appearance.Top_Slot = Top;
 
 		// Save_Player_Appearance
@@ -66,6 +67,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 	else if (ItemType == "Bottom")
 	{
 		PS_Lobby->Player_Appearance.Dress_Slot = FStructure_Available_Dress();
+		PS_Lobby->Player_Appearance.Outer_Slot = FStructure_Available_Outer();
 		PS_Lobby->Player_Appearance.Bottom_Slot = Bottom;
 
 		// Save_Player_Appearance
@@ -76,6 +78,12 @@ void UW_Character_Customization_Item::OnClickedButton()
 	}
 	else if (ItemType == "Outer")
 	{
+		// Outer를 코디셋으로 바꿀 거임
+		PS_Lobby->Player_Appearance.Accessories_Slot = FStructure_Available_Accessories();
+		PS_Lobby->Player_Appearance.Skins_Slot = FStructure_Available_Skins();
+		PS_Lobby->Player_Appearance.Eyes_Slot = FStructure_Available_Eyes();
+		PS_Lobby->Player_Appearance.Top_Slot = FStructure_Available_Top();
+		PS_Lobby->Player_Appearance.Bottom_Slot = FStructure_Available_Bottom();
 		PS_Lobby->Player_Appearance.Dress_Slot = FStructure_Available_Dress();
 		PS_Lobby->Player_Appearance.Outer_Slot = Outer;
 
