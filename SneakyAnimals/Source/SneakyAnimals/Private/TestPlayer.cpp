@@ -33,6 +33,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Camera/CameraActor.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "W_InGameUI.h"
+#include "UnderTheSea.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -716,6 +717,13 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 		//UE_LOG(LogTemp, Warning, TEXT("Fail %d"), key);
 		if (key == 2)
 		{
+			if (gameState->stageNum == 2)
+			{
+				for (TActorIterator<AUnderTheSea> sea(GetWorld()); sea; ++sea)
+				{
+					sea->bisclear = true;
+				}
+			}
 			mainUI->bISClear = true;
 			bCanOpenDoor = true;
 			gameState->bOnGame = false;
@@ -737,7 +745,7 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	gameState->MoveNextStage(moveLoc);
 	respawnLoc = moveLoc;
 	clearUI->SetVisibility(ESlateVisibility::Hidden);
-	if (gameState->stageNum > 1)
+	if (gameState->stageNum > 4)
 	{
 		ServerRPC_StartGetFinalScore();
 	}
