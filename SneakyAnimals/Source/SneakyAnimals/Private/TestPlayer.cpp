@@ -452,11 +452,19 @@ void ATestPlayer::ShowEmo(const FInputActionValue& Value)
 
 void ATestPlayer::ShowScore(const FInputActionValue& Value)
 {
+	if (!bGameIsStart)
+	{
+		return;
+	}
 	mainUI->SetOverlayShow(true);
 }
 
 void ATestPlayer::CloseScore(const FInputActionValue& Value)
 {
+	if (!bGameIsStart)
+	{
+		return;
+	}
 	mainUI->SetOverlayShow(false);
 }
 

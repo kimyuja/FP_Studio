@@ -39,6 +39,12 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	class UStaticMeshComponent* activeObject;
 
+	UPROPERTY(EditDefaultsOnly)
+	class UStaticMeshComponent* planePanel1;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UStaticMeshComponent* planePanel2;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Myactivetype;
 

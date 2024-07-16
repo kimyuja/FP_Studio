@@ -32,11 +32,25 @@ ASM_ComputerGimmick::ASM_ComputerGimmick()
 	activeObject->SetupAttachment(base);
 	activeObject->SetRelativeLocation(FVector(0, 0, -150.0));
 
+	planePanel1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Plane Panel1"));
+	planePanel1->SetupAttachment(activeObject);
+	planePanel1->SetRelativeScale3D(FVector(0.5, 0.3, 1));
+	planePanel1->SetRelativeRotation(FRotator(0, 180, 90));
+	planePanel1->SetRelativeLocation(FVector(-33, -5, 130.0));
+
+	planePanel2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Plane Panel2"));
+	planePanel2->SetupAttachment(activeObject);
+	planePanel2->SetRelativeScale3D(FVector(0.5, 0.3, 1));
+	planePanel2->SetRelativeRotation(FRotator(0, 180, 90));
+	planePanel2->SetRelativeLocation(FVector(33, -5, 130.0));
+	
 
 	trigger->OnComponentBeginOverlap.AddDynamic(this, &AGimmick::SetCanActiveT);
 	trigger->OnComponentEndOverlap.AddDynamic(this, &AGimmick::SetCanActiveF);
 
-	moniterUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Emoticon UI"));
+
+
+	/*moniterUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Emoticon UI"));
 	moniterUI->SetupAttachment(activeObject);
 	moniterUI->SetRelativeLocation(FVector(0, -3.6, 128.5));
 	moniterUI->SetRelativeRotation(FRotator(0, -90.0, 0));
@@ -45,7 +59,7 @@ ASM_ComputerGimmick::ASM_ComputerGimmick()
 	if (moniter)
 	{
 		moniterUI->SetWidgetClass(moniter);
-	}
+	}*/
 }
 
 
@@ -54,7 +68,8 @@ void ASM_ComputerGimmick::BeginPlay()
 	Super::BeginPlay();
 
 	SetActiveType(Myactivetype);
-
+	planePanel1->SetVisibility(false);
+	planePanel2->SetVisibility(false);
 }
 
 void ASM_ComputerGimmick::Tick(float DeltaTime)
@@ -123,7 +138,14 @@ void ASM_ComputerGimmick::SelfExplosion()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : SelfExplosion"));
-	Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetWarning();
+	planePanel1->SetVisibility(true);
+	planePanel2->SetVisibility(true);
+	FTimerHandle hideT;
+	GetWorldTimerManager().SetTimer(hideT, [&](){
+		planePanel1->SetVisibility(false);
+		planePanel2->SetVisibility(false);
+	}, 1.0, false, 3.0);
+	//Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetWarning();
 	for (TActorIterator<ATestPlayer> player(GetWorld()); player; ++player)
 	{
 		player->Respawn();
@@ -135,7 +157,7 @@ void ASM_ComputerGimmick::SOS()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
-	Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetHelp();
+	//Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetHelp();
 }
 
 //void ASM_ComputerGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

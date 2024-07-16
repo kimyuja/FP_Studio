@@ -70,7 +70,7 @@ public:
 	void SetPlayerTD();
 
 	UFUNCTION()
-	void SetStageTimer();
+	void SetStageTimer(int32 maxtime);
 
 	UFUNCTION()
 	void SetOverlayShow(bool bShow);

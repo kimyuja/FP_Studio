@@ -193,6 +193,9 @@ public:
 	UFUNCTION()
 	void OnRep_Current_Dress();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
+	bool bGameIsStart = false;
+
 	bool bCanActive;
 
 	bool bCanOpenDoor = false;
