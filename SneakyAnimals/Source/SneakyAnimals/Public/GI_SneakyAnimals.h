@@ -58,7 +58,7 @@ public:
 
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
-	void ExitRoom();
+	//void ExitRoom();
 
 	//bool IsInRoom();
 

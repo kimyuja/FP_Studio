@@ -4,7 +4,6 @@
 #include "PS_Lobby.h"
 #include "PC_Lobby.h"
 #include "TestPlayer.h"
-#include "Net/UnrealNetwork.h"
 
 void APS_Lobby::OnRep_Player_Appearance_OR()
 {
@@ -36,11 +35,4 @@ void APS_Lobby::OnRep_Player_Appearance_OR()
 		player->OnRep_Current_Outer();
 		player->OnRep_Current_Dress();
 	}
-}
-
-void APS_Lobby::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	DOREPLIFETIME(APS_Lobby, bCanHostForceLaunchGame);
 }

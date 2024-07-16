@@ -14,11 +14,4 @@ class SNEAKYANIMALS_API AGM_Base : public AGameMode
 {
 	GENERATED_BODY()
 	
-public:
-    UPROPERTY(BlueprintReadOnly, Category = "Players")
-    TArray<APlayerController*> All_PCs;
-
-	UFUNCTION(BlueprintCallable, Category = "Manage")
-	void KickPlayer(int32 PlayerID);
-
 };

@@ -250,36 +250,6 @@ struct FStructure_Player_Appearance
 };
 
 USTRUCT(BlueprintType)
-struct FStructure_PlayerConnectionInfo
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(BlueprintReadOnly)
-	bool bIsHost;
-	
-	UPROPERTY(BlueprintReadOnly)
-	bool bReadyStatus;
-	
-	UPROPERTY(BlueprintReadOnly)
-	int32 PlayerID;
-};
-
-USTRUCT(BlueprintType)
-struct FStructure_ConnectedPlayer
-{
-	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadOnly)
-	FStructure_PlayerConnectionInfo S_PlayerConnectionInfo;
-
-	UPROPERTY(BlueprintReadOnly)
-	FStructure_UserProfile S_UserProfile;
-
-	UPROPERTY(BlueprintReadOnly)
-	FStructure_Player_Appearance S_Player_Appearance;
-};
-
-USTRUCT(BlueprintType)
 struct FSessionInfo
 {
 	GENERATED_BODY()

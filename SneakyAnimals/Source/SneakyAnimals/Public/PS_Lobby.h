@@ -15,12 +15,5 @@ class SNEAKYANIMALS_API APS_Lobby : public APS_Base
 	GENERATED_BODY()
 	
 public:
-
-	// Gets set by Lobby Game Mode
-	UPROPERTY(Replicated, EditAnywhere, Category =  "Lobby Settings")
-	bool bCanHostForceLaunchGame = false;
-
 	virtual void OnRep_Player_Appearance_OR() override;
-
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
