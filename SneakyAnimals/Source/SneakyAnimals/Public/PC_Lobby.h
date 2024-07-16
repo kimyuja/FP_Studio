@@ -32,16 +32,65 @@ public:
 	UFUNCTION()
 	void Toggle_CharacterCustomization();
 
-	UPROPERTY(EditAnywhere, Category="MySettings")
+	UPROPERTY(EditAnywhere, Category="References")
 	TSubclassOf<class UW_Character_Customization> Character_Customization_bp;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, Category = "References")
 	class UW_Character_Customization* Character_Customization_inst;
 
 	UFUNCTION(Client, Reliable)
 	void ClientRPC_Update_Character_Customization_Panel();
 
 	void Update_Character_Customization_Widget();
+
+	// -----------------위 : 캐릭터 커스터마이징, 아래 : Lobby Ready HUD 관련-----------------
+
+	UFUNCTION(Client, Reliable)
+	void ClientRPC_Update_LobbyStatusIndicator(ESlateVisibility _eSlateVisibility, const FText& _LobbyStatus_Text);
+	
+	UFUNCTION(Client, Reliable)
+	void ClientRPC_Update_ReadyUpButton(APC_Lobby* target, const FText& NewText, bool _bWarningState, bool _bHideButton);
+	
+	void Update_LobbyStatusIndicator(ESlateVisibility NewVisibility, const FText& NewStatusText);
+
+	UPROPERTY(EditAnywhere, Category="References")
+	TSubclassOf<class UW_Lobby_HUD> Lobby_HUD_bp;
+
+	UPROPERTY(EditAnywhere, Category = "References")
+	class UW_Lobby_HUD* Lobby_HUD_inst;
+
+	UFUNCTION(Client, Reliable)
+	void ClientRPC_Update_ServerName(const FText& NewServerName);
+
+	UFUNCTION(Client, Reliable)
+	void ClientRPC_KickedFromLobby();
+
+private:
+	void ValidatePlayerState();
+	void Setup_PC();
+	void Create_WB_Lobby_HUD();
+	void Update_ServerName();
+
+	void Save_ReadyUpButtonState(const FText& _ReadyUpButtonText, bool _bWarningState, bool _bHideButton);
+	void Update_ReadyUpButton();
+
+	// Local Saves
+	FText ServerName;
+
+	// Local Saves - Ready Up Button
+	FText ReadyUpButton_Text;
+	bool bWarningState;
+	bool bHideButton;
+	bool bReadyUpButton_Init;
+	bool bLockButton;
+
+	// Lobby Data - Players
+	// FStructure_Connected_Players ConnectedPlayers;
+	 
+	// Lobby Data - State
+	bool bLaunchingGame;
+
+	UTexture2D* T_Color4_Normal;
 
 
 };

@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "PC_Base.generated.h"
 
+
 /**
  * 
  */
@@ -13,5 +14,9 @@ UCLASS()
 class SNEAKYANIMALS_API APC_Base : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+protected:
+	virtual void BeginPlay() override;
+
+	void CleanUp_UI();
 };
