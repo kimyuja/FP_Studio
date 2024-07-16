@@ -21,10 +21,16 @@ public:
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override;
 
+	/*UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "DragDrop", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UW_ItemImg> DragVisualClass;*/
+
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UCanvasPanel* CanvasPanel;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class USizeBox* backgroundSizeBox;
@@ -33,10 +39,10 @@ public:
 	class UBorder* backgroundBorder;
 	
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UImage* itemImage;
+	class UImage* ItemImage;
 
-    UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
-    class UItemObject* itemObject;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
+	class UItemObject* thisItemObject;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Item")
 	FVector2D size;
@@ -53,6 +59,7 @@ public:
 	FSlateBrush GetIconImage();
 
 	// 델리게이트 인스턴스 선언
+	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnRemoved OnRemoved;
 
 	UFUNCTION(BlueprintCallable)
@@ -67,7 +74,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> itemSlotWidget;
 
-	/*virtual void OnDragCancelled(UDragDropOperation* Operation) override;
-	virtual void OnDragDrop(UDragDropOperation* Operation) override;*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
+    TSubclassOf<UW_ItemImg> DragVisualClass;
+
+	void SetItemObject(UItemObject* NewItemObject);
 
 };

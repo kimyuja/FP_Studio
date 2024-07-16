@@ -11,10 +11,11 @@
 #include <Blueprint/WidgetLayoutLibrary.h>
 #include <W_ItemSlot.h>
 #include "NewGridWidget.h"
-#include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/DragDropOperation.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h>
 #include <../../../../../../../Source/Runtime/Core/Public/Delegates/Delegate.h>
-// #include "DragWidget.h" 
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanel.h>
+#include "MyDragDropOperation.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/DragDropOperation.h>
 
 bool UW_ItemImg::Initialize()
 {
@@ -34,15 +35,8 @@ void UW_ItemImg::NativeConstruct()
 
 	GetWorld()->GetTimerManager().SetTimer(timerHandle, this, &UW_ItemImg::Refresh, 0.2f, false);
 
-	itemObject = NewObject<UItemObject>(this);
-
-	if (!itemObject)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("itemobject is nullptr in itemImg code"));
-	}
-
-	/*UW_ItemSlot* itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
-	itemObject = itemSlotW->itemObject;*/
+	UW_ItemSlot* itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
+	// itemObject = itemSlotW->itemObject;
 
 }
 
@@ -51,7 +45,8 @@ void UW_ItemImg::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerE
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 
 	if (backgroundBorder)
-	{	// 마우스가 들어왔을 때 보더 색상 변경
+	{	
+		// 마우스가 들어왔을 때 보더 색상 변경
 		backgroundBorder->SetBrushColor(FLinearColor(0.5f, 0.5f, 0.5f, 0.2f));
 	}
 }
@@ -67,29 +62,51 @@ void UW_ItemImg::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 	}
 }
 
+// 드래그시 발생하는 이벤트 처리
 void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
 
-	UDragDropOperation* dragDropOperation = NewObject<UDragDropOperation>(this, UDragDropOperation::StaticClass());
-
-	if (dragDropOperation)
+	UW_ItemImg* DragVisual = CreateWidget<UW_ItemImg>(GetWorld()->GetFirstPlayerController(), DragVisualClass);
+	
+	if (DragVisual)
 	{
-		dragDropOperation->Payload = itemObject;
-		dragDropOperation->DefaultDragVisual = this;  // 드래그 시 보일 위젯 설정
-		dragDropOperation->Pivot = EDragPivot::CenterCenter;
+		DragVisual->SetItemObject(this->thisItemObject);
+		// DragVisual->SetDesiredSizeInViewport(FVector2D(StaticItemObject->dimensions.X * tileSize, StaticItemObject->dimensions.Y * tileSize));
 
-		// 드래그를 시작하면 인벤토리에서 제거된 것으로 간주하고 remove
+		UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(DragVisual->Slot);
 
-		/*dragDropOperation->OnDragCancelled.AddDynamic(this, &UW_ItemImg::OnDragCancelled);
-		dragDropOperation->OnDrop.AddDynamic(this, &UW_ItemImg::OnDragDrop);*/
+		if (CanvasSlot)
+		{
+			CanvasSlot->SetSize(FVector2D(thisItemObject->dimensions.X * tileSize, thisItemObject->dimensions.Y * tileSize));
 
-		OutOperation = dragDropOperation;
+			UE_LOG(LogTemp, Warning, TEXT("!!! staticItemObject size : (%f, %f)"), thisItemObject->dimensions.X * tileSize, thisItemObject->dimensions.Y * tileSize);
+		}
 
-		// 현재 위젯을 부모에서 제거
-		// RemoveFromParent();
+		// 두 방법 동일한 결과
+		UDragDropOperation* dragDropOperation = NewObject<UDragDropOperation>(this);
+		// UMyDragDropOperation* dragDropOperation = Cast<UMyDragDropOperation>(UWidgetBlueprintLibrary::CreateDragDropOperation(UMyDragDropOperation::StaticClass()));
+
+		// this->SetDesiredSizeInViewport(FVector2D(thisItemObject->dimensions.X * tileSize, thisItemObject->dimensions.Y * tileSize));
+
+		if (dragDropOperation)
+		{
+			dragDropOperation->Payload = thisItemObject;
+			dragDropOperation->DefaultDragVisual = this;  // 드래그 시 보일 위젯 설정
+			dragDropOperation->Pivot = EDragPivot::CenterCenter;
+
+			UE_LOG(LogTemp, Warning, TEXT("Drag ing ... "));
+
+			UE_LOG(LogTemp, Warning, TEXT("My size : (%f, %f)"), DragVisual->size.X, DragVisual->size.Y);
+			UE_LOG(LogTemp, Warning, TEXT("this itemObject dimension : (%d, %d)"), DragVisual->thisItemObject->dimensions.X, DragVisual->thisItemObject->dimensions.Y);
+
+			// 드래그를 시작하면 인벤토리에서 제거된 것으로 간주하고 remove
+			RemoveItem(thisItemObject);
+			RemoveFromParent();
+
+			OutOperation = dragDropOperation;
+		}
 	}
-
 }
 
 // 마우스 누르면 드래그 감지
@@ -97,17 +114,21 @@ FReply UW_ItemImg::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FP
 {
 	Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
 
-	// 왼쪽 마우스 눌렸을 때 드래그 이벤트 감지
-	return UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
+	if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
+	{
+		return UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
+	}
+
+	return FReply::Unhandled();
 }
 
 // 인벤토리를 다시 그릴 때마다 호출
 void UW_ItemImg::Refresh()
 {
-	
-	if (itemObject != nullptr)
+	/*
+	if (StaticItemObject != nullptr)
 	{
-		FIntPoint itemDimensions = itemObject->GetDimensions();
+		FIntPoint itemDimensions = StaticItemObject->GetDimensions();
 		size.X = itemDimensions.X * tileSize;
 		size.Y = itemDimensions.Y * tileSize;
 
@@ -137,16 +158,17 @@ void UW_ItemImg::Refresh()
 		itemImage->SetBrush(GetIconImage());
 	}
 
-
+	*/
 }
+
 
 FSlateBrush UW_ItemImg::GetIconImage()
 {
 	FSlateBrush brush;
 
-	if (itemObject)
+	if (thisItemObject)
 	{
-		UMaterialInterface* iconMaterial = itemObject->GetIcon();
+		UMaterialInterface* iconMaterial = thisItemObject->GetIcon();
 
 		if (iconMaterial)
 		{
@@ -160,26 +182,15 @@ FSlateBrush UW_ItemImg::GetIconImage()
 	return brush;
 }
 
-void UW_ItemImg::RemoveItem(UItemObject* ItemObject)
+void UW_ItemImg::RemoveItem(UItemObject* _ItemObject)
 {
 	// 델리게이트 호출 - 파라미터 전달
-	OnRemoved.Broadcast(ItemObject);
-	RemoveFromParent();
+	OnRemoved.Broadcast(_ItemObject);
 }
 
-//void UW_ItemImg::OnDragCancelled(UDragDropOperation* Operation)
-//{
-//	if (Operation && Operation->Payload == itemObject)
-//	{
-//		RemoveItem(itemObject);
-//	}
-//}
-//
-//void UW_ItemImg::OnDragDrop(UDragDropOperation* Operation)
-//{
-//	if (Operation && Operation->Payload == itemObject)
-//	{
-//		RemoveItem(itemObject);
-//	}
-//}
+void UW_ItemImg::SetItemObject(UItemObject* NewItemObject)
+{
+	thisItemObject = NewItemObject;
+}
+
 

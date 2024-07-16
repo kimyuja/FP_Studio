@@ -43,6 +43,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	float tileSize = 160.f;
+	
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	class UItemObject* itemObject;*/
 
 	FTimerHandle SetGridSizeTimerHandle;
 	FTimerHandle DrawGridLineTimerHandle;
@@ -72,5 +75,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Custom")
 	FVector2D GetGridBorderTopLeft() const;
+
+	FReply OnGridBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent);
 
 };

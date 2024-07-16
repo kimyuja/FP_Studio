@@ -168,7 +168,7 @@ void UW_CustomMap::Refresh()
 		if (newItemImg)
 		{
 			newItemImg->tileSize = tileSize;
-			newItemImg->itemObject = itemObejct;
+			newItemImg->thisItemObject = itemObejct;
 
 
 			if (newItemImg)

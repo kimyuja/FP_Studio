@@ -44,6 +44,11 @@ void UNewGridWidget::NativeConstruct()
 		gridBorder->SetContent(gridCanvasPanel);
 	}
 
+	if (gridBorder)
+	{
+		gridBorder->OnMouseButtonDownEvent.BindUFunction(this, FName("OnGridBorderMouseButtonDown"));
+	}
+
 	Invalidate(EInvalidateWidget::LayoutAndVolatility);
 
 	// itemImgWidget = CreateWidget<UW_ItemImg>(GetWorld(), itemImgWidgetClass);
@@ -88,6 +93,7 @@ void UNewGridWidget::NativeConstruct()
 
 void UNewGridWidget::OnItemRemoved(UItemObject* _ItemObject)
 {
+	// itemObject = _ItemObject;
 	itemComp->RemoveItem(_ItemObject);
 }
 
@@ -111,6 +117,11 @@ FVector2D UNewGridWidget::GetGridBorderTopLeft() const
 	FVector2D topLeft = localPosition/* - (borderSize * 0.5f)*/;
 
 	return topLeft;
+}
+
+FReply UNewGridWidget::OnGridBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+	return FReply::Handled();
 }
 
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
@@ -174,13 +185,12 @@ void UNewGridWidget::Refresh()
 		if (newItemImgWidget)
 		{
 			newItemImgWidget->tileSize = tileSize;
-			UE_LOG(LogTemp, Warning, TEXT("!!! tileSize : %f"), tileSize);
-			newItemImgWidget->itemObject = itemObject;
-			UE_LOG(LogTemp, Warning, TEXT("!!! itemObject NAME : %s"), *itemObject->GetClass()->GetName());
+			// UE_LOG(LogTemp, Warning, TEXT("!!! tileSize : %f"), tileSize);
+			
+			//newItemImgWidget->thisItemObject = itemObject;
+			newItemImgWidget->SetItemObject(itemObject);
 
 			newItemImgWidget->OnRemoved.AddDynamic(this, &UNewGridWidget::OnItemRemoved);
-
-			// UCanvasPanelSlot* tempCanvasSlot = Cast<UCanvasPanelSlot>(gridCanvasPanel->AddChild(newItemImgWidget));
 
 			UCanvasPanelSlot* imgSlot = rootCanvas->AddChildToCanvas(newItemImgWidget);
 
@@ -193,15 +203,8 @@ void UNewGridWidget::Refresh()
 				// ESlateVisibility visibility = newItemImgWidget->GetVisibility();
 
 			}
-			
-			/*if (itemImgWidget->IsInViewport())
-			{
-				itemImgWidget->RemoveFromParent();
-			}
-			itemImgWidget->AddToViewport();*/
 
 			UE_LOG(LogTemp, Warning, TEXT("position: (%f, %f)"), imgSlot->GetPosition().X, imgSlot->GetPosition().Y);
-
 			UE_LOG(LogTemp, Warning, TEXT("size : (%f, %f)"), imgSlot->GetSize().X, imgSlot->GetSize().Y);
 		}
 		else

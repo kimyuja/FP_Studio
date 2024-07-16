@@ -72,6 +72,14 @@ void UMapCustomWidget::NativeConstruct()
 	}*/
 }
 
+bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+{
+	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+
+
+	return false;
+}
+
 int32 UMapCustomWidget::maxCostAsInt(int32 cost)
 {
 	if (maxCost)
@@ -180,4 +188,9 @@ bool UMapCustomWidget::ValidCost()
 	{
 		return false;
 	}
+}
+
+FReply UMapCustomWidget::OnBackgroundBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+	return FReply::Handled();
 }

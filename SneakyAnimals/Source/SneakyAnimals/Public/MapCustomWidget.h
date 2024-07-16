@@ -20,6 +20,7 @@ class SNEAKYANIMALS_API UMapCustomWidget : public UUserWidget
 public:
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override;
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override; 
 
 	/*UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UW_CustomMap* CustomMapGridWidget;*/
@@ -66,8 +67,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 _currentCost;
 
-	/*UFUNCTION(BlueprintCallable)
-    FReply OnBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent);*/
+	FReply OnBackgroundBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent);
 
 
 };
