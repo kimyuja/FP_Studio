@@ -21,6 +21,9 @@
 #include "Input/Reply.h"
 #include "TileStructure.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Border.h>
+#include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/DragDropOperation.h>
+#include "MyDragDropOperation.h"
+#include <../../../../../../../Source/Runtime/SlateCore/Public/Input/DragAndDrop.h>
 
 bool UNewGridWidget::Initialize()
 {
@@ -110,6 +113,10 @@ void UNewGridWidget::DrawGridLine()
 FVector2D UNewGridWidget::GetGridBorderTopLeft() const
 {
 	FGeometry geometry = gridBorder->GetCachedGeometry();
+	FVector2D tempPos = geometry.GetAbsolutePosition();
+
+	UE_LOG(LogTemp, Warning, TEXT("Grid Abs Pos X : %f, Y : %f"), tempPos.X, tempPos.Y);
+
 	FVector2D absolutePosition = geometry.GetAbsolutePosition();
 	FVector2D localPosition = geometry.AbsoluteToLocal(absolutePosition);
 	FVector2D borderSize = geometry.GetLocalSize();
@@ -122,6 +129,36 @@ FVector2D UNewGridWidget::GetGridBorderTopLeft() const
 FReply UNewGridWidget::OnGridBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
 {
 	return FReply::Handled();
+}
+
+UItemObject* UNewGridWidget::GetPayload(UDragDropOperation* _DragDropOperation) const
+{
+	if (false == IsValid(_DragDropOperation))
+	{
+		return nullptr;
+	}
+	else
+	{
+		return Cast<UItemObject>(_DragDropOperation->Payload);
+	}
+}
+
+bool UNewGridWidget::IsRoomAvailableForPayload(UItemObject* _Payload) const
+{
+	if (IsValid(_Payload))
+	{
+		// 어라라 draggedItemTopLeft값이 지금 지정을 안해줬으니까 계속 0아닌가..?
+		// 여기 이상한거 같은데
+		FTileStructureTemp TopLeftTile;
+		TopLeftTile.X = draggedItemTopLeft.X;
+		TopLeftTile.Y = draggedItemTopLeft.Y;
+
+		int32 topLeftIdx = itemComp->TileToIndex(TopLeftTile);
+
+		// 그래서 여기가 계속 (0,0)으로만 찍히고 이상해지는거 맞는거 같어..
+		return itemComp->IsRoomAvailable(_Payload, topLeftIdx);
+	}
+	return false;
 }
 
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
@@ -174,7 +211,7 @@ void UNewGridWidget::Refresh()
 	allItems.GenerateKeyArray(Keys);
 
 	UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(gridCanvasPanel);
-	
+
 	for (UItemObject* key : Keys)
 	{
 		FTileStructureTemp* topLeftTile = allItems.Find(key);
@@ -186,7 +223,7 @@ void UNewGridWidget::Refresh()
 		{
 			newItemImgWidget->tileSize = tileSize;
 			// UE_LOG(LogTemp, Warning, TEXT("!!! tileSize : %f"), tileSize);
-			
+
 			//newItemImgWidget->thisItemObject = itemObject;
 			newItemImgWidget->SetItemObject(itemObject);
 
@@ -276,3 +313,66 @@ int32 UNewGridWidget::NativePaint(const FPaintArgs& Args, const FGeometry& Allot
 	return RetLayerId;
 
 }
+
+bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+{
+	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+
+	/*auto MousePosition = FSlateApplication::Get().GetCursorPos();
+
+	UE_LOG(LogTemp, Warning, TEXT("NativeOnDrop Abs Pos X : %f, Y : %f"), MousePosition.X, MousePosition.Y);
+
+	FVector2D gridStartPos(2455.822266, 215.882034);
+
+	FVector2D Dist = MousePosition - gridStartPos;*/
+
+	if (1)
+	{
+		if (UMyDragDropOperation* ItemOperation = Cast<UMyDragDropOperation>(InOperation))
+		{
+			// auto tempPayLoad = GetPayload(ItemOperation);
+			UItemObject* tempPayLoad = GetPayload(ItemOperation);
+
+			if (IsRoomAvailableForPayload(tempPayLoad))
+			// if (1)
+			{
+				
+				// UItemObject* dropPayload = tempPayLoad;
+
+				FTileStructureTemp TopLeftTile;
+				TopLeftTile.X = draggedItemTopLeft.X;
+				TopLeftTile.Y = draggedItemTopLeft.Y;
+
+				int32 topLeftIdx = itemComp->TileToIndex(TopLeftTile);
+				
+				itemComp->AddItemAt(GetPayload(ItemOperation), topLeftIdx);
+
+				//topLeftIdx = (int32)Dist.X / 160 * 4 + ((int32)Dist.Y / 160);
+
+				/*if (dropPayload)
+				{
+					itemComp->AddItemAt(dropPayload, topLeftIdx);
+
+				}*/
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("WhY........WHy........."));
+		return false;
+	}
+
+}
+
+//bool UNewGridWidget::OnDragOver(FGeometry MyGeometry, FPointerEvent PointerEvent, UDragDropOperation* Operation)
+//{
+//	Super::OnDragOver(MyGeometry, PointerEvent, Operation);
+//
+//
+//	return true;
+//
+//}
