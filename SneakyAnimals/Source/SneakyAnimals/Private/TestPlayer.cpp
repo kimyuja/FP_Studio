@@ -112,8 +112,11 @@ void ATestPlayer::BeginPlay()
 	clearUI = Cast<UW_StageClear>(CreateWidget(GetWorld(),stageClearUI));
 	if (clearUI)
 	{
-		clearUI->AddToViewport(1);
-		clearUI->SetVisibility(ESlateVisibility::Hidden);
+		//if (IsLocallyControlled())
+		//{
+			clearUI->AddToViewport(1);
+			clearUI->SetVisibility(ESlateVisibility::Hidden);
+		//}
 	}
 	gameState = Cast<ASAGameStateBase>(GetWorld()->GetGameState());
 
@@ -130,11 +133,25 @@ void ATestPlayer::BeginPlay()
 		
 	}
 
-	mainUI = Cast<UW_InGameUI>(CreateWidget(GetWorld(), mainUIF));
+	if (IsLocallyControlled())
+	{
+		mainUI = Cast<UW_InGameUI>(CreateWidget(GetWorld(), mainUIF));
+	}
 	if (mainUI)
 	{
-		mainUI->AddToViewport(2);
-		//mainUI->SetVisibility(ESlateVisibility::Hidden);
+		//if (IsLocallyControlled())
+		//{
+			mainUI->AddToViewport(2);
+			if (HasAuthority())
+			{
+				UE_LOG(LogTemp, Warning, TEXT("server!!!!!!!!"));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("client!!!!!!!!"));
+			}
+			//mainUI->SetVisibility(ESlateVisibility::Hidden);
+		//}
 	}
 	// 게임 모드에 따라서 카메라 위치를 1인칭, 3인칭으로 바꾸기
 	// Lobby_Level : 3인칭, 이유 : 자신의 캐릭터 커스터마이징이 바뀌는 게 보여야 해서
@@ -700,38 +717,69 @@ void ATestPlayer::ServerRPC_ActiveGimmick_Implementation(ATestPlayer* aP)
 	//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), aP->GetActorLocation().X, aP->GetActorLocation().Y, aP->GetActorLocation().Z);
 	if (clearUI->bIsClear)
 	{
-		mainUI->bISClear = true;
-		return;
+		mainUI->SetTimerShow(false);
 	}
 	MultiRPC_ActiveGimmick(aP);
 }
 
 void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 {
+	if (clearUI->bIsClear)
+	{
+		mainUI->SetTimerShow(false);
+	}
 	if (bCanActive)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("aP = %f, %f, %f"), _aP->GetActorLocation().X, _aP->GetActorLocation().Y, _aP->GetActorLocation().Z);
 		//UE_LOG(LogTemp, Warning, TEXT("P = %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
 		bCanActive = false;
 		int32 key = g->OnMyActive(_aP);
-		//UE_LOG(LogTemp, Warning, TEXT("Fail %d"), key);
 		if (key == 2)
 		{
-			if (gameState->stageNum == 2)
-			{
-				for (TActorIterator<AUnderTheSea> sea(GetWorld()); sea; ++sea)
-				{
-					sea->bisclear = true;
-				}
-			}
-			mainUI->bISClear = true;
-			bCanOpenDoor = true;
-			gameState->bOnGame = false;
-			clearUI->SetWidgetState();
-			clearUI->bIsClear = true;
-			clearUI->SetVisibility(ESlateVisibility::Visible);
+			ServerRPC_ClearStage();
 		}
 	}
+}
+
+void ATestPlayer::ServerRPC_ClearStage_Implementation()
+{
+	MultiRPC_ClearStage();
+}
+
+void ATestPlayer::MultiRPC_ClearStage_Implementation()
+{
+	if (gameState->stageNum == 2)
+	{
+		for (TActorIterator<AUnderTheSea> sea(GetWorld()); sea; ++sea)
+		{
+			sea->bisclear = true;
+		}
+	}
+	
+	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	{
+		if (p->mainUI)
+		{
+			p->mainUI->SetTimerShow(false);
+		}
+	}
+	
+	bCanOpenDoor = true;
+	gameState->bOnGame = false;
+	if (HasAuthority())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("server End!!!!!!!!"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("client End!!!!!!!!"));
+	}
+	FTimerHandle clearT;
+	GetWorldTimerManager().SetTimer(clearT, [&]() {
+		clearUI->SetWidgetState();
+		clearUI->bIsClear = true;
+		clearUI->SetVisibility(ESlateVisibility::Visible);
+		}, 1.0, false, 3.0);
 }
 
 void ATestPlayer::ServerRPC_MoveStage_Implementation()
@@ -748,6 +796,16 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	if (gameState->stageNum > 4)
 	{
 		ServerRPC_StartGetFinalScore();
+	}
+	else
+	{
+		for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+		{
+			if (p->mainUI)
+			{
+				p->mainUI->SetTimerShow(true);
+			}
+		}
 	}
 }
 

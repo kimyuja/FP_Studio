@@ -282,6 +282,12 @@ public:
 	void MultiRPC_ActiveGimmick(ATestPlayer* _aP);
 
 	UFUNCTION(Server, Reliable)
+	void ServerRPC_ClearStage();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_ClearStage();
+
+	UFUNCTION(Server, Reliable)
 	void ServerRPC_MoveStage();
 
 	UFUNCTION(NetMulticast, Reliable)

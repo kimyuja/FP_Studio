@@ -57,6 +57,9 @@ public:
 	class UTextBlock* Player4_DeathCount;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UOverlay* TimeProgress_Box;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UOverlay* DeathCount;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
@@ -71,6 +74,9 @@ public:
 
 	UFUNCTION()
 	void SetStageTimer(int32 maxtime);
+
+	UFUNCTION()
+	void SetTimerShow(bool _bshow);
 
 	UFUNCTION()
 	void SetOverlayShow(bool bShow);

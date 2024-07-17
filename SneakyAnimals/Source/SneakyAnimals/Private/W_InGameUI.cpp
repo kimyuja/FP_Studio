@@ -33,8 +33,15 @@ void UW_InGameUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	{
 		return;
 	}
-	gametime += InDeltaTime;
-	if(!bISClear) SetStageTimer(180);
+	if (!bISClear)
+	{
+		SetStageTimer(180);
+		gametime += InDeltaTime;
+	}
+	else
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Timer Working"));
+	}
 }
 
 void UW_InGameUI::SetPlayerTD()
@@ -85,6 +92,22 @@ void UW_InGameUI::SetStageTimer(int32 maxtime)
 	Minuite->SetText(UKismetTextLibrary::Conv_DoubleToText(minuite, ERoundingMode::HalfToEven, false, true, 2));
 	Second->SetText(UKismetTextLibrary::Conv_DoubleToText(second, ERoundingMode::HalfToEven, false, true, 2));
 	MiliSeconds->SetText(UKismetTextLibrary::Conv_DoubleToText(miliSeconds, ERoundingMode::HalfToEven, false, true, 2));
+}
+
+void UW_InGameUI::SetTimerShow(bool _bshow)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Clear!!!!!!!"));
+	if (_bshow)
+	{
+		gametime = 0;
+		bISClear = false;
+		TimeProgress_Box->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		bISClear = true;
+		TimeProgress_Box->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 void UW_InGameUI::SetOverlayShow(bool bShow)
