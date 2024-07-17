@@ -86,6 +86,7 @@ UItemObject* AWH_BroomstickGimmick::GetDefaultItemObject()
 		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R270"));
 		newItemObject->bRotated = false;
 		newItemObject->itemClass = AWH_BroomstickGimmick::StaticClass();
+		newItemObject->itemCost = 6;
 	}
 	return newItemObject;
 }

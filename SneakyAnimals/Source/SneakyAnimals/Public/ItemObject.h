@@ -43,4 +43,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	UMaterialInterface* GetIcon() const;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	int32 itemCost;
 }; 

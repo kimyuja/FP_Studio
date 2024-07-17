@@ -10,7 +10,7 @@
 
 UW_Base_Button::UW_Base_Button(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-    FontObject = Cast<UFont>(StaticLoadObject(UFont::StaticClass(), nullptr, TEXT("/Engine/EngineFonts/Roboto.Roboto")));
+    FontObject = Cast<UFont>(StaticLoadObject(UFont::StaticClass(), nullptr, TEXT("/Game/RTY/Texture/FontTexture/LuckiestGuy_Font")));
 }
 
 void UW_Base_Button::Setup()

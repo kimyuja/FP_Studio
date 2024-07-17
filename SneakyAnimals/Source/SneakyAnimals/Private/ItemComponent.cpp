@@ -242,7 +242,20 @@ TMap<UItemObject*, FTileStructureTemp> UItemComponent::GetAllItems()
 
 void UItemComponent::RemoveItem(UItemObject* _ItemObject)
 {
+	if(IsValid(_ItemObject))
+	{
+		// items의 item와 드롭할 item이 일치하는지 확인하고 일치한다면
+		// 기본적으로 아무것도 설정하지 않거나 무효화하기를 원한다
+		for (int32 i = 0; i < items.Num(); i++)
+		{
+			if (items[i] == _ItemObject)
+			{
+				items[i] = nullptr;
+			}
+		}
 
+		isDirty = true;
+	}
 }
 
 void UItemComponent::ChangeInventory()

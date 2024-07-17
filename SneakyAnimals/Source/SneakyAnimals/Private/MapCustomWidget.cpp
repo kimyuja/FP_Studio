@@ -15,6 +15,8 @@
 #include "Input/Reply.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Border.h>
 #include <../../../../../../../Source/Runtime/Core/Public/Delegates/Delegate.h>
+#include "MyDragDropOperation.h"
+#include "ItemObject.h"
 
 bool UMapCustomWidget::Initialize()
 {
@@ -75,12 +77,40 @@ void UMapCustomWidget::NativeConstruct()
 bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+	// UDragDropOperation 객체에서 드래그된 아이템 데이터를 가져옵니다.
+	if (UMyDragDropOperation* ItemOperation = Cast<UMyDragDropOperation>(InOperation))
+	{
+		if (ItemOperation->draggedItemObj)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("draggedItemObj is not nullptr"));
 
+			int32 thisItemCost = ItemOperation->draggedItemObj->itemCost;
+
+			_currentCost += thisItemCost;
+
+			UpdateMaxCost(_currentCost);
+
+			// 비용이 유효한지 확인
+			if (ValidCost())
+			{
+				// SetDtopLoc() 함수 실행
+				// 서버로 넘기고 -> 멀티로 넘겨서 서버와 클라 모두에게서 setloc 될 수 있도록 rpc 설정해줘야함
+				// rpc는 컨트롤러를 가진 대상만 사용할 수 있으므로 여기서 위치 옮기는 함수 만들고
+				// 캐릭터 cpp에서 rpc로 실행시켜줘야 해
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Not enough cost to drop the item"));
+			}
+
+			return true;
+		}
+	}
 
 	return false;
 }
 
-int32 UMapCustomWidget::maxCostAsInt(int32 cost)
+int32 UMapCustomWidget::DecreaseCurrentCost(int32 cost)
 {
 	if (maxCost)
 	{

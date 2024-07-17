@@ -97,6 +97,7 @@ UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 		/*FString itemName = TEXT("BS");
 		newItemObject->Rename(*itemName);*/
 		// UE_LOG(LogTemp, Warning, TEXT("987987987987987"));
+		newItemObject->itemCost = 3;
 	}
 	return newItemObject;
 }
