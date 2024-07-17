@@ -77,6 +77,11 @@ void UMapCustomWidget::NativeConstruct()
 bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+
+	auto MousePosition = FSlateApplication::Get().GetCursorPos();
+
+	UE_LOG(LogTemp, Warning, TEXT("NativeOnDrop Abs Pos X : %f, Y : %f"), MousePosition.X, MousePosition.Y);
+
 	// UDragDropOperation 객체에서 드래그된 아이템 데이터를 가져옵니다.
 	if (UMyDragDropOperation* ItemOperation = Cast<UMyDragDropOperation>(InOperation))
 	{
