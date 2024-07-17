@@ -161,6 +161,16 @@ bool UNewGridWidget::IsRoomAvailableForPayload(UItemObject* _Payload) const
 	return false;
 }
 
+void UNewGridWidget::MousePositionInTile(FVector2D _MousePos)
+{
+	// float mousePosX = _MousePos.X % tileSize;
+	// float mousePosY = _MousePos.Y % tileSize;
+	float tileHalfSize = tileSize / 2;
+	
+	bRight = _MousePos.X > tileHalfSize;
+	bDown = _MousePos.Y > tileHalfSize;
+}
+
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
 {
 	canvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(gridBorder);
@@ -368,11 +378,26 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 
 }
 
-//bool UNewGridWidget::OnDragOver(FGeometry MyGeometry, FPointerEvent PointerEvent, UDragDropOperation* Operation)
-//{
-//	Super::OnDragOver(MyGeometry, PointerEvent, Operation);
-//
-//
-//	return true;
-//
-//}
+bool UNewGridWidget::NativeOnDragOver(const FGeometry& MyGeometry, const FDragDropEvent& DragDropEvent, UDragDropOperation* Operation)
+{
+	Super::NativeOnDragOver(MyGeometry, DragDropEvent, Operation);
+
+	// 마우스에 대한 정보인 포인터 이벤트를 얻어온다 (로컬 절대값)
+	FVector2D MousePosition = MyGeometry.AbsoluteToLocal(DragDropEvent.GetScreenSpacePosition());
+	
+	MousePositionInTile(MousePosition);
+
+	UItemObject* iobj = Cast<UItemObject>(GetPayload(Operation));
+	/*if (bRight)
+	{
+		iobj->GetDimensions().X - 1
+	}
+	else
+	{
+		iobj->GetDimensions().X - 1
+	}*/
+	// 40분 30초?
+
+	return true;
+}
+

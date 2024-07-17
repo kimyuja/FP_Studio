@@ -19,8 +19,8 @@ public:
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override; 
 	virtual int32 NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
-	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	// virtual bool OnDragOver(FGeometry MyGeometry, FPointerEvent PointerEvent, UDragDropOperation* Operation) override;
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override; 
+	virtual bool NativeOnDragOver(const FGeometry& MyGeometry, const FDragDropEvent& DragDropEvent, UDragDropOperation* Operation) override;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UBorder* gridBorder;
@@ -57,6 +57,11 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
 	bool bDrawDropLoc;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
+	bool bRight;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
+	bool bDown;
 
 
 public:
@@ -92,5 +97,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
 	bool IsRoomAvailableForPayload(class UItemObject* _Payload) const;
+	
+	UFUNCTION(BlueprintCallable, Category = "DragDrop")
+	void MousePositionInTile(FVector2D _MousePos);
 
 };
