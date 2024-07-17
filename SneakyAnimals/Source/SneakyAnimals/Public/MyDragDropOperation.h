@@ -20,5 +20,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector2D dragOffset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UItemObject* draggedItemObj;
 	
 };

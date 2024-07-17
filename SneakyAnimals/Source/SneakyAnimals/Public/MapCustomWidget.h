@@ -39,7 +39,7 @@ private:
 	class UTextBlock* maxCost;
 
 public:
-	int32 maxCostAsInt(int32 cost);
+	int32 DecreaseCurrentCost(int32 cost);
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void UpdateMaxCost(int32 newCost);
@@ -66,6 +66,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 _currentCost;
+		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UItemObject* DraggedItem;
 
 	FReply OnBackgroundBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent);
 

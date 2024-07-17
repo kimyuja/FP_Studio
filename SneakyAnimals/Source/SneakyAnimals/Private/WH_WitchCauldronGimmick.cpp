@@ -89,6 +89,7 @@ UItemObject* AWH_WitchCauldronGimmick::GetDefaultItemObject()
 		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R270"));
 		newItemObject->bRotated = false;
 		newItemObject->itemClass = AWH_WitchCauldronGimmick::StaticClass();
+		newItemObject->itemCost =7;
 	}
 	return newItemObject;
 }

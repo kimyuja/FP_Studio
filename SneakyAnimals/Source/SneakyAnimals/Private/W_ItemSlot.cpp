@@ -379,7 +379,7 @@ void UW_ItemSlot::SetCurrentCost()
 	{
 		if (mapCustomWidget->ValidCost())
 		{
-			int newCost = mapCustomWidget->maxCostAsInt(itemCostAsInt);
+			int newCost = mapCustomWidget->DecreaseCurrentCost(itemCostAsInt);
 
 			mapCustomWidget->UpdateMaxCost(newCost);
 			UE_LOG(LogTemp, Warning, TEXT("Result: %d"), newCost);

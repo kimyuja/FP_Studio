@@ -84,7 +84,7 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 		}
 
 		// 두 방법 동일한 결과
-		UDragDropOperation* dragDropOperation = NewObject<UDragDropOperation>(this);
+		UMyDragDropOperation* dragDropOperation = NewObject<UMyDragDropOperation>(this);
 		// UMyDragDropOperation* dragDropOperation = Cast<UMyDragDropOperation>(UWidgetBlueprintLibrary::CreateDragDropOperation(UMyDragDropOperation::StaticClass()));
 
 		// this->SetDesiredSizeInViewport(FVector2D(thisItemObject->dimensions.X * tileSize, thisItemObject->dimensions.Y * tileSize));
@@ -94,6 +94,8 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 			dragDropOperation->Payload = thisItemObject;
 			dragDropOperation->DefaultDragVisual = this;  // 드래그 시 보일 위젯 설정
 			dragDropOperation->Pivot = EDragPivot::CenterCenter;
+
+			dragDropOperation->draggedItemObj = thisItemObject;
 
 			UE_LOG(LogTemp, Warning, TEXT("Drag ing ... "));
 
