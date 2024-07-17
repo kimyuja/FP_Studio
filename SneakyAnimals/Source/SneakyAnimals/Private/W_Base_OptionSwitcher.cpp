@@ -10,11 +10,11 @@ UW_Base_OptionSwitcher::UW_Base_OptionSwitcher(const FObjectInitializer& ObjectI
 {
 	Options = { "Low", "Medium", "High", "Epic", "Ultra" };
 	SelectedOption = "High";
-	Widget_Width = 304.0;
-	Widget_Height = 36.0;
-	Left_Btn_Width = 33.0;
-	Right_Btn_Width = 33.0;
-	Font_Size = 11;
+	//Widget_Width = 304.0;
+	//Widget_Height = 36.0;
+	//Left_Btn_Width = 33.0;
+	//Right_Btn_Width = 33.0;
+	//Font_Size = 11;
 	bAllow_OptionLooping = false;
 }
 
@@ -47,7 +47,7 @@ void UW_Base_OptionSwitcher::Setup()
 
 	// Load the Roboto font and set the font info
 	FSlateFontInfo FontInfo;
-	UFont* FontObject = LoadObject<UFont>(nullptr, TEXT("/Engine/EngineFonts/Roboto.Roboto"));
+	UFont* FontObject = LoadObject<UFont>(nullptr, TEXT("/Game/RTY/Texture/FontTexture/LuckiestGuy_Font"));
 	if (FontObject)
 	{
 		FontInfo.FontObject = FontObject;
