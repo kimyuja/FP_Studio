@@ -87,31 +87,36 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 	{
 		if (ItemOperation->draggedItemObj)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("draggedItemObj is not nullptr"));
-
-			int32 thisItemCost = ItemOperation->draggedItemObj->itemCost;
-
-			_currentCost += thisItemCost;
-
-			UpdateMaxCost(_currentCost);
-
-			// 비용이 유효한지 확인
-			if (ValidCost())
-			{
-				// SetDtopLoc() 함수 실행
-				// 서버로 넘기고 -> 멀티로 넘겨서 서버와 클라 모두에게서 setloc 될 수 있도록 rpc 설정해줘야함
-				// rpc는 컨트롤러를 가진 대상만 사용할 수 있으므로 여기서 위치 옮기는 함수 만들고
-				// 캐릭터 cpp에서 rpc로 실행시켜줘야 해
-			}
-			else
-			{
-				UE_LOG(LogTemp, Error, TEXT("Not enough cost to drop the item"));
-			}
+			IncreaseCurrentCost(ItemOperation->draggedItemObj);
 
 			return true;
 		}
-	}
+		//{
+		//	UE_LOG(LogTemp, Warning, TEXT("draggedItemObj is not nullptr"));
 
+		//	int32 thisItemCost = ItemOperation->draggedItemObj->itemCost;
+
+		//	_currentCost += thisItemCost;
+
+		//	UpdateMaxCost(_currentCost);
+
+		//	// 비용이 유효한지 확인
+		//	if (ValidCost())
+		//	{
+		//		// SetDtopLoc() 함수 실행
+		//		// 서버로 넘기고 -> 멀티로 넘겨서 서버와 클라 모두에게서 setloc 될 수 있도록 rpc 설정해줘야함
+		//		// rpc는 컨트롤러를 가진 대상만 사용할 수 있으므로 여기서 위치 옮기는 함수 만들고
+		//		// 캐릭터 cpp에서 rpc로 실행시켜줘야 해
+		//	}
+		//	else
+		//	{
+		//		UE_LOG(LogTemp, Error, TEXT("Not enough cost to drop the item"));
+		//	}
+
+		//	return true;
+		
+		return false;
+	}
 	return false;
 }
 
@@ -138,6 +143,15 @@ int32 UMapCustomWidget::DecreaseCurrentCost(int32 cost)
 	}
 
 	return 0;
+}
+
+void UMapCustomWidget::IncreaseCurrentCost(UItemObject* _ItemObj)
+{
+	int32 thisItemCost = _ItemObj->itemCost;
+
+	_currentCost += thisItemCost;
+
+	UpdateMaxCost(_currentCost);
 }
 
 void UMapCustomWidget::UpdateMaxCost(int32 newCost)

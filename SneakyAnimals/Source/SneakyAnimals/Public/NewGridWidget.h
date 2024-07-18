@@ -21,6 +21,8 @@ public:
 	virtual int32 NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override; 
 	virtual bool NativeOnDragOver(const FGeometry& MyGeometry, const FDragDropEvent& DragDropEvent, UDragDropOperation* Operation) override;
+	virtual void NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	virtual void NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UBorder* gridBorder;
@@ -40,6 +42,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	class UItemComponent* itemComp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	class UMapCustomWidget* mapCustomWidget;
+		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TArray<class ULineStructure*> lines;
 
@@ -100,5 +105,11 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
 	void MousePositionInTile(FVector2D _MousePos);
+
+	UFUNCTION(BlueprintCallable, Category = "DragDrop")
+	void CallIncreseCostFunc(class UMapCustomWidget* _MapCustomWid, class  UItemObject* _ItemObj);
+	
+	UPROPERTY(BlueprintReadWrite, Category = "MakeBox")
+	FSlateBrush boxBrush;
 
 };

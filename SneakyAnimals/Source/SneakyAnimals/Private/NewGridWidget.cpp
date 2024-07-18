@@ -24,6 +24,12 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/DragDropOperation.h>
 #include "MyDragDropOperation.h"
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Input/DragAndDrop.h>
+#include "MapCustomWidget.h"
+#include <../../../../../../../Source/Runtime/Core/Public/Templates/SharedPointer.h>
+#include <../../../../../../../Source/Runtime/Slate/Public/Framework/Application/SlateApplication.h>
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateBrush.h>
+#include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateColor.h>
 
 bool UNewGridWidget::Initialize()
 {
@@ -166,9 +172,21 @@ void UNewGridWidget::MousePositionInTile(FVector2D _MousePos)
 	float mousePosX = (int32)_MousePos.X % (int32)tileSize;
 	float mousePosY = (int32)_MousePos.Y % (int32)tileSize;
 	float tileHalfSize = tileSize / 2.f;
-	
+
 	bRight = _MousePos.X > tileHalfSize;
 	bDown = _MousePos.Y > tileHalfSize;
+}
+
+void UNewGridWidget::CallIncreseCostFunc(UMapCustomWidget* _MapCustomWid, UItemObject* _ItemObj)
+{
+	if (_MapCustomWid)
+	{
+		_MapCustomWid->IncreaseCurrentCost(_ItemObj);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("MapCustomInstance is null!"));
+	}
 }
 
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
@@ -314,10 +332,40 @@ int32 UNewGridWidget::NativePaint(const FPaintArgs& Args, const FGeometry& Allot
 			AllottedGeometry.ToPaintGeometry(),
 			TArray<FVector2D>({ topLeft + Line->start, topLeft + Line->end }),
 			ESlateDrawEffect::None,
-			FLinearColor::Gray,
+			FLinearColor(0.5f, 0.5f, 0.5f, 0.5f),
 			true,
 			1.0f
 		);
+	}
+
+	if (FSlateApplication::Get().IsDragDropping() && bDrawDropLoc)
+	{
+		//GetPayload(FSlateApplication::Get().GetDragDroppingContent());
+		UItemObject* MyPayload = GetPayload(UWidgetBlueprintLibrary::GetDragDroppingContent());
+
+		if (MyPayload)
+		{
+			FLinearColor boxColor = IsRoomAvailableForPayload(MyPayload) ? FLinearColor(0.0f, 1.0f, 0.0f, 0.25f) : FLinearColor(1.0f, 0.0f, 0.0f, 0.25f);
+
+			FVector2D boxPos = (FVector2D)draggedItemTopLeft * tileSize;
+			FVector2D boxSize;
+			boxSize.X = MyPayload->dimensions.X * tileSize;
+			boxSize.Y = MyPayload->dimensions.Y * tileSize;
+
+			FPaintGeometry PaintGeometry = AllottedGeometry.ToPaintGeometry(FVector2f(boxSize), FSlateLayoutTransform(boxPos));
+
+			/*boxBrush.TintColor = FSlateColor(FLinearColor::White);
+			boxBrush.ImageSize = FVector2f(100.0f, 100.0f);
+		*/
+			FSlateDrawElement::MakeBox(
+				OutDrawElements,
+				LayerId,
+				PaintGeometry,
+				&boxBrush,
+				ESlateDrawEffect::None,
+				boxColor
+			);
+		}
 	}
 
 	return RetLayerId;
@@ -336,45 +384,54 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 
 	FVector2D Dist = MousePosition - gridStartPos;*/
 
-	if (1)
+
+	if (UMyDragDropOperation* ItemOperation = Cast<UMyDragDropOperation>(InOperation))
 	{
-		if (UMyDragDropOperation* ItemOperation = Cast<UMyDragDropOperation>(InOperation))
+		// auto tempPayLoad = GetPayload(ItemOperation);
+		UItemObject* tempPayLoad = GetPayload(ItemOperation);
+
+		if (IsRoomAvailableForPayload(tempPayLoad))
 		{
-			// auto tempPayLoad = GetPayload(ItemOperation);
-			UItemObject* tempPayLoad = GetPayload(ItemOperation);
 
-			if (IsRoomAvailableForPayload(tempPayLoad))
-			// if (1)
+			// UItemObject* dropPayload = tempPayLoad;
+
+			FTileStructureTemp TopLeftTile;
+			TopLeftTile.X = draggedItemTopLeft.X;
+			TopLeftTile.Y = draggedItemTopLeft.Y;
+
+			int32 topLeftIdx = itemComp->TileToIndex(TopLeftTile);
+
+			itemComp->AddItemAt(GetPayload(ItemOperation), topLeftIdx);
+
+			//topLeftIdx = (int32)Dist.X / 160 * 4 + ((int32)Dist.Y / 160);
+
+			/*if (dropPayload)
 			{
-				
-				// UItemObject* dropPayload = tempPayLoad;
+				itemComp->AddItemAt(dropPayload, topLeftIdx);
 
-				FTileStructureTemp TopLeftTile;
-				TopLeftTile.X = draggedItemTopLeft.X;
-				TopLeftTile.Y = draggedItemTopLeft.Y;
+			}*/
+			return true;
+		}
+		else
+		{
+			// 놓으려고 하는 곳에 사용할 수 있는 공간이 없다면
+			// 인벤토리 내에 들어있도록은 해야하기 때문에
+			// 어디에 추가할지 신경쓰지 않고 사용 가능한 가장 좋은 슬롯에 추가되도록 하고싶다
 
-				int32 topLeftIdx = itemComp->TileToIndex(TopLeftTile);
-				
-				itemComp->AddItemAt(GetPayload(ItemOperation), topLeftIdx);
+			if (!itemComp->TryAddItem(tempPayLoad))
+			{
+				// CallIncreseCostFunc(mapCustomWidget, tempPayLoad);		
 
-				//topLeftIdx = (int32)Dist.X / 160 * 4 + ((int32)Dist.Y / 160);
-
-				/*if (dropPayload)
-				{
-					itemComp->AddItemAt(dropPayload, topLeftIdx);
-
-				}*/
 				return true;
 			}
-			return false;
+
+			// 아무곳에도 둘 수 없다면 없애버려
+
 		}
 		return false;
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("WhY........WHy........."));
-		return false;
-	}
+	return false;
+
 
 }
 
@@ -384,7 +441,7 @@ bool UNewGridWidget::NativeOnDragOver(const FGeometry& MyGeometry, const FDragDr
 
 	// 마우스에 대한 정보인 포인터 이벤트를 얻어온다 (로컬 절대값)
 	FVector2D MousePosition = MyGeometry.AbsoluteToLocal(DragDropEvent.GetScreenSpacePosition());
-	
+
 	MousePositionInTile(MousePosition);
 
 	UItemObject* iobj = Cast<UItemObject>(GetPayload(Operation));
@@ -411,5 +468,19 @@ bool UNewGridWidget::NativeOnDragOver(const FGeometry& MyGeometry, const FDragDr
 	draggedItemTopLeft.Y = truncatedY - intPosition.Y / 2;
 
 	return true;
+}
+
+void UNewGridWidget::NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+{
+	Super::NativeOnDragEnter(InGeometry, InDragDropEvent, InOperation);
+
+	bDrawDropLoc = true;
+}
+
+void UNewGridWidget::NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+{
+	Super::NativeOnDragLeave(InDragDropEvent, InOperation);
+
+	bDrawDropLoc = false;
 }
 
