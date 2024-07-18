@@ -163,9 +163,9 @@ bool UNewGridWidget::IsRoomAvailableForPayload(UItemObject* _Payload) const
 
 void UNewGridWidget::MousePositionInTile(FVector2D _MousePos)
 {
-	// float mousePosX = _MousePos.X % tileSize;
-	// float mousePosY = _MousePos.Y % tileSize;
-	float tileHalfSize = tileSize / 2;
+	float mousePosX = (int32)_MousePos.X % (int32)tileSize;
+	float mousePosY = (int32)_MousePos.Y % (int32)tileSize;
+	float tileHalfSize = tileSize / 2.f;
 	
 	bRight = _MousePos.X > tileHalfSize;
 	bDown = _MousePos.Y > tileHalfSize;
@@ -388,15 +388,27 @@ bool UNewGridWidget::NativeOnDragOver(const FGeometry& MyGeometry, const FDragDr
 	MousePositionInTile(MousePosition);
 
 	UItemObject* iobj = Cast<UItemObject>(GetPayload(Operation));
-	/*if (bRight)
-	{
-		iobj->GetDimensions().X - 1
-	}
-	else
-	{
-		iobj->GetDimensions().X - 1
-	}*/
-	// 40분 30초?
+
+	FVector2D ClampedPosition;
+	/*ClampedPosition.X = FMath::Clamp(MousePosition.X + (bRight ? iobj->dimensions.X : 0), 0.0f, tileSize);
+	ClampedPosition.Y = FMath::Clamp(MousePosition.Y + (bDown ? iobj->dimensions.Y : 0), 0.0f, tileSize);*/
+
+	ClampedPosition.X = FMath::Clamp(MousePosition.X, 0.0f, (bRight ? iobj->dimensions.X - 1 : iobj->dimensions.X));
+	ClampedPosition.Y = FMath::Clamp(MousePosition.Y, 0.0f, (bDown ? iobj->dimensions.Y - 1 : iobj->dimensions.Y));
+
+	FIntPoint intPosition;
+	intPosition.X = (int32)ClampedPosition.X;
+	intPosition.Y = (int32)ClampedPosition.Y;
+
+	float tileX = MousePosition.X / tileSize;
+	float tileY = MousePosition.Y / tileSize;
+
+	// 나눈 결과를 정수로 변환 (정수 부분만 남기기)
+	int32 truncatedX = (int32)(tileX);
+	int32 truncatedY = (int32)(tileY);
+
+	draggedItemTopLeft.X = truncatedX - intPosition.X / 2;
+	draggedItemTopLeft.Y = truncatedY - intPosition.Y / 2;
 
 	return true;
 }
