@@ -148,6 +148,7 @@ void ASM_ComputerGimmick::SelfExplosion()
 	//Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetWarning();
 	for (TActorIterator<ATestPlayer> player(GetWorld()); player; ++player)
 	{
+		player->bIsDie = true;
 		player->Respawn();
 		player->DeathCounting();
 	}

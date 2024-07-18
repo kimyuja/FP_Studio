@@ -196,6 +196,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
 	bool bGameIsStart = false;
 
+	UPROPERTY(Replicated,EditAnywhere,BlueprintReadWrite)
 	bool bCanActive;
 
 	bool bCanOpenDoor = false;
@@ -292,6 +293,12 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_MoveStage(FVector moveLoc);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_FadeOut(bool _bInOut);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_FadeOut(bool _bOut);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

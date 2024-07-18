@@ -85,7 +85,7 @@ void UW_InGameUI::SetPlayerTD()
 void UW_InGameUI::SetStageTimer(int32 maxtime)
 {
 	float time = maxtime - gametime;
-	TimeProgressBar->SetPercent(1 - (gametime / time));
+	TimeProgressBar->SetPercent(1 - (gametime / maxtime));
 	int32 minuite = time / 60;
 	int32 second = (int32)time % 60;
 	int32 miliSeconds = (int32)(time * 100) % 100;

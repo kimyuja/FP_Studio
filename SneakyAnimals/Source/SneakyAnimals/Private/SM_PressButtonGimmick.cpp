@@ -111,6 +111,7 @@ void ASM_PressButtonGimmick::Waterbomb()
 	}
 	for (TActorIterator<ATestPlayer> player(GetWorld()); player; ++player)
 	{
+		player->bIsDie = true;
 		player->Respawn();
 		player->DeathCounting();
 	}
@@ -129,7 +130,7 @@ void ASM_PressButtonGimmick::Blinklife()
 	}
 
 	int targetNum = FMath::RandRange(0, players.Num() - 1);
-
+	players[targetNum]->bIsDie = true;
 	players[targetNum]->Respawn();
 	players[targetNum]->DeathCounting();
 }

@@ -110,8 +110,9 @@ void ASM_WhistleGimmick::BabyShark()
 
 	int targetNum = FMath::RandRange(0, players.Num() - 1);
 
-	players[targetNum]->bIsBlack = true;;
-	players[targetNum]->Respawn(10.0);
+	players[targetNum]->bIsBlack = true;
+	players[targetNum]->bIsDie = true;
+	players[targetNum]->Respawn(5.0);
 	players[targetNum]->DeathCounting();
 }
 

@@ -57,7 +57,8 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
 		return -1;
 	}
-	Cast<ATestPlayer>(ActivePlayer)->bIsDie = true;
+	//Cast<ATestPlayer>(ActivePlayer)->bIsDie = true;
+	//Cast<ATestPlayer>(ActivePlayer)->bCanActive = false;
 	_key = 0;
 	if (Cast<AWH_BookshelfGimmick>(this))
 	{

@@ -441,6 +441,10 @@ void ATestPlayer::PlayerJumpEnd(const FInputActionValue& Value)
 
 void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 {
+	if (!bCanActive)
+	{
+		return;
+	}
 	/*if (bCanActive)
 	{
 		bCanActive = false;
@@ -494,7 +498,8 @@ void ATestPlayer::DeathCounting()
 
 void ATestPlayer::FadeInOut(bool bInOut)
 {
-	if (!bIsDie)
+	ServerRPC_FadeOut(bInOut);
+	/*if (!bIsDie || !IsLocallyControlled())
 	{
 		return;
 	}
@@ -509,7 +514,7 @@ void ATestPlayer::FadeInOut(bool bInOut)
 	{
 		cameraManager->StartCameraFade(1.0f, 0, 1.5f, FColor::Black);
 		bIsBlack = false;
-	}
+	}*/
 }
 
 void ATestPlayer::BlackScreen()
@@ -523,7 +528,7 @@ void ATestPlayer::Respawn(float delaytime)
 {
 	if (!bIsBlack)
 	{
-		FadeInOut(true);
+		ServerRPC_FadeOut(true);
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Player %d Respawn"), playerNum);
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
@@ -539,6 +544,7 @@ void ATestPlayer::Respawn(float delaytime)
 		FadeInOut(false);
 		bIsDie = false;
 		bIsBlack = false;
+		bCanActive = true;
 		GetWorldTimerManager().ClearAllTimersForObject(this);
 	}, 1.0, false, delaytime);
 	
@@ -575,8 +581,9 @@ void ATestPlayer::GimmickSearch()
 
 void ATestPlayer::Death_Fallover()
 {
-	bIsDie = true;
+	//bIsDie = true;
 	lerpTime = 0;
+	bCanActive = false;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 		{
 			float eye = FMath::Lerp(250.0, 0, lerpTime);
@@ -589,7 +596,8 @@ void ATestPlayer::Death_Fallover()
 
 void ATestPlayer::Death_Homerun(FVector impactLoc, float power)
 {
-	bIsDie = true;
+	bCanActive = false;
+	//bIsDie = true;
 	//GetMesh()->SetSimulatePhysics(true);
 	//GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	GetCapsuleComponent()->SetSimulatePhysics(true);
@@ -648,14 +656,15 @@ void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
 		}, 0.03f, true, 0);
 	if (!bIsGoodDriver)
 	{
-		bIsDie = true;
+		//bIsDie = true;
 		Respawn(10.0);
 	}
 }
 
 void ATestPlayer::Death_EndMan()
 {
-	bIsDie = true;
+	//bIsDie = true;
+	bCanActive = false;
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(endManT, [&]()
 		{
@@ -669,7 +678,12 @@ void ATestPlayer::Death_EndMan()
 
 void ATestPlayer::Death_Thunderclap()
 {
-	bIsDie = true;
+	//bIsDie = true;
+	bCanActive = false;
+	if (!IsLocallyControlled())
+	{
+		return;
+	}
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(ThunderT, [&]()
 	{
@@ -818,6 +832,31 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	}
 }
 
+void ATestPlayer::ServerRPC_FadeOut_Implementation(bool _bInOut)
+{
+	MultiRPC_FadeOut(_bInOut);
+}
+
+void ATestPlayer::MultiRPC_FadeOut_Implementation(bool _bOut)
+{
+	if (!bIsDie || !IsLocallyControlled())
+	{
+		return;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Player %d FadeInOut"), playerNum);
+	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+	if (_bOut)
+	{
+		cameraManager->StartCameraFade(0, 1.0f, 1.0f, FColor::Black, false, true);
+		bIsBlack = true;
+	}
+	else
+	{
+		cameraManager->StartCameraFade(1.0f, 0, 1.5f, FColor::Black);
+		bIsBlack = false;
+	}
+}
+
 void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -832,4 +871,5 @@ void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(ATestPlayer, Current_Bottom);
 	DOREPLIFETIME(ATestPlayer, Current_Outer);
 	DOREPLIFETIME(ATestPlayer, Current_Dress);
+	DOREPLIFETIME(ATestPlayer, bCanActive);
 }
