@@ -140,7 +140,12 @@ void AWH_WitchCauldronGimmick::BlindFog()
 			lerpTime += GetWorld()->DeltaTimeSeconds * 5.0;
 		}, 0.03f, true, 0);
 
-	
+	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	{
+		it->bIsDie = true;
+		it->Respawn(10.0);
+		it->DeathCounting();
+	}
 
 	//int targetNum = FMath::RandRange(0, players.Num() - 1);
 
@@ -159,6 +164,7 @@ void AWH_WitchCauldronGimmick::HereIsAWitch()
 
 	int targetNum = FMath::RandRange(0, players.Num() - 1);
 
+	players[targetNum]->bIsDie = true;
 	players[targetNum]->Respawn();
 	players[targetNum]->DeathCounting();
 }

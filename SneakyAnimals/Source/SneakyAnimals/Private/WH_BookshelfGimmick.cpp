@@ -153,6 +153,7 @@ void AWH_BookshelfGimmick::FallOver()
 	{
 		if (FVector::Dist(GetActorLocation(), it->GetActorLocation()) < 500.0)
 		{
+			it->bIsDie = true;
 			it->Death_Fallover();
 			it->DeathCounting();
 		}
