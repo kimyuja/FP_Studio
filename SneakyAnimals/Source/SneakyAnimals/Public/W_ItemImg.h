@@ -40,6 +40,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UImage* ItemImage;
+	
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UCanvasPanel* MyCanvas;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	class UItemObject* thisItemObject;
