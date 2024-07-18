@@ -71,6 +71,11 @@ void ASAGameStateBase::SetClearInstance()
 
 void ASAGameStateBase::SetPlayerNum()
 {
+    if (bIsMixed)
+    {
+        return;
+    }
+    bIsMixed = true;
     TArray<int32> playerNums = { 0,1,2,3 };
     int32 LastIndex = playerNums.Num() - 1;
     int count = 0;
@@ -85,6 +90,7 @@ void ASAGameStateBase::SetPlayerNum()
     for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
     {
         it->playerNum = playerNums[count];
+        UE_LOG(LogTemp, Warning, TEXT("Player %d"), playerNums[count]);
         count++;
     }
 }
@@ -187,4 +193,5 @@ void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
     DOREPLIFETIME(ASAGameStateBase, voteCount);
     DOREPLIFETIME(ASAGameStateBase, bOnGame);
     DOREPLIFETIME(ASAGameStateBase, stageLoc);
+    DOREPLIFETIME(ASAGameStateBase, bIsMixed);
 }

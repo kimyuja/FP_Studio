@@ -66,24 +66,40 @@ void UW_StageClear::SetWidgetState()
 		DeathCount_P2->SetText(FText::FromString(FString::FromInt(gameState->deathCount1[1])));
 		DeathCount_P3->SetText(FText::FromString(FString::FromInt(gameState->deathCount1[2])));
 		DeathCount_P4->SetText(FText::FromString(FString::FromInt(gameState->deathCount1[3])));
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount1[0]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount1[1]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount1[2]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount1[3]);
 		break;
 	case 2:
 		DeathCount_P1->SetText(FText::FromString(FString::FromInt(gameState->deathCount2[0])));
 		DeathCount_P2->SetText(FText::FromString(FString::FromInt(gameState->deathCount2[1])));
 		DeathCount_P3->SetText(FText::FromString(FString::FromInt(gameState->deathCount2[2])));
 		DeathCount_P4->SetText(FText::FromString(FString::FromInt(gameState->deathCount2[3])));
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount2[0]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount2[1]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount2[2]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount2[3]);
 		break;
 	case 3:
 		DeathCount_P1->SetText(FText::FromString(FString::FromInt(gameState->deathCount3[0])));
 		DeathCount_P2->SetText(FText::FromString(FString::FromInt(gameState->deathCount3[1])));
 		DeathCount_P3->SetText(FText::FromString(FString::FromInt(gameState->deathCount3[2])));
 		DeathCount_P4->SetText(FText::FromString(FString::FromInt(gameState->deathCount3[3])));
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount3[0]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount3[1]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount3[2]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount3[3]);
 		break;
 	case 4:
 		DeathCount_P1->SetText(FText::FromString(FString::FromInt(gameState->deathCount4[0])));
 		DeathCount_P2->SetText(FText::FromString(FString::FromInt(gameState->deathCount4[1])));
 		DeathCount_P3->SetText(FText::FromString(FString::FromInt(gameState->deathCount4[2])));
 		DeathCount_P4->SetText(FText::FromString(FString::FromInt(gameState->deathCount4[3])));
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount4[0]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount4[1]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount4[2]);
+		UE_LOG(LogTemp, Warning, TEXT("%d"), gameState->deathCount4[3]);
 		break;
 	default:
 		break;

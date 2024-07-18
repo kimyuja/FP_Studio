@@ -109,7 +109,10 @@ void ATestPlayer::BeginPlay()
 		return;
 	}
 	
-	clearUI = Cast<UW_StageClear>(CreateWidget(GetWorld(),stageClearUI));
+
+	
+	clearUI = Cast<UW_StageClear>(CreateWidget(GetWorld(), stageClearUI));
+	
 	if (clearUI)
 	{
 		//if (IsLocallyControlled())
@@ -127,10 +130,8 @@ void ATestPlayer::BeginPlay()
 		{
 			gameState->SetClearInstance();
 		}
-		
 		gameState->SetStageStart();
 		gameState->SetPlayerNum();
-		
 	}
 
 	if (IsLocallyControlled())
@@ -208,7 +209,7 @@ void ATestPlayer::Tick(float DeltaTime)
 		GimmickSearch();
 	}
 
-	if (clearUI->curtime > 5 && HasAuthority())
+	if (clearUI && clearUI->curtime > 5 && HasAuthority())
 	{
 		ServerRPC_MoveStage();
 		clearUI->curtime = 0;
@@ -493,6 +494,10 @@ void ATestPlayer::DeathCounting()
 
 void ATestPlayer::FadeInOut(bool bInOut)
 {
+	if (!bIsDie)
+	{
+		return;
+	}
 	UE_LOG(LogTemp, Warning, TEXT("Player %d FadeInOut"), playerNum);
 	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(),0);
 	if (bInOut)
@@ -724,6 +729,10 @@ void ATestPlayer::ServerRPC_ActiveGimmick_Implementation(ATestPlayer* aP)
 
 void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 {
+	if (!clearUI)
+	{
+		return;
+	}
 	if (clearUI->bIsClear)
 	{
 		mainUI->SetTimerShow(false);

@@ -54,6 +54,9 @@ public:
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
 	TArray<class ATestPlayer*> players;
 	
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
+	bool bIsMixed = false;
+
 	UFUNCTION(BlueprintCallable)
 	void SetStageStart();
 
