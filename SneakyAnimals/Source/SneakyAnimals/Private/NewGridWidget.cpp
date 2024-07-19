@@ -32,6 +32,10 @@
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateColor.h>
 #include "WH_BookshelfGimmick.h"
 #include "W_ItemSlot.h"
+#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
+#include "WH_BroomstickGimmick.h"
+#include "WH_PotionGimmick.h"
+#include "WH_WitchCauldronGimmick.h"
 
 bool UNewGridWidget::Initialize()
 {
@@ -49,6 +53,8 @@ bool UNewGridWidget::Initialize()
 void UNewGridWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	//FindAllGimmick();
 
 	if (gridBorder && gridCanvasPanel)
 	{
@@ -101,7 +107,7 @@ void UNewGridWidget::NativeConstruct()
 
 	itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
 
-	UW_ItemSlot* itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
+	itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
 
 	if (!itemSlotW)
 	{
@@ -202,8 +208,111 @@ void UNewGridWidget::CallIncreseCostFunc(UMapCustomWidget* _MapCustomWid, UItemO
 	}
 }
 
-void UNewGridWidget::FindItemClass(UItemObject* _ItemObj)
+void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int32 _ActiveType)
 {
+	UE_LOG(LogTemp, Warning, TEXT("SetLoc Start!!!"));
+	if (_GimmickClass)
+	{
+		if (_GimmickClass->IsChildOf(AWH_BookshelfGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is AWH_BookshelfGimmick"));
+
+			for (TActorIterator<AWH_BookshelfGimmick> It(GetWorld()); It; ++It)
+			{
+				bookShelfActorArr.Add((*It));
+				//UE_LOG(LogTemp, Warning, TEXT("AWH_BookshelfGimmick's Name : %s, PTR : %p"), *It->GetActorNameOrLabel(), *It);
+				//UE_LOG(LogTemp, Warning, TEXT("bookShelfActor %d loc (%f, %f, %f)"), (*It)->newItemObject->itemActiveType, (*It)->GetActorLocation().X, (*It)->GetActorLocation().Y, (*It)->GetActorLocation().Z);
+			}
+
+			//UE_LOG(LogTemp, Warning, TEXT("bookShelfActorArr Size : %d"), bookShelfActorArr.Num());
+			
+			for (AWH_BookshelfGimmick* bookShelfActor : bookShelfActorArr)
+			{
+				// bookShelfActorArr[i]
+				// UE_LOG(LogTemp, Warning, TEXT("arr start!!"));
+
+				if (bookShelfActor)
+				{
+					if (bookShelfActor->newItemObject->itemActiveType == _ActiveType)
+					{
+						itemObject = bookShelfActor->GetDefaultItemObject();
+						bookShelfActor ->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+						UE_LOG(LogTemp, Warning, TEXT("Be Set loced!"));
+					}
+				}
+				else
+				{
+					UE_LOG(LogTemp, Warning, TEXT("bookShelfActor is null"));
+				}
+			}
+		}
+		else if (_GimmickClass->IsChildOf(AWH_BroomstickGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is AWH_BroomstickGimmick"));
+
+			for (TActorIterator<AWH_BroomstickGimmick> It(GetWorld()); It; ++It)
+			{
+				broomStickActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("broomStickActorArr Num is %d"), broomStickActorArr.Num());
+
+			for (AWH_BroomstickGimmick* broomStickActor : broomStickActorArr)
+			{
+				if (broomStickActor->newItemObject->itemActiveType == _ActiveType)
+				{
+					broomStickActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+				}
+			}
+		}
+		else if (_GimmickClass->IsChildOf(AWH_PotionGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is AWH_PotionGimmick"));
+
+			for (TActorIterator<AWH_PotionGimmick> It(GetWorld()); It; ++It)
+			{
+				potionActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("potionActorArr Num is %d"), potionActorArr.Num());
+
+			for (AWH_PotionGimmick* potionActor : potionActorArr)
+			{
+				if (potionActor->newItemObject->itemActiveType == _ActiveType)
+				{
+					potionActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+				}
+			}
+		}
+		else if (_GimmickClass->IsChildOf(AWH_WitchCauldronGimmick::StaticClass()))
+		{
+			for (TActorIterator<AWH_WitchCauldronGimmick> It(GetWorld()); It; ++It)
+			{
+				cauldronActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("cauldronActorArr Num is %d"), cauldronActorArr.Num());
+
+			for (AWH_WitchCauldronGimmick* cauldronActor : cauldronActorArr)
+			{
+				if (cauldronActor->newItemObject->itemActiveType == _ActiveType)
+				{
+					cauldronActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+				}
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("!!!soooooooooooo saddddddddddd"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("!!! GimmickClass is empty"));
+	}
+	
+	/*if (itemComp->TryAddItem(itemObject))
+	{
+		itemSlotW->SetCurrentCost();
+	}*/
+
 }
 
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
@@ -260,7 +369,8 @@ void UNewGridWidget::Refresh()
 	for (UItemObject* key : Keys)
 	{
 		FTileStructureTemp* topLeftTile = allItems.Find(key);
-		UItemObject* itemObject = key;
+		// UItemObject* itemObject = key;
+		itemObject = key;
 
 		UW_ItemImg* newItemImgWidget = CreateWidget<UW_ItemImg>(GetWorld(), itemImgWidgetClass);
 		UE_LOG(LogTemp, Warning, TEXT("widget!"));
@@ -280,7 +390,7 @@ void UNewGridWidget::Refresh()
 			{
 				// imgSlot->SetZOrder(99);
 				imgSlot->SetSize(FVector2D(itemObject->dimensions.X * tileSize, itemObject->dimensions.Y * tileSize));
-				// UE_LOG(LogTemp, Warning, TEXT("!!! itemObject !!!!!!! : %d %d"), itemObject->dimensions.X, itemObject->dimensions.Y);
+				// UE_LOG(LogTemp, Warning, TEXT("!!! itemObject !!! : %d %d"), itemObject->dimensions.X, itemObject->dimensions.Y);
 				imgSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
 				// ESlateVisibility visibility = newItemImgWidget->GetVisibility();
 
@@ -439,7 +549,7 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 			if (!itemComp->TryAddItem(tempPayLoad))
 			{
 				// CallIncreseCostFunc(mapCustomWidget, tempPayLoad);		
-
+				UE_LOG(LogTemp, Warning, TEXT("ababababababababababababa"));
 				return true;
 			}
 

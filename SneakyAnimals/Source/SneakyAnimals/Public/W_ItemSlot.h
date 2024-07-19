@@ -36,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UMapCustomWidget* mapCustomWidget;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UUserWidget> newGridWidget;
+
 	UFUNCTION(BlueprintCallable)
 	void OnItemBtnClicked();
 
@@ -85,20 +88,4 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentCost();
 	
-	// UFUNCTION(BlueprintCallable)
-	// void GimmickActorSetLoc();
-
-	// ----------------------------------------
-	UFUNCTION(BlueprintCallable)
-	void FindAllGimmick();
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<class AWH_BookshelfGimmick*> bookShelfActorArr;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<class AWH_BroomstickGimmick*> broomStickActorArr;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<class AWH_PotionGimmick*> potionActorArr;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TArray<class AWH_WitchCauldronGimmick*> cauldronActorArr;
-
 };

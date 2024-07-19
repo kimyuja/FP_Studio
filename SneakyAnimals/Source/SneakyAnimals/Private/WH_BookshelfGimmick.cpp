@@ -98,6 +98,7 @@ UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 		newItemObject->Rename(*itemName);*/
 		// UE_LOG(LogTemp, Warning, TEXT("987987987987987"));
 		newItemObject->itemCost = 3;
+		newItemObject->itemActiveType = Myactivetype;
 	}
 	return newItemObject;
 }

@@ -47,6 +47,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	int32 itemCost;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FName itemName;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
+	int32 itemActiveType;
 }; 

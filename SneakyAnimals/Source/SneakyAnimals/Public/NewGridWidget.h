@@ -54,8 +54,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	float tileSize = 160.f;
 	
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	class UItemObject* itemObject;*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	class UItemObject* itemObject;
 
 	FTimerHandle SetGridSizeTimerHandle;
 	FTimerHandle DrawGridLineTimerHandle;
@@ -70,6 +70,12 @@ public:
 	bool bRight;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
 	bool bDown;
+
+	UPROPERTY(BlueprintReadWrite, Category = "MakeBox")
+	FSlateBrush boxBrush;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	class UW_ItemSlot* itemSlotW;
 
 
 public:
@@ -112,10 +118,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
 	void CallIncreseCostFunc(class UMapCustomWidget* _MapCustomWid, class  UItemObject* _ItemObj);
 	
-	UPROPERTY(BlueprintReadWrite, Category = "MakeBox")
-	FSlateBrush boxBrush;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<class AWH_BookshelfGimmick*> bookShelfActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<class AWH_BroomstickGimmick*> broomStickActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<class AWH_PotionGimmick*> potionActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<class AWH_WitchCauldronGimmick*> cauldronActorArr;
+
 
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
-	void FindItemClass(class UItemObject* _ItemObj);
+	void GimmickActorSetLoc(TSubclassOf<AGimmick> GimmickClass, int32 _ActiveType);
+
+
+
 
 };

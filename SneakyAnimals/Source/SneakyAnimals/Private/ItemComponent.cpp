@@ -49,6 +49,8 @@ void UItemComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 // TryAddItem은 버튼을 누르는 시점에서 버튼의 itemObject를 받아 호출시켜줘야 해
 bool UItemComponent::TryAddItem(UItemObject* _ItemObject)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Start TryAddItem Func"));
+
 	// 그리드에 추가하려는 아이템을 받고 이 아이템이 유효한지 확인
 	if (IsValid(_ItemObject))
 	{
@@ -66,6 +68,10 @@ bool UItemComponent::TryAddItem(UItemObject* _ItemObject)
 			}
 		}
 		return false;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Tryed Item is not valid!"));
 	}
 	return false;
 }
@@ -234,7 +240,6 @@ TMap<UItemObject*, FTileStructureTemp> UItemComponent::GetAllItems()
 				AllItems.Add(currentItemObject, currentTile);
 			}
 		}
-
 	}
 
 	return AllItems;

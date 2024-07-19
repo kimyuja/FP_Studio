@@ -72,7 +72,7 @@ UItemObject* AWH_PotionGimmick::GetDefaultItemObject()
 
 	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
 
-	UItemObject* newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
 
 	if (newItemObject)
 	{
@@ -84,6 +84,7 @@ UItemObject* AWH_PotionGimmick::GetDefaultItemObject()
 		newItemObject->bRotated = false;
 		newItemObject->itemClass = AWH_PotionGimmick::StaticClass();
 		newItemObject->itemCost =4;
+		newItemObject->itemActiveType = activeType;
 	}
 	return newItemObject;
 }

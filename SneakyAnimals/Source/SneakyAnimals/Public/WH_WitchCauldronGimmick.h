@@ -26,6 +26,9 @@ protected:
 
 
 public:
+	UPROPERTY(EditDefaultsOnly)
+	class UItemObject* newItemObject;
+
 	virtual UItemObject* GetDefaultItemObject() override;
 
 	virtual int32 OnMyActive(AActor* ActivePlayer);
