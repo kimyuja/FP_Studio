@@ -9,6 +9,9 @@
 #include "UObject/ConstructorHelpers.h"
 #include "W_HostGameMenu.h"
 #include "W_ServerBrowserMenu.h"
+#include "FL_General.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
+#include "W_PopUp.h"
 
 UW_MainMenu::UW_MainMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -78,6 +81,18 @@ void UW_MainMenu::OnJoinGame_BtnClicked()
 	}
 }
 
+void UW_MainMenu::OnQuitGame_BtnClicked()
+{
+	UW_PopUp* popup = UFL_General::Create_PopUp(GetWorld(), FText::FromString(TEXT("Are you sure to quit the game?")), FText::FromString(TEXT("Quit")), true, FText::FromString(TEXT("Cancel")));
+	
+	popup->OnClicked_Confirm.AddDynamic(this, &UW_MainMenu::QuitGame_Btn_Confirm);
+}
+
+void UW_MainMenu::QuitGame_Btn_Confirm()
+{
+	UKismetSystemLibrary::QuitGame(this, GetWorld()->GetFirstPlayerController(), EQuitPreference::Quit, false);
+}
+
 void UW_MainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -96,6 +111,11 @@ void UW_MainMenu::NativeConstruct()
 	if (JoinGame_Btn)
 	{
 		JoinGame_Btn->Button->OnClicked.AddDynamic(this, &UW_MainMenu::OnJoinGame_BtnClicked);
+	}
+	
+	if (QuitGame_Btn)
+	{
+		QuitGame_Btn->Button->OnClicked.AddDynamic(this, &UW_MainMenu::OnQuitGame_BtnClicked);
 	}
 }
 

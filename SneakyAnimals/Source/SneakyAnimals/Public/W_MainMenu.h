@@ -42,6 +42,12 @@ public:
 	
 	UFUNCTION()
     void OnJoinGame_BtnClicked();
+	
+	UFUNCTION()
+    void OnQuitGame_BtnClicked();
+	
+	UFUNCTION()
+    void QuitGame_Btn_Confirm();
 
 	UPROPERTY(EditAnywhere, Category="MySettings")
 	TSubclassOf<class UW_ProfileMenu> ProfileMenu_bp;

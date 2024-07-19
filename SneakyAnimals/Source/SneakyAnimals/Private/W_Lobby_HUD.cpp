@@ -87,7 +87,7 @@ void UW_Lobby_HUD::Toggle_BackgroundBlur(bool bEnableBlur)
 	if (bEnableBlur)
 	{
 		BackgroundBlur->SetVisibility(ESlateVisibility::HitTestInvisible);
-		BackgroundBlur->SetBlurStrength(15.0f);		
+		BackgroundBlur->SetBlurStrength(15.0f);
 	} 
 	else
 	{
