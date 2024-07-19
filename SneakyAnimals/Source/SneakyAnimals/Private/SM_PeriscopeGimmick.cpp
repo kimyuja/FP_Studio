@@ -108,6 +108,7 @@ void ASM_PeriscopeGimmick::PeriscopeSpin(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
+		player->bIsDie = true;
 		player->Respawn();
 		player->DeathCounting();
 	}
@@ -122,6 +123,7 @@ void ASM_PeriscopeGimmick::ByeHandle(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
+		player->bIsDie = true;
 		player->Respawn();
 		player->DeathCounting();
 	}

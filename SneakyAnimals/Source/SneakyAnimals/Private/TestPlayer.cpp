@@ -151,7 +151,7 @@ void ATestPlayer::BeginPlay()
 			{
 				UE_LOG(LogTemp, Warning, TEXT("client!!!!!!!!"));
 			}
-			//mainUI->SetVisibility(ESlateVisibility::Hidden);
+			mainUI->SetVisibility(ESlateVisibility::Hidden);
 		//}
 	}
 	// 게임 모드에 따라서 카메라 위치를 1인칭, 3인칭으로 바꾸기
@@ -524,7 +524,7 @@ void ATestPlayer::BlackScreen()
 {
 	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
 	cameraManager->StartCameraFade(0, 1.0f, 0.1f, FColor::Black, false, true);
-	bIsBlack = true;
+	//bIsBlack = true;
 }
 
 void ATestPlayer::Respawn(float delaytime)
@@ -537,6 +537,7 @@ void ATestPlayer::Respawn(float delaytime)
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	FTimerHandle respawnT;
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
+		ServerRPC_FadeOut(false);
 		GetCapsuleComponent()->SetSimulatePhysics(false);
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		GetCapsuleComponent()->SetRelativeRotation(FRotator(0, 0, 0));
@@ -544,7 +545,7 @@ void ATestPlayer::Respawn(float delaytime)
 		GetMesh()->SetRelativeRotation(FRotator(0,-90,0));
 		SetActorLocation(respawnLoc);
 		cameraBoom->SetRelativeLocation(FVector(0,0, 170));
-		FadeInOut(false);
+		//FadeInOut(false);
 		bIsDie = false;
 		bIsBlack = false;
 		bCanActive = true;
@@ -846,16 +847,18 @@ void ATestPlayer::MultiRPC_FadeOut_Implementation(bool _bOut)
 	{
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Player %d FadeInOut"), playerNum);
+	//UE_LOG(LogTemp, Warning, TEXT("Player %d FadeInOut"), playerNum);
 	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
 	if (_bOut)
 	{
 		cameraManager->StartCameraFade(0, 1.0f, 1.0f, FColor::Black, false, true);
+		UE_LOG(LogTemp, Warning, TEXT("Player %d FadeOut"), playerNum);
 		bIsBlack = true;
 	}
 	else
 	{
 		cameraManager->StartCameraFade(1.0f, 0, 1.5f, FColor::Black);
+		UE_LOG(LogTemp, Warning, TEXT("Player %d FadeIn"), playerNum);
 		bIsBlack = false;
 	}
 }
