@@ -44,6 +44,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	class UMapCustomWidget* mapCustomWidget;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<UUserWidget> itemSlotWidget;
 		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TArray<class ULineStructure*> lines;
@@ -111,5 +114,8 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, Category = "MakeBox")
 	FSlateBrush boxBrush;
+
+	UFUNCTION(BlueprintCallable, Category = "DragDrop")
+	void FindItemClass(class UItemObject* _ItemObj);
 
 };

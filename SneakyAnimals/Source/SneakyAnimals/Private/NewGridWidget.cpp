@@ -30,6 +30,8 @@
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateBrush.h>
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateColor.h>
+#include "WH_BookshelfGimmick.h"
+#include "W_ItemSlot.h"
 
 bool UNewGridWidget::Initialize()
 {
@@ -98,6 +100,17 @@ void UNewGridWidget::NativeConstruct()
 	}
 
 	itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
+
+	UW_ItemSlot* itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
+
+	if (!itemSlotW)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("WHERE IS MY ITEMSLOT WIDGET"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("I HAVE ITEMSLOT WIDGET"));
+	}
 }
 
 void UNewGridWidget::OnItemRemoved(UItemObject* _ItemObject)
@@ -121,7 +134,7 @@ FVector2D UNewGridWidget::GetGridBorderTopLeft() const
 	FGeometry geometry = gridBorder->GetCachedGeometry();
 	FVector2D tempPos = geometry.GetAbsolutePosition();
 
-	UE_LOG(LogTemp, Warning, TEXT("Grid Abs Pos X : %f, Y : %f"), tempPos.X, tempPos.Y);
+	// UE_LOG(LogTemp, Warning, TEXT("Grid Abs Pos X : %f, Y : %f"), tempPos.X, tempPos.Y);
 
 	FVector2D absolutePosition = geometry.GetAbsolutePosition();
 	FVector2D localPosition = geometry.AbsoluteToLocal(absolutePosition);
@@ -187,6 +200,10 @@ void UNewGridWidget::CallIncreseCostFunc(UMapCustomWidget* _MapCustomWid, UItemO
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MapCustomInstance is null!"));
 	}
+}
+
+void UNewGridWidget::FindItemClass(UItemObject* _ItemObj)
+{
 }
 
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
@@ -402,6 +419,7 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 			int32 topLeftIdx = itemComp->TileToIndex(TopLeftTile);
 
 			itemComp->AddItemAt(GetPayload(ItemOperation), topLeftIdx);
+
 
 			//topLeftIdx = (int32)Dist.X / 160 * 4 + ((int32)Dist.Y / 160);
 

@@ -84,6 +84,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentCost();
+	
+	// UFUNCTION(BlueprintCallable)
+	// void GimmickActorSetLoc();
 
 	// ----------------------------------------
 	UFUNCTION(BlueprintCallable)

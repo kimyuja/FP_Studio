@@ -87,6 +87,12 @@ void UW_ItemSlot::OnItemBtnClicked()
 
 	GimmickActorSetLoc();
 
+	if (itemComponent->TryAddItem(itemObject))
+	{
+		// cost 변경
+		SetCurrentCost();
+	}
+
 	UE_LOG(LogTemp, Warning, TEXT("this itemtype is %d"), this->itemType);
 }
 
@@ -121,11 +127,11 @@ void UW_ItemSlot::GimmickActorSetLoc()
 
 			itemObject = bookShelfActorArr[0]->GetDefaultItemObject();
 
-			if (itemComponent->TryAddItem(itemObject))
-			{
-				// cost 변경
-				SetCurrentCost();
-			}
+			//if (itemComponent->TryAddItem(itemObject))
+			//{
+			//	// cost 변경
+			//	SetCurrentCost();
+			//}
 		}
 		else if (bookShelfActorArr[1])
 		{
@@ -135,11 +141,11 @@ void UW_ItemSlot::GimmickActorSetLoc()
 
 			itemObject = bookShelfActorArr[1]->GetDefaultItemObject();
 
-			if (itemComponent->TryAddItem(itemObject))
-			{
-				// cost 변경
-				SetCurrentCost();
-			}
+			//if (itemComponent->TryAddItem(itemObject))
+			//{
+			//	// cost 변경
+			//	SetCurrentCost();
+			//}
 		}
 		else if (bookShelfActorArr[2])
 		{
@@ -149,11 +155,11 @@ void UW_ItemSlot::GimmickActorSetLoc()
 
 			itemObject = bookShelfActorArr[2]->GetDefaultItemObject();
 
-			if (itemComponent->TryAddItem(itemObject))
-			{
-				// cost 변경
-				SetCurrentCost();
-			}
+			//if (itemComponent->TryAddItem(itemObject))
+			//{
+			//	// cost 변경
+			//	SetCurrentCost();
+			//}
 		}
 		else
 		{
@@ -171,11 +177,11 @@ void UW_ItemSlot::GimmickActorSetLoc()
 
 			itemObject = broomStickActorArr[0]->GetDefaultItemObject();
 
-			if (itemComponent->TryAddItem(itemObject))
-			{
-				// cost 변경
-				SetCurrentCost();
-			}
+			//if (itemComponent->TryAddItem(itemObject))
+			//{
+			//	// cost 변경
+			//	SetCurrentCost();
+			//}
 		}
 		else if (broomStickActorArr[1])
 		{
@@ -185,11 +191,11 @@ void UW_ItemSlot::GimmickActorSetLoc()
 
 			itemObject = broomStickActorArr[1]->GetDefaultItemObject();
 
-			if (itemComponent->TryAddItem(itemObject))
-			{
-				// cost 변경
-				SetCurrentCost();
-			}
+			//if (itemComponent->TryAddItem(itemObject))
+			//{
+			//	// cost 변경
+			//	SetCurrentCost();
+			//}
 		}
 		else if (broomStickActorArr[2])
 		{
@@ -199,11 +205,11 @@ void UW_ItemSlot::GimmickActorSetLoc()
 
 			itemObject = broomStickActorArr[2]->GetDefaultItemObject();
 
-			if (itemComponent->TryAddItem(itemObject))
-			{
-				// cost 변경
-				SetCurrentCost();
-			}
+			//if (itemComponent->TryAddItem(itemObject))
+			//{
+			//	// cost 변경
+			//	SetCurrentCost();
+			//}
 		}
 		else
 		{
