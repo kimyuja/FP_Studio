@@ -211,6 +211,18 @@ void UNewGridWidget::CallIncreseCostFunc(UMapCustomWidget* _MapCustomWid, UItemO
 void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int32 _ActiveType)
 {
 	UE_LOG(LogTemp, Warning, TEXT("SetLoc Start!!!"));
+	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+
+	if (playerCharacter)
+	{
+		ATestPlayer* myPlayer = Cast<ATestPlayer>(playerCharacter);
+
+		if (myPlayer)
+		{
+			itemComp = myPlayer->GetItemComponent();
+		}
+	}
+
 	if (_GimmickClass)
 	{
 		if (_GimmickClass->IsChildOf(AWH_BookshelfGimmick::StaticClass()))
@@ -225,7 +237,7 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 			}
 
 			//UE_LOG(LogTemp, Warning, TEXT("bookShelfActorArr Size : %d"), bookShelfActorArr.Num());
-			
+
 			for (AWH_BookshelfGimmick* bookShelfActor : bookShelfActorArr)
 			{
 				// bookShelfActorArr[i]
@@ -236,8 +248,10 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 					if (bookShelfActor->newItemObject->itemActiveType == _ActiveType)
 					{
 						itemObject = bookShelfActor->GetDefaultItemObject();
-						bookShelfActor ->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+
+						bookShelfActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
 						UE_LOG(LogTemp, Warning, TEXT("Be Set loced!"));
+												
 					}
 				}
 				else
@@ -260,6 +274,8 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 			{
 				if (broomStickActor->newItemObject->itemActiveType == _ActiveType)
 				{
+					itemObject = broomStickActor->GetDefaultItemObject();
+
 					broomStickActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
 				}
 			}
@@ -276,6 +292,8 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 
 			for (AWH_PotionGimmick* potionActor : potionActorArr)
 			{
+				itemObject = potionActor->GetDefaultItemObject();
+
 				if (potionActor->newItemObject->itemActiveType == _ActiveType)
 				{
 					potionActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
@@ -292,6 +310,8 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 
 			for (AWH_WitchCauldronGimmick* cauldronActor : cauldronActorArr)
 			{
+				itemObject = cauldronActor->GetDefaultItemObject();
+
 				if (cauldronActor->newItemObject->itemActiveType == _ActiveType)
 				{
 					cauldronActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
@@ -302,16 +322,17 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 		{
 			UE_LOG(LogTemp, Warning, TEXT("!!!soooooooooooo saddddddddddd"));
 		}
+		if (itemComp->TryAddItem(itemObject))
+		{
+			// itemSlotW->SetCurrentCost();
+		}
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("!!! GimmickClass is empty"));
 	}
-	
-	/*if (itemComp->TryAddItem(itemObject))
-	{
-		itemSlotW->SetCurrentCost();
-	}*/
+
+
 
 }
 

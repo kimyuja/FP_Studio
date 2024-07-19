@@ -96,20 +96,12 @@ void UW_ItemSlot::OnItemBtnClicked()
 
 	GimmickActorSetLoc();
 
-<<<<<<< Updated upstream
-	if (itemComponent->TryAddItem(itemObject))
-	{
-		// cost 변경
-		SetCurrentCost();
-		UE_LOG(LogTemp, Warning, TEXT("Class Name :  %s !!!!!!!!!!!!!"), *(itemObject->itemClass->GetName()));
-	}
-=======
 	//if (itemComponent->TryAddItem(itemObject))
 	//{
 	//	// cost 변경
 	//	SetCurrentCost();
+	//	UE_LOG(LogTemp, Warning, TEXT("Class Name :  %s !!!!!!!!!!!!!"), *(itemObject->itemClass->GetName()));
 	//}
->>>>>>> Stashed changes
 
 	UE_LOG(LogTemp, Warning, TEXT("this itemtype is %d"), this->itemType);
 }
