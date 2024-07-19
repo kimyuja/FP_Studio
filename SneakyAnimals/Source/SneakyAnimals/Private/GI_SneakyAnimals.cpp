@@ -151,11 +151,16 @@ void UGI_SneakyAnimals::OnJoinSessionComplete(FName SessionName, EOnJoinSessionC
 	}
 }
 
+void UGI_SneakyAnimals::ExitRoom()
+{
+	sessionInterface->DestroySession(FName(*mySessionName));
+}
+
 void UGI_SneakyAnimals::OnMyExitRoomComplete(FName sessionName, bool bWasSuccessful)
 {
 	// 플레이어는 MainMenu_Level 으로 여행을 떠나고싶다.
 	auto* pc = GetWorld()->GetFirstPlayerController();
-	FString url = TEXT("/Game/KYJ/Maps/MainMenu_Level");
+	FString url = TEXT("/Game/RTY/LEVELS/StartMap");
 	pc->ClientTravel(url, TRAVEL_Absolute);
 }
 

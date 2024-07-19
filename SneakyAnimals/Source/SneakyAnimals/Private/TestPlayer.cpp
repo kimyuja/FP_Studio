@@ -282,6 +282,9 @@ void ATestPlayer::OnRep_Current_SkeletalMesh()
 	if (Current_SkeletalMesh->IsValidLowLevelFast())
 	{
 		GetMesh()->SetSkinnedAssetAndUpdate(Current_SkeletalMesh);
+
+		GetMesh()->SetVisibility(true);
+		SM_Outer->SetVisibility(false);
 	}
 }
 

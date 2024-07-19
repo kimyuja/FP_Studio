@@ -87,6 +87,29 @@ bool UFL_General::Save_Player_Appearance(FStructure_Player_Appearance S_Player_A
 	return UGameplayStatics::SaveGameToSlot(SaveGameObject, TEXT("PlayerAppearance_Slot"), 0);
 }
 
+FStructure_Player_Appearance_Result UFL_General::Get_Player_Appearance()
+{
+	FStructure_Player_Appearance_Result result;
+
+	if (UGameplayStatics::DoesSaveGameExist(TEXT("PlayerAppearance_Slot"), 0))
+	{
+		// PlayerAppearance_Slot 이 있으면
+		USG_PlayerAppearance* sg = Cast<USG_PlayerAppearance>(UGameplayStatics::LoadGameFromSlot(TEXT("PlayerAppearance_Slot"), 0));
+		if (sg)
+		{
+			result.Player_Appearance = sg->S_PlayerAppearance;
+			result.bSuccess = true;
+			return result;
+		}
+	}
+
+	// UserProfile_Slot 이 없으면 비어있는 Player_Appearance과 bool success = false 리턴하기
+	result.Player_Appearance = FStructure_Player_Appearance();
+	result.bSuccess = false;
+
+	return result;
+}
+
 UW_LoadingScreen* UFL_General::Create_LoadingScreen(UObject* WorldContextObject, UTexture2D* LoadingScreenImage, FText LoadingScreenFeedbackText)
 {
 	if (WB_LoadingScreen_bp && WorldContextObject)
@@ -160,4 +183,19 @@ void UFL_General::Set_SessionInfo(UObject* WorldContextObject, FString ServerNam
 		gi->S_SessionInfo = S_SessionInfo;
 	}
 	return;
+}
+
+FSessionInfo UFL_General::Get_SessionInfo(UObject* WorldContextObject)
+{
+	UWorld* World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject);
+	if (World)
+	{
+		UGI_SneakyAnimals* gi = Cast<UGI_SneakyAnimals>(World->GetGameInstance());
+
+		return gi->S_SessionInfo;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("World is not valid"));
+		return FSessionInfo();
+	}
 }

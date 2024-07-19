@@ -20,4 +20,9 @@ public:
 	void Toggle_CharacterCustomization();
 
 	virtual void Toggle_CharacterCustomization_Implementation() {};
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Action")
+	void Toggle_WB_Lobby_Menu();
+
+	virtual void Toggle_SessionInfo_Implementation() {};
 };

@@ -27,6 +27,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Save Game")
 	static bool Save_Player_Appearance(FStructure_Player_Appearance S_Player_Appearance);
+	
+	UFUNCTION(BlueprintCallable, Category = "Save Game")
+	static FStructure_Player_Appearance_Result Get_Player_Appearance();
 
 	UFUNCTION(BlueprintCallable, Category = "User Widgets")
 	static class UW_LoadingScreen* Create_LoadingScreen(UObject* WorldContextObject, UTexture2D* LoadingScreenImage, FText LoadingScreenFeedbackText);
@@ -36,6 +39,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Session")
 	static void Set_SessionInfo(UObject* WorldContextObject, FString ServerName, int32 MaxPlayers);
+	
+	UFUNCTION(BlueprintCallable, Category = "Session")
+	static FSessionInfo Get_SessionInfo(UObject* WorldContextObject);
 	
 
 private:
