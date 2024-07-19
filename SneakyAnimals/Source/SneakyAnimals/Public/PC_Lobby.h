@@ -29,7 +29,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* Toggle_CharacterCustomizationAction;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void Toggle_CharacterCustomization();
 	
 	/** Toggle_WB_Lobby_Menu Input Action */
