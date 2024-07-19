@@ -151,7 +151,7 @@ void ATestPlayer::BeginPlay()
 			{
 				UE_LOG(LogTemp, Warning, TEXT("client!!!!!!!!"));
 			}
-			mainUI->SetVisibility(ESlateVisibility::Hidden);
+			mainUI->SetTimerShow(false);
 		//}
 	}
 	// 게임 모드에 따라서 카메라 위치를 1인칭, 3인칭으로 바꾸기
@@ -775,7 +775,7 @@ void ATestPlayer::ServerRPC_ClearStage_Implementation()
 
 void ATestPlayer::MultiRPC_ClearStage_Implementation()
 {
-	if (gameState->stageNum == 2)
+	if (gameState->stageNum == 3)
 	{
 		for (TActorIterator<AUnderTheSea> sea(GetWorld()); sea; ++sea)
 		{
@@ -820,9 +820,13 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	gameState->MoveNextStage(moveLoc);
 	respawnLoc = moveLoc;
 	clearUI->SetVisibility(ESlateVisibility::Hidden);
-	if (gameState->stageNum > 4)
+	if (gameState->stageNum > 3)
 	{
 		ServerRPC_StartGetFinalScore();
+	}
+	else if (gameState->stageNum > 2)
+	{
+		bGameIsStart = true;
 	}
 	else
 	{
@@ -831,9 +835,11 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 			if (p->mainUI)
 			{
 				p->mainUI->SetTimerShow(true);
+				UE_LOG(LogTemp, Warning, TEXT("Show!!!!!!!!!!!!!!!!!!!"));
 			}
 		}
 	}
+	UE_LOG(LogTemp, Warning, TEXT("Show???????????????"));
 }
 
 void ATestPlayer::ServerRPC_FadeOut_Implementation(bool _bInOut)

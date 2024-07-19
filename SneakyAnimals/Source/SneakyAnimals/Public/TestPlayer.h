@@ -78,13 +78,13 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> voteUI;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UW_StageClear* clearUI;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> mainUIF;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UW_InGameUI* mainUI;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
@@ -288,7 +288,7 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_ClearStage();
 
-	UFUNCTION(Server, Reliable)
+	UFUNCTION(Server, Reliable, BlueprintCallable)
 	void ServerRPC_MoveStage();
 
 	UFUNCTION(NetMulticast, Reliable)

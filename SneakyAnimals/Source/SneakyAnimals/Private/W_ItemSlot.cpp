@@ -91,6 +91,7 @@ void UW_ItemSlot::OnItemBtnClicked()
 	{
 		// cost º¯°æ
 		SetCurrentCost();
+		UE_LOG(LogTemp, Warning, TEXT("Class Name :  %s !!!!!!!!!!!!!"), *(itemObject->itemClass->GetName()));
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("this itemtype is %d"), this->itemType);
