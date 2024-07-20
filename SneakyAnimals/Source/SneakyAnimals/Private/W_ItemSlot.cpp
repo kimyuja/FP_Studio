@@ -131,7 +131,7 @@ void UW_ItemSlot::GimmickActorSetLoc()
 	case 0:
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MY ITEM TYPE IS 0"));
-		gridWidget->GimmickActorSetLoc(AWH_BookshelfGimmick::StaticClass(), 0);
+		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 0);
 
 		//if (itemComponent->TryAddItem(itemObject))
 		//{
@@ -140,213 +140,28 @@ void UW_ItemSlot::GimmickActorSetLoc()
 		//}
 		
 		break;
-		//if (bookShelfActorArr[0])
-		//{
-		//	FVector currentLoc = bookShelfActorArr[0]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	bookShelfActorArr[0]->SetActorLocation(currentLoc);
-
-		//	itemObject = bookShelfActorArr[0]->GetDefaultItemObject();
-
-		//	//if (itemComponent->TryAddItem(itemObject))
-		//	//{
-		//	//	// cost 변경
-		//	//	SetCurrentCost();
-		//	//}
-		//}
-		//else if (bookShelfActorArr[1])
-		//{
-		//	FVector currentLoc = bookShelfActorArr[1]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	bookShelfActorArr[1]->SetActorLocation(currentLoc);
-
-		//	itemObject = bookShelfActorArr[1]->GetDefaultItemObject();
-
-		//	//if (itemComponent->TryAddItem(itemObject))
-		//	//{
-		//	//	// cost 변경
-		//	//	SetCurrentCost();
-		//	//}
-		//}
-		//else if (bookShelfActorArr[2])
-		//{
-		//	FVector currentLoc = bookShelfActorArr[2]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	bookShelfActorArr[2]->SetActorLocation(currentLoc);
-
-		//	itemObject = bookShelfActorArr[2]->GetDefaultItemObject();
-
-		//	//if (itemComponent->TryAddItem(itemObject))
-		//	//{
-		//	//	// cost 변경
-		//	//	SetCurrentCost();
-		//	//}
-		//}
-		//else
-		//{
-		//	UE_LOG(LogTemp, Error, TEXT("bookShelfActorArr is NULL"));
-		//}
-		//break;
 	}
 	case 1:
 	{
-		gridWidget->GimmickActorSetLoc(AWH_BroomstickGimmick::StaticClass(), 0);
+		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 0);
+
 		break;
-		//if (broomStickActorArr[0])
-		//{
-		//	FVector currentLoc = broomStickActorArr[0]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	broomStickActorArr[0]->SetActorLocation(currentLoc);
-
-		//	itemObject = broomStickActorArr[0]->GetDefaultItemObject();
-
-		//	//if (itemComponent->TryAddItem(itemObject))
-		//	//{
-		//	//	// cost 변경
-		//	//	SetCurrentCost();
-		//	//}
-		//}
-		//else if (broomStickActorArr[1])
-		//{
-		//	FVector currentLoc = broomStickActorArr[1]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	broomStickActorArr[1]->SetActorLocation(currentLoc);
-
-		//	itemObject = broomStickActorArr[1]->GetDefaultItemObject();
-
-		//	//if (itemComponent->TryAddItem(itemObject))
-		//	//{
-		//	//	// cost 변경
-		//	//	SetCurrentCost();
-		//	//}
-		//}
-		//else if (broomStickActorArr[2])
-		//{
-		//	FVector currentLoc = broomStickActorArr[2]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	broomStickActorArr[2]->SetActorLocation(currentLoc);
-
-		//	itemObject = broomStickActorArr[2]->GetDefaultItemObject();
-
-		//	//if (itemComponent->TryAddItem(itemObject))
-		//	//{
-		//	//	// cost 변경
-		//	//	SetCurrentCost();
-		//	//}
-		//}
-		//else
-		//{
-		//	UE_LOG(LogTemp, Error, TEXT("broomStickActorArr is NULL"));
-		//}
-		//break;
 	}
 	case 2:
 	{
-		gridWidget->GimmickActorSetLoc(AWH_PotionGimmick::StaticClass(), 0);
+		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 0);
+
 		break;
-
-		//if (potionActorArr[0])
-		//{
-		//	FVector currentLoc = potionActorArr[0]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	potionActorArr[0]->SetActorLocation(currentLoc);
-
-		//	itemObject = potionActorArr[0]->GetDefaultItemObject();
-
-		//	if (itemComponent->TryAddItem(itemObject))
-		//	{
-		//		// cost 변경
-		//		SetCurrentCost();
-		//	}
-		//}
-		//else if (potionActorArr[1])
-		//{
-		//	FVector currentLoc = potionActorArr[1]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	potionActorArr[1]->SetActorLocation(currentLoc);
-
-		//	itemObject = potionActorArr[1]->GetDefaultItemObject();
-
-		//	if (itemComponent->TryAddItem(itemObject))
-		//	{
-		//		// cost 변경
-		//		SetCurrentCost();
-		//	}
-		//}
-		//else if (potionActorArr[2])
-		//{
-		//	FVector currentLoc = potionActorArr[2]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	potionActorArr[2]->SetActorLocation(currentLoc);
-
-		//	itemObject = potionActorArr[2]->GetDefaultItemObject();
-
-		//	if (itemComponent->TryAddItem(itemObject))
-		//	{
-		//		// cost 변경
-		//		SetCurrentCost();
-		//	}
-		//}
-		//else
-		//{
-		//	UE_LOG(LogTemp, Error, TEXT("potionActorArr is NULL"));
-		//}
-		//break;
 	}
 	case 3:
 	{
-		gridWidget->GimmickActorSetLoc(AWH_WitchCauldronGimmick::StaticClass(), 0);
+		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 0);
+
 		break;
-		//if (cauldronActorArr[0])
-		//{
-		//	FVector currentLoc = cauldronActorArr[0]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	cauldronActorArr[0]->SetActorLocation(currentLoc);
-
-		//	itemObject = cauldronActorArr[0]->GetDefaultItemObject();
-
-		//	if (itemComponent->TryAddItem(itemObject))
-		//	{
-		//		// cost 변경
-		//		SetCurrentCost();
-		//	}
-		//}
-		//else if (cauldronActorArr[1])
-		//{
-		//	FVector currentLoc = cauldronActorArr[1]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	cauldronActorArr[1]->SetActorLocation(currentLoc);
-
-		//	itemObject = cauldronActorArr[1]->GetDefaultItemObject();
-
-		//	if (itemComponent->TryAddItem(itemObject))
-		//	{
-		//		// cost 변경
-		//		SetCurrentCost();
-		//	}
-		//}
-		//else if (cauldronActorArr[2])
-		//{
-		//	FVector currentLoc = cauldronActorArr[2]->GetActorLocation();
-		//	currentLoc.Z += 300;
-		//	cauldronActorArr[2]->SetActorLocation(currentLoc);
-
-		//	itemObject = cauldronActorArr[2]->GetDefaultItemObject();
-
-		//	if (itemComponent->TryAddItem(itemObject))
-		//	{
-		//		// cost 변경
-		//		SetCurrentCost();
-		//	}
-		//}
-		//else
-		//{
-		//	UE_LOG(LogTemp, Error, TEXT("cauldronActorArr is NULL"));
-		//}
-		//break;
 	}
 	default:
 		UE_LOG(LogTemp, Warning, TEXT("MY ITEM TYPE IS %d"), itemType);
+
 		break;
 	}
 

@@ -172,15 +172,12 @@ bool UNewGridWidget::IsRoomAvailableForPayload(UItemObject* _Payload) const
 {
 	if (IsValid(_Payload))
 	{
-		// 어라라 draggedItemTopLeft값이 지금 지정을 안해줬으니까 계속 0아닌가..?
-		// 여기 이상한거 같은데
 		FTileStructureTemp TopLeftTile;
 		TopLeftTile.X = draggedItemTopLeft.X;
 		TopLeftTile.Y = draggedItemTopLeft.Y;
 
 		int32 topLeftIdx = itemComp->TileToIndex(TopLeftTile);
 
-		// 그래서 여기가 계속 (0,0)으로만 찍히고 이상해지는거 맞는거 같어..
 		return itemComp->IsRoomAvailable(_Payload, topLeftIdx);
 	}
 	return false;
@@ -208,9 +205,8 @@ void UNewGridWidget::CallIncreseCostFunc(UMapCustomWidget* _MapCustomWid, UItemO
 	}
 }
 
-void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int32 _ActiveType)
+void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32 _ActiveType)
 {
-	UE_LOG(LogTemp, Warning, TEXT("SetLoc Start!!!"));
 	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
 	if (playerCharacter)
@@ -249,9 +245,16 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 					{
 						itemObject = bookShelfActor->GetDefaultItemObject();
 
-						bookShelfActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
-						UE_LOG(LogTemp, Warning, TEXT("Be Set loced!"));
-												
+						// bookShelfActor->SetActorLocation(worldPosition);
+
+
+						// UE_LOG(LogTemp, Warning, TEXT("bookShelfActor pos in world : (%f, %f, %f"), worldPosition.X, worldPosition.Y, worldPosition.Z);
+						/*FVector newLocation = GridToWorld(bookShelfActor->GetGridX(), bookShelfActor->GetGridY());
+						bookShelfActor->SetActorLocation(newLocation);*/
+
+						// bookShelfActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+						UE_LOG(LogTemp, Warning, TEXT("position changed"));
+
 					}
 				}
 				else
@@ -276,7 +279,10 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 				{
 					itemObject = broomStickActor->GetDefaultItemObject();
 
-					broomStickActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+					//broomStickActor->SetActorLocation(worldPosition);
+
+					// UE_LOG(LogTemp, Warning, TEXT("broomStickActor pos in world : (%f, %f, %f"), worldPosition.X, worldPosition.Y, worldPosition.Z);
+					// broomStickActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
 				}
 			}
 		}
@@ -296,7 +302,10 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 
 				if (potionActor->newItemObject->itemActiveType == _ActiveType)
 				{
-					potionActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+					// potionActor->SetActorLocation(worldPosition);
+
+					// UE_LOG(LogTemp, Warning, TEXT("potionActor pos in world : (%f, %f, %f"), worldPosition.X, worldPosition.Y, worldPosition.Z);
+					// potionActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
 				}
 			}
 		}
@@ -314,7 +323,10 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 
 				if (cauldronActor->newItemObject->itemActiveType == _ActiveType)
 				{
-					cauldronActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+					// cauldronActor->SetActorLocation(worldPosition);
+
+					// UE_LOG(LogTemp, Warning, TEXT("cauldronActor pos in world : (%f, %f, %f"), worldPosition.X, worldPosition.Y, worldPosition.Z);
+					// cauldronActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
 				}
 			}
 		}
@@ -334,6 +346,45 @@ void UNewGridWidget::GimmickActorSetLoc(TSubclassOf<AGimmick> _GimmickClass, int
 
 
 
+}
+
+AGimmick* UNewGridWidget::FindMatchingActor(UItemObject* _itemObject)
+{
+	for (TActorIterator<AGimmick> It(GetWorld()); It; ++It)
+	{
+		AGimmick* actor = *It;
+
+		if (AWH_BookshelfGimmick* BookshelfActor = Cast<AWH_BookshelfGimmick>(actor))
+		{
+			if (BookshelfActor->newItemObject == _itemObject)
+			{
+				return BookshelfActor;
+			}
+		}
+		else if (AWH_BroomstickGimmick* BroomstickActor = Cast<AWH_BroomstickGimmick>(actor))
+		{
+			if (BroomstickActor->newItemObject == _itemObject)
+			{
+				return BroomstickActor;
+			}
+		}
+		else if (AWH_PotionGimmick* PotionActor = Cast<AWH_PotionGimmick>(actor))
+		{
+			if (PotionActor->newItemObject == _itemObject)
+			{
+				return PotionActor;
+			}
+		}
+		else if (AWH_WitchCauldronGimmick* CauldronActor = Cast<AWH_WitchCauldronGimmick>(actor))
+		{
+			if (CauldronActor->newItemObject == _itemObject)
+			{
+				return CauldronActor;
+			}
+		}
+	}
+
+	return nullptr;
 }
 
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
@@ -387,6 +438,16 @@ void UNewGridWidget::Refresh()
 
 	UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(gridCanvasPanel);
 
+
+	// 그리드의 좌표를 실제 게임 레벨 내 좌표로 변환
+	auto GridToWorld = [&](int32 gridX, int32 gridY) -> FVector {
+		float worldX = WHTopLeft.X + gridX * levelTileSize;
+		float worldY = WHTopLeft.Y + gridY * levelTileSize;
+
+		return FVector(worldX, worldY, WHTopLeft.Z);
+		};
+
+
 	for (UItemObject* key : Keys)
 	{
 		FTileStructureTemp* topLeftTile = allItems.Find(key);
@@ -414,6 +475,22 @@ void UNewGridWidget::Refresh()
 				// UE_LOG(LogTemp, Warning, TEXT("!!! itemObject !!! : %d %d"), itemObject->dimensions.X, itemObject->dimensions.Y);
 				imgSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
 				// ESlateVisibility visibility = newItemImgWidget->GetVisibility();
+
+				worldPosition = GridToWorld(topLeftTile->X, topLeftTile->Y);
+				UE_LOG(LogTemp, Warning, TEXT("worldPosition is : (%f, %f, %f) "), worldPosition.X, worldPosition.Y, worldPosition.Z);
+				
+				FVector dimensionOffset = FVector(itemObject->dimensions.X * levelTileSize * 0.5f, itemObject->dimensions.Y * levelTileSize * 0.5f, 0.0f);
+				FVector adjustedWorldPosition = worldPosition + dimensionOffset;
+
+
+				if (FindMatchingActor(itemObject)) 
+				{
+					FindMatchingActor(itemObject)->SetActorLocation(adjustedWorldPosition);
+				}
+				else 
+				{
+					UE_LOG(LogTemp, Warning, TEXT("I CANT FIND MACHINGED ACTOR"));
+				}
 
 			}
 
@@ -551,6 +628,7 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 
 			itemComp->AddItemAt(GetPayload(ItemOperation), topLeftIdx);
 
+			// 이때 기믹 액터 셋 로케이션 한 번 해주고*******************
 
 			//topLeftIdx = (int32)Dist.X / 160 * 4 + ((int32)Dist.Y / 160);
 
@@ -569,8 +647,8 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 
 			if (!itemComp->TryAddItem(tempPayLoad))
 			{
-				// CallIncreseCostFunc(mapCustomWidget, tempPayLoad);		
-				UE_LOG(LogTemp, Warning, TEXT("ababababababababababababa"));
+				// 이때 기믹 액터 셋 로케이션 한 번 해주고*******************
+
 				return true;
 			}
 

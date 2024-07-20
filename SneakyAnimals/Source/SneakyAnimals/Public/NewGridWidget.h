@@ -71,7 +71,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
 	bool bDown;
 
-	UPROPERTY(BlueprintReadWrite, Category = "MakeBox")
+	UPROPERTY(BlueprintReadWrite, Category = "DragDrop")
 	FSlateBrush boxBrush;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
@@ -119,20 +119,31 @@ public:
 	void CallIncreseCostFunc(class UMapCustomWidget* _MapCustomWid, class  UItemObject* _ItemObj);
 	
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	TArray<class AWH_BookshelfGimmick*> bookShelfActorArr;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	TArray<class AWH_BroomstickGimmick*> broomStickActorArr;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	TArray<class AWH_PotionGimmick*> potionActorArr;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	TArray<class AWH_WitchCauldronGimmick*> cauldronActorArr;
 
 
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
-	void GimmickActorSetLoc(TSubclassOf<AGimmick> GimmickClass, int32 _ActiveType);
+	void BindItemObjByBtn(TSubclassOf<AGimmick> GimmickClass, int32 _ActiveType);
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "DragDrop")
+	float levelTileSize = 260.f;
 
 
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "WitchsHouse")
+	FVector WHTopLeft = FVector(49480.f, -50750.f, -40.f);
 
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "WitchsHouse")
+	FVector worldPosition;
+
+	UFUNCTION(BlueprintCallable, Category = "")
+	AGimmick* FindMatchingActor(class UItemObject* _itemObject);
 
 };
