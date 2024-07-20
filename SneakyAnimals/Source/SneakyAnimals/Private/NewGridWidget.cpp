@@ -332,7 +332,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("!!!soooooooooooo saddddddddddd"));
+			UE_LOG(LogTemp, Warning, TEXT("!!! so sad"));
 		}
 		if (itemComp->TryAddItem(itemObject))
 		{
@@ -476,16 +476,35 @@ void UNewGridWidget::Refresh()
 				imgSlot->SetPosition(FVector2D(topLeftTile->X * tileSize, topLeftTile->Y * tileSize));
 				// ESlateVisibility visibility = newItemImgWidget->GetVisibility();
 
+				// 월드좌표의 topLeft 기준 위치 맞추기
 				worldPosition = GridToWorld(topLeftTile->X, topLeftTile->Y);
 				UE_LOG(LogTemp, Warning, TEXT("worldPosition is : (%f, %f, %f) "), worldPosition.X, worldPosition.Y, worldPosition.Z);
 				
+				// 아이템 dimenstion 따라 위치 맞추기
 				FVector dimensionOffset = FVector(itemObject->dimensions.X * levelTileSize * 0.5f, itemObject->dimensions.Y * levelTileSize * 0.5f, 0.0f);
+
+				// 최종 위치해야하는 pos 
 				FVector adjustedWorldPosition = worldPosition + dimensionOffset;
 
+				AGimmick* gimmickActor = FindMatchingActor(itemObject);
 
-				if (FindMatchingActor(itemObject)) 
+				if (gimmickActor)
 				{
-					FindMatchingActor(itemObject)->SetActorLocation(adjustedWorldPosition);
+					// 현재 레벨에 배치된 상태라면 X, Y 위치만 변경
+					// 레벨에 배치되지 않은 상태라면 Z 값도 같이 변경
+
+					FVector currentLoc = gimmickActor->GetActorLocation();
+
+					if (currentLoc.Z > 0)
+					{
+						adjustedWorldPosition.Z = currentLoc.Z;
+					}
+					else
+					{
+						adjustedWorldPosition.Z = currentLoc.Z + 1000.f;
+					}
+
+					gimmickActor->SetActorLocation(adjustedWorldPosition);
 				}
 				else 
 				{
