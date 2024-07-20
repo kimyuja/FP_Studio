@@ -54,12 +54,6 @@ void AWH_WitchCauldronGimmick::Tick(float DeltaTime)
 	if (lerpTime > 10.0)
 	{
 		GetWorldTimerManager().PauseTimer(fogT);
-		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-		{
-			//players.Add(*it);
-			it->DeathCounting();
-			it->Respawn();
-		}
 		lerpTime = 0;
 	}
 
@@ -137,17 +131,23 @@ void AWH_WitchCauldronGimmick::BlindFog()
 			{
 				return;
 			}
-			float loc = FMath::Lerp(object->GetComponentLocation().Z, 0, 0.03);
+			float loc = FMath::Lerp(object->GetComponentLocation().Z, 0, lerpTime);
 			object->SetRelativeLocation(FVector(0,0,loc));
-			lerpTime += GetWorld()->DeltaTimeSeconds * 5.0;
+			lerpTime += GetWorld()->DeltaTimeSeconds;
 		}, 0.03f, true, 0);
-
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	{
+		//players.Add(*it);
+		it->bIsDie = true;
+		it->DeathCounting();
+		it->Respawn();
+	}
+	/*for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
 		it->bIsDie = true;
 		it->Respawn(10.0);
 		it->DeathCounting();
-	}
+	}*/
 
 	//int targetNum = FMath::RandRange(0, players.Num() - 1);
 

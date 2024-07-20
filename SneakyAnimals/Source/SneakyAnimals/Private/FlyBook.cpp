@@ -31,7 +31,7 @@ void AFlyBook::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	accel += DeltaTime;
+	accel += DeltaTime * 10.0f;
 
 	if(bAttack)
 	{

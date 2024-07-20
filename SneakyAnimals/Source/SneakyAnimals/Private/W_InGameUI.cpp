@@ -85,6 +85,7 @@ void UW_InGameUI::SetPlayerTD()
 void UW_InGameUI::SetStageTimer()
 {
 	float time = maxtime - gametime;
+	time = FMath::Clamp(time, 0, 180);
 	if (time < 30.0)
 	{
 		Minuite->SetColorAndOpacity(FLinearColor::Red);

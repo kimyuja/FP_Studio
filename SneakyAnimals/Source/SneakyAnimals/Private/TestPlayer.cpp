@@ -207,11 +207,13 @@ void ATestPlayer::Tick(float DeltaTime)
 	{
 		GetWorldTimerManager().PauseTimer(falloverT);
 		GetWorldTimerManager().PauseTimer(poorDriveT);
-		GetWorldTimerManager().PauseTimer(endManT);	
+		GetWorldTimerManager().PauseTimer(endManT);
+		//UE_LOG(LogTemp, Warning, TEXT("???"));
 	}
 	if (lerpTime > 4.0)
 	{
 		GetWorldTimerManager().PauseTimer(ThunderT);
+		//UE_LOG(LogTemp, Warning, TEXT("??????"));
 	}
 
 	if (bCanActive)
