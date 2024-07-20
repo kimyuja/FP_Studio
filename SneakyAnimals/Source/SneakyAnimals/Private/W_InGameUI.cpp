@@ -35,7 +35,7 @@ void UW_InGameUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	}
 	if (!bISClear)
 	{
-		SetStageTimer(180);
+		SetStageTimer();
 		gametime += InDeltaTime;
 	}
 	else
@@ -82,7 +82,7 @@ void UW_InGameUI::SetPlayerTD()
 	Player4_TriggeredCount->SetText(FText::FromString(FString::FromInt(gameState->activeCount[3])));
 }
 
-void UW_InGameUI::SetStageTimer(int32 maxtime)
+void UW_InGameUI::SetStageTimer()
 {
 	float time = maxtime - gametime;
 	TimeProgressBar->SetPercent(1 - (gametime / maxtime));
@@ -96,7 +96,7 @@ void UW_InGameUI::SetStageTimer(int32 maxtime)
 
 void UW_InGameUI::SetTimerShow(bool _bshow)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Clear!!!!!!!"));
+	//UE_LOG(LogTemp, Warning, TEXT("Clear!!!!!!!"));
 	if (_bshow)
 	{
 		gametime = 0;

@@ -69,11 +69,13 @@ public:
 
 	bool bISClear = false;
 
+	int32 maxtime = 180.0;
+
 	UFUNCTION(BlueprintCallable)
 	void SetPlayerTD();
 
 	UFUNCTION(BlueprintCallable)
-	void SetStageTimer(int32 maxtime);
+	void SetStageTimer();
 
 	UFUNCTION(BlueprintCallable)
 	void SetTimerShow(bool _bshow);

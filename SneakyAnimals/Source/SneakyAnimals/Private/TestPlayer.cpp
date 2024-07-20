@@ -154,6 +154,16 @@ void ATestPlayer::BeginPlay()
 			mainUI->SetTimerShow(false);
 		//}
 	}
+
+	if (emoUI)
+	{
+		myEmoUI = Cast<UUserEmoticon>(CreateWidget(GetWorld(), emoUI));
+		if (myEmoUI)
+		{
+			myEmoUI->AddToViewport(3);
+		}
+	}
+
 	// 게임 모드에 따라서 카메라 위치를 1인칭, 3인칭으로 바꾸기
 	// Lobby_Level : 3인칭, 이유 : 자신의 캐릭터 커스터마이징이 바뀌는 게 보여야 해서
 	// Game_Level : 1인칭, 이유 : 기믹이랑 상호작용하려면 1인칭이 편해서
@@ -473,7 +483,8 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 void ATestPlayer::ShowEmo(const FInputActionValue& Value)
 {
 	float inputNum = Value.Get<float>();
-	Cast<UUserEmoticon>(emoticonUI->GetWidget())->ShowEmoticon(inputNum - 1);
+	ServerRPC_ShowEmo(inputNum);
+	myEmoUI->ShowEmoticon(inputNum - 1);
 }
 
 void ATestPlayer::ShowScore(const FInputActionValue& Value)
@@ -820,25 +831,37 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	gameState->MoveNextStage(moveLoc);
 	respawnLoc = moveLoc;
 	clearUI->SetVisibility(ESlateVisibility::Hidden);
+	UE_LOG(LogTemp, Warning, TEXT("MOOOOOOOOOOOOOOOOOOOOOOOOOOve        %d"), gameState->stageNum);
 	if (gameState->stageNum > 3)
 	{
 		ServerRPC_StartGetFinalScore();
 	}
-	else if (gameState->stageNum > 2)
+	else if (gameState->stageNum > 1)
 	{
 		bGameIsStart = true;
-	}
-	else
-	{
 		for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 		{
 			if (p->mainUI)
 			{
+				p->mainUI->maxtime = 180.0;
 				p->mainUI->SetTimerShow(true);
 				UE_LOG(LogTemp, Warning, TEXT("Show!!!!!!!!!!!!!!!!!!!"));
 			}
 		}
 	}
+	if(gameState->stageNum == 0)
+	{
+		for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+		{
+			if (p->mainUI)
+			{
+				p->mainUI->maxtime = 90.0;
+				p->mainUI->SetTimerShow(true);
+				UE_LOG(LogTemp, Warning, TEXT("Show!!!!!!!!!!!!!!!!!!!"));
+			}
+		}
+	}
+	
 	UE_LOG(LogTemp, Warning, TEXT("Show???????????????"));
 }
 
@@ -867,6 +890,16 @@ void ATestPlayer::MultiRPC_FadeOut_Implementation(bool _bOut)
 		UE_LOG(LogTemp, Warning, TEXT("Player %d FadeIn"), playerNum);
 		bIsBlack = false;
 	}
+}
+
+void ATestPlayer::ServerRPC_ShowEmo_Implementation(int32 emoNum)
+{
+	MultiRPC_ShowEmo(emoNum);
+}
+
+void ATestPlayer::MultiRPC_ShowEmo_Implementation(int32 _emoNum)
+{
+	Cast<UUserEmoticon>(emoticonUI->GetWidget())->ShowEmoticon(_emoNum - 1);
 }
 
 void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

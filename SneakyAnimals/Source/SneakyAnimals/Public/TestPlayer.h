@@ -72,6 +72,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Test)
 	class UWidgetComponent* emoticonUI;
 
+	UPROPERTY(EditDefaultsOnly, Category = Test)
+	class UUserEmoticon* myEmoUI;
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> stageClearUI;
 
@@ -299,6 +302,12 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_FadeOut(bool _bOut);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_ShowEmo(int32 emoNum);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_ShowEmo(int32 _emoNum);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

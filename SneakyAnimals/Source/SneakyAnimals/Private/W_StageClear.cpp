@@ -57,7 +57,7 @@ void UW_StageClear::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 void UW_StageClear::SetWidgetState()
 {
 	int32 stage = gameState->stageNum;
-	LevelNum_Text->SetText(FText::FromString(FString::FromInt(gameState->stageNum)));
+	LevelNum_Text->SetText(FText::FromString(FString::FromInt(gameState->stageNum - 1)));
 	ClearTime->SetText(gameState->MakeClearTime());
 	switch (stage)
 	{
