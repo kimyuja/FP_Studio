@@ -87,10 +87,29 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 	{
 		if (ItemOperation->draggedItemObj)
 		{
+
 			IncreaseCurrentCost(ItemOperation->draggedItemObj);
+			UE_LOG(LogTemp, Warning, TEXT("increased Cost"));
+
+			AGimmick* matchingActor = NewGridWidget->FindMatchingActor(ItemOperation->draggedItemObj);
+
+			if (matchingActor)
+			{
+
+				UE_LOG(LogTemp, Warning, TEXT("machinged actor with itemObject"));
+
+				FVector beginLocation = ItemOperation->draggedItemObj->beginLoc;
+
+				matchingActor->SetActorLocation(beginLocation);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("No matching actor found for itemObject"));
+			}
 
 			return true;
 		}
+
 		//{
 		//	UE_LOG(LogTemp, Warning, TEXT("draggedItemObj is not nullptr"));
 

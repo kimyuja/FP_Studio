@@ -88,6 +88,7 @@ UItemObject* AWH_BroomstickGimmick::GetDefaultItemObject()
 		newItemObject->itemClass = AWH_BroomstickGimmick::StaticClass();
 		newItemObject->itemCost = 6;
 		newItemObject->itemActiveType = activeType;
+		newItemObject->beginLoc = FVector(50130.f, -50100.f, -910.f);
 	}
 	return newItemObject;
 }

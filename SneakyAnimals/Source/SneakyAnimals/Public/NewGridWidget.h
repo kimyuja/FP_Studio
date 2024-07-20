@@ -77,6 +77,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	class UW_ItemSlot* itemSlotW;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "DragDrop")
+	float levelTileSize = 260.f;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "WitchsHouse")
+	FVector WHTopLeft = FVector(49480.f, -50750.f, -40.f);
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "WitchsHouse")
+	FVector worldPosition;
+
+
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
@@ -131,17 +141,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
 	void BindItemObjByBtn(TSubclassOf<AGimmick> GimmickClass, int32 _ActiveType);
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "DragDrop")
-	float levelTileSize = 260.f;
-
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "WitchsHouse")
-	FVector WHTopLeft = FVector(49480.f, -50750.f, -40.f);
-
-
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "WitchsHouse")
-	FVector worldPosition;
 
 	UFUNCTION(BlueprintCallable, Category = "")
 	AGimmick* FindMatchingActor(class UItemObject* _itemObject);

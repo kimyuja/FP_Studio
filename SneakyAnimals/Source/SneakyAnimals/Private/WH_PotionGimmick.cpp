@@ -85,6 +85,7 @@ UItemObject* AWH_PotionGimmick::GetDefaultItemObject()
 		newItemObject->itemClass = AWH_PotionGimmick::StaticClass();
 		newItemObject->itemCost =4;
 		newItemObject->itemActiveType = activeType;
+		newItemObject->beginLoc = FVector(50130.f, -50100.f, -883.f);
 	}
 	return newItemObject;
 }

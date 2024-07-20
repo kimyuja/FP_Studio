@@ -647,8 +647,6 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 
 			itemComp->AddItemAt(GetPayload(ItemOperation), topLeftIdx);
 
-			// 이때 기믹 액터 셋 로케이션 한 번 해주고*******************
-
 			//topLeftIdx = (int32)Dist.X / 160 * 4 + ((int32)Dist.Y / 160);
 
 			/*if (dropPayload)
@@ -656,6 +654,7 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 				itemComp->AddItemAt(dropPayload, topLeftIdx);
 
 			}*/
+
 			return true;
 		}
 		else
@@ -666,8 +665,6 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 
 			if (!itemComp->TryAddItem(tempPayLoad))
 			{
-				// 이때 기믹 액터 셋 로케이션 한 번 해주고*******************
-
 				return true;
 			}
 

@@ -99,6 +99,7 @@ UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 		// UE_LOG(LogTemp, Warning, TEXT("987987987987987"));
 		newItemObject->itemCost = 3;
 		newItemObject->itemActiveType = Myactivetype;
+		newItemObject->beginLoc = FVector(50130.f, -50100.f, -790.f);
 	}
 	return newItemObject;
 }
