@@ -31,6 +31,8 @@ void AFlyBook::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	accel += DeltaTime;
+
 	if(bAttack)
 	{
 		AttackRandomPlayer();
@@ -55,7 +57,7 @@ void AFlyBook::AttackRandomPlayer()
 	{
 		FVector targetLoc = (players[targetNum]->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 		//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), targetLoc.X, targetLoc.Y, targetLoc.Z);
-		SetActorLocation(GetActorLocation() + targetLoc * 1.0f);
+		SetActorLocation(GetActorLocation() + targetLoc * (1.0f + accel));
 	}
 	else
 	{

@@ -85,6 +85,12 @@ void UW_InGameUI::SetPlayerTD()
 void UW_InGameUI::SetStageTimer()
 {
 	float time = maxtime - gametime;
+	if (time < 30.0)
+	{
+		Minuite->SetColorAndOpacity(FLinearColor::Red);
+		Second->SetColorAndOpacity(FLinearColor::Red);
+		MiliSeconds->SetColorAndOpacity(FLinearColor::Red);
+	}
 	TimeProgressBar->SetPercent(1 - (gametime / maxtime));
 	int32 minuite = time / 60;
 	int32 second = (int32)time % 60;

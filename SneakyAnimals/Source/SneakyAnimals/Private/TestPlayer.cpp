@@ -585,18 +585,18 @@ void ATestPlayer::GimmickSearch()
 		{
 			g->bCanActive = true;
 		}
-		DrawDebugLine(GetWorld(), start, hitInfo.ImpactPoint, FColor::Red, false, -1, 0, 1);
-		DrawDebugLine(GetWorld(), hitInfo.ImpactPoint, end, FColor::Green, false, -1, 0, 1);
+		//DrawDebugLine(GetWorld(), start, hitInfo.ImpactPoint, FColor::Red, false, -1, 0, 1);
+		//DrawDebugLine(GetWorld(), hitInfo.ImpactPoint, end, FColor::Green, false, -1, 0, 1);
 	}
 	else
 	{
-		DrawDebugLine(GetWorld(), start, end, FColor::Red, false, -1, 0, 1);
+		//DrawDebugLine(GetWorld(), start, end, FColor::Red, false, -1, 0, 1);
 	}
 }
 
 void ATestPlayer::Death_Fallover()
 {
-	//bIsDie = true;
+	bIsDie = true;
 	lerpTime = 0;
 	bCanActive = false;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
@@ -612,7 +612,7 @@ void ATestPlayer::Death_Fallover()
 void ATestPlayer::Death_Homerun(FVector impactLoc, float power)
 {
 	bCanActive = false;
-	//bIsDie = true;
+	bIsDie = true;
 	//GetMesh()->SetSimulatePhysics(true);
 	//GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	GetCapsuleComponent()->SetSimulatePhysics(true);
@@ -671,14 +671,15 @@ void ATestPlayer::Death_PoorDrive(bool bIsBestDriver)
 		}, 0.03f, true, 0);
 	if (!bIsGoodDriver)
 	{
-		//bIsDie = true;
-		Respawn(10.0);
+		bIsDie = true;
+		Respawn(5.0);
+		//ServerRPC_FadeOut(true);
 	}
 }
 
 void ATestPlayer::Death_EndMan()
 {
-	//bIsDie = true;
+	bIsDie = true;
 	bCanActive = false;
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(endManT, [&]()

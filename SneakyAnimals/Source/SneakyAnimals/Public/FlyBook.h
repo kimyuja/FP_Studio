@@ -29,6 +29,8 @@ private:
 
 	bool bAttack = false;
 
+	float accel;
+
 	UPROPERTY()
 	TArray<class ATestPlayer*> players;
 
