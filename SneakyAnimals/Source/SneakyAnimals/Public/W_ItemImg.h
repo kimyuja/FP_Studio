@@ -39,10 +39,10 @@ public:
 	class UBorder* backgroundBorder;
 	
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UImage* ItemImage;
-	
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UCanvasPanel* MyCanvas;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* itemImgSwitcher;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	class UItemObject* thisItemObject;
@@ -73,6 +73,9 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	class UNewGridWidget* gridWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UUserWidget> newGridWidget;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> itemSlotWidget;

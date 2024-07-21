@@ -141,4 +141,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "")
 	AGimmick* FindMatchingActor(class UItemObject* _itemObject);
 
+
+	UFUNCTION(BlueprintCallable, Category = "")
+	int32 GetSwitcherIdx(class AGimmick* _GimmickClass);
+
+
 };

@@ -16,6 +16,8 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanel.h>
 #include "MyDragDropOperation.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/DragDropOperation.h>
+#include "Gimmick.h"
+#include "Components/WidgetSwitcher.h"
 
 bool UW_ItemImg::Initialize()
 {
@@ -37,6 +39,8 @@ void UW_ItemImg::NativeConstruct()
 
 	UW_ItemSlot* itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
 	// itemObject = itemSlotW->itemObject;
+
+	gridWidget = CreateWidget<UNewGridWidget>(GetWorld(), newGridWidget);
 
 }
 
@@ -75,6 +79,17 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 	{
 		DragVisual->SetItemObject(this->thisItemObject);
 		// DragVisual->SetDesiredSizeInViewport(FVector2D(StaticItemObject->dimensions.X * tileSize, StaticItemObject->dimensions.Y * tileSize));
+
+		AGimmick* gm = gridWidget->FindMatchingActor(thisItemObject);
+		int32 switcherIdx = gridWidget->GetSwitcherIdx(gm);
+
+		UE_LOG(LogTemp, Warning, TEXT("!!! SWITCHER INDEX NUM IS %d"), switcherIdx);
+
+		if (switcherIdx != -1 && itemImgSwitcher)
+		{
+			DragVisual->itemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
+		}
+
 		UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(MyCanvas);
 
 		// UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(DragVisual->Slot);
@@ -98,6 +113,8 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 		if (dragDropOperation)
 		{
 			dragDropOperation->Payload = thisItemObject;
+
+
 			dragDropOperation->DefaultDragVisual = rootCanvas;  // 드래그 시 보일 위젯 설정
 			// dragDropOperation->draggedItemObj->dimensions
 			dragDropOperation->Pivot = EDragPivot::CenterCenter;

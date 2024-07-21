@@ -15,11 +15,13 @@
 #include "ItemComponent.h"
 #include "LineStructure.h"
 #include <../../../../../../../Source/Runtime/Core/Public/Delegates/Delegate.h>
+#include "Components/WidgetSwitcher.h"
 #include "Layout/Geometry.h"
 #include "Rendering/DrawElements.h"
 #include "ItemObject.h"
 #include "Input/Reply.h"
 #include "TileStructure.h"
+#include "Gimmick.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Border.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/DragDropOperation.h>
 #include "MyDragDropOperation.h"
@@ -31,11 +33,11 @@
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateBrush.h>
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateColor.h>
 #include "WH_BookshelfGimmick.h"
-#include "W_ItemSlot.h"
-#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "WH_BroomstickGimmick.h"
 #include "WH_PotionGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
+#include "W_ItemSlot.h"
+#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 
 bool UNewGridWidget::Initialize()
 {
@@ -322,8 +324,6 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 		UE_LOG(LogTemp, Warning, TEXT("!!! GimmickClass is empty"));
 	}
 
-
-
 }
 
 AGimmick* UNewGridWidget::FindMatchingActor(UItemObject* _itemObject)
@@ -363,6 +363,30 @@ AGimmick* UNewGridWidget::FindMatchingActor(UItemObject* _itemObject)
 	}
 
 	return nullptr;
+}
+
+int32 UNewGridWidget::GetSwitcherIdx(AGimmick* _GimmickClass)
+{
+	if (_GimmickClass->IsA(AWH_BookshelfGimmick::StaticClass()))
+	{
+		return 0;
+	}
+	else if (_GimmickClass->IsA(AWH_BroomstickGimmick::StaticClass()))
+	{
+		return 1;
+	}
+	else if (_GimmickClass->IsA(AWH_PotionGimmick::StaticClass()))
+	{
+		return 2;
+	}
+	else if (_GimmickClass->IsA(AWH_WitchCauldronGimmick::StaticClass()))
+	{
+		return 3;
+	}
+	else
+	{
+		return -1;
+	}
 }
 
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
@@ -441,6 +465,14 @@ void UNewGridWidget::Refresh()
 
 			//newItemImgWidget->thisItemObject = itemObject;
 			newItemImgWidget->SetItemObject(itemObject);
+
+			AGimmick* gm = FindMatchingActor(itemObject);
+			int32 switcherIdx = GetSwitcherIdx(gm);
+
+			if (switcherIdx != -1 && newItemImgWidget->itemImgSwitcher)
+			{
+				newItemImgWidget->itemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
+			}
 
 			newItemImgWidget->OnRemoved.AddDynamic(this, &UNewGridWidget::OnItemRemoved);
 

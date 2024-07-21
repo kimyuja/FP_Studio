@@ -11,6 +11,7 @@
 #include "WH_BroomstickGimmick.h"
 #include "WH_PotionGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
+#include "Gimmick.h"
 
 void UGimmickSelectionWidget::NativeConstruct()
 {
