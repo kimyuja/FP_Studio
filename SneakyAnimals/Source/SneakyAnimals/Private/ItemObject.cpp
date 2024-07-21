@@ -7,7 +7,20 @@
 FIntPoint UItemObject::GetDimensions() const
 {
     // UE_LOG(LogTemp, Warning, TEXT("!!! Dimension XY is %d %d"), dimensions.X, dimension.Y);
-	return dimensions;
+    UE_LOG(LogTemp, Warning, TEXT("Rotation Angle: %f"), rotationAngle);
+
+    if (rotationAngle == 0.f || rotationAngle == 180.f)
+    {
+        return dimensions;
+    }
+    else if (rotationAngle == 90.f || rotationAngle == 270.f)
+    {
+        return FIntPoint(dimensions.Y, dimensions.X);
+    }
+    else
+    {
+        return FIntPoint(0, 0);
+    }
 }
 
 UMaterialInterface* UItemObject::GetIcon() const
@@ -30,4 +43,28 @@ UMaterialInterface* UItemObject::GetIcon() const
     {
         return icon;
     }
+}
+
+void UItemObject::RotateGA(UItemObject* _itemObj)
+{
+    if(_itemObj->rotationAngle == 270.f)
+    {
+        _itemObj->rotationAngle = 0.f;
+    }
+    else
+    {
+        _itemObj->rotationAngle += 90.f;
+    }
+}
+
+float UItemObject::IsRotatedGA()
+{
+    return rotationAngle;
+}
+
+void UItemObject::SetDimensions(const FIntPoint& NewDimensions)
+{
+    currentDimensions = NewDimensions;
+    dimensions = NewDimensions;
+    UE_LOG(LogTemp, Warning, TEXT("New Dimensions: X=%d, Y=%d"), dimensions.X, dimensions.Y);
 }

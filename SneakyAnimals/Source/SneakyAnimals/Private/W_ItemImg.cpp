@@ -23,6 +23,8 @@ bool UW_ItemImg::Initialize()
 {
 	Super::Initialize();
 
+	bIsFocusable = true;
+
 	return false;
 }
 
@@ -149,6 +151,17 @@ FReply UW_ItemImg::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FP
 	return FReply::Unhandled();
 }
 
+FReply UW_ItemImg::NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	if (InMouseEvent.GetEffectingButton() == EKeys::RightMouseButton)
+	{
+		RotateItemImage();
+		return FReply::Handled();
+	}
+
+	return Super::NativeOnMouseButtonUp(InGeometry, InMouseEvent);
+}
+
 // 인벤토리를 다시 그릴 때마다 호출
 void UW_ItemImg::Refresh()
 {
@@ -218,6 +231,10 @@ void UW_ItemImg::RemoveItem(UItemObject* _ItemObject)
 void UW_ItemImg::SetItemObject(UItemObject* NewItemObject)
 {
 	thisItemObject = NewItemObject;
+}
+
+void UW_ItemImg::RotateItemImage()
+{
 }
 
 

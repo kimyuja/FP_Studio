@@ -77,11 +77,12 @@ UItemObject* AWH_PotionGimmick::GetDefaultItemObject()
 	if (newItemObject)
 	{
 		newItemObject->dimensions = FIntPoint(2, 1);
-		newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf"));
+		/*newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf"));
 		newItemObject->iconRotated90 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90"));
 		newItemObject->iconRotated180 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R180"));
 		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R270"));
-		newItemObject->bRotated = false;
+		newItemObject->bRotated = false;*/
+		newItemObject->rotationAngle = 0.0f;
 		newItemObject->itemClass = AWH_PotionGimmick::StaticClass();
 		newItemObject->itemActiveType = activeType;
 		newItemObject->beginLoc = FVector(50130.f, -50100.f, -883.f);

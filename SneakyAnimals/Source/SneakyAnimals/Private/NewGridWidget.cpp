@@ -231,22 +231,22 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 				if (bookShelfActor)
 				{
-				
-						bookShelfActor->activeType = _ActiveType;
 
-						itemObject = bookShelfActor->GetDefaultItemObject();
+					bookShelfActor->activeType = _ActiveType;
 
-						// bookShelfActor->SetActorLocation(worldPosition);
+					itemObject = bookShelfActor->GetDefaultItemObject();
+
+					// bookShelfActor->SetActorLocation(worldPosition);
 
 
-						// UE_LOG(LogTemp, Warning, TEXT("bookShelfActor pos in world : (%f, %f, %f"), worldPosition.X, worldPosition.Y, worldPosition.Z);
-						/*FVector newLocation = GridToWorld(bookShelfActor->GetGridX(), bookShelfActor->GetGridY());
-						bookShelfActor->SetActorLocation(newLocation);*/
+					// UE_LOG(LogTemp, Warning, TEXT("bookShelfActor pos in world : (%f, %f, %f"), worldPosition.X, worldPosition.Y, worldPosition.Z);
+					/*FVector newLocation = GridToWorld(bookShelfActor->GetGridX(), bookShelfActor->GetGridY());
+					bookShelfActor->SetActorLocation(newLocation);*/
 
-						// bookShelfActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
-						UE_LOG(LogTemp, Warning, TEXT("position changed"));
+					// bookShelfActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
+					UE_LOG(LogTemp, Warning, TEXT("position changed"));
 
-				
+
 				}
 				else
 				{
@@ -266,12 +266,12 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 			for (AWH_BroomstickGimmick* broomStickActor : broomStickActorArr)
 			{
-				
-					broomStickActor->activeType = _ActiveType;
 
-					itemObject = broomStickActor->GetDefaultItemObject();
+				broomStickActor->activeType = _ActiveType;
 
-					
+				itemObject = broomStickActor->GetDefaultItemObject();
+
+
 			}
 		}
 		else if (_GimmickClass->IsChildOf(AWH_PotionGimmick::StaticClass()))
@@ -290,7 +290,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 				itemObject = potionActor->GetDefaultItemObject();
 
-				
+
 			}
 		}
 		else if (_GimmickClass->IsChildOf(AWH_WitchCauldronGimmick::StaticClass()))
@@ -308,7 +308,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 				itemObject = cauldronActor->GetDefaultItemObject();
 
-				
+
 			}
 		}
 		else
@@ -317,7 +317,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 		}
 
 		itemComp->TryAddItem(itemObject);
-		
+
 	}
 	else
 	{
@@ -489,7 +489,7 @@ void UNewGridWidget::Refresh()
 				// 월드좌표의 topLeft 기준 위치 맞추기
 				worldPosition = GridToWorld(topLeftTile->X, topLeftTile->Y);
 				UE_LOG(LogTemp, Warning, TEXT("worldPosition is : (%f, %f, %f) "), worldPosition.X, worldPosition.Y, worldPosition.Z);
-				
+
 				// 아이템 dimenstion 따라 위치 맞추기
 				FVector dimensionOffset = FVector(itemObject->dimensions.X * levelTileSize * 0.5f, itemObject->dimensions.Y * levelTileSize * 0.5f, 0.0f);
 
@@ -515,7 +515,7 @@ void UNewGridWidget::Refresh()
 
 					gimmickActor->SetActorLocation(adjustedWorldPosition);
 				}
-				else 
+				else
 				{
 					UE_LOG(LogTemp, Warning, TEXT("I CANT FIND MACHINGED ACTOR"));
 				}
@@ -733,3 +733,44 @@ void UNewGridWidget::NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UD
 	bDrawDropLoc = false;
 }
 
+FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	// R키가 눌리면 회전시키고 싶다
+	FKey Key = InKeyEvent.GetKey();
+
+	if (Key == EKeys::R)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("R key was pressed"));
+
+		// 드래그 앤 드롭 콘텐츠 가져오기
+		UDragDropOperation* dragDroppingContent = UWidgetBlueprintLibrary::GetDragDroppingContent();
+		
+		UMyDragDropOperation* dragDropOperation = Cast<UMyDragDropOperation>(dragDroppingContent);
+
+
+		if (dragDropOperation)
+		{
+			UItemObject* payLoadTemp = GetPayload(dragDropOperation);
+
+			if (IsValid(payLoadTemp))
+			{
+				itemObject->RotateGA(payLoadTemp);
+
+				FIntPoint NewDimensions = payLoadTemp->GetDimensions();
+				payLoadTemp->SetDimensions(NewDimensions);
+
+				UW_ItemImg* imgWidgetTemp = Cast<UW_ItemImg>(dragDropOperation->DefaultDragVisual);
+
+				if (IsValid(imgWidgetTemp))
+				{
+					// imgWidgetTemp->Refresh();
+					Refresh();
+
+					return FReply::Handled();
+				}
+			}
+		}
+	}
+
+	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
+}

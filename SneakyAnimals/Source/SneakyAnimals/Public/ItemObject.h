@@ -49,4 +49,20 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Item")
 	FVector beginLoc;
+
+	UPROPERTY(BlueprintReadWrite)
+	float rotationAngle;
+
+	UFUNCTION()
+	void RotateGA(class UItemObject* _itemObj);
+
+	UFUNCTION()
+	float IsRotatedGA();
+
+	UFUNCTION()
+	void SetDimensions(const FIntPoint& NewDimensions);
+
+	UPROPERTY(BlueprintReadWrite)
+	FIntPoint currentDimensions;
+
 }; 

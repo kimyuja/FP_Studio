@@ -24,6 +24,9 @@ public:
 	virtual void NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	virtual void NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
+	virtual FReply NativeOnPreviewKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+
+
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UBorder* gridBorder;
 
@@ -138,12 +141,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
 	void BindItemObjByBtn(TSubclassOf<AGimmick> GimmickClass, int32 _ActiveType);
 
-	UFUNCTION(BlueprintCallable, Category = "")
+	UFUNCTION(BlueprintCallable)
 	AGimmick* FindMatchingActor(class UItemObject* _itemObject);
 
 
-	UFUNCTION(BlueprintCallable, Category = "")
+	UFUNCTION(BlueprintCallable)
 	int32 GetSwitcherIdx(class AGimmick* _GimmickClass);
+
 
 
 };

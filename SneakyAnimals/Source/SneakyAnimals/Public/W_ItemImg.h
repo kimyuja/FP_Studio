@@ -28,6 +28,10 @@ public:
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
+	virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
+
 	
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UCanvasPanel* CanvasPanel;
@@ -84,5 +88,10 @@ public:
     TSubclassOf<UW_ItemImg> DragVisualClass;
 
 	void SetItemObject(UItemObject* NewItemObject);
+
+
+	UFUNCTION(BlueprintCallable)
+	void RotateItemImage();
+
 
 };
