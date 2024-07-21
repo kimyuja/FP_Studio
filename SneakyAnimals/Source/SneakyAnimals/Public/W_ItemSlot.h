@@ -28,10 +28,6 @@ public:
 	//class UTexture2D* itemImg;
 	class UImage* itemIcon;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (BindWidget))
-	//class UTexture2D* itemImg;
-	class UTextBlock* itemCost;
-
 	// UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UMapCustomWidget* mapCustomWidget;
@@ -51,9 +47,6 @@ public:
     UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
     class UItemObject* itemObject;
 
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void GimmickActorSetLoc();
-
 	const UWorld* World;
 
 	// 버튼에 연결할 아이템
@@ -68,13 +61,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<class AWH_WitchCauldronGimmick> potG;
-	// 
-
+	
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void SetItemIcon(const FString& TexturePath);
-
-	/*UPROPERTY(EditAnywhere)
-	class UW_CustomMap* gridWidget;*/
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="UI")
 	class UNewGridWidget* gridWidget;
@@ -84,9 +73,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void InitializeItemSlot(int32 _ItemType);
-
-	UFUNCTION(BlueprintCallable)
-	void SetCurrentCost();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
 	TSubclassOf<UUserWidget> GimmickSelectionWidgetClass;

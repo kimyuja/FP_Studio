@@ -193,18 +193,6 @@ void UNewGridWidget::MousePositionInTile(FVector2D _MousePos)
 	bDown = _MousePos.Y > tileHalfSize;
 }
 
-void UNewGridWidget::CallIncreseCostFunc(UMapCustomWidget* _MapCustomWid, UItemObject* _ItemObj)
-{
-	if (_MapCustomWid)
-	{
-		_MapCustomWid->IncreaseCurrentCost(_ItemObj);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("MapCustomInstance is null!"));
-	}
-}
-
 void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32 _ActiveType)
 {
 	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
@@ -241,8 +229,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 				if (bookShelfActor)
 				{
-					//if (bookShelfActor->newItemObject->itemActiveType == _ActiveType)
-					{
+				
 						bookShelfActor->activeType = _ActiveType;
 
 						itemObject = bookShelfActor->GetDefaultItemObject();
@@ -257,7 +244,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 						// bookShelfActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
 						UE_LOG(LogTemp, Warning, TEXT("position changed"));
 
-					}
+				
 				}
 				else
 				{
@@ -277,17 +264,12 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 			for (AWH_BroomstickGimmick* broomStickActor : broomStickActorArr)
 			{
-				//if (broomStickActor->newItemObject->itemActiveType == _ActiveType)
-				{
+				
 					broomStickActor->activeType = _ActiveType;
 
 					itemObject = broomStickActor->GetDefaultItemObject();
 
-					//broomStickActor->SetActorLocation(worldPosition);
-
-					// UE_LOG(LogTemp, Warning, TEXT("broomStickActor pos in world : (%f, %f, %f"), worldPosition.X, worldPosition.Y, worldPosition.Z);
-					// broomStickActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
-				}
+					
 			}
 		}
 		else if (_GimmickClass->IsChildOf(AWH_PotionGimmick::StaticClass()))
@@ -306,13 +288,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 				itemObject = potionActor->GetDefaultItemObject();
 
-				if (potionActor->newItemObject->itemActiveType == _ActiveType)
-				{
-					// potionActor->SetActorLocation(worldPosition);
-
-					// UE_LOG(LogTemp, Warning, TEXT("potionActor pos in world : (%f, %f, %f"), worldPosition.X, worldPosition.Y, worldPosition.Z);
-					// potionActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
-				}
+				
 			}
 		}
 		else if (_GimmickClass->IsChildOf(AWH_WitchCauldronGimmick::StaticClass()))
@@ -330,23 +306,16 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 				itemObject = cauldronActor->GetDefaultItemObject();
 
-				if (cauldronActor->newItemObject->itemActiveType == _ActiveType)
-				{
-					// cauldronActor->SetActorLocation(worldPosition);
-
-					// UE_LOG(LogTemp, Warning, TEXT("cauldronActor pos in world : (%f, %f, %f"), worldPosition.X, worldPosition.Y, worldPosition.Z);
-					// cauldronActor->SetActorLocation(FVector(50130.f, -50100.f, -40.f));
-				}
+				
 			}
 		}
 		else
 		{
 			UE_LOG(LogTemp, Warning, TEXT("!!! so sad"));
 		}
-		if (itemComp->TryAddItem(itemObject))
-		{
-			// itemSlotW->SetCurrentCost();
-		}
+
+		itemComp->TryAddItem(itemObject);
+		
 	}
 	else
 	{
@@ -501,7 +470,6 @@ void UNewGridWidget::Refresh()
 				{
 					// 현재 레벨에 배치된 상태라면 X, Y 위치만 변경
 					// 레벨에 배치되지 않은 상태라면 Z 값도 같이 변경
-
 					FVector currentLoc = gimmickActor->GetActorLocation();
 
 					if (currentLoc.Z > 0)
@@ -671,13 +639,10 @@ bool UNewGridWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 			// 놓으려고 하는 곳에 사용할 수 있는 공간이 없다면
 			// 인벤토리 내에 들어있도록은 해야하기 때문에
 			// 어디에 추가할지 신경쓰지 않고 사용 가능한 가장 좋은 슬롯에 추가되도록 하고싶다
-
 			if (!itemComp->TryAddItem(tempPayLoad))
 			{
 				return true;
 			}
-
-			// 아무곳에도 둘 수 없다면 없애버려
 
 		}
 		return false;

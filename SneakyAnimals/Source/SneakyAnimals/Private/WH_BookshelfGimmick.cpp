@@ -94,10 +94,6 @@ UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R270"));
 		newItemObject->bRotated = false;
 		newItemObject->itemClass = AWH_BookshelfGimmick::StaticClass();
-		/*FString itemName = TEXT("BS");
-		newItemObject->Rename(*itemName);*/
-		// UE_LOG(LogTemp, Warning, TEXT("987987987987987"));
-		newItemObject->itemCost = 3;
 		newItemObject->itemActiveType = Myactivetype;
 		newItemObject->beginLoc = FVector(50130.f, -50100.f, -790.f);
 	}

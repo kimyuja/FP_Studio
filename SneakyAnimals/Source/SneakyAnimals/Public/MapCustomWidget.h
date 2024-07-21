@@ -34,19 +34,7 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UBorder* BackgroundBorder;
 
-private:
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UTextBlock* maxCost;
-
 public:
-	UFUNCTION(BlueprintCallable, Category = "DragDrop")
-	int32 DecreaseCurrentCost(int32 cost);
-	
-	UFUNCTION(BlueprintCallable, Category = "DragDrop")
-	void IncreaseCurrentCost(UItemObject* _ItemObj);
-
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	void UpdateMaxCost(int32 newCost);
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void InitializeItemSlots();
@@ -64,12 +52,6 @@ public:
 	TSubclassOf<UNewGridWidget> gWidget;
 
 	UW_ItemSlot* itemSlotWidget;
-	
-	UFUNCTION(BlueprintCallable)
-	bool ValidCost();
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 _currentCost;
 		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UItemObject* DraggedItem;

@@ -125,10 +125,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
 	void MousePositionInTile(FVector2D _MousePos);
 
-	UFUNCTION(BlueprintCallable, Category = "DragDrop")
-	void CallIncreseCostFunc(class UMapCustomWidget* _MapCustomWid, class  UItemObject* _ItemObj);
-	
-
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	TArray<class AWH_BookshelfGimmick*> bookShelfActorArr;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
