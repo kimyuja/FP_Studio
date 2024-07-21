@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMouseLeaveEvent, const FPointerEvent&, InMouseEvent);
+
 UCLASS()
 class SNEAKYANIMALS_API UGimmickSelectionWidget : public UUserWidget
 {
@@ -18,13 +21,27 @@ protected:
 	virtual void NativeConstruct() override;
 	virtual bool Initialize() override;
 
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+
 public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* DieAloneBtn;
+	class UButton* GimmickBtn1;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* DieAllBtn;
+	class UButton* GimmickBtn2;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UButton* ClearBtn;
 
-	// 기믹 버튼 이렇게 세 종류씩 있는거죠? 액터당
+	UPROPERTY()
+	FOnMouseLeaveEvent OnCustomMouseLeave;
+
+
+	UFUNCTION()
+	void OnGimmickBtn1Clicked();
+	UFUNCTION()
+	void OnGimmickBtn2Clicked();
+	UFUNCTION()
+	void OnClearBtnClicked();
+
+
+
 };

@@ -24,6 +24,10 @@
 #include "NewGridWidget.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include <TestPlayer.h>
+#include "GimmickSelectionWidget.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanel.h>
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanelSlot.h>
 
 bool UW_ItemSlot::Initialize()
 {
@@ -88,7 +92,10 @@ void UW_ItemSlot::NativeConstruct()
 		UE_LOG(LogTemp, Warning, TEXT("WHERE IS MY NEW GRID WIDGET!"));
 	}*/
 
+
 }
+
+
 
 void UW_ItemSlot::OnItemBtnClicked()
 {
@@ -138,7 +145,7 @@ void UW_ItemSlot::GimmickActorSetLoc()
 			// cost 변경
 			//SetCurrentCost();
 		//}
-		
+
 		break;
 	}
 	case 1:
@@ -241,5 +248,108 @@ void UW_ItemSlot::SetCurrentCost()
 		UE_LOG(LogTemp, Error, TEXT("mapCustomWidget is null!"));
 	}
 }
+
+
+
+void UW_ItemSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	UE_LOG(LogTemp, Warning, TEXT("Mouse Enter"));
+	OnMouseEnterWidget();
+}
+
+void UW_ItemSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+	UE_LOG(LogTemp, Warning, TEXT("Mouse Leave"));
+	OnMouseLeaveWidget();
+}
+
+void UW_ItemSlot::OnMouseEnterWidget()
+{
+	UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(GetRootWidget());
+
+	gimmickSelectionWidget = CreateWidget<UGimmickSelectionWidget>(GetWorld(), GimmickSelectionWidgetClass);
+
+	if (gimmickSelectionWidget)
+	{
+
+		UCanvasPanelSlot* canvasSlot = rootCanvas->AddChildToCanvas(gimmickSelectionWidget);
+
+		if (canvasSlot)
+		{
+			canvasSlot->SetAnchors(FAnchors(0.5f, 0.5f));
+
+			FVector2D SelectWPosition = UWidgetLayoutLibrary::GetMousePositionOnViewport(GetWorld()) - FVector2D(100, 0);
+
+			//gimmickSelectionWidget->AddToViewport();
+			// gimmickSelectionWidget->SetPositionInViewport(SelectWPosition, true);
+
+			// gimmickSelectionWidget->SetDesiredSizeInViewport(FVector2D(500.f, 500.f));
+
+			// canvasSlot->SetPosition(SelectWPosition);
+			canvasSlot->SetPosition(FVector2D(-450.f, -100.f));
+			canvasSlot->SetSize(FVector2D(450.f, 350.f));
+
+
+			UE_LOG(LogTemp, Warning, TEXT("gimmickSelectionWidget created and positioned at (%f, %f)"), SelectWPosition.X, SelectWPosition.Y);
+
+			UE_LOG(LogTemp, Warning, TEXT("gimmickSelectionWidget size: (%f, %f)"), canvasSlot->GetSize().X, canvasSlot->GetSize().Y);
+
+
+			// 위젯 내에서 마우스가 떠나는 이벤트 처리
+			gimmickSelectionWidget->OnCustomMouseLeave.AddDynamic(this, &UW_ItemSlot::OnSelectionWidgetMouseLeave);
+
+			//// 입력 모드 설정 및 포커스 설정
+			//if (APlayerController* PC = GetWorld()->GetFirstPlayerController())
+			//{
+			//	FInputModeUIOnly InputMode;
+			//	InputMode.SetWidgetToFocus(gimmickSelectionWidget->TakeWidget());
+			//	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+			//	PC->SetInputMode(InputMode);
+			//	PC->bShowMouseCursor = true;
+			//}
+
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to create GimmickSelectionWidget"));
+	}
+
+}
+
+void UW_ItemSlot::OnMouseLeaveWidget()
+{
+	if (gimmickSelectionWidget)
+	{
+		gimmickSelectionWidget->RemoveFromParent();
+		gimmickSelectionWidget = nullptr;
+
+		//// 입력 모드 설정 해제
+		//if (APlayerController* PC = GetWorld()->GetFirstPlayerController())
+		//{
+		//	FInputModeGameAndUI InputMode;
+		//	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		//	PC->SetInputMode(InputMode);
+		//	PC->bShowMouseCursor = true;
+		//}
+
+
+	}
+}
+
+void UW_ItemSlot::OnSelectionWidgetMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	if (gimmickSelectionWidget)
+	{
+		gimmickSelectionWidget->RemoveFromParent();
+		gimmickSelectionWidget = nullptr;
+
+		
+
+	}
+}
+
 
 

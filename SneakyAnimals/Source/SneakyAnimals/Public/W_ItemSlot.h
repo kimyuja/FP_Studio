@@ -87,5 +87,23 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentCost();
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	TSubclassOf<UUserWidget> GimmickSelectionWidgetClass;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	class UGimmickSelectionWidget* gimmickSelectionWidget;
+
+	UFUNCTION()
+	void OnMouseEnterWidget();
+
+	UFUNCTION()
+	void OnMouseLeaveWidget();
+
+	UFUNCTION()
+	void OnSelectionWidgetMouseLeave(const FPointerEvent& InMouseEvent);
+
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	
 };

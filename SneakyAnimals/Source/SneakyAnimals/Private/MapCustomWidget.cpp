@@ -187,8 +187,10 @@ void UMapCustomWidget::InitializeItemSlots()
 
 	UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(GetRootWidget());
 
-	for (int32 i = 0; i < 4; i++) {
+	for (int32 i = 0; i < 4; i++) 
+	{
 		UW_ItemSlot* newItemSlot = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidgetClass);
+		
 		if (newItemSlot)
 		{
 			newItemSlot->mapCustomWidget = this;
