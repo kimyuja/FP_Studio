@@ -67,6 +67,8 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
 
+	UE_LOG(LogTemp, Warning, TEXT("!!! MY ACTIVETYPE NUM IS %d"), thisItemObject->itemActiveType);
+
 	UW_ItemImg* DragVisual = CreateWidget<UW_ItemImg>(GetWorld()->GetFirstPlayerController(), DragVisualClass);
 	
 	if (DragVisual)

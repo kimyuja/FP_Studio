@@ -35,6 +35,15 @@ public:
 	FOnMouseLeaveEvent OnCustomMouseLeave;
 
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UUserWidget> newGridWidget;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
+	class UNewGridWidget* gridWidget;
+
+
+
 	UFUNCTION()
 	void OnGimmickBtn1Clicked();
 	UFUNCTION()
@@ -42,6 +51,12 @@ public:
 	UFUNCTION()
 	void OnClearBtnClicked();
 
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	int32 itemType;
+
+	UFUNCTION(BlueprintCallable)
+	void BindItemType(int32 _BtnItemType);
 
 
 };

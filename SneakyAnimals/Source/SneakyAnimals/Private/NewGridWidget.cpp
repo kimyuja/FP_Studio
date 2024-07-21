@@ -241,8 +241,10 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 				if (bookShelfActor)
 				{
-					if (bookShelfActor->newItemObject->itemActiveType == _ActiveType)
+					//if (bookShelfActor->newItemObject->itemActiveType == _ActiveType)
 					{
+						bookShelfActor->activeType = _ActiveType;
+
 						itemObject = bookShelfActor->GetDefaultItemObject();
 
 						// bookShelfActor->SetActorLocation(worldPosition);
@@ -275,8 +277,10 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 			for (AWH_BroomstickGimmick* broomStickActor : broomStickActorArr)
 			{
-				if (broomStickActor->newItemObject->itemActiveType == _ActiveType)
+				//if (broomStickActor->newItemObject->itemActiveType == _ActiveType)
 				{
+					broomStickActor->activeType = _ActiveType;
+
 					itemObject = broomStickActor->GetDefaultItemObject();
 
 					//broomStickActor->SetActorLocation(worldPosition);
@@ -298,6 +302,8 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 			for (AWH_PotionGimmick* potionActor : potionActorArr)
 			{
+				potionActor->activeType = _ActiveType;
+
 				itemObject = potionActor->GetDefaultItemObject();
 
 				if (potionActor->newItemObject->itemActiveType == _ActiveType)
@@ -319,6 +325,9 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 			for (AWH_WitchCauldronGimmick* cauldronActor : cauldronActorArr)
 			{
+				// cauldronActor->newItemObject->itemActiveType = _ActiveType;
+				cauldronActor->activeType = _ActiveType;
+
 				itemObject = cauldronActor->GetDefaultItemObject();
 
 				if (cauldronActor->newItemObject->itemActiveType == _ActiveType)

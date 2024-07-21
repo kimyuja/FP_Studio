@@ -101,7 +101,7 @@ void UW_ItemSlot::OnItemBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item button clicked!"));
 
-	GimmickActorSetLoc();
+	// GimmickActorSetLoc();
 
 	//if (itemComponent->TryAddItem(itemObject))
 	//{
@@ -139,12 +139,6 @@ void UW_ItemSlot::GimmickActorSetLoc()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MY ITEM TYPE IS 0"));
 		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 0);
-
-		//if (itemComponent->TryAddItem(itemObject))
-		//{
-			// cost 변경
-			//SetCurrentCost();
-		//}
 
 		break;
 	}
@@ -295,7 +289,8 @@ void UW_ItemSlot::OnMouseEnterWidget()
 			UE_LOG(LogTemp, Warning, TEXT("gimmickSelectionWidget created and positioned at (%f, %f)"), SelectWPosition.X, SelectWPosition.Y);
 
 			UE_LOG(LogTemp, Warning, TEXT("gimmickSelectionWidget size: (%f, %f)"), canvasSlot->GetSize().X, canvasSlot->GetSize().Y);
-
+			
+			gimmickSelectionWidget->BindItemType(itemType);
 
 			// 위젯 내에서 마우스가 떠나는 이벤트 처리
 			gimmickSelectionWidget->OnCustomMouseLeave.AddDynamic(this, &UW_ItemSlot::OnSelectionWidgetMouseLeave);
