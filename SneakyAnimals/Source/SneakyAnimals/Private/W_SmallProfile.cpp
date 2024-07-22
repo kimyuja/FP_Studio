@@ -8,7 +8,7 @@
 
 void UW_SmallProfile::Refresh_Widget()
 {
-	FUserProfileResult result = UFL_General::Get_UserProfile();
+	FUserProfileResult result = UFL_General::Get_UserProfile(GetWorld());
 	if (result.success)
 	{
 		Username_Text->SetText(result.S_UserProfile.Username);

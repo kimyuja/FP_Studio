@@ -42,7 +42,7 @@ void APS_Base::ClientRPC_Init_Implementation()
 
 void APS_Base::Load_Player_Appearance()
 {
-	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
+	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance(GetWorld());
 	if (result.bSuccess)
 	{
 		ServerRPC_Update_Player_Appearance_Implementation(result.Player_Appearance);
@@ -57,7 +57,7 @@ void APS_Base::Load_Player_Appearance()
 
 void APS_Base::Load_Player_UserProfile()
 {
-	FUserProfileResult result = UFL_General::Get_UserProfile();
+	FUserProfileResult result = UFL_General::Get_UserProfile(GetWorld());
 	if (result.success)
 	{
 		ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);

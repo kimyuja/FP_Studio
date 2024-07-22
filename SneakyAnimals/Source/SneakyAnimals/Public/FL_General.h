@@ -20,16 +20,16 @@ public:
 	UFL_General();
 
 	UFUNCTION(BlueprintCallable, Category = "Save Game")
-	static bool Save_UserProfile(const FStructure_UserProfile& S_UserData);
+	static bool Save_UserProfile(const UObject* WorldContextObject, const FStructure_UserProfile& S_UserData);
 
 	UFUNCTION(BlueprintCallable, Category = "Save Game")
-	static FUserProfileResult Get_UserProfile();
+	static FUserProfileResult Get_UserProfile(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "Save Game")
-	static bool Save_Player_Appearance(FStructure_Player_Appearance S_Player_Appearance);
+	static bool Save_Player_Appearance(const UObject* WorldContextObject, FStructure_Player_Appearance S_Player_Appearance);
 	
 	UFUNCTION(BlueprintCallable, Category = "Save Game")
-	static FStructure_Player_Appearance_Result Get_Player_Appearance();
+	static FStructure_Player_Appearance_Result Get_Player_Appearance(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "User Widgets")
 	static class UW_LoadingScreen* Create_LoadingScreen(UObject* WorldContextObject, UTexture2D* LoadingScreenImage, FText LoadingScreenFeedbackText);

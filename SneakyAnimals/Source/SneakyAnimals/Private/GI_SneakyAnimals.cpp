@@ -11,9 +11,16 @@
 #include <string>
 #include "FL_General.h"
 
+// JSON 관련 헤더 파일 포함
+#include "Dom/JsonObject.h"
+#include "Serialization/JsonReader.h"
+#include "Serialization/JsonSerializer.h"
+
 void UGI_SneakyAnimals::Init()
 {
 	Super::Init();
+
+	LoadUserIndexMap();
 
 	// 서브시스템에서 세션인터페이스 가져오고싶다.
 	auto subsys = IOnlineSubsystem::Get();
@@ -29,6 +36,17 @@ void UGI_SneakyAnimals::Init()
 			sessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGI_SneakyAnimals::OnMyExitRoomComplete);
 		}
 	}
+}
+
+int32 UGI_SneakyAnimals::GetUserIndex(const FString& UserName)
+{
+	if (!UserIndexMap.Contains(UserName))
+	{
+		int32 NewIndex = UserIndexMap.Num();
+		UserIndexMap.Add(UserName, NewIndex);
+		SaveUserIndexMap();
+	}
+	return UserIndexMap[UserName];
 }
 
 void UGI_SneakyAnimals::OnCreateSessionComplete(FName sessionName, bool bWasSuccessful)
@@ -181,6 +199,43 @@ FString UGI_SneakyAnimals::StringBase64Decode(const FString& str)
 	return UTF8_TO_TCHAR(ut8String.c_str());
 }
 
+void UGI_SneakyAnimals::LoadUserIndexMap()
+{
+	FString FilePath = FPaths::ProjectDir() / TEXT("UserIndex.json");
+	FString JsonString;
+
+	if (FFileHelper::LoadFileToString(JsonString, *FilePath))
+	{
+		TSharedPtr<FJsonObject> JsonObject;
+		TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(JsonString);
+
+		if (FJsonSerializer::Deserialize(Reader, JsonObject))
+		{
+			for (auto& Elem : JsonObject->Values)
+			{
+				UserIndexMap.Add(Elem.Key, Elem.Value->AsNumber());
+			}
+		}
+	}
+}
+
+void UGI_SneakyAnimals::SaveUserIndexMap()
+{
+	FString FilePath = FPaths::ProjectDir() / TEXT("UserIndex.json");
+	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
+
+	for (auto& Elem : UserIndexMap)
+	{
+		JsonObject->SetNumberField(Elem.Key, Elem.Value);
+	}
+
+	FString JsonString;
+	TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&JsonString);
+	FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer);
+
+	FFileHelper::SaveStringToFile(JsonString, *FilePath);
+}
+
 void UGI_SneakyAnimals::CreateSession(FString roomName, int32 playerCount)
 {
 	FOnlineSessionSettings set;
@@ -203,7 +258,7 @@ void UGI_SneakyAnimals::CreateSession(FString roomName, int32 playerCount)
 
 	set.Set(FName("ROOM_NAME"), StringBase64Encode(roomName), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 
-	FUserProfileResult userProfile = UFL_General::Get_UserProfile();
+	FUserProfileResult userProfile = UFL_General::Get_UserProfile(GetWorld());
 	FString hostName = userProfile.S_UserProfile.Username.ToString();
 	mySessionName = hostName;
 	set.Set(FName("HOST_NAME"), StringBase64Encode(mySessionName), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);

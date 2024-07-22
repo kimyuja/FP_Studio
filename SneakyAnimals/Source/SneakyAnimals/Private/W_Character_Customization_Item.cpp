@@ -16,7 +16,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->Player_Appearance.Character = Character;
 
 		// Save_Player_Appearance
-		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+		UFL_General::Save_Player_Appearance(GetWorld(), PS_Lobby->Player_Appearance);
 
 		// SR_Update_Player_Appearance
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
@@ -27,7 +27,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->Player_Appearance.Accessories_Slot = Accessories;
 
 		// Save_Player_Appearance
-		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+		UFL_General::Save_Player_Appearance(GetWorld(), PS_Lobby->Player_Appearance);
 
 		// SR_Update_Player_Appearance
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
@@ -37,7 +37,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->Player_Appearance.Skins_Slot = Skins;
 
 		// Save_Player_Appearance
-		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+		UFL_General::Save_Player_Appearance(GetWorld(), PS_Lobby->Player_Appearance);
 
 		// SR_Update_Player_Appearance
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
@@ -47,7 +47,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->Player_Appearance.Eyes_Slot = Eyes;
 
 		// Save_Player_Appearance
-		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+		UFL_General::Save_Player_Appearance(GetWorld(), PS_Lobby->Player_Appearance);
 
 		// SR_Update_Player_Appearance
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
@@ -59,7 +59,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->Player_Appearance.Top_Slot = Top;
 
 		// Save_Player_Appearance
-		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+		UFL_General::Save_Player_Appearance(GetWorld(), PS_Lobby->Player_Appearance);
 
 		// SR_Update_Player_Appearance
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
@@ -71,7 +71,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->Player_Appearance.Bottom_Slot = Bottom;
 
 		// Save_Player_Appearance
-		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+		UFL_General::Save_Player_Appearance(GetWorld(), PS_Lobby->Player_Appearance);
 
 		// SR_Update_Player_Appearance
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
@@ -88,7 +88,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->Player_Appearance.Outer_Slot = Outer;
 
 		// Save_Player_Appearance
-		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+		UFL_General::Save_Player_Appearance(GetWorld(), PS_Lobby->Player_Appearance);
 
 		// SR_Update_Player_Appearance
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);
@@ -101,7 +101,7 @@ void UW_Character_Customization_Item::OnClickedButton()
 		PS_Lobby->Player_Appearance.Dress_Slot = Dress;
 
 		// Save_Player_Appearance
-		UFL_General::Save_Player_Appearance(PS_Lobby->Player_Appearance);
+		UFL_General::Save_Player_Appearance(GetWorld(), PS_Lobby->Player_Appearance);
 
 		// SR_Update_Player_Appearance
 		PS_Lobby->ServerRPC_Update_Player_Appearance(PS_Lobby->Player_Appearance);

@@ -46,7 +46,7 @@ void UW_ProfileMenu::OnSave_BtnClicked()
 	S_UserProfile.User_Avatar = Selected_Avatar;
 
 	// function library 의 save user profile 함수 만들기. 거기에 save game에다가 structure user profile 을 저장한다.
-	if (UFL_General::Save_UserProfile(S_UserProfile))
+	if (UFL_General::Save_UserProfile(GetWorld(), S_UserProfile))
 	{
 		Get_UserProfile();
 
@@ -185,7 +185,7 @@ void UW_ProfileMenu::Populate_AvailableAvatars()
 
 void UW_ProfileMenu::Get_UserProfile()
 {
-	FUserProfileResult UserProfileResult = UFL_General::Get_UserProfile();
+	FUserProfileResult UserProfileResult = UFL_General::Get_UserProfile(GetWorld());
 
 	if (UserProfileResult.success)
 	{

@@ -27,7 +27,7 @@ void UW_HostGameMenu::CreateLoadingScreen()
 	// 技记 积己 己傍 矫 角青且 肺流
 	UFL_General::Create_LoadingScreen(GetWorld(), T_Color4_Normal, FText::FromString(TEXT("Entering your lobby")));
 	
-	FUserProfileResult userProfile = UFL_General::Get_UserProfile();
+	FUserProfileResult userProfile = UFL_General::Get_UserProfile(GetWorld());
 
 	UFL_General::Set_SessionInfo(GetWorld(), userProfile.S_UserProfile.Username.ToString(), MaxAmount_SessionConnections);
 
