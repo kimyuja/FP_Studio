@@ -201,6 +201,26 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 	{
 		itemComp = myPlayer->GetItemComponent();
 	}
+	else
+	{
+		ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+
+		if (playerCharacter)
+		{
+			myPlayer = Cast<ATestPlayer>(playerCharacter);
+
+			if (myPlayer)
+			{
+				itemComp = myPlayer->GetItemComponent();
+
+				if (!itemComp)
+				{
+					UE_LOG(LogTemp, Error, TEXT("itemComp is null"));
+					return;
+				}
+			}
+		}
+	}
 
 	if (_GimmickClass)
 	{
@@ -505,8 +525,8 @@ void UNewGridWidget::Refresh()
 					{
 						adjustedWorldPosition.Z = currentLoc.Z + 1000.f;
 					}
-
-					gimmickActor->SetActorLocation(adjustedWorldPosition);
+					myPlayer->ServerRPC_SetGActorLoc(gimmickActor, adjustedWorldPosition, gimmickActor->activeType);
+					//gimmickActor->SetActorLocation(adjustedWorldPosition);
 				}
 				else
 				{

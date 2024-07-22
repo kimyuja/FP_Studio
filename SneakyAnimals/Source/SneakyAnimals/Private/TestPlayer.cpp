@@ -34,6 +34,8 @@
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "W_InGameUI.h"
 #include "UnderTheSea.h"
+#include "SM_WhistleGimmick.h"
+#include "SP_CartGimmick.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -914,7 +916,43 @@ void ATestPlayer::ServerRPC_SetGActorLoc_Implementation(AActor* MoveObj, FVector
 
 void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum)
 {
-	
+	_MoveObj->SetActorLocation(_GetLoc);
+	if (Cast<AWH_BookshelfGimmick>(this))
+	{
+		Cast<AWH_BookshelfGimmick>(this)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<AWH_WitchCauldronGimmick>(this))
+	{
+		Cast<AWH_WitchCauldronGimmick>(this)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<AWH_BroomstickGimmick>(this))
+	{
+		Cast<AWH_BroomstickGimmick>(this)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<AWH_PotionGimmick>(this))
+	{
+		Cast<AWH_PotionGimmick>(this)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ASM_PeriscopeGimmick>(this))
+	{
+		Cast<ASM_PeriscopeGimmick>(this)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ASM_PressButtonGimmick>(this))
+	{
+		Cast<ASM_PressButtonGimmick>(this)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ASM_ComputerGimmick>(this))
+	{
+		Cast<ASM_ComputerGimmick>(this)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ASM_WhistleGimmick>(this))
+	{
+		Cast<ASM_WhistleGimmick>(this)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ASP_CartGimmick>(this))
+	{
+		Cast<ASP_CartGimmick>(this)->Myactivetype = _ActiveNum;
+	}
 }
 
 void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
