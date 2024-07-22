@@ -6,6 +6,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include "GM_Base.h"
+#include "GS_Lobby.h"
 
 void UW_Lobby_PlayerList_Item::NativeConstruct()
 {
@@ -88,4 +89,8 @@ void UW_Lobby_PlayerList_Item::Set_KickButton()
 void UW_Lobby_PlayerList_Item::KickPlayer()
 {
 	Cast<AGM_Base>(UGameplayStatics::GetGameMode(GetWorld()))->KickPlayer(ConnectedPlayer.S_PlayerConnectionInfo.PlayerID);
+	FTimerHandle t;
+	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+		Cast<AGS_Lobby>(UGameplayStatics::GetGameState(this))->Update_ConnectedPlayers_Array();
+		}, 2.0f, false);
 }

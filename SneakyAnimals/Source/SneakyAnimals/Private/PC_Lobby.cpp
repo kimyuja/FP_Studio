@@ -253,11 +253,9 @@ void APC_Lobby::ClientRPC_KickedFromLobby_Implementation()
 		// 세션을 제거합니다.
 		if (UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(GetGameInstance()))
 		{
-			// 솔직히 이거 맞는지 모르겠음
 			GameInstance->ExitRoom();
 		}
-		}, 1.5f, false);
-
+	}, 1.5f, false);
 }
 
 void APC_Lobby::ClientRPC_Update_ConnectedPlayersList_Implementation(const TArray<FStructure_ConnectedPlayer>& _ConnectedPlayers)
