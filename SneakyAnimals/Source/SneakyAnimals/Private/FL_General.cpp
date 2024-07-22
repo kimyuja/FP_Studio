@@ -60,8 +60,13 @@ bool UFL_General::Save_UserProfile(const UObject* WorldContextObject, const FStr
 				// 닉네임에 따른 고유 인덱스 할당 (GameInstance->GetUserIndex(GameInstance->MyName.ToString() 라고 하면 고유 인덱스가 나온다)
 				GameInstance->MyName = S_UserData.Username;
 
+				// GetUserIndex 함수 확인
+				int32 UserIndex = GameInstance->GetUserIndex(GameInstance->MyName.ToString());
+				UE_LOG(LogTemp, Warning, TEXT("Saving User Profile for %s with UserIndex %d"), *GameInstance->MyName.ToString(), UserIndex);
+
+
 				// 저장 슬롯에 데이터를 저장
-				return UGameplayStatics::SaveGameToSlot(SG_UserProfile_inst, TEXT("UserProfile_Slot"), GameInstance->GetUserIndex(GameInstance->MyName.ToString()));
+				return UGameplayStatics::SaveGameToSlot(SG_UserProfile_inst, TEXT("UserProfile_Slot"), UserIndex);
 			}
 		}
 	}
@@ -73,7 +78,11 @@ FUserProfileResult UFL_General::Get_UserProfile(const UObject* WorldContextObjec
 	FUserProfileResult result;
 	UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(WorldContextObject->GetWorld()->GetGameInstance());
 
-	if (UGameplayStatics::DoesSaveGameExist(TEXT("UserProfile_Slot"), GameInstance->GetUserIndex(GameInstance->MyName.ToString())))
+	int32 UserIndex = GameInstance->GetUserIndex(GameInstance->MyName.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Loading User Profile for %s with UserIndex %d"), *GameInstance->MyName.ToString(), UserIndex);
+
+
+	if (UGameplayStatics::DoesSaveGameExist(TEXT("UserProfile_Slot"), UserIndex))
 	{
 		// UserProfile_Slot 이 있으면 S_UserProfile과 bool success = true 리턴하기
 		USG_UserProfile* sg = Cast<USG_UserProfile>(UGameplayStatics::LoadGameFromSlot(TEXT("UserProfile_Slot"), GameInstance->GetUserIndex(GameInstance->MyName.ToString())));
@@ -101,8 +110,13 @@ bool UFL_General::Save_Player_Appearance(const UObject* WorldContextObject, FStr
 	// 데이터 저장
 	SaveGameObject->S_PlayerAppearance = S_Player_Appearance;
 
+	// GetUserIndex 함수 확인
+	int32 UserIndex = GameInstance->GetUserIndex(GameInstance->MyName.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Saving Player Appearance for %s with UserIndex %d"), *GameInstance->MyName.ToString(), UserIndex);
+
+
 	// 저장 슬롯에 데이터를 저장
-	return UGameplayStatics::SaveGameToSlot(SaveGameObject, TEXT("PlayerAppearance_Slot"), GameInstance->GetUserIndex(GameInstance->MyName.ToString()));
+	return UGameplayStatics::SaveGameToSlot(SaveGameObject, TEXT("PlayerAppearance_Slot"), UserIndex);
 }
 
 FStructure_Player_Appearance_Result UFL_General::Get_Player_Appearance(const UObject* WorldContextObject)
@@ -111,10 +125,13 @@ FStructure_Player_Appearance_Result UFL_General::Get_Player_Appearance(const UOb
 
 	FStructure_Player_Appearance_Result result;
 
-	if (UGameplayStatics::DoesSaveGameExist(TEXT("PlayerAppearance_Slot"), GameInstance->GetUserIndex(GameInstance->MyName.ToString())))
+	int32 UserIndex = GameInstance->GetUserIndex(GameInstance->MyName.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Loading Player Appearance for %s with UserIndex %d"), *GameInstance->MyName.ToString(), UserIndex);
+
+	if (UGameplayStatics::DoesSaveGameExist(TEXT("PlayerAppearance_Slot"), UserIndex))
 	{
 		// PlayerAppearance_Slot 이 있으면
-		USG_PlayerAppearance* sg = Cast<USG_PlayerAppearance>(UGameplayStatics::LoadGameFromSlot(TEXT("PlayerAppearance_Slot"), GameInstance->GetUserIndex(GameInstance->MyName.ToString())));
+		USG_PlayerAppearance* sg = Cast<USG_PlayerAppearance>(UGameplayStatics::LoadGameFromSlot(TEXT("PlayerAppearance_Slot"), UserIndex));
 		if (sg)
 		{
 			result.Player_Appearance = sg->S_PlayerAppearance;
