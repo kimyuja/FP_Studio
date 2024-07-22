@@ -73,7 +73,7 @@ FUserProfileResult UFL_General::Get_UserProfile(const UObject* WorldContextObjec
 	FUserProfileResult result;
 	UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(WorldContextObject->GetWorld()->GetGameInstance());
 
-	if (UGameplayStatics::DoesSaveGameExist(TEXT("UserProfile_Slot"), 0))
+	if (UGameplayStatics::DoesSaveGameExist(TEXT("UserProfile_Slot"), GameInstance->GetUserIndex(GameInstance->MyName.ToString())))
 	{
 		// UserProfile_Slot 이 있으면 S_UserProfile과 bool success = true 리턴하기
 		USG_UserProfile* sg = Cast<USG_UserProfile>(UGameplayStatics::LoadGameFromSlot(TEXT("UserProfile_Slot"), GameInstance->GetUserIndex(GameInstance->MyName.ToString())));
