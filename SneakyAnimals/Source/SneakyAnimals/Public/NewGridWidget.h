@@ -63,6 +63,10 @@ public:
 	FTimerHandle SetGridSizeTimerHandle;
 	FTimerHandle DrawGridLineTimerHandle;
 
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
+	class ATestPlayer* myPlayer;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
 	FIntPoint draggedItemTopLeft;
 	
