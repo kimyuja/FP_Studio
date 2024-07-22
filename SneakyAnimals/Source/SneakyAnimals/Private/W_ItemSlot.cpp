@@ -143,7 +143,7 @@ void UW_ItemSlot::InitializeItemSlot(int32 _ItemType)
 	}
 	case 2:
 	{
-		FString fromIcon3 = TEXT("/Game/RTY/Texture/Icon/Table.Table");
+		FString fromIcon3 = TEXT("/Game/RTY/Texture/Icon/c_table.c_table");
 		SetItemIcon(fromIcon3);
 		break;
 	}
