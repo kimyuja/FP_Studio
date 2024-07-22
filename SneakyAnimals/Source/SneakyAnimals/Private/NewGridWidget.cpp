@@ -364,7 +364,6 @@ AGimmick* UNewGridWidget::FindMatchingActor(UItemObject* _itemObject)
 
 	return nullptr;
 }
-
 int32 UNewGridWidget::GetSwitcherIdx(AGimmick* _GimmickClass)
 {
 	if (_GimmickClass->IsA(AWH_BookshelfGimmick::StaticClass()))
@@ -426,9 +425,10 @@ void UNewGridWidget::Refresh()
 	{
 		gridCanvasPanel->ClearChildren();
 	}
-	else if (!gridCanvasPanel)
+	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("gridcanvaspanel is null"));
+		return;
 	}
 
 	TMap<UItemObject*, FTileStructureTemp> allItems = itemComp->GetAllItems();
@@ -447,7 +447,7 @@ void UNewGridWidget::Refresh()
 		float worldY = WHTopLeft.Y + gridY * levelTileSize;
 
 		return FVector(worldX, worldY, WHTopLeft.Z);
-		};
+	};
 
 
 	for (UItemObject* key : Keys)
