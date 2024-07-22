@@ -58,7 +58,7 @@ ATestPlayer::ATestPlayer()
 	SM_Dress->SetupAttachment(GetMesh());
 
 	// 애니메이션 블루프린트를 로드하고 설정
-	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> AnimBlueprint(TEXT("/Script/Engine.AnimBlueprint'/Game/Characters/Mannequins/Animations/ABP_Quinn.ABP_Quinn_C'"));
+	/*static ConstructorHelpers::FObjectFinder<UAnimBlueprint> AnimBlueprint(TEXT("/Game/Characters/Mannequins/Animations/ABP_Quinn.ABP_Quinn_C"));
 	if (AnimBlueprint.Succeeded())
 	{
 		AnimationBlueprintClass = AnimBlueprint.Object->GeneratedClass;
@@ -67,7 +67,7 @@ ATestPlayer::ATestPlayer()
 		SM_Bottom->SetAnimInstanceClass(AnimationBlueprintClass);
 		SM_Outer->SetAnimInstanceClass(AnimationBlueprintClass);
 		SM_Dress->SetAnimInstanceClass(AnimationBlueprintClass);
-	}
+	}*/
 	
 
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
