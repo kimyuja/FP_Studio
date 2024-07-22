@@ -821,10 +821,11 @@ void ATestPlayer::MultiRPC_ClearStage_Implementation()
 	}
 	FTimerHandle clearT;
 	GetWorldTimerManager().SetTimer(clearT, [&]() {
+		clearUI->PlayAnimation(clearUI->GameEnd);
 		clearUI->SetWidgetState();
 		clearUI->bIsClear = true;
 		clearUI->SetVisibility(ESlateVisibility::Visible);
-		}, 1.0, false, 3.0);
+		}, 1.0, false, 2.0);
 }
 
 void ATestPlayer::ServerRPC_MoveStage_Implementation()
