@@ -87,6 +87,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "References")
 	class UW_Lobby_Menu* Lobby_Menu_inst;
 
+	void Update_LobbyPlayerList();
 private:
 	void ValidatePlayerState();
 	void Setup_PC();
@@ -96,7 +97,6 @@ private:
 	void Save_ReadyUpButtonState(const FText& _ReadyUpButtonText, bool _bWarningState, bool _bHideButton);
 	void Update_ReadyUpButton();
 
-	void Update_LobbyPlayerList();
 
 	void Remove_WB_CharacterCustomization();
 	void Remove_WB_LobbyMenu();
