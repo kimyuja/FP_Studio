@@ -726,7 +726,7 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 	con = GetWorld()->GetFirstPlayerController();
 	DisableInput(con);
 	SetActorRotation(FRotator(0, 90, 0));
-	SetActorLocation(FVector(0, 0, 0));
+	SetActorLocation(FVector(-1000, 0, 0));
 	for (TActorIterator<ACameraActor> it(GetWorld()); it; ++it)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Find"));
