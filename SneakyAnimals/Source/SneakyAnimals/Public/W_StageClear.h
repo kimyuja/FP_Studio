@@ -41,6 +41,9 @@ public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* LevelNum_Text;
 	
+	UPROPERTY(EditAnywhere, Transient ,meta = (BindWidgetAnim))
+	class UWidgetAnimation* GameEnd;
+
 	UPROPERTY()
 	class ASAGameStateBase* gameState;
 
