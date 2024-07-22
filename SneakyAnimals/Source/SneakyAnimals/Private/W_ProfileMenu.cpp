@@ -157,7 +157,7 @@ void UW_ProfileMenu::NativeConstruct()
 
 void UW_ProfileMenu::Populate_AvailableAvatars()
 {
-	FPermissionListOwners MyOutRowNames;
+	TArray<FName> MyOutRowNames;
 	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Avatars, MyOutRowNames);
 
 	for (FName RowName : MyOutRowNames)

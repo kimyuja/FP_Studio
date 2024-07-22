@@ -163,6 +163,11 @@ void ASAModeBase::MultiRPC_SetClearInstance_Implementation()
     voteCount.Empty();
 }
 
+void ASAModeBase::ServerTravel_ToLobbyMap()
+{
+    GetWorld()->ServerTravel("/Game/RTY/LEVELS/LobbyMap");
+}
+
 void ASAModeBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);

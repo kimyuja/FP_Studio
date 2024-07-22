@@ -213,7 +213,7 @@ void UW_Character_Customization::Load_Available_Characters()
 {
 	AvailableCharacters_Wrapbox->ClearChildren();
 
-	FPermissionListOwners MyOutRowNames;
+	TArray<FName> MyOutRowNames;
 	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Characters, MyOutRowNames);
 
 	for (FName RowName : MyOutRowNames)
@@ -246,7 +246,7 @@ void UW_Character_Customization::Load_Available_Accessories()
 {
 	AvailableAccessoires_Wrapbox->ClearChildren();
 
-	FPermissionListOwners MyOutRowNames;
+	TArray<FName> MyOutRowNames;
 	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Accessories, MyOutRowNames);
 
 	for (FName RowName : MyOutRowNames)
@@ -287,7 +287,7 @@ void UW_Character_Customization::Load_Available_Skins()
 {
 	AvailableSkins_Wrapbox->ClearChildren();
 
-	FPermissionListOwners MyOutRowNames;
+	TArray<FName> MyOutRowNames;
 	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Skins, MyOutRowNames);
 
 	for (FName RowName : MyOutRowNames)
@@ -326,7 +326,7 @@ void UW_Character_Customization::Load_Available_Skins()
 
 void UW_Character_Customization::Load_Available_Eyes()
 {
-	FPermissionListOwners MyOutRowNames;
+	TArray<FName> MyOutRowNames;
 	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Eyes, MyOutRowNames);
 
 	for (FName RowName : MyOutRowNames)
@@ -367,7 +367,7 @@ void UW_Character_Customization::Load_Available_Top()
 {
 	AvailableClothes_Wrapbox->ClearChildren();
 
-	FPermissionListOwners MyOutRowNames;
+	TArray<FName> MyOutRowNames;
 	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Top, MyOutRowNames);
 
 	for (FName RowName : MyOutRowNames)
@@ -406,7 +406,7 @@ void UW_Character_Customization::Load_Available_Top()
 
 void UW_Character_Customization::Load_Available_Bottom()
 {
-	FPermissionListOwners MyOutRowNames;
+	TArray<FName> MyOutRowNames;
 	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Bottom, MyOutRowNames);
 
 	for (FName RowName : MyOutRowNames)
@@ -445,7 +445,7 @@ void UW_Character_Customization::Load_Available_Bottom()
 
 void UW_Character_Customization::Load_Available_Outer()
 {
-	FPermissionListOwners MyOutRowNames;
+	TArray<FName> MyOutRowNames;
 	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Outer, MyOutRowNames);
 
 	for (FName RowName : MyOutRowNames)
@@ -484,7 +484,7 @@ void UW_Character_Customization::Load_Available_Outer()
 
 void UW_Character_Customization::Load_Available_Dress()
 {
-	FPermissionListOwners MyOutRowNames;
+	TArray<FName> MyOutRowNames;
 	UDataTableFunctionLibrary::GetDataTableRowNames(DT_Available_Dress, MyOutRowNames);
 
 	for (FName RowName : MyOutRowNames)

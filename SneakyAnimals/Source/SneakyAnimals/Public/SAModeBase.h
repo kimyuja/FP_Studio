@@ -64,5 +64,8 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_SetClearInstance();
 
+	UFUNCTION(BlueprintCallable)
+	void ServerTravel_ToLobbyMap();
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
