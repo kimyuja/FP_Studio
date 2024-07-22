@@ -168,10 +168,12 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
 	class UItemObject* itemObject;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
+	class UMapCustomWidget* CustomMapWidget;
+
     UFUNCTION(BlueprintCallable, Category = "CreateWidget")
 	void CreateSelectedWidget();
 	//
-
 	UFUNCTION()
 	void OnRep_Current_SkeletalMesh();
 	
@@ -308,6 +310,12 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_ShowEmo(int32 _emoNum);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_SetGActorLoc(AActor* MoveObj, FVector GetLoc, int32 ActiveNum);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_SetGActorLoc(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

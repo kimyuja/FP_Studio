@@ -76,7 +76,7 @@ void UNewGridWidget::NativeConstruct()
 
 	if (playerCharacter)
 	{
-		ATestPlayer* myPlayer = Cast<ATestPlayer>(playerCharacter);
+		myPlayer = Cast<ATestPlayer>(playerCharacter);
 
 		if (myPlayer)
 		{
@@ -197,16 +197,9 @@ void UNewGridWidget::MousePositionInTile(FVector2D _MousePos)
 
 void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32 _ActiveType)
 {
-	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-
-	if (playerCharacter)
+	if (myPlayer)
 	{
-		ATestPlayer* myPlayer = Cast<ATestPlayer>(playerCharacter);
-
-		if (myPlayer)
-		{
-			itemComp = myPlayer->GetItemComponent();
-		}
+		itemComp = myPlayer->GetItemComponent();
 	}
 
 	if (_GimmickClass)

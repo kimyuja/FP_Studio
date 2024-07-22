@@ -261,8 +261,10 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void ATestPlayer::CreateSelectedWidget()
 {
-	UMapCustomWidget* CustomMapWidget = nullptr;
+	CustomMapWidget = nullptr;
 
+	CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_WitchHouseMap));
+	/*
 	switch(playerNum)
 	{
 	case 0:
@@ -280,7 +282,7 @@ void ATestPlayer::CreateSelectedWidget()
 	default:
 		break;
 	}
-
+	*/
 	if (CustomMapWidget)
 	{
 		CustomMapWidget->AddToViewport();
@@ -903,6 +905,16 @@ void ATestPlayer::ServerRPC_ShowEmo_Implementation(int32 emoNum)
 void ATestPlayer::MultiRPC_ShowEmo_Implementation(int32 _emoNum)
 {
 	Cast<UUserEmoticon>(emoticonUI->GetWidget())->ShowEmoticon(_emoNum - 1);
+}
+
+void ATestPlayer::ServerRPC_SetGActorLoc_Implementation(AActor* MoveObj, FVector GetLoc, int32 ActiveNum)
+{
+	MultiRPC_SetGActorLoc(MoveObj, GetLoc, ActiveNum);
+}
+
+void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum)
+{
+	
 }
 
 void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
