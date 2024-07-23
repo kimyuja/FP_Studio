@@ -7,6 +7,8 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "TestPlayer.h"
+#include "SP_RollingCart.h"
+#include "GI_SneakyAnimals.h"
 
 ASP_CartGimmick::ASP_CartGimmick()
 {
@@ -49,25 +51,26 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 
 	lerpTime += DeltaTime;
 
-	if (lerpTime > 1)
+	if (!cartTarget && lerpTime > 1)
 	{
 		lerpTime = 0;
 		
 	}
-	if (cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 10.0)
+	if ((cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 100.0)|| lerpTime > 3.0)
 	{
+		lerpTime = 0;
 		UE_LOG(LogTemp, Warning, TEXT(" Boom!!!!!!!!!!!"));
-		GetWorldTimerManager().PauseTimer(roadRollerT);
+		GetWorldTimerManager().ClearTimer(roadRollerT);
 		cartTarget->bIsDie = true;
 		cartTarget->Respawn();
 		cartTarget->DeathCounting();
-		Destroy();
+		Destroy(true);
 	}
 	if (Myactivetype == 2 && FVector::Dist(GetActorLocation(), FVector(0)) < 100.0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Go!!!!!!!!!!"));
-		GetWorldTimerManager().PauseTimer(doorT);
-		Destroy();
+		GetWorldTimerManager().ClearTimer(doorT);
+		Destroy(true);
 	}
 
 	if (bCanActive)
@@ -127,28 +130,14 @@ void ASP_CartGimmick::RoadRoller(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : RoadRoller"));
-	int32 ranNum = FMath::RandRange(0,3);
-	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
-	if (player)
+	GetWorld()->SpawnActor<ASP_RollingCart>(cart, GetActorLocation() + GetActorUpVector(), GetActorRotation());
+	Cast<UGI_SneakyAnimals>(GetGameInstance())->GetRandomplayer();
+	cartTarget = Cast<UGI_SneakyAnimals>(GetGameInstance())->ranPlayer;
+	for (TActorIterator<ASP_RollingCart> it(GetWorld()); it; ++it)
 	{
-		ranNum = FMath::RandRange(0, 3);
-		UE_LOG(LogTemp, Warning, TEXT("1"));
-		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-		{
-			if (it->playerNum == ranNum)
-			{
-				UE_LOG(LogTemp, Warning, TEXT("3"));
-				cartTarget = *it;
-				GetWorldTimerManager().SetTimer(roadRollerT, [&]()
-					{
-						FVector targetLoc = (cartTarget->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-						UE_LOG(LogTemp, Warning, TEXT("Go!"));
-						SetActorLocation(GetActorLocation() + targetLoc * 100.0);
-					}, 0.03f, true, 0);
-			}
-		}
-		lerpTime = 0;
+		it->target = cartTarget;
 	}
+	Destroy();
 }
 
 void ASP_CartGimmick::RollingCart()

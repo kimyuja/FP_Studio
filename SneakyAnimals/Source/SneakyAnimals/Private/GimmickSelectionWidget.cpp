@@ -12,6 +12,7 @@
 #include "WH_PotionGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
 #include "Gimmick.h"
+#include <MapCustomWidget.h>
 
 void UGimmickSelectionWidget::NativeConstruct()
 {
@@ -46,6 +47,12 @@ bool UGimmickSelectionWidget::Initialize()
 	return true;
 }
 
+void UGimmickSelectionWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	OnCustomMouseEnter.Broadcast(InGeometry, InMouseEvent);
+}
+
 void UGimmickSelectionWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
@@ -54,120 +61,85 @@ void UGimmickSelectionWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEve
 
 void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 {
-    UE_LOG(LogTemp, Warning, TEXT("GimmickBtn1 clicked"));
-	UE_LOG(LogTemp, Warning, TEXT("MY ITEM TYPE IS %d"), itemType);
+	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
 
-	switch (itemType)
-	{
-	case 0:
+	if (buttonName == "GActorBtn1")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 0);
-
-		break;
 	}
-	case 1:
+	else if (buttonName == "GActorBtn2")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 0);
-
-		break;
 	}
-	case 2:
+	else if (buttonName == "GActorBtn3")
 	{
 		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 0);
-
-		break;
 	}
-	case 3:
+	else if (buttonName == "GActorBtn4")
 	{
 		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 0);
-
-		break;
 	}
-	default:
-		UE_LOG(LogTemp, Warning, TEXT("MY ITEM TYPE IS %d"), itemType);
-
-		break;
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
 	}
 
 }
 
 void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 {
-    UE_LOG(LogTemp, Warning, TEXT("GimmickBtn2 clicked"));
-	UE_LOG(LogTemp, Warning, TEXT("MY ITEM TYPE IS %d"), itemType);
+	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
 
-	switch (itemType)
-	{
-	case 0:
+	if (buttonName == "GActorBtn1")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 1);
-
-		break;
 	}
-	case 1:
+	else if (buttonName == "GActorBtn2")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 1);
-
-		break;
 	}
-	case 2:
+	else if (buttonName == "GActorBtn3")
 	{
 		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 1);
-
-		break;
 	}
-	case 3:
+	else if (buttonName == "GActorBtn4")
 	{
 		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 1);
-
-		break;
 	}
-	default:
-		UE_LOG(LogTemp, Warning, TEXT("MY ITEM TYPE IS %d"), itemType);
-
-		break;
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
 	}
 }
 
 void UGimmickSelectionWidget::OnClearBtnClicked()
 {
-    UE_LOG(LogTemp, Warning, TEXT("ClearBtn clicked"));
-	UE_LOG(LogTemp, Warning, TEXT("MY ITEM TYPE IS %d"), itemType);
+	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
 
-	switch (itemType)
-	{
-	case 0:
+	if (buttonName == "GActorBtn1")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 2);
-
-		break;
 	}
-	case 1:
+	else if (buttonName == "GActorBtn2")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 2);
-
-		break;
 	}
-	case 2:
+	else if (buttonName == "GActorBtn3")
 	{
 		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 2);
-
-		break;
 	}
-	case 3:
+	else if (buttonName == "GActorBtn4")
 	{
 		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 2);
-
-		break;
 	}
-	default:
-		UE_LOG(LogTemp, Warning, TEXT("MY ITEM TYPE IS %d"), itemType);
-
-		break;
+	else
+	{	
+		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
 	}
+
 }
 
-void UGimmickSelectionWidget::BindItemType(int32 _BtnItemType)
+void UGimmickSelectionWidget::BindBtnWithActiveType(FName _BtnName)
 {
-    itemType = _BtnItemType;
+	buttonName = _BtnName;
 }
