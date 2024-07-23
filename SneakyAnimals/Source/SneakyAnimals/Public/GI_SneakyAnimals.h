@@ -95,7 +95,7 @@ public:
 //--------------------
 private:
 	TMap<FString, int32> UserIndexMap;
-	/*void LoadUserIndexMap();
-	void SaveUserIndexMap();*/
+	void LoadUserIndexMap();
+	void SaveUserIndexMap();
 
 };
