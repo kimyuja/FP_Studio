@@ -58,24 +58,18 @@ void APS_Base::Load_Player_UserProfile()
 	FUserProfileResult result = UFL_General::Get_UserProfile();
 
 	// KYJ Test
-	if (HasAuthority())
-	{
-		// 인덱스 0번 세이브 게임
-		// json 파일에서, 0번 인덱스는 무조건 서버여야 함(유저네임 주의, 아예 없앤 상태로 시작하는 게 베스트)
+	// 인덱스 0번 세이브 게임
+	// json 파일에서, 0번 인덱스는 무조건 서버여야 함(유저네임 주의, 아예 없앤 상태로 시작하는 게 베스트)
 
-	} 
-	else
-	{
-		// result에 있는 값을 유니크 인덱스인 세이브 게임에 다시 저장함
-		// 다시 저장하는 걸 server rpc로 하면 서버에서도 클라이언트의 세이브 게임이 보임! (유니크 인덱스로 접근)
-		// 게임 맵으로 이동 후 FUserProfileResult result = UFL_General::Get_UserProfile(); 0번 인덱스
-		// 0번 인덱스에 클라이언트 본인의 유저 네임이 있으니 그걸로 json 에서 유니크 인덱스 찾은 다음 appearance 입히면 됨
-		int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
-		ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
-		UE_LOG(LogTemp, Warning, TEXT("SaveGame_Player_UserProfile %s idx: %d"), *result.S_UserProfile.Username.ToString(), idx);
+	// result에 있는 값을 유니크 인덱스인 세이브 게임에 다시 저장함
+	// 다시 저장하는 걸 server rpc로 하면 서버에서도 클라이언트의 세이브 게임이 보임! (유니크 인덱스로 접근)
+	// 게임 맵으로 이동 후 FUserProfileResult result = UFL_General::Get_UserProfile(); 0번 인덱스
+	// 0번 인덱스에 클라이언트 본인의 유저 네임이 있으니 그걸로 json 에서 유니크 인덱스 찾은 다음 appearance 입히면 됨
+	int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
+	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
+	UE_LOG(LogTemp, Warning, TEXT("SaveGame_Player_UserProfile %s idx: %d"), *result.S_UserProfile.Username.ToString(), idx);
 
-		result = UFL_General::Get_UserProfile_with_idx(idx);
-	}
+	result = UFL_General::Get_UserProfile_with_idx(idx);
 
 	if (result.success)
 	{
