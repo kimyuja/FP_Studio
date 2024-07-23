@@ -118,10 +118,6 @@ void AGS_Lobby::Update_ServerName()
 void AGS_Lobby::Update_ConnectedPlayers_Array()
 {
 	TArray<FStructure_ConnectedPlayer> Local_ConnectedPlayers;
-	// KYJ Å×½ºÆ®
-	FTimerHandle t;
-	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-		}, 10.0f, false);
 
 	int32 idx = 0;
 	for (APlayerState* ps : PlayerArray)

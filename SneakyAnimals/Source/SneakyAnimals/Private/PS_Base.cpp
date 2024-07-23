@@ -55,6 +55,9 @@ void APS_Base::Load_Player_UserProfile()
 	FUserProfileResult result = UFL_General::Get_UserProfile();
 	if (result.success)
 	{
+		// KYJ TEST
+		Player_UserProfile = result.S_UserProfile;
+
 		ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
 		UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
 		return;
