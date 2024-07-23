@@ -85,7 +85,7 @@ FUserProfileResult UFL_General::Get_UserProfile(const UObject* WorldContextObjec
 	if (UGameplayStatics::DoesSaveGameExist(TEXT("UserProfile_Slot"), UserIndex))
 	{
 		// UserProfile_Slot 이 있으면 S_UserProfile과 bool success = true 리턴하기
-		USG_UserProfile* sg = Cast<USG_UserProfile>(UGameplayStatics::LoadGameFromSlot(TEXT("UserProfile_Slot"), GameInstance->GetUserIndex(GameInstance->MyName.ToString())));
+		USG_UserProfile* sg = Cast<USG_UserProfile>(UGameplayStatics::LoadGameFromSlot(TEXT("UserProfile_Slot"), UserIndex));
 		if (sg)
 		{
 			result.S_UserProfile = sg->S_UserProfile;

@@ -46,6 +46,8 @@ int32 UGI_SneakyAnimals::GetUserIndex(const FString& UserName)
 		UserIndexMap.Add(UserName, NewIndex);
 		SaveUserIndexMap();
 	}
+	MyName = FText::FromString(UserName);
+	UE_LOG(LogTemp, Warning, TEXT("Get User Index UserName : %s"), *UserName);
 	return UserIndexMap[UserName];
 }
 
