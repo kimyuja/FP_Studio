@@ -23,6 +23,11 @@
 #include <../../../../../../../Source/Runtime/CoreUObject/Public/UObject/UObjectBaseUtility.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Widget.h>
 #include <../../../../../../../Source/Runtime/Core/Public/Math/MathFwd.h>
+#include "Components/TextBlock.h"
+#include "Components/ProgressBar.h"
+#include "TimerManager.h"
+#include "GameFramework/PlayerController.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 
 bool UMapCustomWidget::Initialize()
 {
@@ -40,6 +45,8 @@ bool UMapCustomWidget::Initialize()
 void UMapCustomWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	
+	StartTimer();
 
 	bIsMouseInsideWidget = false;
 	bIsMouseInsideButton = false;
@@ -254,6 +261,87 @@ void UMapCustomWidget::OnSelectionWidgetMouseLeave(const FPointerEvent& InMouseE
 void UMapCustomWidget::OnSelectionWidgetMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
 {
 	bIsMouseInsideWidget = true;
+}
+
+void UMapCustomWidget::StartTimer()
+{
+	GetWorld()->GetTimerManager().SetTimer(CountdownTimerHandle, this, &UMapCustomWidget::UpdateTimer, 1.0f, true);
+
+	if (min)
+	{
+		min->SetText(GetFormattedMinutes());
+	}
+	if (sec)
+	{
+		sec->SetText(GetFormattedSeconds());
+	}
+	if (timerProgressBar)
+	{
+		timerProgressBar->SetPercent(GetProgressBarPercent());
+	}
+}
+
+void UMapCustomWidget::UpdateTimer()
+{
+	if (timeRemaining > 0)
+	{
+		timeRemaining--;
+		UE_LOG(LogTemp, Warning, TEXT("Time remaining: %d"), timeRemaining);
+
+		if (min)
+		{
+			min->SetText(GetFormattedMinutes());
+		}
+		if (sec)
+		{
+			sec->SetText(GetFormattedSeconds());
+		}
+		if (timerProgressBar)
+		{
+			timerProgressBar->SetPercent(GetProgressBarPercent());
+		}
+	}
+	else
+	{
+		TimerFinished();
+	}
+}
+
+void UMapCustomWidget::TimerFinished()
+{
+	GetWorld()->GetTimerManager().ClearTimer(CountdownTimerHandle);
+
+	RemoveFromParent();
+
+	APlayerController* pc = GetWorld()->GetFirstPlayerController();
+	if (pc)
+	{
+		// 입력 모드를 게임 전용으로 설정
+		UWidgetBlueprintLibrary::SetInputMode_GameOnly(pc);
+
+		// 마우스 커서 표시 비활성화
+		pc->bShowMouseCursor = false;
+	}
+
+}
+
+FText UMapCustomWidget::GetFormattedMinutes()
+{
+	int32 minutes = timeRemaining / 60;
+	// return FText::AsNumber(minutes);
+	return FText::FromString(FString::Printf(TEXT("%02d"), minutes));
+}
+
+FText UMapCustomWidget::GetFormattedSeconds()
+{
+	int32 seconds = timeRemaining % 60;
+	// return FText::AsNumber(seconds);
+	return FText::FromString(FString::Printf(TEXT("%02d"), seconds));
+}
+
+float UMapCustomWidget::GetProgressBarPercent()
+{
+	return (float)(timeRemaining) / 100.f;
 }
 
 void UMapCustomWidget::OnButtonUnhovered()

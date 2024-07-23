@@ -43,7 +43,13 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UButton* GActorBtn4;
 
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class UTextBlock* min;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class UTextBlock* sec;
 
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class UProgressBar* timerProgressBar;
 
 public:
 
@@ -94,4 +100,26 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsMouseInsideButton;
 
+
+	UFUNCTION(BlueprintCallable, Category = "Timer")
+	void StartTimer();
+
+	UFUNCTION(BlueprintCallable, Category = "Timer")
+	void UpdateTimer();
+
+	UFUNCTION(BlueprintCallable, Category = "Timer")
+	void TimerFinished();
+
+	UFUNCTION(BlueprintCallable, Category = "Timer")
+	FText GetFormattedMinutes();
+	UFUNCTION(BlueprintCallable, Category = "Timer")
+	FText GetFormattedSeconds();
+
+	UFUNCTION(BlueprintCallable, Category = "Timer")
+	float GetProgressBarPercent();
+
+	FTimerHandle CountdownTimerHandle;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	int32 timeRemaining = 100;
 };
