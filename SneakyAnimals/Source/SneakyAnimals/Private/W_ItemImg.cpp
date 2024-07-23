@@ -39,7 +39,7 @@ void UW_ItemImg::NativeConstruct()
 
 	GetWorld()->GetTimerManager().SetTimer(timerHandle, this, &UW_ItemImg::Refresh, 0.2f, false);
 
-	UW_ItemSlot* itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
+	/*UW_ItemSlot* itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);*/
 	// itemObject = itemSlotW->itemObject;
 
 	gridWidget = CreateWidget<UNewGridWidget>(GetWorld(), newGridWidget);

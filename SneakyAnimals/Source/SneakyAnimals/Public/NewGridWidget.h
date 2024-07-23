@@ -81,8 +81,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "DragDrop")
 	FSlateBrush boxBrush;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	class UW_ItemSlot* itemSlotW;
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	class UW_ItemSlot* itemSlotW;*/
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "DragDrop")
 	float levelTileSize = 260.f;

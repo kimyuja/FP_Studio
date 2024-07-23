@@ -10,7 +10,9 @@
  * 
  */
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMouseLeaveEvent, const FPointerEvent&, InMouseEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCustomMouseLeaveEvent, const FPointerEvent&, InMouseEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCustomMouseEnterEvent, const FGeometry&, MyGeometry, const FPointerEvent&, InMouseEvent);
+
 
 UCLASS()
 class SNEAKYANIMALS_API UGimmickSelectionWidget : public UUserWidget
@@ -21,9 +23,14 @@ protected:
 	virtual void NativeConstruct() override;
 	virtual bool Initialize() override;
 
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 
+
 public:
+
+	
+
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UButton* GimmickBtn1;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -32,7 +39,10 @@ public:
 	class UButton* ClearBtn;
 
 	UPROPERTY()
-	FOnMouseLeaveEvent OnCustomMouseLeave;
+	FOnCustomMouseLeaveEvent OnCustomMouseLeave;
+	UPROPERTY(BlueprintAssignable, Category = "Event")
+    FOnCustomMouseEnterEvent OnCustomMouseEnter;
+
 
 
 
@@ -56,7 +66,9 @@ public:
 	int32 itemType;
 
 	UFUNCTION(BlueprintCallable)
-	void BindItemType(int32 _BtnItemType);
+	void BindBtnWithActiveType(FName _BtnName);
 
+	UPROPERTY()
+	FName buttonName;
 
 };

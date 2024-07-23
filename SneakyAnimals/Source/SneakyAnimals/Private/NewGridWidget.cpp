@@ -109,7 +109,7 @@ void UNewGridWidget::NativeConstruct()
 
 	itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
 
-	itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
+	/*itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
 
 	if (!itemSlotW)
 	{
@@ -118,7 +118,7 @@ void UNewGridWidget::NativeConstruct()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("I HAVE ITEMSLOT WIDGET"));
-	}
+	}*/
 }
 
 void UNewGridWidget::OnItemRemoved(UItemObject* _ItemObject)
