@@ -124,6 +124,7 @@ void ASM_WhistleGimmick::IronSupplementation(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
+		player->bIsDie = true;
 		player->Respawn();
 		player->DeathCounting();
 	}

@@ -918,41 +918,41 @@ void ATestPlayer::ServerRPC_SetGActorLoc_Implementation(AActor* MoveObj, FVector
 void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum)
 {
 	_MoveObj->SetActorLocation(_GetLoc);
-	if (Cast<AWH_BookshelfGimmick>(this))
+	if (Cast<AWH_BookshelfGimmick>(_MoveObj))
 	{
-		Cast<AWH_BookshelfGimmick>(this)->Myactivetype = _ActiveNum;
+		Cast<AWH_BookshelfGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<AWH_WitchCauldronGimmick>(this))
+	else if (Cast<AWH_WitchCauldronGimmick>(_MoveObj))
 	{
-		Cast<AWH_WitchCauldronGimmick>(this)->Myactivetype = _ActiveNum;
+		Cast<AWH_WitchCauldronGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<AWH_BroomstickGimmick>(this))
+	else if (Cast<AWH_BroomstickGimmick>(_MoveObj))
 	{
-		Cast<AWH_BroomstickGimmick>(this)->Myactivetype = _ActiveNum;
+		Cast<AWH_BroomstickGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<AWH_PotionGimmick>(this))
+	else if (Cast<AWH_PotionGimmick>(_MoveObj))
 	{
-		Cast<AWH_PotionGimmick>(this)->Myactivetype = _ActiveNum;
+		Cast<AWH_PotionGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<ASM_PeriscopeGimmick>(this))
+	else if (Cast<ASM_PeriscopeGimmick>(_MoveObj))
 	{
-		Cast<ASM_PeriscopeGimmick>(this)->Myactivetype = _ActiveNum;
+		Cast<ASM_PeriscopeGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<ASM_PressButtonGimmick>(this))
+	else if (Cast<ASM_PressButtonGimmick>(_MoveObj))
 	{
-		Cast<ASM_PressButtonGimmick>(this)->Myactivetype = _ActiveNum;
+		Cast<ASM_PressButtonGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<ASM_ComputerGimmick>(this))
+	else if (Cast<ASM_ComputerGimmick>(_MoveObj))
 	{
-		Cast<ASM_ComputerGimmick>(this)->Myactivetype = _ActiveNum;
+		Cast<ASM_ComputerGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<ASM_WhistleGimmick>(this))
+	else if (Cast<ASM_WhistleGimmick>(_MoveObj))
 	{
-		Cast<ASM_WhistleGimmick>(this)->Myactivetype = _ActiveNum;
+		Cast<ASM_WhistleGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<ASP_CartGimmick>(this))
+	else if (Cast<ASP_CartGimmick>(_MoveObj))
 	{
-		Cast<ASP_CartGimmick>(this)->Myactivetype = _ActiveNum;
+		Cast<ASP_CartGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
 }
 

@@ -54,15 +54,18 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 		lerpTime = 0;
 		
 	}
-	if (cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 100.0)
+	if (cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 10.0)
 	{
+		UE_LOG(LogTemp, Warning, TEXT(" Boom!!!!!!!!!!!"));
 		GetWorldTimerManager().PauseTimer(roadRollerT);
+		cartTarget->bIsDie = true;
 		cartTarget->Respawn();
 		cartTarget->DeathCounting();
 		Destroy();
 	}
 	if (Myactivetype == 2 && FVector::Dist(GetActorLocation(), FVector(0)) < 100.0)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Go!!!!!!!!!!"));
 		GetWorldTimerManager().PauseTimer(doorT);
 		Destroy();
 	}
@@ -114,6 +117,7 @@ void ASP_CartGimmick::Defective(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
+		player->bIsDie = true;
 		player->Respawn();
 		player->DeathCounting();
 	}
@@ -127,14 +131,13 @@ void ASP_CartGimmick::RoadRoller(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
-		while (ranNum == player->playerNum)
-		{
-			ranNum = FMath::RandRange(0, 3);
-		}
+		ranNum = FMath::RandRange(0, 3);
+		UE_LOG(LogTemp, Warning, TEXT("1"));
 		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 		{
 			if (it->playerNum == ranNum)
 			{
+				UE_LOG(LogTemp, Warning, TEXT("3"));
 				cartTarget = *it;
 				GetWorldTimerManager().SetTimer(roadRollerT, [&]()
 					{
