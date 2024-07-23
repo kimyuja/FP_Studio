@@ -27,7 +27,7 @@ public:
 
 	virtual void Init() override;
 
-	int32 GetUserIndex(const FString& UserName);
+	//int32 GetUserIndex(const FString& UserName);
 
 	// new version(net tps gs)
 	UPROPERTY(BlueprintReadOnly, Category = "Session")
@@ -84,8 +84,8 @@ public:
 	FText MyName;
 
 private:
-	TMap<FString, int32> UserIndexMap;
-	void LoadUserIndexMap();
-	void SaveUserIndexMap();
+	//TMap<FString, int32> UserIndexMap;
+	//void LoadUserIndexMap();
+	//void SaveUserIndexMap();
 
 };
