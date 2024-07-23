@@ -45,10 +45,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector activeRange;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSubclassOf<AActor> cart;
+
 private:
 
 	float lerpTime;
-
+	
 	FTimerHandle roadRollerT;
 	FTimerHandle doorT;
 

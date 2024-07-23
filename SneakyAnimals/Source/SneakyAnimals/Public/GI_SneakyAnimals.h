@@ -83,9 +83,19 @@ public:
 
 	FText MyName;
 
+//--------------------
+	
+	UFUNCTION()
+	void GetRandomplayer();
+
+	class ATestPlayer* ranPlayer;
+
+	TArray<class ATestPlayer*> players;
+
+//--------------------
 private:
 	TMap<FString, int32> UserIndexMap;
-	void LoadUserIndexMap();
-	void SaveUserIndexMap();
+	/*void LoadUserIndexMap();
+	void SaveUserIndexMap();*/
 
 };

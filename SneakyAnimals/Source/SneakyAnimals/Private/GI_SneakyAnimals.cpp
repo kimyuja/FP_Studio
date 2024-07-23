@@ -10,6 +10,8 @@
 #include <DataStructure.h>
 #include <string>
 #include "FL_General.h"
+#include "TestPlayer.h"
+#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 
 //// JSON 관련 헤더 파일 포함
 //#include "Dom/JsonObject.h"
@@ -200,6 +202,20 @@ FString UGI_SneakyAnimals::StringBase64Decode(const FString& str)
 	std::string ut8String((char*)(arrayData.GetData()), arrayData.Num());
 	return UTF8_TO_TCHAR(ut8String.c_str());
 }
+
+void UGI_SneakyAnimals::GetRandomplayer()
+{
+	if (!ranPlayer)
+	{
+		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+		{
+			players.Add(*it);
+		}
+		int32 ranNum = FMath::RandRange(0, players.Num() - 1);
+		ranPlayer = players[ranNum];
+	}
+}
+
 //
 //void UGI_SneakyAnimals::LoadUserIndexMap()
 //{
