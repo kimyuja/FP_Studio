@@ -133,6 +133,7 @@ void AGS_Lobby::Update_ConnectedPlayers_Array()
 			FStructure_ConnectedPlayer Local_ConnectedPlayer;
 			Local_ConnectedPlayer.S_PlayerConnectionInfo = Local_PlayerConnectionInfo;
 			Local_ConnectedPlayer.S_UserProfile = ps_base->Player_UserProfile;
+			UE_LOG(LogTemp, Warning, TEXT("player array user name :  %s"), *ps_base->Player_UserProfile.Username.ToString());
 			Local_ConnectedPlayer.S_Player_Appearance = ps_base->Player_Appearance;
 
 			Local_ConnectedPlayers.Add(Local_ConnectedPlayer);
