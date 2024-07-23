@@ -44,6 +44,19 @@ public:
 	static FSessionInfo Get_SessionInfo(UObject* WorldContextObject);
 	
 
+	// KYJ Test
+	UFUNCTION(BlueprintCallable, Category = "Save Game")
+	static bool Save_UserProfile_with_idx(int32 uniqueIdx, const FStructure_UserProfile& S_UserData);
+
+	UFUNCTION(BlueprintCallable, Category = "Save Game")
+	static FUserProfileResult Get_UserProfile_with_idx(int32 uniqueIdx);
+
+	//UFUNCTION(BlueprintCallable, Category = "Save Game")
+	//static bool Save_Player_Appearance(int32 uniqueIdx, FStructure_Player_Appearance S_Player_Appearance);
+	//
+	//UFUNCTION(BlueprintCallable, Category = "Save Game")
+	//static FStructure_Player_Appearance_Result Get_Player_Appearance(int32 uniqueIdx);
+
 private:
     static TSubclassOf<UUserWidget> WB_LoadingScreen_bp;
 	static TSubclassOf<UUserWidget> WB_PopUp_bp;

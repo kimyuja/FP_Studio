@@ -67,6 +67,10 @@ public:
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_Update_Player_ConnectionInfo(const FStructure_PlayerConnectionInfo _Player_ConnectionInfo);
 
+	// KYJ Test
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_SaveGame_Player_UserProfile(int32 uniqueIdx, const FStructure_UserProfile _Player_UserProfile);
+
 	UFUNCTION(Client, Reliable)
     virtual void ClientRPC_Init();
 
