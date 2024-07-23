@@ -9,7 +9,6 @@
 
 void APS_Base::ServerRPC_Update_Player_Appearance_Implementation(const FStructure_Player_Appearance _Player_Appearance)
 {
-	// Call OnRep_Player_Appearance
 	Player_Appearance = _Player_Appearance;
 	// 클라이언트 뿐만 아니라 서버에서도 OnRep 호출하려면 아래처럼 수동으로 호출해줘야한다.
 	OnRep_Player_Appearance();
@@ -18,21 +17,17 @@ void APS_Base::ServerRPC_Update_Player_Appearance_Implementation(const FStructur
 void APS_Base::ServerRPC_Update_Player_UserProfile_Implementation(const FStructure_UserProfile _Player_UserProfile)
 {
 	// 만약 여기서 에러나면 if (HasAuthority()) 붙이기
-	if (HasAuthority())
-	{
-		Player_UserProfile = _Player_UserProfile;
-		OnRep_Player_UserProfile();
-	}
+	Player_UserProfile = _Player_UserProfile;
+	OnRep_Player_UserProfile();
+
 }
 
 void APS_Base::ServerRPC_Update_Player_ConnectionInfo_Implementation(const FStructure_PlayerConnectionInfo _Player_ConnectionInfo)
 {
 	// 만약 여기서 에러나면 if (HasAuthority()) 붙이기
-	if (HasAuthority())
-	{
-		Player_ConnectionInfo = _Player_ConnectionInfo;
-		OnRep_Player_ConnectionInfo();
-	}
+	Player_ConnectionInfo = _Player_ConnectionInfo;
+	OnRep_Player_ConnectionInfo();
+
 }
 
 void APS_Base::ClientRPC_Init_Implementation()

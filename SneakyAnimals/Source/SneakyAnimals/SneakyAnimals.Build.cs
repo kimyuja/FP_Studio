@@ -10,6 +10,6 @@ public class SneakyAnimals : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "Slate", "SlateCore", "UMG", "OnlineSubsystem", "OnlineSubsystemSteam", "NetCore", "AIModule", "GameplayTasks" });
 
-
+        PrivateDependencyModuleNames.AddRange(new string[] { "Json", "JsonUtilities" });
     }
 }
