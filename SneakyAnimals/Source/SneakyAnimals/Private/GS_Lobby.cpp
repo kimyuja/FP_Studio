@@ -119,6 +119,8 @@ void AGS_Lobby::Update_ConnectedPlayers_Array()
 {
 	TArray<FStructure_ConnectedPlayer> Local_ConnectedPlayers;
 
+	// KYJ Test : player state 먼저 실행 후 player list 업데이트 하라고 delegate 칠 것
+
 	int32 idx = 0;
 	for (APlayerState* ps : PlayerArray)
 	{

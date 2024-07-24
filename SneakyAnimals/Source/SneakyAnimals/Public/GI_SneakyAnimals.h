@@ -24,7 +24,7 @@ class SNEAKYANIMALS_API UGI_SneakyAnimals : public UGameInstance
 	GENERATED_BODY()
 
 public:
-
+	virtual void Shutdown() override;
 	virtual void Init() override;
 
 	int32 GetUserIndex(const FString& UserName);
@@ -97,5 +97,6 @@ private:
 	TMap<FString, int32> UserIndexMap;
 	void LoadUserIndexMap();
 	void SaveUserIndexMap();
+	void InitializeUserIndexJson();
 
 };

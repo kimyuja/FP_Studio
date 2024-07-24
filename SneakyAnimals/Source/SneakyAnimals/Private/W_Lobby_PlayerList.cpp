@@ -27,17 +27,6 @@ void UW_Lobby_PlayerList::Update_Widget(TArray<FStructure_ConnectedPlayer> _Conn
 
 void UW_Lobby_PlayerList::Update_PlayerList()
 {
-	//PlayerList->ClearChildren();
-	//
-	//// Populates Player List with players
-	//for (FStructure_ConnectedPlayer p : Connected_Players)
-	//{
-	//	Lobby_PlayerList_Item_inst = CreateWidget<UW_Lobby_PlayerList_Item>(this, Lobby_PlayerList_Item_bp, FName("WB_Lobby_PlayerList_Item"));
-	//	Lobby_PlayerList_Item_inst->ConnectedPlayer = p;
-	//	//UE_LOG(LogTemp, Warning, TEXT("connected player info : %s"), *p.S_UserProfile.Username.ToString()); // 이거 다 잘 나옴
-	//	PlayerList->AddChild(Lobby_PlayerList_Item_inst);
-	//}
-
     if (!PlayerList)
     {
         UE_LOG(LogTemp, Error, TEXT("PlayerList is not valid!"));
@@ -70,7 +59,6 @@ void UW_Lobby_PlayerList::Update_PlayerList()
         }
 
         Lobby_PlayerList_Item_inst->ConnectedPlayer = p;
-        // UE_LOG(LogTemp, Warning, TEXT("connected player info : %s"), *p.S_UserProfile.Username.ToString()); // 이거 다 잘 나옴
 
         Lobby_PlayerList_Item_inst->SetVisibility(ESlateVisibility::Visible);
         PlayerList->AddChild(Lobby_PlayerList_Item_inst);

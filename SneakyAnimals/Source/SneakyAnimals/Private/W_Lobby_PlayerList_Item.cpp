@@ -89,8 +89,12 @@ void UW_Lobby_PlayerList_Item::Set_KickButton()
 void UW_Lobby_PlayerList_Item::KickPlayer()
 {
 	Cast<AGM_Base>(UGameplayStatics::GetGameMode(GetWorld()))->KickPlayer(ConnectedPlayer.S_PlayerConnectionInfo.PlayerID);
-	FTimerHandle t;
-	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-		Cast<AGS_Lobby>(UGameplayStatics::GetGameState(this))->Update_ConnectedPlayers_Array();
-		}, 2.0f, false);
+
+	//FTimerHandle t;
+	//GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+	//	Cast<AGS_Lobby>(UGameplayStatics::GetGameState(this))->Update_ConnectedPlayers_Array();
+	//	}, 4.0f, false);
+
+	// KYJ: Kick 하고 나서 Playerlist 가 제대로 설정된 후에 다시 업데이트 하도록
+	Cast<AGS_Lobby>(UGameplayStatics::GetGameState(this))->Update_ConnectedPlayers_Array();
 }

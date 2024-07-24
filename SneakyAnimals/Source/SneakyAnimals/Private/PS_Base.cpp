@@ -69,12 +69,30 @@ void APS_Base::Load_Player_UserProfile()
 	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
 	UE_LOG(LogTemp, Warning, TEXT("SaveGame_Player_UserProfile %s idx: %d"), *result.S_UserProfile.Username.ToString(), idx);
 
-	result = UFL_General::Get_UserProfile_with_idx(idx);
+	// 두 명 이상 들어왔는데 idx를 서버 것만 불러온다면...
+	if (idx == 0 && GetWorld()->GetGameState()->PlayerArray.Num()>1)
+	{
+		// 다시 해 idx 0 아닐 때 까지
+		FTimerHandle t;
+		GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+			APS_Base::Load_Player_UserProfile();
+			return;
+			}, 1.0f, false);
+	} 
+	if (HasAuthority())
+	{
+		// 서버면 인덱스 0 가져와
+	} 
+	else
+	{
+		// 클라이언트면 고유 인덱스로 가져와
+		result = UFL_General::Get_UserProfile_with_idx(idx);
+	}
 
 	if (result.success)
 	{
-		ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
 		UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
+		ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
 		return;
 	}
 	else

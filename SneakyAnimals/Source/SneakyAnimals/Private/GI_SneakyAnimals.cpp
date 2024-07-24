@@ -18,6 +18,13 @@
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
 
+void UGI_SneakyAnimals::Shutdown()
+{
+	Super::Shutdown();
+
+	InitializeUserIndexJson();
+}
+
 void UGI_SneakyAnimals::Init()
 {
 	Super::Init();
@@ -252,6 +259,16 @@ void UGI_SneakyAnimals::SaveUserIndexMap()
 	FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer);
 
 	FFileHelper::SaveStringToFile(JsonString, *FilePath);
+}
+
+void UGI_SneakyAnimals::InitializeUserIndexJson()
+{
+	FString ProjectDir = FPaths::ProjectDir();
+	FString FilePath = ProjectDir / TEXT("UserIndex.json");
+
+	FString DefaultContent = TEXT("{}"); // 기본 초기화 내용
+
+	FFileHelper::SaveStringToFile(DefaultContent, *FilePath);
 }
 
 void UGI_SneakyAnimals::CreateSession(FString roomName, int32 playerCount)
