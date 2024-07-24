@@ -47,6 +47,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UProgressBar* timerProgressBar;
 
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	class UGimmickSelectionWidget* gimmickSelectionWidget;
+
 public:
 		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -61,6 +64,9 @@ public:
 	void BindButtonEvent();
 	
 	UFUNCTION()
+	void OnButtonClicked();
+
+	UFUNCTION()
 	void OnButtonHovered();
 
 	UFUNCTION()
@@ -69,9 +75,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> GimmickSelectionWidgetClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UGimmickSelectionWidget* gimmickSelectionWidget;
-	
+	*/
 	UFUNCTION()
 	void OnSelectionWidgetMouseLeave(const FPointerEvent& InMouseEvent);UFUNCTION()
     void OnSelectionWidgetMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent);
@@ -104,4 +110,24 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	int32 timeRemaining = 60;
+
+	UFUNCTION()
+    void OnGActorBtn1Clicked();
+
+    UFUNCTION()
+    void OnGActorBtn2Clicked();
+
+    UFUNCTION()
+    void OnGActorBtn3Clicked();
+
+    UFUNCTION()
+    void OnGActorBtn4Clicked();
+
+	void HandleButtonClicked(UButton* _ClickedButton, FVector2D _GSWPos);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector2D gswPos;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UCanvasPanelSlot* canvasSlot;
 };
