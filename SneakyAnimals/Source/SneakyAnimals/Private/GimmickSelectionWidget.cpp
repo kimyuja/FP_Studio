@@ -17,8 +17,6 @@
 void UGimmickSelectionWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	// bIsFocusable = true; // 포커스를 받을 수 있도록 설정
-
 
 	gridWidget = CreateWidget<UNewGridWidget>(GetWorld(), newGridWidget);
 
@@ -63,6 +61,8 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
 
+	SetVisibility(ESlateVisibility::Collapsed);
+
 	if (buttonName == "GActorBtn1")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 0);
@@ -90,6 +90,8 @@ void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
 
+	SetVisibility(ESlateVisibility::Collapsed);
+
 	if (buttonName == "GActorBtn1")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 1);
@@ -115,6 +117,8 @@ void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 void UGimmickSelectionWidget::OnClearBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
+
+	SetVisibility(ESlateVisibility::Collapsed);
 
 	if (buttonName == "GActorBtn1")
 	{
@@ -142,4 +146,6 @@ void UGimmickSelectionWidget::OnClearBtnClicked()
 void UGimmickSelectionWidget::BindBtnWithActiveType(FName _BtnName)
 {
 	buttonName = _BtnName;
+
+	UE_LOG(LogTemp, Warning, TEXT("!!! MY BUTTON NAME IS %s"), *buttonName.ToString());
 }

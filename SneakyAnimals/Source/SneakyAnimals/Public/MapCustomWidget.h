@@ -58,31 +58,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UItemObject* DraggedItem;
 
-	FReply OnBackgroundBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent);
-
-	UFUNCTION()
-	void BindButtonEvent();
-	
-	UFUNCTION()
-	void OnButtonClicked();
-
-	UFUNCTION()
-	void OnButtonHovered();
-
-	UFUNCTION()
-    void OnButtonUnhovered();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> GimmickSelectionWidgetClass;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UGimmickSelectionWidget* gimmickSelectionWidget;
-	*/
-	UFUNCTION()
-	void OnSelectionWidgetMouseLeave(const FPointerEvent& InMouseEvent);UFUNCTION()
-    void OnSelectionWidgetMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent);
-
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsMouseInsideWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -130,4 +109,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UCanvasPanelSlot* canvasSlot;
+
+	
+    UFUNCTION()
+    void SetGSWBasicPos();
 };
