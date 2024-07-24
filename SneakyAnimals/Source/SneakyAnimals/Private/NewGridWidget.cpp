@@ -234,7 +234,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 				if (bookShelfActor)
 				{
 
-					bookShelfActor->activeType = _ActiveType;
+					bookShelfActor->Myactivetype = _ActiveType;
 
 					itemObject = bookShelfActor->GetDefaultItemObject();
 
@@ -269,7 +269,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 			for (AWH_BroomstickGimmick* broomStickActor : broomStickActorArr)
 			{
 
-				broomStickActor->activeType = _ActiveType;
+				broomStickActor->Myactivetype = _ActiveType;
 
 				itemObject = broomStickActor->GetDefaultItemObject();
 
@@ -288,7 +288,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 			for (AWH_PotionGimmick* potionActor : potionActorArr)
 			{
-				potionActor->activeType = _ActiveType;
+				potionActor->Myactivetype = _ActiveType;
 
 				itemObject = potionActor->GetDefaultItemObject();
 
@@ -306,7 +306,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 			for (AWH_WitchCauldronGimmick* cauldronActor : cauldronActorArr)
 			{
 				// cauldronActor->newItemObject->itemActiveType = _ActiveType;
-				cauldronActor->activeType = _ActiveType;
+				cauldronActor->Myactivetype = _ActiveType;
 
 				itemObject = cauldronActor->GetDefaultItemObject();
 
@@ -776,3 +776,4 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
+

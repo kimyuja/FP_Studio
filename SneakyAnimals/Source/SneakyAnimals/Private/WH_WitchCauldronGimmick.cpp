@@ -85,7 +85,7 @@ UItemObject* AWH_WitchCauldronGimmick::GetDefaultItemObject()
 		newItemObject->bRotated = false;*/
 		newItemObject->rotationAngle = 0.0f;
 		newItemObject->itemClass = AWH_WitchCauldronGimmick::StaticClass();
-		newItemObject->itemActiveType = activeType;
+		newItemObject->itemActiveType = Myactivetype;
 	}
 	return newItemObject;
 }

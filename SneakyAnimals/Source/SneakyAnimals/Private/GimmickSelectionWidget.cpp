@@ -60,6 +60,7 @@ void UGimmickSelectionWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEve
 void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("!!! GIMMICK1 BTN CLICK -> SET ACTIVENUM : 0"));
 
 	SetVisibility(ESlateVisibility::Collapsed);
 
@@ -89,6 +90,7 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("!!! GIMMICK2 BTN CLICK -> SET ACTIVENUM : 1"));
 
 	SetVisibility(ESlateVisibility::Collapsed);
 
@@ -117,6 +119,7 @@ void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 void UGimmickSelectionWidget::OnClearBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("!!! CLEAR BTN CLICK -> SET ACTIVENUM : 2"));
 
 	SetVisibility(ESlateVisibility::Collapsed);
 

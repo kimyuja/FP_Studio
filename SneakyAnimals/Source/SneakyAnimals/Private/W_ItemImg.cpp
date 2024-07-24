@@ -67,7 +67,6 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
 
-	UE_LOG(LogTemp, Warning, TEXT("!!! MY ACTIVETYPE NUM IS %d"), thisItemObject->itemActiveType);
 
 	UW_ItemImg* DragVisual = CreateWidget<UW_ItemImg>(GetWorld()->GetFirstPlayerController(), DragVisualClass);
 	
@@ -130,6 +129,7 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 			OutOperation = dragDropOperation;
 		}
 	}
+	UE_LOG(LogTemp, Warning, TEXT("!!! MY ACTIVETYPE NUM IS %d"), DragVisual->thisItemObject->itemActiveType);
 }
 
 // 마우스 누르면 드래그 감지
