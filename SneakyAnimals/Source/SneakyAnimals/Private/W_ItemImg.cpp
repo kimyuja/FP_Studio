@@ -9,7 +9,6 @@
 #include "ItemObject.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanelSlot.h>
 #include <Blueprint/WidgetLayoutLibrary.h>
-#include <W_ItemSlot.h>
 #include "NewGridWidget.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h>
 #include <../../../../../../../Source/Runtime/Core/Public/Delegates/Delegate.h>
@@ -23,7 +22,7 @@ bool UW_ItemImg::Initialize()
 {
 	Super::Initialize();
 
-	bIsFocusable = true;
+	// bIsFocusable = true;
 
 	return false;
 }
@@ -38,9 +37,6 @@ void UW_ItemImg::NativeConstruct()
 	}
 
 	GetWorld()->GetTimerManager().SetTimer(timerHandle, this, &UW_ItemImg::Refresh, 0.2f, false);
-
-	/*UW_ItemSlot* itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);*/
-	// itemObject = itemSlotW->itemObject;
 
 	gridWidget = CreateWidget<UNewGridWidget>(GetWorld(), newGridWidget);
 

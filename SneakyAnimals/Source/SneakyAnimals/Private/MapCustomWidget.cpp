@@ -4,7 +4,6 @@
 #include "MapCustomWidget.h"
 #include "W_CustomMap.h"
 #include "Components/TextBlock.h"
-#include "W_ItemSlot.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/UserWidget.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanel.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/CanvasPanelSlot.h>
@@ -341,7 +340,7 @@ FText UMapCustomWidget::GetFormattedSeconds()
 
 float UMapCustomWidget::GetProgressBarPercent()
 {
-	return (float)(timeRemaining) / 100.f;
+	return (float)(timeRemaining) / 60.f;
 }
 
 void UMapCustomWidget::OnButtonUnhovered()

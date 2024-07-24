@@ -17,7 +17,7 @@
 void UGimmickSelectionWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	bIsFocusable = true; // 포커스를 받을 수 있도록 설정
+	// bIsFocusable = true; // 포커스를 받을 수 있도록 설정
 
 
 	gridWidget = CreateWidget<UNewGridWidget>(GetWorld(), newGridWidget);
