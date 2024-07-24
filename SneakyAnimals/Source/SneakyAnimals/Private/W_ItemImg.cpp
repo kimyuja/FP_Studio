@@ -22,8 +22,6 @@ bool UW_ItemImg::Initialize()
 {
 	Super::Initialize();
 
-	// bIsFocusable = true;
-
 	return false;
 }
 

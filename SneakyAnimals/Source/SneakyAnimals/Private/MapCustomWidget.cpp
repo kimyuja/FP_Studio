@@ -64,7 +64,6 @@ void UMapCustomWidget::NativeConstruct()
 		return;
 	}
 
-	BindButtonEvent();
 
 	if (GActorBtn1)
 	{
@@ -91,7 +90,10 @@ void UMapCustomWidget::NativeConstruct()
 		canvasSlot = Cast<UCanvasPanelSlot>(gimmickSelectionWidget->Slot);
 	}
 
-	gswPos = canvasSlot->GetPosition();
+	if (canvasSlot)
+	{
+		gswPos = canvasSlot->GetPosition();
+	}
 
 }
 
@@ -130,189 +132,6 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 		return false;
 	}
 	return false;
-}
-
-//void UMapCustomWidget::InitializeItemSlots()
-//{
-//	// if(!itemSlotWidget) return;
-//
-//	UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(GetRootWidget());
-//
-//	for (int32 i = 0; i < 4; i++) 
-//	{
-//		UW_ItemSlot* newItemSlot = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidgetClass);
-//		
-//		if (newItemSlot)
-//		{
-//			newItemSlot->mapCustomWidget = this;
-//
-//			UCanvasPanelSlot* canvasSlot = rootCanvas->AddChildToCanvas(newItemSlot);
-//
-//			if (canvasSlot)
-//			{
-//				canvasSlot->SetAnchors(FAnchors(0.5f, 0.5f));
-//				canvasSlot->SetPosition(FVector2D(400.0f, -380.0f + i * 180.0f));
-//
-//
-//				itemSlotWidgets.Add(newItemSlot);
-//
-//
-//				switch (i)
-//				{
-//				case 0:
-//					newItemSlot->itemType = 0;
-//					break;
-//				case 1:
-//					newItemSlot->itemType = 1;
-//					break;
-//				case 2:
-//					newItemSlot->itemType = 2;
-//					break;
-//				case 3:
-//					newItemSlot->itemType = 3;
-//					break;
-//
-//				}
-//
-//				newItemSlot->InitializeItemSlot(i);
-//			}
-//		}
-//	}
-//
-//}
-
-
-FReply UMapCustomWidget::OnBackgroundBorderMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
-{
-	return FReply::Handled();
-}
-
-void UMapCustomWidget::BindButtonEvent()
-{
-	TArray<UButton*> Btns = { GActorBtn1, GActorBtn2, GActorBtn3, GActorBtn4 };
-
-	for (UButton* Btn : Btns)
-	{
-		if (Btn)
-		{
-			Btn->OnClicked.AddDynamic(this, &UMapCustomWidget::OnButtonClicked);
-			// Btn->OnHovered.AddDynamic(this, &UMapCustomWidget::OnButtonHovered);
-			// Btn->OnUnhovered.AddDynamic(this, &UMapCustomWidget::OnButtonUnhovered);
-			UE_LOG(LogTemp, Warning, TEXT("my btn name is %s"), *Btn->GetName());
-		}
-	}
-}
-
-void UMapCustomWidget::OnButtonClicked()
-{
-	UButton* ClickedButton = nullptr;
-
-	if (GActorBtn1->IsHovered())
-	{
-		ClickedButton = GActorBtn1;
-	}
-	else if (GActorBtn2->IsHovered())
-	{
-		ClickedButton = GActorBtn2;
-	}
-	else if (GActorBtn3->IsHovered())
-	{
-		ClickedButton = GActorBtn3;
-	}
-	else if (GActorBtn4->IsHovered())
-	{
-		ClickedButton = GActorBtn4;
-	}
-
-	if (!ClickedButton)
-	{
-		return;
-	}
-}
-
-void UMapCustomWidget::OnButtonHovered()
-{
-	//bIsMouseInsideButton = true;
-
-	//UButton* HoveredButton = nullptr;
-
-	//if (GActorBtn1->IsHovered())
-	//{
-	//	HoveredButton = GActorBtn1;
-	//}
-	//else if (GActorBtn2->IsHovered())
-	//{
-	//	HoveredButton = GActorBtn2;
-	//}
-	//else if (GActorBtn3->IsHovered())
-	//{
-	//	HoveredButton = GActorBtn3;
-	//}
-	//else if (GActorBtn4->IsHovered())
-	//{
-	//	HoveredButton = GActorBtn4;
-	//}
-
-	//if (!HoveredButton)
-	//{
-	//	return;
-	//}
-
-	//UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(GetRootWidget());
-
-	//gimmickSelectionWidget = CreateWidget<UGimmickSelectionWidget>(GetWorld(), GimmickSelectionWidgetClass);
-
-	//if (gimmickSelectionWidget)
-	//{
-	//	canvasSlot = rootCanvas->AddChildToCanvas(gimmickSelectionWidget);
-
-	//	if (canvasSlot)
-	//	{
-	//		FVector2D SelectWPosition = UWidgetLayoutLibrary::GetMousePositionOnViewport(GetWorld());
-
-	//		FVector2D ButtonPosition = HoveredButton->GetCachedGeometry().GetAbsolutePosition();
-
-	//		// canvasSlot->SetPosition(ButtonPosition + FVector2D(750.f, -200.f));
-	//		canvasSlot->SetPosition(ButtonPosition + FVector2D(100.f, -100.f));
-	//		canvasSlot->SetSize(FVector2D(350.f, 300.f));
-
-
-	//		UE_LOG(LogTemp, Warning, TEXT("gimmickSelectionWidget size: (%f, %f)"), canvasSlot->GetSize().X, canvasSlot->GetSize().Y);
-
-	//		gimmickSelectionWidget->BindBtnWithActiveType((FName)GetName());
-
-	//		gimmickSelectionWidget->OnCustomMouseEnter.AddDynamic(this, &UMapCustomWidget::OnSelectionWidgetMouseEnter);
-
-	//		// 위젯 내에서 마우스가 떠나는 이벤트 처리
-	//		gimmickSelectionWidget->OnCustomMouseLeave.AddDynamic(this, &UMapCustomWidget::OnSelectionWidgetMouseLeave);
-
-	//	}
-	//}
-	//else
-	//{
-	//	UE_LOG(LogTemp, Error, TEXT("Failed to create GimmickSelectionWidget"));
-	//}
-
-}
-
-void UMapCustomWidget::OnSelectionWidgetMouseLeave(const FPointerEvent& InMouseEvent)
-{
-	bIsMouseInsideWidget = false;
-
-	// 버튼과 위젯 모두에서 마우스가 벗어났을 때만 위젯 제거
-	if (!bIsMouseInsideButton)
-	{
-		if (gimmickSelectionWidget)
-		{
-			gimmickSelectionWidget->RemoveFromParent();
-			gimmickSelectionWidget = nullptr;
-		}
-	}
-}
-
-void UMapCustomWidget::OnSelectionWidgetMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
-{
-	bIsMouseInsideWidget = true;
 }
 
 void UMapCustomWidget::StartTimer()
@@ -380,14 +199,14 @@ void UMapCustomWidget::TimerFinished()
 FText UMapCustomWidget::GetFormattedMinutes()
 {
 	int32 minutes = timeRemaining / 60;
-	// return FText::AsNumber(minutes);
+
 	return FText::FromString(FString::Printf(TEXT("%02d"), minutes));
 }
 
 FText UMapCustomWidget::GetFormattedSeconds()
 {
 	int32 seconds = timeRemaining % 60;
-	// return FText::AsNumber(seconds);
+
 	return FText::FromString(FString::Printf(TEXT("%02d"), seconds));
 }
 
@@ -400,7 +219,8 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!"));
 
-	// gswPos = canvasSlot->GetPosition();
+	gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
+
 	HandleButtonClicked(GActorBtn1, gswPos);
 }
 
@@ -408,6 +228,7 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn2 Clicked!"));
 
+	gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
 
 	gswPos += FVector2D(0.f, 150.f);
 	HandleButtonClicked(GActorBtn2, gswPos);
@@ -417,6 +238,8 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn3 Clicked!"));
 
+	gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
+
 	gswPos += FVector2D(0.f, 370.f);
 	HandleButtonClicked(GActorBtn3, gswPos);
 }
@@ -424,6 +247,8 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 void UMapCustomWidget::OnGActorBtn4Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn4 Clicked!"));
+
+	gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
 	gswPos += FVector2D(0.f, 520.f);
 	HandleButtonClicked(GActorBtn4, gswPos);
@@ -438,49 +263,32 @@ void UMapCustomWidget::HandleButtonClicked(UButton* _ClickedButton, FVector2D _G
 		return;
 	}
 
-	/*if (gimmickSelectionWidget)
+	if (gimmickSelectionWidget->GetVisibility() == ESlateVisibility::Visible)
 	{
-		UCanvasPanelSlot* canvasSlot = Cast<UCanvasPanelSlot>(gimmickSelectionWidget->Slot);*/
 
-	if (canvasSlot)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("canvasSlot be maked!"));
-
-		if (gimmickSelectionWidget->GetVisibility() == ESlateVisibility::Collapsed)
+		if (canvasSlot->GetPosition() == _GSWPos)
 		{
-			// gimmickSelectionWidget->SetPositionInViewport(_GSWPos);
-			gimmickSelectionWidget->SetVisibility(ESlateVisibility::Visible);
+			gimmickSelectionWidget->SetVisibility(ESlateVisibility::Collapsed);
+			SetGSWBasicPos();
+		}
+		else
+		{
 			canvasSlot->SetPosition(_GSWPos);
-		}
-		else if (gimmickSelectionWidget->GetVisibility() == ESlateVisibility::Visible)
-		{
-			// FVector2D CurrentPosition = canvasSlot->GetPosition();
-
-			if (gswPos.Equals(_GSWPos, 1.0f)) // 1.0f는 비교 허용 오차
-			{
-				gimmickSelectionWidget->SetVisibility(ESlateVisibility::Collapsed);
-			}
-			else
-			{
-				gimmickSelectionWidget->SetPositionInViewport(_GSWPos);
-			}
-
+			SetGSWBasicPos();
 		}
 
+	}
+	else if (gimmickSelectionWidget->GetVisibility() == ESlateVisibility::Collapsed)
+	{
+		gimmickSelectionWidget->SetVisibility(ESlateVisibility::Visible);
+		canvasSlot->SetPosition(_GSWPos);
+		SetGSWBasicPos();
 	}
 
 }
 
-void UMapCustomWidget::OnButtonUnhovered()
+void UMapCustomWidget::SetGSWBasicPos()
 {
-	bIsMouseInsideButton = false;
-
-	/*if (!bIsMouseInsideButton)
-	{
-		if (gimmickSelectionWidget)
-		{
-			gimmickSelectionWidget->RemoveFromParent();
-			gimmickSelectionWidget = nullptr;
-		}
-	}*/
+	gswPos = FVector2D(620.f, -220.f);
 }
+
