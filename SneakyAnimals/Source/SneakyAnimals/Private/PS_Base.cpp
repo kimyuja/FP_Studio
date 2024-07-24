@@ -65,7 +65,35 @@ void APS_Base::Load_Player_UserProfile()
 	// 다시 저장하는 걸 server rpc로 하면 서버에서도 클라이언트의 세이브 게임이 보임! (유니크 인덱스로 접근)
 	// 게임 맵으로 이동 후 FUserProfileResult result = UFL_General::Get_UserProfile(); 0번 인덱스
 	// 0번 인덱스에 클라이언트 본인의 유저 네임이 있으니 그걸로 json 에서 유니크 인덱스 찾은 다음 appearance 입히면 됨
-	int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
+	
+	// 예외 처리
+	UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(GetGameInstance());
+
+	if (GameInstance == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to get GameInstance or invalid cast to UGI_SneakyAnimals."));
+		return;
+	}
+
+	FString Username = result.S_UserProfile.Username.ToString();
+	int32 idx = -1;
+
+	try
+	{
+		idx = GameInstance->GetUserIndex(Username);
+	}
+	catch (const std::exception& e)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Exception occurred while getting user index: %s"), *FString(e.what()));
+		return;
+	}
+	if (idx == -1)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("User index not found for username: %s"), *Username);
+		return;
+	}
+
+	//int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
 	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
 
 	// idx == 0 이면 서버
