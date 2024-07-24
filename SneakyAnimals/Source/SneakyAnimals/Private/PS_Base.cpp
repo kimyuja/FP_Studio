@@ -67,27 +67,37 @@ void APS_Base::Load_Player_UserProfile()
 	// 0번 인덱스에 클라이언트 본인의 유저 네임이 있으니 그걸로 json 에서 유니크 인덱스 찾은 다음 appearance 입히면 됨
 	int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
 	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
-	UE_LOG(LogTemp, Warning, TEXT("SaveGame_Player_UserProfile %s idx: %d"), *result.S_UserProfile.Username.ToString(), idx);
 
 	// idx == 0 이면 서버
-	if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1)
+	if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1 + Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount)
 	{
 		// 다시 해 idx 맞을 때 까지
 		FTimerHandle t;
 		GetWorld()->GetTimerManager().SetTimer(t, [&]() {
 			APS_Base::Load_Player_UserProfile();
 			return;
-			}, 1.0f, false);
-	} 
-	if (HasAuthority())
-	{
-		// 서버면 인덱스 0 가져와
-	} 
-	else
-	{
-		// 클라이언트면 고유 인덱스로 가져와
-		result = UFL_General::Get_UserProfile_with_idx(idx);
+			}, 0.2f, false);
 	}
+	else {
+		// player state 에게 맞는 인덱스라면...
+		if (HasAuthority())
+		{
+			// 서버면 인덱스 0 가져와
+			// KYJ Test 이거 해보고 안 되면 주석 처리 하기
+			result = UFL_General::Get_UserProfile_with_idx(0);
+		} 
+		else
+		{
+			// 클라이언트면 고유 인덱스로 가져와
+			result = UFL_General::Get_UserProfile_with_idx(idx);
+		}
+		if (!result.S_UserProfile.Username.IsEmpty())
+		{
+			// 각 player state 별로 my name 기억해두기
+			SetPlayerName(result.S_UserProfile.Username.ToString());
+		}
+	}
+
 
 	if (result.success)
 	{

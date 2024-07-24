@@ -28,6 +28,8 @@ public:
 	virtual void Init() override;
 
 	int32 GetUserIndex(const FString& UserName);
+    void RemoveUserIndex(const FString& UserName);
+	bool bContains_UserName(const FString& UserName);
 
 	// new version(net tps gs)
 	UPROPERTY(BlueprintReadOnly, Category = "Session")
@@ -60,7 +62,7 @@ public:
 
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
-	void ExitRoom();
+	void ExitRoom(FString DeleteUserName);
 
 	//bool IsInRoom();
 
@@ -82,6 +84,7 @@ public:
     FOnCreateSessionFailure OnCreateSessionFailure;
 
 	FText MyName;
+	int32 KickCount = 0;
 
 //--------------------
 	

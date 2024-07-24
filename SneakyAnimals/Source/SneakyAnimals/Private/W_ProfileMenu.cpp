@@ -19,6 +19,7 @@
 #include "W_SmallProfile.h"
 #include "W_MainMenu.h"
 #include "W_Tooltip.h"
+#include "GI_SneakyAnimals.h"
 
 void UW_ProfileMenu::SetParentWidget(UUserWidget* InParentWidget)
 {
@@ -41,6 +42,13 @@ void UW_ProfileMenu::OnUsername_Textbox_Changed(const FText& Text)
 
 void UW_ProfileMenu::OnSave_BtnClicked()
 {
+	// 중복된 유저 이름인가?
+	if (Cast<UGI_SneakyAnimals>(GetGameInstance())->bContains_UserName(New_Username.ToString())) {
+
+		UFL_General::Create_PopUp(GetWorld(), FText::FromString(TEXT("This username is already in use")), FText::FromString(TEXT("Close")), false, FText::FromString(TEXT("")));
+		return;
+	}
+
 	// structure user profile 만들기
 	S_UserProfile.Username = New_Username;
 	S_UserProfile.User_Avatar = Selected_Avatar;
@@ -126,7 +134,7 @@ void UW_ProfileMenu::NativeConstruct()
 	Get_UserProfile();
 
 	Tooltip_inst = CreateWidget<UW_Tooltip>(this, Tooltip_bp, FName("tooltip1"));
-	
+
 	if (Tooltip_inst)
 	{
 		Tooltip_inst->Tooltip_Title = FText::FromString(TEXT("Set a username"));

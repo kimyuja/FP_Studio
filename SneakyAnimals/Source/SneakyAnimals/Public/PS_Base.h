@@ -75,6 +75,4 @@ public:
     virtual void ClientRPC_Init();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
-
 };

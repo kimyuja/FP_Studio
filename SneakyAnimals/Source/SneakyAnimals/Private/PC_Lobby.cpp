@@ -16,6 +16,7 @@
 #include "GI_SneakyAnimals.h"
 #include "W_Lobby_Menu.h"
 #include "W_Lobby_PlayerList.h"
+#include "PS_Lobby.h"
 
 void APC_Lobby::BeginPlay()
 {
@@ -253,7 +254,7 @@ void APC_Lobby::ClientRPC_KickedFromLobby_Implementation()
 		// 세션을 제거합니다.
 		if (UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(GetGameInstance()))
 		{
-			GameInstance->ExitRoom();
+			GameInstance->ExitRoom(this->GetPlayerState<APS_Lobby>()->GetPlayerName());
 		}
 	}, 1.5f, false);
 }

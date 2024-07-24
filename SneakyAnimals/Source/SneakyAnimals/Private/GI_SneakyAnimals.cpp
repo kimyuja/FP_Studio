@@ -51,13 +51,32 @@ int32 UGI_SneakyAnimals::GetUserIndex(const FString& UserName)
 {
 	if (!UserIndexMap.Contains(UserName))
 	{
-		int32 NewIndex = UserIndexMap.Num();
+		int32 NewIndex = UserIndexMap.Num() + KickCount;
 		UserIndexMap.Add(UserName, NewIndex);
 		SaveUserIndexMap();
 	}
 	MyName = FText::FromString(UserName);
 	UE_LOG(LogTemp, Warning, TEXT("Get User Index UserName : %s"), *UserName);
 	return UserIndexMap[UserName];
+}
+
+void UGI_SneakyAnimals::RemoveUserIndex(const FString& UserName)
+{
+	if (UserIndexMap.Contains(UserName))
+	{
+		UserIndexMap.Remove(UserName);
+		SaveUserIndexMap();
+		UE_LOG(LogTemp, Warning, TEXT("Removed User Index for UserName: %s"), *UserName);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UserName not found: %s"), *UserName);
+	}
+}
+
+bool UGI_SneakyAnimals::bContains_UserName(const FString& UserName)
+{
+	return UserIndexMap.Contains(UserName);
 }
 
 void UGI_SneakyAnimals::OnCreateSessionComplete(FName sessionName, bool bWasSuccessful)
@@ -180,8 +199,12 @@ void UGI_SneakyAnimals::OnJoinSessionComplete(FName SessionName, EOnJoinSessionC
 	}
 }
 
-void UGI_SneakyAnimals::ExitRoom()
+void UGI_SneakyAnimals::ExitRoom(FString DeleteUserName)
 {
+	// json에서 DeleteUserName 에 해당하는 데이터를 지운다 -> 나중에 같은 이름의 유저가 들어오더라도 중복 방지 하기 위해서.
+	RemoveUserIndex(DeleteUserName);
+
+	KickCount++;
 	sessionInterface->DestroySession(FName(*mySessionName));
 }
 
