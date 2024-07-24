@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SP_ShowcaseGimmick.h"
+#include "SP_BottleGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
@@ -10,7 +10,7 @@
 #include "GI_SneakyAnimals.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 
-ASP_ShowcaseGimmick::ASP_ShowcaseGimmick()
+ASP_BottleGimmick::ASP_BottleGimmick()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -35,7 +35,7 @@ ASP_ShowcaseGimmick::ASP_ShowcaseGimmick()
 }
 
 
-void ASP_ShowcaseGimmick::BeginPlay()
+void ASP_BottleGimmick::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -45,16 +45,18 @@ void ASP_ShowcaseGimmick::BeginPlay()
 
 }
 
-void ASP_ShowcaseGimmick::Tick(float DeltaTime)
+void ASP_BottleGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	lerpTime += DeltaTime;
-
-	if (lerpTime > 1)
+	if ((_target && FVector::Dist(GetActorLocation(), _target->GetActorLocation()) < 100.0))
 	{
-		lerpTime = 0;
-		GetWorldTimerManager().PauseTimer(falloverT);
+		UE_LOG(LogTemp, Warning, TEXT(" Shoot!!!!!!!!!!!"));
+		GetWorldTimerManager().ClearTimer(sonT);
+		_target->bIsDie = true;
+		_target->Respawn();
+		_target->DeathCounting();
+		Destroy();
 	}
 
 	if (bCanActive)
@@ -68,7 +70,7 @@ void ASP_ShowcaseGimmick::Tick(float DeltaTime)
 }
 
 
-int32 ASP_ShowcaseGimmick::OnMyActive(AActor* ActivePlayer)
+int32 ASP_BottleGimmick::OnMyActive(AActor* ActivePlayer)
 {
 
 	if (bIsFinished)
@@ -79,10 +81,10 @@ int32 ASP_ShowcaseGimmick::OnMyActive(AActor* ActivePlayer)
 	switch (activeType)
 	{
 	case 0:
-		RedBull(ActivePlayer);
+		BottleTrap(ActivePlayer);
 		break;
 	case 1:
-		Babo(ActivePlayer);
+		Son(ActivePlayer);
 		break;
 	case 2:
 		MasterKey(ActivePlayer);
@@ -96,31 +98,10 @@ int32 ASP_ShowcaseGimmick::OnMyActive(AActor* ActivePlayer)
 	return activeType;
 }
 
-void ASP_ShowcaseGimmick::RedBull(AActor* ActivePlayer)
+void ASP_BottleGimmick::BottleTrap(AActor* ActivePlayer)
 {
 	bCanActive = false;
-	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : RedBull"));
-	lerpTime = 0;
-	GetWorldTimerManager().SetTimer(falloverT, [&]()
-		{
-			float rot = FMath::Lerp(0, -90.0, lerpTime);
-			activeObject->SetRelativeRotation(FRotator(0, 0, rot));
-		}, 0.03f, true, 0);
-	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-	{
-		if (FVector::Dist(GetActorLocation(), it->GetActorLocation()) < 500.0)
-		{
-			it->bIsDie = true;
-			it->Death_Fallover();
-			it->DeathCounting();
-		}
-	}
-}
-
-void ASP_ShowcaseGimmick::Babo(AActor* ActivePlayer)
-{
-	bCanActive = false;
-	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Babo"));
+	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BottleTrap"));
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -131,8 +112,20 @@ void ASP_ShowcaseGimmick::Babo(AActor* ActivePlayer)
 	}
 }
 
-void ASP_ShowcaseGimmick
-::MasterKey(AActor* ActivePlayer)
+void ASP_BottleGimmick::Son(AActor* ActivePlayer)
+{
+	bCanActive = false;
+	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Son"));
+	_target = Cast<ATestPlayer>(ActivePlayer);
+	GetWorldTimerManager().SetTimer(sonT, [&]()
+		{
+			FVector targetLoc = (_target->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+			targetLoc = FVector(targetLoc.X, targetLoc.Y, 0);
+			SetActorLocation(GetActorLocation() + targetLoc * 30.0);
+		}, 0.03f, true, 0);
+}
+
+void ASP_BottleGimmick::MasterKey(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));

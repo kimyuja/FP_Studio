@@ -17,6 +17,8 @@
 #include "SAGameStateBase.h"
 #include "SP_CartGimmick.h"
 #include "SP_CleanerGimmick.h"
+#include "SP_ShowcaseGimmick.h"
+#include "SP_BottleGimmick.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -100,6 +102,14 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	else if (Cast<ASP_CleanerGimmick>(this))
 	{
 		_key = Cast<ASP_CleanerGimmick>(this)->OnMyActive(ActivePlayer);
+	}
+	else if (Cast<ASP_ShowcaseGimmick>(this))
+	{
+		_key = Cast<ASP_ShowcaseGimmick>(this)->OnMyActive(ActivePlayer);
+	}
+	else if (Cast<ASP_BottleGimmick>(this))
+	{
+		_key = Cast<ASP_BottleGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 	/*if (_key != 2)
 	{

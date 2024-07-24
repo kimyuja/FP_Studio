@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "Gimmick.h"
-#include "SP_ShowcaseGimmick.generated.h"
+#include "SP_BottleGimmick.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SNEAKYANIMALS_API ASP_ShowcaseGimmick : public AGimmick
+class SNEAKYANIMALS_API ASP_BottleGimmick : public AGimmick
 {
 	GENERATED_BODY()
 
 public:
 
-	ASP_ShowcaseGimmick();
+	ASP_BottleGimmick();
 
 protected:
 
@@ -43,15 +43,15 @@ public:
 	int32 Myactivetype;
 
 private:
+	
+	class ATestPlayer* _target;
 
-	float lerpTime;
+	FTimerHandle sonT;
 
-	FTimerHandle falloverT;
-
-	// 진열장이 무너졌다.(근처 사람들)
-	void RedBull(AActor* ActivePlayer);
-	// 꺼내먹은 음식이 유통기한이 지나있었다.(혼자)
-	void Babo(AActor* ActivePlayer);
-	// 진열장 사이에 열쇠를 찾았다.(클리어)
+	// 밟고 넘어졌다.(혼자)
+	void BottleTrap(AActor* ActivePlayer);
+	// 발로 찼더니 날아갔다.(랜덤 한명)
+	void Son(AActor* ActivePlayer);
+	// 안에 열쇠가 있었다. (클리어)
 	void MasterKey(AActor* ActivePlayer);
 };
