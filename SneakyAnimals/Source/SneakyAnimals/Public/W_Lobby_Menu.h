@@ -51,7 +51,7 @@ private:
 	FSlateBrush CreateSlateBrushFromTexture(UTexture2D* Texture) const;
 	FButtonStyle CreateButtonStyle(const FSlateBrush& NormalBrush, const FSlateBrush& HoveredBrush, const FSlateBrush& PressedBrush) const;
 
-	AGS_Lobby* GS_Lobby;
-	APS_Lobby* PS_Lobby;
-	APC_Lobby* PC_Lobby;
+	class AGS_Lobby* GS_Lobby;
+	class APS_Lobby* PS_Lobby;
+	class APC_Lobby* PC_Lobby;
 };

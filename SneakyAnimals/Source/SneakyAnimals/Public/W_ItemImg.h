@@ -81,9 +81,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> newGridWidget;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<UUserWidget> itemSlotWidget;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
     TSubclassOf<UW_ItemImg> DragVisualClass;
 

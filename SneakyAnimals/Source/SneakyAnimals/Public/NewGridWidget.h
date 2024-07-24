@@ -37,7 +37,7 @@ public:
     class UW_ItemImg* itemImgWidget;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-    TSubclassOf<UW_ItemImg> itemImgWidgetClass;
+    TSubclassOf<UUserWidget> itemImgWidgetClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	class UCanvasPanelSlot* canvasSlot;
@@ -47,9 +47,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	class UMapCustomWidget* mapCustomWidget;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<UUserWidget> itemSlotWidget;
 		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TArray<class ULineStructure*> lines;
@@ -80,9 +77,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "DragDrop")
 	FSlateBrush boxBrush;
-
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	class UW_ItemSlot* itemSlotW;*/
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "DragDrop")
 	float levelTileSize = 260.f;

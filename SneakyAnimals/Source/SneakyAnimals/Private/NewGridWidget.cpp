@@ -36,7 +36,6 @@
 #include "WH_BroomstickGimmick.h"
 #include "WH_PotionGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
-#include "W_ItemSlot.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 
 bool UNewGridWidget::Initialize()
@@ -109,16 +108,6 @@ void UNewGridWidget::NativeConstruct()
 
 	itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
 
-	/*itemSlotW = CreateWidget<UW_ItemSlot>(GetWorld(), itemSlotWidget);
-
-	if (!itemSlotW)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("WHERE IS MY ITEMSLOT WIDGET"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("I HAVE ITEMSLOT WIDGET"));
-	}*/
 }
 
 void UNewGridWidget::OnItemRemoved(UItemObject* _ItemObject)
