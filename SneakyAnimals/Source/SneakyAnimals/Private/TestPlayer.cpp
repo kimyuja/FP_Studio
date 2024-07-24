@@ -544,6 +544,12 @@ void ATestPlayer::BlackScreen()
 	//bIsBlack = true;
 }
 
+void ATestPlayer::SetPlayerPhysics()
+{
+	GetCapsuleComponent()->SetSimulatePhysics(true);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+}
+
 void ATestPlayer::Respawn(float delaytime)
 {
 	if (!bIsBlack)
@@ -556,6 +562,8 @@ void ATestPlayer::Respawn(float delaytime)
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
 		ServerRPC_FadeOut(false);
 		GetCapsuleComponent()->SetSimulatePhysics(false);
+		GetMesh()->SetAllBodiesSimulatePhysics(false);
+		//GetMesh()->SetAllBodiesPhysicsBlendWeight(0);
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		GetCapsuleComponent()->SetRelativeRotation(FRotator(0, 0, 0));
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
@@ -737,7 +745,11 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 			//camera->SetRelativeLocation(camera->GetRelativeLocation() + it->GetActorLocation());
 		}
 	}
-	CreateWidget(GetWorld(),voteUI)->AddToViewport(0);
+
+	if (IsLocallyControlled())
+	{
+		CreateWidget(GetWorld(),voteUI)->AddToViewport(0);
+	}
 }
 
 void ATestPlayer::MultiRPC_SetThirdPersonView_Implementation()
@@ -840,7 +852,7 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	respawnLoc = moveLoc;
 	clearUI->SetVisibility(ESlateVisibility::Hidden);
 	UE_LOG(LogTemp, Warning, TEXT("MOOOOOOOOOOOOOOOOOOOOOOOOOOve        %d"), gameState->stageNum);
-	if (gameState->stageNum > 3)
+	if (gameState->stageNum > endNum)
 	{
 		ServerRPC_StartGetFinalScore();
 	}
@@ -908,6 +920,22 @@ void ATestPlayer::ServerRPC_ShowEmo_Implementation(int32 emoNum)
 void ATestPlayer::MultiRPC_ShowEmo_Implementation(int32 _emoNum)
 {
 	Cast<UUserEmoticon>(emoticonUI->GetWidget())->ShowEmoticon(_emoNum - 1);
+}
+
+void ATestPlayer::ServerRPC_SetPlayerPhysics_Implementation(AActor* target)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Rock????"), playerNum);
+	MultiRPC_SetPlayerPhysics(target);
+}
+
+void ATestPlayer::MultiRPC_SetPlayerPhysics_Implementation(AActor* _target)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Rock"), playerNum);
+	GetCapsuleComponent()->SetSimulatePhysics(true);
+	GetMesh()->SetAllBodiesSimulatePhysics(true);
+	GetMesh()->SetAllBodiesPhysicsBlendWeight(1.0);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetCapsuleComponent()->AddImpulse(FVector(0,0,10), TEXT(""), true);
 }
 
 void ATestPlayer::ServerRPC_SetGActorLoc_Implementation(AActor* MoveObj, FVector GetLoc, int32 ActiveNum)

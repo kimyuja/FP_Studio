@@ -22,7 +22,7 @@ ASP_RollingCart::ASP_RollingCart()
 void ASP_RollingCart::BeginPlay()
 {
 	Super::BeginPlay();
-	if(HasAuthority()) Cast<UGI_SneakyAnimals>(GetGameInstance())->GetRandomplayer();
+	//if(HasAuthority()) Cast<UGI_SneakyAnimals>(GetGameInstance())->GetRandomplayer();
 	target = Cast<UGI_SneakyAnimals>(GetGameInstance())->ranPlayer;
 	//UE_LOG(LogTemp, Warning, TEXT("3"));
 	/*GetWorldTimerManager().SetTimer(roadRollerT, [&]()
@@ -40,6 +40,7 @@ void ASP_RollingCart::Tick(float DeltaTime)
 	if (!target)
 	{
 		target = Cast<UGI_SneakyAnimals>(GetGameInstance())->ranPlayer;
+		UE_LOG(LogTemp, Warning, TEXT("name : %s"), *target->GetName());
 		return;
 	}
 	/*if (FVector::Dist(GetActorLocation(), target->GetActorLocation()) < 100.0)

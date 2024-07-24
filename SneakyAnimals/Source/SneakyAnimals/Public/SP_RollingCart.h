@@ -30,5 +30,7 @@ public:
 
 	int32 ranNum;
 
+	FVector _targetLoc;
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

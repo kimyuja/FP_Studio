@@ -16,6 +16,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Public/Net/UnrealNetwork.h>
 #include "SAGameStateBase.h"
 #include "SP_CartGimmick.h"
+#include "SP_CleanerGimmick.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -96,7 +97,10 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	{
 		_key = Cast<ASP_CartGimmick>(this)->OnMyActive(ActivePlayer);
 	}
-
+	else if (Cast<ASP_CleanerGimmick>(this))
+	{
+		_key = Cast<ASP_CleanerGimmick>(this)->OnMyActive(ActivePlayer);
+	}
 	/*if (_key != 2)
 	{
 		gameState->SetDeathCountUp(Cast<ATestPlayer>(ActivePlayer)->playerNum);

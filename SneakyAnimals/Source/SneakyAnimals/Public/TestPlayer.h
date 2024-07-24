@@ -214,6 +214,9 @@ public:
 
 	float lerpTime;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
+	int32 endNum = 3;
+
 	class AGimmick* g;
 
 	FTimerHandle falloverT;
@@ -250,6 +253,8 @@ public:
 	void FadeInOut(bool bInOut);
 
 	void BlackScreen();
+
+	void SetPlayerPhysics();
 
 	void Respawn(float delaytime = 3.0f);
 
@@ -310,6 +315,12 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_ShowEmo(int32 _emoNum);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_SetPlayerPhysics(AActor* target);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_SetPlayerPhysics(AActor* _target);
 
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_SetGActorLoc(AActor* MoveObj, FVector GetLoc, int32 ActiveNum);

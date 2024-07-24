@@ -56,7 +56,7 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 		lerpTime = 0;
 		
 	}
-	if ((cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 100.0)|| lerpTime > 3.0)
+	if ((cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 100.0))
 	{
 		lerpTime = 0;
 		UE_LOG(LogTemp, Warning, TEXT(" Boom!!!!!!!!!!!"));
@@ -64,7 +64,7 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 		cartTarget->bIsDie = true;
 		cartTarget->Respawn();
 		cartTarget->DeathCounting();
-		Destroy(true);
+		Destroy();
 	}
 	if (Myactivetype == 2 && FVector::Dist(GetActorLocation(), FVector(0)) < 100.0)
 	{
@@ -130,14 +130,27 @@ void ASP_CartGimmick::RoadRoller(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : RoadRoller"));
-	GetWorld()->SpawnActor<ASP_RollingCart>(cart, GetActorLocation() + GetActorUpVector(), GetActorRotation());
-	Cast<UGI_SneakyAnimals>(GetGameInstance())->GetRandomplayer();
-	cartTarget = Cast<UGI_SneakyAnimals>(GetGameInstance())->ranPlayer;
-	for (TActorIterator<ASP_RollingCart> it(GetWorld()); it; ++it)
-	{
-		it->target = cartTarget;
-	}
-	Destroy();
+	//GetWorld()->SpawnActor<ASP_RollingCart>(cart, GetActorLocation() + GetActorUpVector(), GetActorRotation());
+	//if (ActivePlayer->HasAuthority())
+	//{
+	//	Cast<UGI_SneakyAnimals>(GetGameInstance())->GetRandomplayer();
+	//	//cartTarget = Cast<UGI_SneakyAnimals>(GetGameInstance())->ranPlayer;
+	//}
+	//else
+	//{
+	//	//cartTarget = Cast<UGI_SneakyAnimals>(GetGameInstance())->ranPlayer;
+	//}
+	//for (TActorIterator<ASP_RollingCart> it(GetWorld()); it; ++it)
+	//{
+	//	it->target = cartTarget;
+	//}
+	cartTarget = Cast<ATestPlayer>(ActivePlayer);
+	GetWorldTimerManager().SetTimer(roadRollerT, [&]()
+		{
+			FVector targetLoc = (cartTarget->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+			targetLoc = FVector(targetLoc.X, targetLoc.Y, 0);
+			SetActorLocation(GetActorLocation() + targetLoc * 30.0);
+		}, 0.03f, true, 0);
 }
 
 void ASP_CartGimmick::RollingCart()
@@ -151,6 +164,4 @@ void ASP_CartGimmick::RollingCart()
 			SetActorLocation(GetActorLocation() + targetLoc * 100.0);
 		}, 0.03f, true, 0);
 	lerpTime = 0;
-
-
 }
