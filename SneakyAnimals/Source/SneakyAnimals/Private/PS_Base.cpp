@@ -69,10 +69,10 @@ void APS_Base::Load_Player_UserProfile()
 	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
 	UE_LOG(LogTemp, Warning, TEXT("SaveGame_Player_UserProfile %s idx: %d"), *result.S_UserProfile.Username.ToString(), idx);
 
-	// 두 명 이상 들어왔는데 idx를 서버 것만 불러온다면...
-	if (idx == 0 && GetWorld()->GetGameState()->PlayerArray.Num()>1)
+	// idx == 0 이면 서버
+	if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1)
 	{
-		// 다시 해 idx 0 아닐 때 까지
+		// 다시 해 idx 맞을 때 까지
 		FTimerHandle t;
 		GetWorld()->GetTimerManager().SetTimer(t, [&]() {
 			APS_Base::Load_Player_UserProfile();
