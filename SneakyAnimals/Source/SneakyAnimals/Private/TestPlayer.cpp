@@ -562,8 +562,6 @@ void ATestPlayer::Respawn(float delaytime)
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
 		ServerRPC_FadeOut(false);
 		GetCapsuleComponent()->SetSimulatePhysics(false);
-		GetMesh()->SetAllBodiesSimulatePhysics(false);
-		//GetMesh()->SetAllBodiesPhysicsBlendWeight(0);
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		GetCapsuleComponent()->SetRelativeRotation(FRotator(0, 0, 0));
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
@@ -932,10 +930,8 @@ void ATestPlayer::MultiRPC_SetPlayerPhysics_Implementation(AActor* _target)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Rock"), playerNum);
 	GetCapsuleComponent()->SetSimulatePhysics(true);
-	GetMesh()->SetAllBodiesSimulatePhysics(true);
-	GetMesh()->SetAllBodiesPhysicsBlendWeight(1.0);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	GetCapsuleComponent()->AddImpulse(FVector(0,0,10), TEXT(""), true);
+	GetCapsuleComponent()->AddImpulse(FVector(0,100,10), TEXT(""), true);
 }
 
 void ATestPlayer::ServerRPC_SetGActorLoc_Implementation(AActor* MoveObj, FVector GetLoc, int32 ActiveNum)
