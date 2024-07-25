@@ -126,7 +126,7 @@ void APS_Base::Load_Player_UserProfile()
 	// idx == 0 이면 서버
 	//if (idx == 0 && !HasAuthority()) // server만 나옴
 	//if (idx == 0) // client -> server로 전염
-	if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1 + Cast<AGS_Lobby>(GetWorld()->GetGameState())->Get_KickCount() && HasAuthority()) // 잘 되는데 강퇴하고 같은 놈이 프로필 바꿔서 다시 들어오면 강퇴한 놈의 프로필로 들어감
+	if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1 + Cast<AGS_Lobby>(GetWorld()->GetGameState())->Get_KickCount() && HasAuthority() && !GetWorld()->IsInSeamlessTravel()) // 잘 되는데 강퇴하고 같은 놈이 프로필 바꿔서 다시 들어오면 강퇴한 놈의 프로필로 들어감
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Kickcount : %d"), Cast<AGS_Lobby>(GetWorld()->GetGameState())->Get_KickCount());
 		// 다시 해 idx 맞을 때 까지
@@ -134,7 +134,7 @@ void APS_Base::Load_Player_UserProfile()
 		GetWorld()->GetTimerManager().SetTimer(t, [&]() {
 			APS_Base::Load_Player_UserProfile();
 			return;
-			}, 0.3f, false);
+			}, 0.2f, false);
 	}
 	else {
 		//// player state 에게 맞는 인덱스라면...
