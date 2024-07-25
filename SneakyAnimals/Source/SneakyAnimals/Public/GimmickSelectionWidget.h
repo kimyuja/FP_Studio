@@ -22,16 +22,12 @@ class SNEAKYANIMALS_API UGimmickSelectionWidget : public UUserWidget
 protected:
 	virtual void NativeConstruct() override;
 	virtual bool Initialize() override;
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
 
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 
 
 public:
-
-	
-
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UButton* GimmickBtn1;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -45,14 +41,11 @@ public:
     FOnCustomMouseEnterEvent OnCustomMouseEnter;
 
 
-
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> newGridWidget;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
 	class UNewGridWidget* gridWidget;
-
 
 
 	UFUNCTION()
@@ -72,14 +65,19 @@ public:
 	UPROPERTY()
 	FName buttonName;
 
-	/*UPROPERTY(BlueprintReadWrite, Category = "Settings")
-    bool bUsedClearGimmick = false;*/
-
 	 UFUNCTION(BlueprintCallable, Category = "Settings")
     void UpdateClearBtnState();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
     bool bUsedClearGimmick;
-
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
+	bool bBookShelfInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
+	bool bBroomstickInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
+	bool bPotionInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
+	bool bPotInWorld = false;
 
 };

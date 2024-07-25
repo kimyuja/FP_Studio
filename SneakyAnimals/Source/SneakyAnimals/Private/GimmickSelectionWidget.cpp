@@ -53,11 +53,6 @@ bool UGimmickSelectionWidget::Initialize()
 	return true;
 }
 
-void UGimmickSelectionWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
-{
-	UpdateClearBtnState();
-}
-
 void UGimmickSelectionWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
@@ -80,18 +75,22 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 	if (buttonName == "GActorBtn1")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 0);
+		bBookShelfInWorld = true;
 	}
 	else if (buttonName == "GActorBtn2")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 0);
+		bBroomstickInWorld = true;
 	}
 	else if (buttonName == "GActorBtn3")
 	{
 		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 0);
+		bPotionInWorld = true;
 	}
 	else if (buttonName == "GActorBtn4")
 	{
 		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 0);
+		bPotInWorld = true;
 	}
 	else
 	{
@@ -110,18 +109,22 @@ void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 	if (buttonName == "GActorBtn1")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 1);
+		bBookShelfInWorld = true;
 	}
 	else if (buttonName == "GActorBtn2")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 1);
+		bBroomstickInWorld = true;
 	}
 	else if (buttonName == "GActorBtn3")
 	{
 		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 1);
+		bPotionInWorld = true;
 	}
 	else if (buttonName == "GActorBtn4")
 	{
 		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 1);
+		bPotInWorld = true;
 	}
 	else
 	{
@@ -139,18 +142,22 @@ void UGimmickSelectionWidget::OnClearBtnClicked()
 	if (buttonName == "GActorBtn1")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 2);
+		bBookShelfInWorld = true;
 	}
 	else if (buttonName == "GActorBtn2")
 	{
 		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 2);
+		bBroomstickInWorld = true;
 	}
 	else if (buttonName == "GActorBtn3")
 	{
 		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 2);
+		bPotionInWorld = true;
 	}
 	else if (buttonName == "GActorBtn4")
 	{
 		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 2);
+		bPotInWorld = true;
 	}
 	else
 	{
@@ -158,7 +165,6 @@ void UGimmickSelectionWidget::OnClearBtnClicked()
 	}
 
 	bUsedClearGimmick = true;
-
 	UpdateClearBtnState();
 
 }

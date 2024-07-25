@@ -40,6 +40,8 @@
 #include "SP_ShowcaseGimmick.h"
 #include "SP_BottleGimmick.h"
 #include "BS_HandleGimmick.h"
+#include "BS_GoldBarGimmick.h"
+#include "BS_SwitchGimmick.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -562,16 +564,26 @@ void ATestPlayer::Respawn(float delaytime)
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Player %d Respawn"), playerNum);
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	/*FTimerHandle pT;
+	GetWorldTimerManager().SetTimer(pT, [&]() {
+		GetMesh()->SetSimulatePhysics(false);
+		}, 1.0, false, 2.0);*/
 	FTimerHandle respawnT;
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
+		GetMesh()->SetSimulatePhysics(false);
 		ServerRPC_FadeOut(false);
-		GetCapsuleComponent()->SetSimulatePhysics(false);
-		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		/*GetCapsuleComponent()->SetSimulatePhysics(false);
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);*/
 		GetCapsuleComponent()->SetRelativeRotation(FRotator(0, 0, 0));
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
 		GetMesh()->SetRelativeRotation(FRotator(0,-90,0));
 		SetActorLocation(respawnLoc);
-		cameraBoom->SetRelativeLocation(FVector(0,0, 170));
+		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+		{
+			//it->GetMesh()->SetSimulatePhysics(false);
+			cameraBoom->SetRelativeLocation(FVector(0, 0, 170));
+		}
+		//cameraBoom->SetRelativeLocation(FVector(0,0, 170));
 		//FadeInOut(false);
 		bIsDie = false;
 		bIsBlack = false;
@@ -791,8 +803,8 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("aP = %f, %f, %f"), _aP->GetActorLocation().X, _aP->GetActorLocation().Y, _aP->GetActorLocation().Z);
 		//UE_LOG(LogTemp, Warning, TEXT("P = %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
-		bCanActive = false;
 		int32 key = g->OnMyActive(_aP);
+		bCanActive = false;
 		if (key == 2)
 		{
 			ServerRPC_ClearStage();
@@ -982,21 +994,29 @@ void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector
 	{
 		Cast<ASP_CartGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<ASP_CleanerGimmick>(this))
+	else if (Cast<ASP_CleanerGimmick>(_MoveObj))
 	{
 		Cast<ASP_CleanerGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<ASP_ShowcaseGimmick>(this))
+	else if (Cast<ASP_ShowcaseGimmick>(_MoveObj))
 	{
 		Cast<ASP_ShowcaseGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<ASP_BottleGimmick>(this))
+	else if (Cast<ASP_BottleGimmick>(_MoveObj))
 	{
 		Cast<ASP_BottleGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
-	else if (Cast<ABS_HandleGimmick>(this))
+	else if (Cast<ABS_HandleGimmick>(_MoveObj))
 	{
 		Cast<ABS_HandleGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ABS_GoldBarGimmick>(_MoveObj))
+	{
+		Cast<ABS_GoldBarGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ABS_SwitchGimmick>(_MoveObj))
+	{
+		Cast<ABS_SwitchGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
 }
 

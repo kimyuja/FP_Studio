@@ -25,7 +25,7 @@ public:
     class UNewGridWidget* NewGridWidget;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
-	float tileSize = 160.f;
+	float tileSize = 80.f;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	class UBorder* BackgroundBorder;
@@ -113,4 +113,7 @@ public:
 	
     UFUNCTION()
     void SetGSWBasicPos();
+
+    UFUNCTION()
+    void RemovedItemCheck(class UItemObject* _itemObject);
 };

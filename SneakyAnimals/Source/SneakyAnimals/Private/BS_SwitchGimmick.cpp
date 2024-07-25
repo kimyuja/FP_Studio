@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BS_HandleGimmick.h"
+#include "BS_SwitchGimmick.h"
 
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
@@ -13,7 +13,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 #include "SM_ComputerMoniter.h"
 
-ABS_HandleGimmick::ABS_HandleGimmick()
+ABS_SwitchGimmick::ABS_SwitchGimmick()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -37,17 +37,27 @@ ABS_HandleGimmick::ABS_HandleGimmick()
 }
 
 
-void ABS_HandleGimmick::BeginPlay()
+void ABS_SwitchGimmick::BeginPlay()
 {
 	Super::BeginPlay();
 
 	SetActiveType(Myactivetype);
 }
 
-void ABS_HandleGimmick::Tick(float DeltaTime)
+void ABS_SwitchGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if ((_target && FVector::Dist(GetActorLocation(), _target->GetActorLocation()) < 100.0))
+	{
+		UE_LOG(LogTemp, Warning, TEXT(" Shoot!!!!!!!!!!!"));
+		GetWorldTimerManager().ClearTimer(goldT);
+		_target->ServerRPC_SetPlayerPhysics(_target);
+		_target->bIsDie = true;
+		_target->Respawn();
+		_target->DeathCounting();
+		Destroy();
+	}
 
 	if (bCanActive)
 	{
@@ -60,24 +70,24 @@ void ABS_HandleGimmick::Tick(float DeltaTime)
 }
 
 
-int32 ABS_HandleGimmick::OnMyActive(AActor* ActivePlayer)
+int32 ABS_SwitchGimmick::OnMyActive(AActor* ActivePlayer)
 {
 
 	if (bIsFinished)
 	{
 		return -1;
 	}
-	
+
 	switch (activeType)
 	{
 	case 0:
-		Pikachu(ActivePlayer);
+		DangerousGaurd(ActivePlayer);
 		break;
 	case 1:
-		WarningAlarm();
+		DropMe(ActivePlayer);
 		break;
 	case 2:
-		DoorOpen();
+		SafeGaurd();
 		break;
 	default:
 		break;
@@ -88,25 +98,16 @@ int32 ABS_HandleGimmick::OnMyActive(AActor* ActivePlayer)
 	return activeType;
 }
 
-void ABS_HandleGimmick::Pikachu(AActor* ActivePlayer)
+void ABS_SwitchGimmick::DangerousGaurd(AActor* ActivePlayer)
 {
 	bCanActive = false;
-	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : Pikachu"));
-	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
-	if (player)
-	{
-		player->Death_Thunderclap();
-		player->DeathCounting();
-	}
-}
+	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : DangerousGaurd"));
 
-void ABS_HandleGimmick::WarningAlarm()
-{
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : WarningAlarm"));
 	FTimerHandle dieT;
 	GetWorldTimerManager().SetTimer(dieT, [&]()
-	{
+		{
 			for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 			{
 				it->ServerRPC_SetPlayerPhysics(*it);
@@ -114,10 +115,21 @@ void ABS_HandleGimmick::WarningAlarm()
 				it->Respawn();
 				it->DeathCounting();
 			}
-	}, 1.0, false, 3.0);
+		}, 1.0, false, 3.0);
 }
 
-void ABS_HandleGimmick::DoorOpen()
+void ABS_SwitchGimmick::DropMe(AActor* ActivePlayer)
+{
+	bCanActive = false;
+	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : DropMe"));
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	player->GetMesh()->SetSimulatePhysics(true);
+	player->bIsDie = true;
+	player->Respawn();
+	player->DeathCounting();
+}
+
+void ABS_SwitchGimmick::SafeGaurd()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));

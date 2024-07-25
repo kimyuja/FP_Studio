@@ -27,6 +27,9 @@
 #include "TimerManager.h"
 #include "GameFramework/PlayerController.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "WH_BroomstickGimmick.h"
+#include "WH_PotionGimmick.h"
+#include "WH_WitchCauldronGimmick.h"
 
 bool UMapCustomWidget::Initialize()
 {
@@ -110,6 +113,8 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 	{
 		if (ItemOperation->draggedItemObj)
 		{
+			RemovedItemCheck(ItemOperation->draggedItemObj);
+
 			if (ItemOperation->draggedItemObj->itemActiveType == 2)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("!!! REMOVED ITEM ACTIVE TYPE IS %d"), ItemOperation->draggedItemObj->itemActiveType);
@@ -122,7 +127,6 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 
 			if (matchingActor)
 			{
-
 				UE_LOG(LogTemp, Warning, TEXT("machinged actor with itemObject"));
 
 				FVector beginLocation = ItemOperation->draggedItemObj->beginLoc;
@@ -227,39 +231,54 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!"));
 
-	gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
+	UE_LOG(LogTemp, Warning, TEXT("bBookShelfInWorld value is %d"), gimmickSelectionWidget->bBookShelfInWorld);
 
-	HandleButtonClicked(GActorBtn1, gswPos);
+	if (!gimmickSelectionWidget->bBookShelfInWorld)
+	{
+		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
+
+		HandleButtonClicked(GActorBtn1, gswPos);
+	}
 }
 
 void UMapCustomWidget::OnGActorBtn2Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn2 Clicked!"));
 
-	gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
+	if (!gimmickSelectionWidget->bBroomstickInWorld)
+	{
+		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
 
-	gswPos += FVector2D(0.f, 150.f);
-	HandleButtonClicked(GActorBtn2, gswPos);
+		gswPos += FVector2D(0.f, 150.f);
+		HandleButtonClicked(GActorBtn2, gswPos);
+	}
 }
 
 void UMapCustomWidget::OnGActorBtn3Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn3 Clicked!"));
 
-	gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
+	if (!gimmickSelectionWidget->bPotionInWorld)
+	{
+		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
 
-	gswPos += FVector2D(0.f, 370.f);
-	HandleButtonClicked(GActorBtn3, gswPos);
+		gswPos += FVector2D(0.f, 370.f);
+		HandleButtonClicked(GActorBtn3, gswPos);
+	}
 }
 
 void UMapCustomWidget::OnGActorBtn4Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn4 Clicked!"));
 
-	gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
+	if (!gimmickSelectionWidget->bPotInWorld)
+	{
+		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
-	gswPos += FVector2D(0.f, 520.f);
-	HandleButtonClicked(GActorBtn4, gswPos);
+		gswPos += FVector2D(0.f, 520.f);
+		HandleButtonClicked(GActorBtn4, gswPos);
+	}
+
 }
 
 void UMapCustomWidget::HandleButtonClicked(UButton* _ClickedButton, FVector2D _GSWPos)
@@ -298,5 +317,26 @@ void UMapCustomWidget::HandleButtonClicked(UButton* _ClickedButton, FVector2D _G
 void UMapCustomWidget::SetGSWBasicPos()
 {
 	gswPos = FVector2D(620.f, -220.f);
+}
+
+void UMapCustomWidget::RemovedItemCheck(UItemObject* _itemObject)
+{
+	if (_itemObject->itemClass == AWH_BookshelfGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bBookShelfInWorld = false;
+	}
+	else if (_itemObject->itemClass == AWH_BroomstickGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bBroomstickInWorld = false;
+	}
+	else if (_itemObject->itemClass == AWH_PotionGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bPotionInWorld = false;
+	}
+	else if (_itemObject->itemClass == AWH_WitchCauldronGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bPotInWorld = false;
+	}
+
 }
 
