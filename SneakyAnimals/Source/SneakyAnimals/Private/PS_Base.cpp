@@ -54,118 +54,118 @@ void APS_Base::Load_Player_Appearance()
 
 void APS_Base::Load_Player_UserProfile()
 {
-    static int32 RetryCount = 0; // Added static variable to track retry attempts
+	// log : client는 rty, server는 kyj -> rty를 kyj 서버가 알게 해야 함
+	FUserProfileResult result = UFL_General::Get_UserProfile();
 
-    // log : client는 rty, server는 kyj -> rty를 kyj 서버가 알게 해야 함
-    FUserProfileResult result = UFL_General::Get_UserProfile();
+	// KYJ Test
+	// 인덱스 0번 세이브 게임
+	// json 파일에서, 0번 인덱스는 무조건 서버여야 함(유저네임 주의, 아예 없앤 상태로 시작하는 게 베스트)
 
-    // KYJ Test
-    // 인덱스 0번 세이브 게임
-    // json 파일에서, 0번 인덱스는 무조건 서버여야 함(유저네임 주의, 아예 없앤 상태로 시작하는 게 베스트)
+	// result에 있는 값을 유니크 인덱스인 세이브 게임에 다시 저장함
+	// 다시 저장하는 걸 server rpc로 하면 서버에서도 클라이언트의 세이브 게임이 보임! (유니크 인덱스로 접근)
+	// 게임 맵으로 이동 후 FUserProfileResult result = UFL_General::Get_UserProfile(); 0번 인덱스
+	// 0번 인덱스에 클라이언트 본인의 유저 네임이 있으니 그걸로 json 에서 유니크 인덱스 찾은 다음 appearance 입히면 됨
+	
+	// 예외 처리
+	UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(GetGameInstance());
 
-    // result에 있는 값을 유니크 인덱스인 세이브 게임에 다시 저장함
-    // 다시 저장하는 걸 server rpc로 하면 서버에서도 클라이언트의 세이브 게임이 보임! (유니크 인덱스로 접근)
-    // 게임 맵으로 이동 후 FUserProfileResult result = UFL_General::Get_UserProfile(); 0번 인덱스
-    // 0번 인덱스에 클라이언트 본인의 유저 네임이 있으니 그걸로 json 에서 유니크 인덱스 찾은 다음 appearance 입히면 됨
+	if (GameInstance == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to get GameInstance or invalid cast to UGI_SneakyAnimals."));
+		return;
+	}
 
-    // 예외 처리
-    UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(GetGameInstance());
+	FString Username = result.S_UserProfile.Username.ToString();
+	int32 idx = -1;
 
-    if (GameInstance == nullptr)
-    {
-        UE_LOG(LogTemp, Error, TEXT("Failed to get GameInstance or invalid cast to UGI_SneakyAnimals."));
-        return;
-    }
+	try
+	{
+		idx = GameInstance->GetUserIndex(Username);
+	}
+	catch (const std::exception& e)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Exception occurred while getting user index: %s"), *FString(e.what()));
+		return;
+	}
+	if (idx == -1)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("User index not found for username: %s"), *Username);
+		return;
+	}
 
-    FString Username = result.S_UserProfile.Username.ToString();
-    int32 idx = -1;
+	//int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
+	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
 
-    try
-    {
-        idx = GameInstance->GetUserIndex(Username);
-    }
-    catch (const std::exception& e)
-    {
-        UE_LOG(LogTemp, Error, TEXT("Exception occurred while getting user index: %s"), *FString(e.what()));
-        return;
-    }
-    if (idx == -1)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("User index not found for username: %s"), *Username);
-        return;
-    }
+	auto RetryLoadPlayerUserProfile = [&]() {
+		if (RetryCount < 10)
+		{
+			RetryCount++;
+			UE_LOG(LogTemp, Warning, TEXT("Retrying Load_Player_UserProfile, Attempt: %d"), RetryCount);
+			FTimerHandle t;
+			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+				APS_Base::Load_Player_UserProfile();
+				return;
+				}, 0.2f, false);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Max retry attempts reached for Load_Player_UserProfile."));
+			RetryCount = 0; // Reset retry count after max attempts
+		}
+		};
 
-    //int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
-    ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
+	// idx == 0 이면 서버
+	//if (idx == 0 && !HasAuthority()) // server만 나옴
+	//if (idx == 0) // client -> server로 전염
+	if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1 + Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount && HasAuthority()) // 잘 되는데 강퇴하면 크래쉬 남
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Kickcount : %d"), Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount);
+		// 다시 해 idx 맞을 때 까지
+		//FTimerHandle t;
+		//GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+		//	APS_Base::Load_Player_UserProfile();
+		//	return;
+		//	}, 0.2f, false);
+		RetryLoadPlayerUserProfile();
+	}
+	else {
+		RetryCount = 0;
+		// player state 에게 맞는 인덱스라면...
+		if (HasAuthority())
+		{
+			RetryLoadPlayerUserProfile();
+			// 서버면 인덱스 0 가져와
+			// KYJ Test 이거 해보고 안 되면 주석 처리 하기
+			result = UFL_General::Get_UserProfile_with_idx(0);
+		} 
+		else
+		{
+			// 클라이언트면 고유 인덱스로 가져와
+			result = UFL_General::Get_UserProfile_with_idx(idx);
+		}
+		if (!result.S_UserProfile.Username.IsEmpty())
+		{
+			// 각 player state 별로 my name 기억해두기
+			SetPlayerName(result.S_UserProfile.Username.ToString());
+		}
+	}
 
-    auto RetryLoadPlayerUserProfile = [&]() {
-        if (RetryCount < 10)
-        {
-            RetryCount++;
-            UE_LOG(LogTemp, Warning, TEXT("Retrying Load_Player_UserProfile, Attempt: %d"), RetryCount);
-            FTimerHandle t;
-            GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-                APS_Base::Load_Player_UserProfile();
-                return;
-                }, 0.2f, false);
-        }
-        else
-        {
-            UE_LOG(LogTemp, Error, TEXT("Max retry attempts reached for Load_Player_UserProfile."));
-            RetryCount = 0; // Reset retry count after max attempts
-        }
-        };
 
-    if (idx != GetWorld()->GetGameState()->PlayerArray.Num() - 1 + Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount && HasAuthority())
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Kickcount : %d"), Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount);
-        RetryLoadPlayerUserProfile();
-    }
-    else
-    {
-        // player state 에게 맞는 인덱스라면...
-        if (HasAuthority())
-        {
-            // 서버면 인덱스 0 가져와
-            // KYJ Test 이거 해보고 안 되면 주석 처리 하기
-            result = UFL_General::Get_UserProfile_with_idx(0);
-        }
-        else
-        {
-            // 클라이언트면 고유 인덱스로 가져와
-            result = UFL_General::Get_UserProfile_with_idx(idx);
-        }
-        if (!result.S_UserProfile.Username.IsEmpty())
-        {
-            // 각 player state 별로 my name 기억해두기
-            SetPlayerName(result.S_UserProfile.Username.ToString());
-        }
-
-        if (!result.success)
-        {
-            RetryLoadPlayerUserProfile();
-            return;
-        }
-    }
-
-    if (result.success)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
-        ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
-        RetryCount = 0; // Reset retry count on success
-        return;
-    }
-    else
-    {
-        FStructure_UserProfile tmp;
-        tmp.Username = FText::FromString(TEXT("Username"));
-        tmp.User_Avatar = T_ProfilePicture;
-        ServerRPC_Update_Player_UserProfile_Implementation(tmp);
-        RetryCount = 0; // Reset retry count on failure
-        return;
-    }
+	if (result.success)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
+		ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
+		return;
+	}
+	else
+	{
+		FStructure_UserProfile tmp;
+		tmp.Username = FText::FromString(TEXT("Username"));
+		tmp.User_Avatar = T_ProfilePicture;
+		ServerRPC_Update_Player_UserProfile_Implementation(tmp);
+		return;
+	}
 }
-
 
 void APS_Base::Load_Player_ConnectionInfo(bool ClientReadyStatus)
 {

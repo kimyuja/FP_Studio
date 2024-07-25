@@ -17,6 +17,7 @@ class SNEAKYANIMALS_API APS_Base : public APlayerState
 
 private:
 	UTexture2D* T_ProfilePicture;
+	int32 RetryCount = 0;
 
 protected:
     UFUNCTION()
