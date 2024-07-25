@@ -36,6 +36,10 @@
 #include "UnderTheSea.h"
 #include "SM_WhistleGimmick.h"
 #include "SP_CartGimmick.h"
+#include "SP_CleanerGimmick.h"
+#include "SP_ShowcaseGimmick.h"
+#include "SP_BottleGimmick.h"
+#include "BS_HandleGimmick.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -977,6 +981,22 @@ void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector
 	else if (Cast<ASP_CartGimmick>(_MoveObj))
 	{
 		Cast<ASP_CartGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ASP_CleanerGimmick>(this))
+	{
+		Cast<ASP_CleanerGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ASP_ShowcaseGimmick>(this))
+	{
+		Cast<ASP_ShowcaseGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ASP_BottleGimmick>(this))
+	{
+		Cast<ASP_BottleGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ABS_HandleGimmick>(this))
+	{
+		Cast<ABS_HandleGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
 }
 

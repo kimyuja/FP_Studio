@@ -19,6 +19,7 @@
 #include "SP_CleanerGimmick.h"
 #include "SP_ShowcaseGimmick.h"
 #include "SP_BottleGimmick.h"
+#include "BS_HandleGimmick.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -110,6 +111,10 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	else if (Cast<ASP_BottleGimmick>(this))
 	{
 		_key = Cast<ASP_BottleGimmick>(this)->OnMyActive(ActivePlayer);
+	}
+	else if (Cast<ABS_HandleGimmick>(this))
+	{
+		_key = Cast<ABS_HandleGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 	/*if (_key != 2)
 	{
