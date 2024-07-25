@@ -98,7 +98,7 @@ void APS_Base::Load_Player_UserProfile()
 
 	// idx == 0 이면 서버
 	//if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1 + Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount)
-	if (idx == 0)
+	if (idx == 0 && !HasAuthority())
 	{
 		// 다시 해 idx 맞을 때 까지
 		FTimerHandle t;
