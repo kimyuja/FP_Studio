@@ -121,7 +121,7 @@ void APS_Base::Load_Player_UserProfile()
 	}
 
 	//int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
-	//ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
+	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
 
 	// idx == 0 이면 서버
 	//if (idx == 0 && !HasAuthority()) // server만 나옴
