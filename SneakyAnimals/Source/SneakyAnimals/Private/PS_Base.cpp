@@ -101,6 +101,7 @@ void APS_Base::Load_Player_UserProfile()
 	//if (idx == 0) // client -> server로 전염
 	if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1 + Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount) // 잘 되는데 강퇴하면 크래쉬 남
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Kickcount : %d"), Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount);
 		// 다시 해 idx 맞을 때 까지
 		FTimerHandle t;
 		GetWorld()->GetTimerManager().SetTimer(t, [&]() {
