@@ -173,6 +173,17 @@ void APS_Base::Load_Player_UserProfile()
 		//else {
 		//	ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
 		//}
+		if (HasAuthority())
+		{
+		}
+		else {
+			FTimerHandle t;
+			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+				ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile); // 방만들고 5초 뒤 터짐
+				//Load_Player_UserProfile();// 여전히 host 것만 나옴
+				}, 5.0f, false);
+			//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
+		}
 
 		return;
 	}
