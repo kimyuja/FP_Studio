@@ -51,7 +51,7 @@ int32 UGI_SneakyAnimals::GetUserIndex(const FString& UserName)
 {
 	if (!UserIndexMap.Contains(UserName))
 	{
-		int32 NewIndex = UserIndexMap.Num() + KickCount;
+		int32 NewIndex = UserIndexMap.Num();
 		UserIndexMap.Add(UserName, NewIndex);
 		SaveUserIndexMap();
 	}
@@ -202,9 +202,9 @@ void UGI_SneakyAnimals::OnJoinSessionComplete(FName SessionName, EOnJoinSessionC
 void UGI_SneakyAnimals::ExitRoom(FString DeleteUserName)
 {
 	// json에서 DeleteUserName 에 해당하는 데이터를 지운다 -> 나중에 같은 이름의 유저가 들어오더라도 중복 방지 하기 위해서.
-	RemoveUserIndex(DeleteUserName);
+	//RemoveUserIndex(DeleteUserName);
 
-	KickCount++;
+	//KickCount++;
 	sessionInterface->DestroySession(FName(*mySessionName));
 }
 
@@ -289,7 +289,7 @@ void UGI_SneakyAnimals::InitializeUserIndexJson()
 	FString ProjectDir = FPaths::ProjectDir();
 	FString FilePath = ProjectDir / TEXT("UserIndex.json");
 
-	FString DefaultContent = TEXT("{}"); // 기본 초기화 내용
+	FString DefaultContent = TEXT("{ \"Sneaky Animals\" : 0 }"); // 기본 초기화 내용
 
 	FFileHelper::SaveStringToFile(DefaultContent, *FilePath);
 }
