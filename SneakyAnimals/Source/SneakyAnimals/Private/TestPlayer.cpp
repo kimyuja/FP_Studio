@@ -572,18 +572,18 @@ void ATestPlayer::Respawn(float delaytime)
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
 		GetMesh()->SetSimulatePhysics(false);
 		ServerRPC_FadeOut(false);
-		/*GetCapsuleComponent()->SetSimulatePhysics(false);
-		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);*/
+		GetCapsuleComponent()->SetSimulatePhysics(false);
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		GetCapsuleComponent()->SetRelativeRotation(FRotator(0, 0, 0));
 		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
 		GetMesh()->SetRelativeRotation(FRotator(0,-90,0));
 		SetActorLocation(respawnLoc);
-		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-		{
-			//it->GetMesh()->SetSimulatePhysics(false);
-			cameraBoom->SetRelativeLocation(FVector(0, 0, 170));
-		}
-		//cameraBoom->SetRelativeLocation(FVector(0,0, 170));
+		//for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+		//{
+		//	//it->GetMesh()->SetSimulatePhysics(false);
+		//	cameraBoom->SetRelativeLocation(FVector(0, 0, 170));
+		//}
+		cameraBoom->SetRelativeLocation(FVector(0,0, 170));
 		//FadeInOut(false);
 		bIsDie = false;
 		bIsBlack = false;
@@ -803,8 +803,8 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("aP = %f, %f, %f"), _aP->GetActorLocation().X, _aP->GetActorLocation().Y, _aP->GetActorLocation().Z);
 		//UE_LOG(LogTemp, Warning, TEXT("P = %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
-		int32 key = g->OnMyActive(_aP);
 		bCanActive = false;
+		int32 key = g->OnMyActive(_aP);
 		if (key == 2)
 		{
 			ServerRPC_ClearStage();
