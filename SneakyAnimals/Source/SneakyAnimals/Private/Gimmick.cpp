@@ -20,6 +20,8 @@
 #include "SP_ShowcaseGimmick.h"
 #include "SP_BottleGimmick.h"
 #include "BS_HandleGimmick.h"
+#include "BS_GoldBarGimmick.h"
+#include "BS_SwitchGimmick.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -116,6 +118,14 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	{
 		_key = Cast<ABS_HandleGimmick>(this)->OnMyActive(ActivePlayer);
 	}
+	else if (Cast<ABS_GoldBarGimmick>(this))
+	{
+		_key = Cast<ABS_GoldBarGimmick>(this)->OnMyActive(ActivePlayer);
+	}
+	else if (Cast<ABS_SwitchGimmick>(this))
+	{
+		_key = Cast<ABS_SwitchGimmick>(this)->OnMyActive(ActivePlayer);
+	}
 	/*if (_key != 2)
 	{
 		gameState->SetDeathCountUp(Cast<ATestPlayer>(ActivePlayer)->playerNum);
@@ -130,7 +140,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 
 void AGimmick::SetActiveType(int32 aType)
 {
-	activeType = aType;
+	//activeType = aType;
 }
 
 void AGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
