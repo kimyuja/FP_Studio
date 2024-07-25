@@ -17,7 +17,6 @@ class SNEAKYANIMALS_API APS_Base : public APlayerState
 
 private:
 	UTexture2D* T_ProfilePicture;
-	int32 RetryCount = 0;
 
 protected:
     UFUNCTION()
@@ -61,9 +60,6 @@ public:
 	// RPC (Remote Procedure Call)
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_Update_Player_Appearance(const FStructure_Player_Appearance _Player_Appearance);
-	
-	UFUNCTION(Server, Reliable)
-	void ServerRPC_Update_RetryCount(int32 cnt);
 	
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_Update_Player_UserProfile(const FStructure_UserProfile _Player_UserProfile);
