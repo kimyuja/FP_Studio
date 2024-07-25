@@ -113,4 +113,7 @@ public:
 	
     UFUNCTION()
     void SetGSWBasicPos();
+
+    UFUNCTION()
+    void RemovedItemCheck(class UItemObject* _itemObject);
 };

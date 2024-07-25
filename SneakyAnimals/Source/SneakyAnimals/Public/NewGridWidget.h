@@ -152,6 +152,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetSwitcherIdx(class AGimmick* _GimmickClass);
-
+	
 
 };
