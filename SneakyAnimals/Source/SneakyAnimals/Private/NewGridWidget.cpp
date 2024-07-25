@@ -610,7 +610,7 @@ int32 UNewGridWidget::NativePaint(const FPaintArgs& Args, const FGeometry& Allot
 
 		if (MyPayload)
 		{
-			FLinearColor boxColor = IsRoomAvailableForPayload(MyPayload) ? FLinearColor(0.0f, 1.0f, 0.0f, 0.25f) : FLinearColor(1.0f, 0.0f, 0.0f, 0.25f);
+			FLinearColor boxColor = IsRoomAvailableForPayload(MyPayload) ? FLinearColor(0.11f, 1.0f, 0.11f, 0.25f) : FLinearColor(1.0f, 0.11f, 0.11f, 0.25f);
 
 			FVector2D boxPos = (FVector2D)draggedItemTopLeft * tileSize;
 			FVector2D boxSize;
