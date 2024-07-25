@@ -99,7 +99,7 @@ void APS_Base::Load_Player_UserProfile()
 	auto RetryLoadPlayerUserProfile = [&]() {
 		if (RetryCount < 10)
 		{
-			RetryCount++;
+			ServerRPC_Update_RetryCount(++RetryCount);
 			UE_LOG(LogTemp, Warning, TEXT("Retrying Load_Player_UserProfile, Attempt: %d"), RetryCount);
 			FTimerHandle t;
 			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
@@ -110,7 +110,7 @@ void APS_Base::Load_Player_UserProfile()
 		else
 		{
 			UE_LOG(LogTemp, Error, TEXT("Max retry attempts reached for Load_Player_UserProfile."));
-			RetryCount = 0; // Reset retry count after max attempts
+			ServerRPC_Update_RetryCount(0); // Reset retry count after max attempts
 		}
 		};
 
@@ -129,7 +129,7 @@ void APS_Base::Load_Player_UserProfile()
 		RetryLoadPlayerUserProfile();
 	}
 	else {
-		RetryCount = 0;
+		ServerRPC_Update_RetryCount(0);
 		// player state 에게 맞는 인덱스라면...
 		if (HasAuthority())
 		{
@@ -253,6 +253,11 @@ void APS_Base::OnRep_Player_ConnectionInfo_OR()
 	(OR = Override)
 	OR 접미사는 Override의 준말이다.
 	*/
+}
+
+void APS_Base::ServerRPC_Update_RetryCount_Implementation(int32 cnt)
+{
+	RetryCount = cnt;
 }
 
 void APS_Base::ServerRPC_Update_SaveGame_Player_UserProfile_Implementation(int32 uniqueIdx, const FStructure_UserProfile _Player_UserProfile)

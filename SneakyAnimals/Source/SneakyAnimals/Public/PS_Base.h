@@ -63,6 +63,9 @@ public:
 	void ServerRPC_Update_Player_Appearance(const FStructure_Player_Appearance _Player_Appearance);
 	
 	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_RetryCount(int32 cnt);
+	
+	UFUNCTION(Server, Reliable)
 	void ServerRPC_Update_Player_UserProfile(const FStructure_UserProfile _Player_UserProfile);
 	
 	UFUNCTION(Server, Reliable)
