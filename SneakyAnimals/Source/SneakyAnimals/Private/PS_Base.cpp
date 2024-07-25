@@ -181,7 +181,10 @@ void APS_Base::Load_Player_UserProfile()
 			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
 				//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile); // 5초 뒤 클라이언트 터짐
 				ServerRPC_Update_Player_UserProfile_Implementation(UFL_General::Get_UserProfile().S_UserProfile);
+				// KYJ Test 0726 윗줄 해보고 안 되면 아랫줄 주석 해제 후 다시 해보기
 				//Load_Player_UserProfile();// 빈 프로필만 나옴 서버에서
+				// 아랫줄 주석해제 후 안 되면 윗줄만 하고 Update_lobby()만 추가해서 해보기
+				
 				}, 5.0f, false);
 			//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
 		}
