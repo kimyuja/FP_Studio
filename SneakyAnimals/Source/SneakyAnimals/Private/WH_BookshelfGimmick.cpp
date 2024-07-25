@@ -87,7 +87,7 @@ UItemObject* AWH_BookshelfGimmick::GetDefaultItemObject()
 
 	if (newItemObject)
 	{
-		newItemObject->dimensions = FIntPoint(2, 2);
+		newItemObject->dimensions = FIntPoint(4, 4);
 		/*newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf"));
 		newItemObject->iconRotated90 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90"));
 		newItemObject->iconRotated180 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R180"));

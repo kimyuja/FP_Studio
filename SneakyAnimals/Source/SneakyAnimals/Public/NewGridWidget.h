@@ -59,7 +59,7 @@ public:
 	TArray<class ULineStructure*> lines;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	float tileSize = 160.f;
+	float tileSize = 80.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	class UItemObject* itemObject;
@@ -86,7 +86,7 @@ public:
 	FSlateBrush boxBrush;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "DragDrop")
-	float levelTileSize = 260.f;
+	float levelTileSize = 130.f;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "WitchsHouse")
 	FVector WHTopLeft = FVector(49480.f, -50750.f, -40.f);

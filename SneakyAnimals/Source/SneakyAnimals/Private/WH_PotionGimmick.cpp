@@ -76,7 +76,7 @@ UItemObject* AWH_PotionGimmick::GetDefaultItemObject()
 
 	if (newItemObject)
 	{
-		newItemObject->dimensions = FIntPoint(2, 1);
+		newItemObject->dimensions = FIntPoint(4, 2);
 		/*newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf"));
 		newItemObject->iconRotated90 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90"));
 		newItemObject->iconRotated180 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R180"));
