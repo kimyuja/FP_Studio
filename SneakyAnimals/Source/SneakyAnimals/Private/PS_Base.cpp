@@ -91,23 +91,23 @@ void APS_Base::Load_Player_UserProfile()
 	try
 	{
 		idx = GameInstance->Get_UserIndex(Username);
-		// 클라이언트인데, 유저 프로필이 예전 save game에 남아있던 유저 프로필이라면...
-		if (!HasAuthority() && idx != GameInstance->Get_MyUserIndex_Num())
-		{
-			// 최신 유저 프로필로 될 때까지 계속 다시 해
-			FTimerHandle t;
-			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-				APS_Base::Load_Player_UserProfile();
-				return;
-				}, 0.2f, false);
-			return;
-		}
-		else if (!HasAuthority() && idx == GameInstance->Get_MyUserIndex_Num()) {
-			// 클라이언트인데, 최신 유저 프로필을 불러왔다면...
+		//// 클라이언트인데, 유저 프로필이 예전 save game에 남아있던 유저 프로필이라면...
+		//if (!HasAuthority() && idx != GameInstance->Get_MyUserIndex_Num())
+		//{
+		//	// 최신 유저 프로필로 될 때까지 계속 다시 해
+		//	FTimerHandle t;
+		//	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+		//		APS_Base::Load_Player_UserProfile();
+		//		return;
+		//		}, 0.2f, false);
+		//	return;
+		//}
+		//else if (!HasAuthority() && idx == GameInstance->Get_MyUserIndex_Num()) {
+		//	// 클라이언트인데, 최신 유저 프로필을 불러왔다면...
 
-			// 서버의 save game에 json 인덱스 끝에다가 저장해
-			ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
-		}
+		//	// 서버의 save game에 json 인덱스 끝에다가 저장해
+		//	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
+		//}
 	}
 	catch (const std::exception& e)
 	{
@@ -138,17 +138,17 @@ void APS_Base::Load_Player_UserProfile()
 	}
 	else {
 		//// player state 에게 맞는 인덱스라면...
-		//if (HasAuthority())
-		//{
-		//	// 서버면 인덱스 0 가져와
-		//	// KYJ Test 이거 해보고 안 되면 주석 처리 하기
-		//	result = UFL_General::Get_UserProfile_with_idx(0);
-		//} 
-		//else
-		//{
-		//	// 클라이언트면 고유 인덱스로 가져와
-		//	result = UFL_General::Get_UserProfile_with_idx(idx);
-		//}
+		if (HasAuthority())
+		{
+			// 서버면 인덱스 0 가져와
+			// KYJ Test 이거 해보고 안 되면 주석 처리 하기
+			result = UFL_General::Get_UserProfile_with_idx(0);
+		} 
+		else
+		{
+			// 클라이언트면 고유 인덱스로 가져와
+			result = UFL_General::Get_UserProfile_with_idx(idx);
+		}
 		if (!result.S_UserProfile.Username.IsEmpty())
 		{
 			// 각 player state 별로 my name 기억해두기
@@ -263,7 +263,8 @@ void APS_Base::OnRep_Player_ConnectionInfo_OR()
 
 void APS_Base::ServerRPC_Update_SaveGame_Player_UserProfile_Implementation(int32 uniqueIdx, const FStructure_UserProfile _Player_UserProfile)
 {
-	UFL_General::Save_UserProfile_with_idx(Cast<UGI_SneakyAnimals>(GetGameInstance())->Get_UserIndex(_Player_UserProfile.Username.ToString()), _Player_UserProfile);
+	//UFL_General::Save_UserProfile_with_idx(Cast<UGI_SneakyAnimals>(GetGameInstance())->Get_UserIndex(_Player_UserProfile.Username.ToString()), _Player_UserProfile);
+	UFL_General::Save_UserProfile_with_idx(uniqueIdx, _Player_UserProfile);
 }
 
 void APS_Base::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
