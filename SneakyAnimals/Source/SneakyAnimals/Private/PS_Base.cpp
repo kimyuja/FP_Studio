@@ -179,8 +179,9 @@ void APS_Base::Load_Player_UserProfile()
 		else {
 			FTimerHandle t;
 			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-				ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile); // 방만들고 5초 뒤 터짐
-				//Load_Player_UserProfile();// 여전히 host 것만 나옴
+				//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile); // 5초 뒤 클라이언트 터짐
+				ServerRPC_Update_Player_UserProfile_Implementation(UFL_General::Get_UserProfile().S_UserProfile);
+				//Load_Player_UserProfile();// 빈 프로필만 나옴 서버에서
 				}, 5.0f, false);
 			//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
 		}
