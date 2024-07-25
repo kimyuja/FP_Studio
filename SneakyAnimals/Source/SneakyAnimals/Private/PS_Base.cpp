@@ -61,7 +61,7 @@ void APS_Base::Load_Player_UserProfile()
 	// json 파일에서, 0번 인덱스는 무조건 서버여야 함(유저네임 주의 fp studio : 0 이 서버)
 	// 예외 처리
 	UGameInstance* GI = GetGameInstance();
-	if (GI == nullptr)
+	if (!IsValid(GI))
 	{
 		UE_LOG(LogTemp, Error, TEXT("GetGameInstance() returned nullptr."));
 	}
