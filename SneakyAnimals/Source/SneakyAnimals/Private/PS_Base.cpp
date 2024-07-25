@@ -55,14 +55,6 @@ void APS_Base::Load_Player_Appearance()
 
 void APS_Base::Load_Player_UserProfile()
 {
-	if (HasAuthority())
-	{
-		FTimerHandle t;
-		GetWorld()->GetTimerManager().SetTimer(t, [](){
-		
-		}, 5.0f, false);
-	}
-
 	// 세이브 게임 0번 인덱스에서 유저 프로필을 불러옴
 	FUserProfileResult result = UFL_General::Get_UserProfile();
 
@@ -165,6 +157,38 @@ void APS_Base::Load_Player_UserProfile()
 	//}
 
 
+	if (result.success)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
+
+		ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
+		//if (HasAuthority())
+		//{
+		//	FTimerHandle t;
+		//	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+		//		//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile); // 방만들고 5초 뒤 터짐
+		//		//Load_Player_UserProfile();// 여전히 host 것만 나옴
+		//		}, 5.0f, false);
+		//}
+		//else {
+		//	ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
+		//}
+
+		return;
+	}
+	else
+	{
+		FStructure_UserProfile tmp;
+		tmp.Username = FText::FromString(TEXT("Username"));
+		tmp.User_Avatar = T_ProfilePicture;
+		ServerRPC_Update_Player_UserProfile_Implementation(tmp);
+		return;
+	}
+}
+
+void APS_Base::Load_Player_UserProfile_Test()
+{
+	FUserProfileResult result = UFL_General::Get_UserProfile();
 	if (result.success)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
