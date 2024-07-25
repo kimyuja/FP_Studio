@@ -61,7 +61,14 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
+	UFUNCTION(Category = "Lobby Status")
+	void Update_KickCount();
+	
+	UFUNCTION(Category = "Lobby Status")
+	int32 Get_KickCount();
+
 private:
+	int32 KickCount = 0;
 	void Update_LobbyStatus_Indicator(ESlateVisibility s, FText LobbyStatus_Text);
 	void Update_Lobby_Launchevent(bool bLaunchingGame);
 	void Reset_Player_ReadyStatus();

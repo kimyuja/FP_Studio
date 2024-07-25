@@ -27,8 +27,9 @@ public:
 	virtual void Shutdown() override;
 	virtual void Init() override;
 
-	int32 GetUserIndex(const FString& UserName);
-    void RemoveUserIndex(const FString& UserName);
+	int32 Get_UserIndex(const FString& UserName);
+	int32 Get_MyUserIndex_Num();
+    void Remove_UserIndex(const FString& UserName);
 	bool bContains_UserName(const FString& UserName);
 
 	// new version(net tps gs)
@@ -84,10 +85,6 @@ public:
     FOnCreateSessionFailure OnCreateSessionFailure;
 
 	FText MyName;
-	int32 KickCount = 0;
-
-	UFUNCTION(Server, Reliable)
-	void ServerRPC_KickCountUpdate();
 
 //--------------------
 	

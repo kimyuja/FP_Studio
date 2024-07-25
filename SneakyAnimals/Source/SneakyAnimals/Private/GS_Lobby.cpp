@@ -189,6 +189,16 @@ void AGS_Lobby::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetim
 	DOREPLIFETIME(AGS_Lobby, ConnectedPlayers_PlayerConnectionInfo);
 }
 
+void AGS_Lobby::Update_KickCount()
+{
+	++KickCount;
+}
+
+int32 AGS_Lobby::Get_KickCount()
+{
+	return KickCount;
+}
+
 void AGS_Lobby::Update_LobbyStatus_Indicator(ESlateVisibility s, FText LobbyStatus_Text)
 {
 	APC_Lobby* pc_lobby = Cast<APC_Lobby>(UGameplayStatics::GetPlayerController(GetWorld(), 0));

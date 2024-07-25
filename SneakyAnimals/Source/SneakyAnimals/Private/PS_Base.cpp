@@ -7,6 +7,7 @@
 #include "FL_General.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/GameStateBase.h>
 #include "GI_SneakyAnimals.h"
+#include "GS_Lobby.h"
 
 
 void APS_Base::ServerRPC_Update_Player_Appearance_Implementation(const FStructure_Player_Appearance _Player_Appearance)
@@ -54,21 +55,13 @@ void APS_Base::Load_Player_Appearance()
 
 void APS_Base::Load_Player_UserProfile()
 {
-	// log : client는 rty, server는 kyj -> rty를 kyj 서버가 알게 해야 함
+	// 세이브 게임 0번 인덱스에서 유저 프로필을 불러옴
 	FUserProfileResult result = UFL_General::Get_UserProfile();
 
-	// KYJ Test
-	// 인덱스 0번 세이브 게임
-	// json 파일에서, 0번 인덱스는 무조건 서버여야 함(유저네임 주의, 아예 없앤 상태로 시작하는 게 베스트)
-
-	// result에 있는 값을 유니크 인덱스인 세이브 게임에 다시 저장함
-	// 다시 저장하는 걸 server rpc로 하면 서버에서도 클라이언트의 세이브 게임이 보임! (유니크 인덱스로 접근)
-	// 게임 맵으로 이동 후 FUserProfileResult result = UFL_General::Get_UserProfile(); 0번 인덱스
-	// 0번 인덱스에 클라이언트 본인의 유저 네임이 있으니 그걸로 json 에서 유니크 인덱스 찾은 다음 appearance 입히면 됨
+	// json 파일에서, 0번 인덱스는 무조건 서버여야 함(유저네임 주의 fp studio : 0 이 서버)
 	
 	// 예외 처리
 	UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(GetGameInstance());
-
 	if (GameInstance == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Failed to get GameInstance or invalid cast to UGI_SneakyAnimals."));
@@ -76,11 +69,31 @@ void APS_Base::Load_Player_UserProfile()
 	}
 
 	FString Username = result.S_UserProfile.Username.ToString();
+	// 클라이언트일 때 유저네임이 맨끝 유저네임이 진짜 자기 꺼임
+	// 클라이언트면 맨 끝 유저네임 뽑을 때까지 계속 반복 (SG에 남아있는 예전 프로필은 안 돼)
+	// 맨 끝인지 확인하는 건 Username으로 getuserindex 함수 실행하고 그 값이 userindexmap num이랑 같은지 확인하면 됨
+	// 근데 그 인덱스 값은 서버랑 다름 주의!!
 	int32 idx = -1;
+	// 강퇴할 때 kick count 를 게임 인스턴스 말고 모두가 공유하는-서버 따로 클라 따로가 아닌 곳-에 저장해서 업뎃하면 됨
+	// kick count 는 ServerRPC_Update_KickCount(int32 cnt);
+
+	// 게임 맵으로 이동 후 클라 : json에 있는 가장 마지막 유저네임이 본인
+	// 게임 맵으로 이동 후 서버 : json에 있는 0번이 서버 꺼.
 
 	try
 	{
-		idx = GameInstance->GetUserIndex(Username);
+		idx = GameInstance->Get_UserIndex(Username);
+		// 클라이언트인데, 유저 프로필이 예전 save game에 남아있던 유저 프로필이라면...
+		if (!HasAuthority() && idx != GameInstance->Get_MyUserIndex_Num())
+		{
+			// 최신 유저 프로필로 될 때까지 계속 다시 해
+			FTimerHandle t;
+			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+				APS_Base::Load_Player_UserProfile();
+				return;
+				}, 0.2f, false);
+			return;
+		}
 	}
 	catch (const std::exception& e)
 	{
@@ -99,15 +112,15 @@ void APS_Base::Load_Player_UserProfile()
 	// idx == 0 이면 서버
 	//if (idx == 0 && !HasAuthority()) // server만 나옴
 	//if (idx == 0) // client -> server로 전염
-	if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1 + Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount && HasAuthority()) // 잘 되는데 강퇴하면 크래쉬 남
+	if (idx != GetWorld()->GetGameState()->PlayerArray.Num()-1 + Cast<AGS_Lobby>(GetWorld()->GetGameState())->Get_KickCount() && HasAuthority()) // 잘 되는데 강퇴하고 같은 놈이 프로필 바꿔서 다시 들어오면 강퇴한 놈의 프로필로 들어감
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Kickcount : %d"), Cast<UGI_SneakyAnimals>(GetGameInstance())->KickCount);
+		UE_LOG(LogTemp, Warning, TEXT("Kickcount : %d"), Cast<AGS_Lobby>(GetWorld()->GetGameState())->Get_KickCount());
 		// 다시 해 idx 맞을 때 까지
 		FTimerHandle t;
 		GetWorld()->GetTimerManager().SetTimer(t, [&]() {
 			APS_Base::Load_Player_UserProfile();
 			return;
-			}, 0.2f, false);
+			}, 0.3f, false);
 	}
 	else {
 		// player state 에게 맞는 인덱스라면...

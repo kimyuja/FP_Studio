@@ -17,6 +17,7 @@
 #include "Dom/JsonObject.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
+#include "GS_Lobby.h"
 
 void UGI_SneakyAnimals::Shutdown()
 {
@@ -47,7 +48,7 @@ void UGI_SneakyAnimals::Init()
 	}
 }
 
-int32 UGI_SneakyAnimals::GetUserIndex(const FString& UserName)
+int32 UGI_SneakyAnimals::Get_UserIndex(const FString& UserName)
 {
 	if (!UserIndexMap.Contains(UserName))
 	{
@@ -60,7 +61,12 @@ int32 UGI_SneakyAnimals::GetUserIndex(const FString& UserName)
 	return UserIndexMap[UserName];
 }
 
-void UGI_SneakyAnimals::RemoveUserIndex(const FString& UserName)
+int32 UGI_SneakyAnimals::Get_MyUserIndex_Num()
+{
+	return UserIndexMap.Num();
+}
+
+void UGI_SneakyAnimals::Remove_UserIndex(const FString& UserName)
 {
 	if (UserIndexMap.Contains(UserName))
 	{
@@ -202,9 +208,11 @@ void UGI_SneakyAnimals::OnJoinSessionComplete(FName SessionName, EOnJoinSessionC
 void UGI_SneakyAnimals::ExitRoom(FString DeleteUserName)
 {
 	// json에서 DeleteUserName 에 해당하는 데이터를 지운다 -> 나중에 같은 이름의 유저가 들어오더라도 중복 방지 하기 위해서.
-	//RemoveUserIndex(DeleteUserName);
+	//Remove_UserIndex(DeleteUserName);
 
-	ServerRPC_KickCountUpdate();
+	//ServerRPC_KickCountUpdate();
+	Cast<AGS_Lobby>(GetWorld()->GetGameState())->Update_KickCount();
+	
 	sessionInterface->DestroySession(FName(*mySessionName));
 }
 
@@ -231,11 +239,6 @@ FString UGI_SneakyAnimals::StringBase64Decode(const FString& str)
 	FBase64::Decode(str, arrayData);
 	std::string ut8String((char*)(arrayData.GetData()), arrayData.Num());
 	return UTF8_TO_TCHAR(ut8String.c_str());
-}
-
-void UGI_SneakyAnimals::ServerRPC_KickCountUpdate_Implementation()
-{
-	KickCount++;
 }
 
 void UGI_SneakyAnimals::GetRandomplayer()
