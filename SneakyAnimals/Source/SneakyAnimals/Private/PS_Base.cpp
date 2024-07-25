@@ -59,9 +59,12 @@ void APS_Base::Load_Player_UserProfile()
 	FUserProfileResult result = UFL_General::Get_UserProfile();
 
 	// json 파일에서, 0번 인덱스는 무조건 서버여야 함(유저네임 주의 fp studio : 0 이 서버)
-	
 	// 예외 처리
-	UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(GetGameInstance());
+	UGI_SneakyAnimals* GameInstance = nullptr;
+	if (GetWorld())
+	{
+		GameInstance = Cast<UGI_SneakyAnimals>(GetWorld()->GetGameInstance());
+	}
 	if (GameInstance == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Failed to get GameInstance or invalid cast to UGI_SneakyAnimals."));
