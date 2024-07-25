@@ -53,7 +53,7 @@ void AWH_BookshelfGimmick::BeginPlay()
 void AWH_BookshelfGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	UE_LOG(LogTemp, Warning, TEXT("My type : %d"), Myactivetype);
 	lerpTime += DeltaTime;
 
 	if(lerpTime > 1)

@@ -53,7 +53,6 @@ void AGimmick::BeginPlay()
 void AGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 int32 AGimmick::OnMyActive(AActor* ActivePlayer)

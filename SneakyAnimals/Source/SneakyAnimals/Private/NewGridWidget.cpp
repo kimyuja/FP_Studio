@@ -242,6 +242,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 				{
 
 					bookShelfActor->Myactivetype = _ActiveType;
+					bookShelfActor->SetActiveType(_ActiveType);
 
 					itemObject = bookShelfActor->GetDefaultItemObject();
 
@@ -277,6 +278,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 			{
 
 				broomStickActor->Myactivetype = _ActiveType;
+				broomStickActor->SetActiveType(_ActiveType);
 
 				itemObject = broomStickActor->GetDefaultItemObject();
 
@@ -296,6 +298,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 			for (AWH_PotionGimmick* potionActor : potionActorArr)
 			{
 				potionActor->Myactivetype = _ActiveType;
+				potionActor->SetActiveType(_ActiveType);
 
 				itemObject = potionActor->GetDefaultItemObject();
 
@@ -314,6 +317,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 			{
 				// cauldronActor->newItemObject->itemActiveType = _ActiveType;
 				cauldronActor->Myactivetype = _ActiveType;
+				cauldronActor->SetActiveType(_ActiveType);
 
 				itemObject = cauldronActor->GetDefaultItemObject();
 
