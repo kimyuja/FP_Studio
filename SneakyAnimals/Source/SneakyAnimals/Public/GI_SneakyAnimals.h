@@ -84,7 +84,7 @@ public:
     FOnCreateSessionFailure OnCreateSessionFailure;
 
 	FText MyName;
-	//int32 KickCount = 0;
+	int32 KickCount = 0;
 
 //--------------------
 	
