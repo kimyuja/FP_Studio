@@ -140,7 +140,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 
 void AGimmick::SetActiveType(int32 aType)
 {
-	//activeType = aType;
+	activeType = aType;
 }
 
 void AGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

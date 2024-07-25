@@ -23,9 +23,11 @@ void ASAGameStateBase::BeginPlay()
 void ASAGameStateBase::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+    clearTime[stageNum - 1] += DeltaTime;
+    UE_LOG(LogTemp, Warning, TEXT("STAGE %d, %f"), (stageNum - 1), clearTime[stageNum - 1]);
     if (bOnGame)
     {
-        clearTime[stageNum - 1] += DeltaTime;
+        
     }
 }
 
@@ -156,6 +158,7 @@ FText ASAGameStateBase::MakeClearTime()
     /*FString clearS = FString::FromInt(clearTime[stageNum - 1]/60) + ":" + FString::FromInt((int)clearTime[stageNum - 1] % 60);
     return FText::FromString(clearS);*/
 }
+
 
 
 void ASAGameStateBase::MoveNextStage(FVector moveLoc)
