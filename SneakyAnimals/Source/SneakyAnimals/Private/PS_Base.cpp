@@ -102,6 +102,12 @@ void APS_Base::Load_Player_UserProfile()
 				}, 0.2f, false);
 			return;
 		}
+		else if (!HasAuthority() && idx == GameInstance->Get_MyUserIndex_Num()) {
+			// 클라이언트인데, 최신 유저 프로필을 불러왔다면...
+
+			// 서버의 save game에 json 인덱스 끝에다가 저장해
+			ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
+		}
 	}
 	catch (const std::exception& e)
 	{
@@ -115,7 +121,7 @@ void APS_Base::Load_Player_UserProfile()
 	}
 
 	//int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
-	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
+	//ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
 
 	// idx == 0 이면 서버
 	//if (idx == 0 && !HasAuthority()) // server만 나옴
@@ -131,18 +137,18 @@ void APS_Base::Load_Player_UserProfile()
 			}, 0.3f, false);
 	}
 	else {
-		// player state 에게 맞는 인덱스라면...
-		if (HasAuthority())
-		{
-			// 서버면 인덱스 0 가져와
-			// KYJ Test 이거 해보고 안 되면 주석 처리 하기
-			result = UFL_General::Get_UserProfile_with_idx(0);
-		} 
-		else
-		{
-			// 클라이언트면 고유 인덱스로 가져와
-			result = UFL_General::Get_UserProfile_with_idx(idx);
-		}
+		//// player state 에게 맞는 인덱스라면...
+		//if (HasAuthority())
+		//{
+		//	// 서버면 인덱스 0 가져와
+		//	// KYJ Test 이거 해보고 안 되면 주석 처리 하기
+		//	result = UFL_General::Get_UserProfile_with_idx(0);
+		//} 
+		//else
+		//{
+		//	// 클라이언트면 고유 인덱스로 가져와
+		//	result = UFL_General::Get_UserProfile_with_idx(idx);
+		//}
 		if (!result.S_UserProfile.Username.IsEmpty())
 		{
 			// 각 player state 별로 my name 기억해두기
@@ -257,7 +263,7 @@ void APS_Base::OnRep_Player_ConnectionInfo_OR()
 
 void APS_Base::ServerRPC_Update_SaveGame_Player_UserProfile_Implementation(int32 uniqueIdx, const FStructure_UserProfile _Player_UserProfile)
 {
-	UFL_General::Save_UserProfile_with_idx(uniqueIdx, _Player_UserProfile);
+	UFL_General::Save_UserProfile_with_idx(Cast<UGI_SneakyAnimals>(GetGameInstance())->Get_UserIndex(_Player_UserProfile.Username.ToString()), _Player_UserProfile);
 }
 
 void APS_Base::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
