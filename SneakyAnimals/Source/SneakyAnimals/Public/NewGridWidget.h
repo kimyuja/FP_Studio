@@ -18,6 +18,7 @@ class SNEAKYANIMALS_API UNewGridWidget : public UUserWidget
 public:
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override; 
+
 	virtual int32 NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override; 
 	virtual bool NativeOnDragOver(const FGeometry& MyGeometry, const FDragDropEvent& DragDropEvent, UDragDropOperation* Operation) override;
@@ -39,6 +40,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
     TSubclassOf<UUserWidget> itemImgWidgetClass;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+    TSubclassOf<UUserWidget> gimmickSelectionWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	class UGimmickSelectionWidget* gimmickSelectionWidget;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	class UCanvasPanelSlot* canvasSlot;
 	
@@ -145,7 +152,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetSwitcherIdx(class AGimmick* _GimmickClass);
-
 
 
 };

@@ -22,6 +22,7 @@ class SNEAKYANIMALS_API UGimmickSelectionWidget : public UUserWidget
 protected:
 	virtual void NativeConstruct() override;
 	virtual bool Initialize() override;
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
 
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
@@ -70,5 +71,15 @@ public:
 
 	UPROPERTY()
 	FName buttonName;
+
+	/*UPROPERTY(BlueprintReadWrite, Category = "Settings")
+    bool bUsedClearGimmick = false;*/
+
+	 UFUNCTION(BlueprintCallable, Category = "Settings")
+    void UpdateClearBtnState();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+    bool bUsedClearGimmick;
+
 
 };

@@ -13,12 +13,20 @@
 #include "WH_WitchCauldronGimmick.h"
 #include "Gimmick.h"
 #include <MapCustomWidget.h>
+#include <../../../../../../../Source/Runtime/SlateCore/Public/Widgets/InvalidateWidgetReason.h>
+#include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateTypes.h>
 
 void UGimmickSelectionWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	gridWidget = CreateWidget<UNewGridWidget>(GetWorld(), newGridWidget);
+	
+	bUsedClearGimmick = false;
+
+	UE_LOG(LogTemp, Warning, TEXT("Start Clear : %d"), bUsedClearGimmick);
+
+	UpdateClearBtnState();
 
 }
 
@@ -27,22 +35,27 @@ bool UGimmickSelectionWidget::Initialize()
 	bool Success = Super::Initialize();
 	if (!Success) return false;
 
-    if (GimmickBtn1)
-    {
-        GimmickBtn1->OnClicked.AddDynamic(this, &UGimmickSelectionWidget::OnGimmickBtn1Clicked);
-    }
+	if (GimmickBtn1)
+	{
+		GimmickBtn1->OnClicked.AddDynamic(this, &UGimmickSelectionWidget::OnGimmickBtn1Clicked);
+	}
 
-    if (GimmickBtn2)
-    {
-        GimmickBtn2->OnClicked.AddDynamic(this, &UGimmickSelectionWidget::OnGimmickBtn2Clicked);
-    }
+	if (GimmickBtn2)
+	{
+		GimmickBtn2->OnClicked.AddDynamic(this, &UGimmickSelectionWidget::OnGimmickBtn2Clicked);
+	}
 
-    if (ClearBtn)
-    {
-        ClearBtn->OnClicked.AddDynamic(this, &UGimmickSelectionWidget::OnClearBtnClicked);
-    }
+	if (ClearBtn)
+	{
+		ClearBtn->OnClicked.AddDynamic(this, &UGimmickSelectionWidget::OnClearBtnClicked);
+	}
 
 	return true;
+}
+
+void UGimmickSelectionWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	UpdateClearBtnState();
 }
 
 void UGimmickSelectionWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -60,7 +73,7 @@ void UGimmickSelectionWidget::NativeOnMouseLeave(const FPointerEvent& InMouseEve
 void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("!!! GIMMICK1 BTN CLICK -> SET ACTIVENUM : 0"));
+	UE_LOG(LogTemp, Warning, TEXT("!! GIMMICK1 BTN CLICK -> SET ACTIVENUM : 0"));
 
 	SetVisibility(ESlateVisibility::Collapsed);
 
@@ -90,7 +103,7 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("!!! GIMMICK2 BTN CLICK -> SET ACTIVENUM : 1"));
+	UE_LOG(LogTemp, Warning, TEXT("!! GIMMICK2 BTN CLICK -> SET ACTIVENUM : 1"));
 
 	SetVisibility(ESlateVisibility::Collapsed);
 
@@ -119,7 +132,7 @@ void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 void UGimmickSelectionWidget::OnClearBtnClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("!!! CLEAR BTN CLICK -> SET ACTIVENUM : 2"));
+	UE_LOG(LogTemp, Warning, TEXT("!! CLEAR BTN CLICK -> SET ACTIVENUM : 2"));
 
 	SetVisibility(ESlateVisibility::Collapsed);
 
@@ -140,9 +153,13 @@ void UGimmickSelectionWidget::OnClearBtnClicked()
 		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 2);
 	}
 	else
-	{	
+	{
 		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
 	}
+
+	bUsedClearGimmick = true;
+
+	UpdateClearBtnState();
 
 }
 
@@ -150,5 +167,29 @@ void UGimmickSelectionWidget::BindBtnWithActiveType(FName _BtnName)
 {
 	buttonName = _BtnName;
 
-	UE_LOG(LogTemp, Warning, TEXT("!!! MY BUTTON NAME IS %s"), *buttonName.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("!! MY BUTTON NAME IS %s"), *buttonName.ToString());
+}
+
+void UGimmickSelectionWidget::UpdateClearBtnState()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Clear : %d"), bUsedClearGimmick);
+	ClearBtn->SetIsEnabled(!bUsedClearGimmick);
+
+	FLinearColor buttonColor;
+
+	if (!ClearBtn->GetIsEnabled())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("!!! CLEAR BTN IS NOT ENABLED"));
+		buttonColor = FLinearColor(0.f, 0.f, 0.f, 0.5f);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("!!! CLEAR BTN IS ENABLED"));
+		buttonColor = FLinearColor(1.f, 1.f, 1.f, 1.f);
+	}
+
+	ClearBtn->SetColorAndOpacity(buttonColor);
+
+	Invalidate(EInvalidateWidget::LayoutAndVolatility);
+
 }

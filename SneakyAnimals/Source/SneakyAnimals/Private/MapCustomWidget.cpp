@@ -110,6 +110,14 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 	{
 		if (ItemOperation->draggedItemObj)
 		{
+			if (ItemOperation->draggedItemObj->itemActiveType == 2)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("!!! REMOVED ITEM ACTIVE TYPE IS %d"), ItemOperation->draggedItemObj->itemActiveType);
+
+				gimmickSelectionWidget->bUsedClearGimmick = false;
+				gimmickSelectionWidget->UpdateClearBtnState();
+			}
+
 			AGimmick* matchingActor = NewGridWidget->FindMatchingActor(ItemOperation->draggedItemObj);
 
 			if (matchingActor)

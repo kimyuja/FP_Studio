@@ -37,6 +37,7 @@
 #include "WH_PotionGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
+#include "GimmickSelectionWidget.h"
 
 bool UNewGridWidget::Initialize()
 {
@@ -108,11 +109,17 @@ void UNewGridWidget::NativeConstruct()
 
 	itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
 
+	gimmickSelectionWidget = CreateWidget<UGimmickSelectionWidget>(GetWorld(), gimmickSelectionWidgetClass);
+	
+	if (!gimmickSelectionWidget)
+	{
+		return;
+	}
+
 }
 
 void UNewGridWidget::OnItemRemoved(UItemObject* _ItemObject)
 {
-	// itemObject = _ItemObject;
 	itemComp->RemoveItem(_ItemObject);
 }
 
@@ -451,7 +458,6 @@ void UNewGridWidget::Refresh()
 		return FVector(worldX, worldY, WHTopLeft.Z);
 	};
 
-
 	for (UItemObject* key : Keys)
 	{
 		FTileStructureTemp* topLeftTile = allItems.Find(key);
@@ -459,7 +465,7 @@ void UNewGridWidget::Refresh()
 		itemObject = key;
 
 		UW_ItemImg* newItemImgWidget = CreateWidget<UW_ItemImg>(GetWorld(), itemImgWidgetClass);
-		UE_LOG(LogTemp, Warning, TEXT("widget!"));
+
 		if (newItemImgWidget)
 		{
 			newItemImgWidget->tileSize = tileSize;
