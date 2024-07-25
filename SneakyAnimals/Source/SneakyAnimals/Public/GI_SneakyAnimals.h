@@ -86,6 +86,9 @@ public:
 	FText MyName;
 	int32 KickCount = 0;
 
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_KickCountUpdate();
+
 //--------------------
 	
 	UFUNCTION()
