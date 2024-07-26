@@ -297,7 +297,7 @@ void UGI_SneakyAnimals::InitializeUserIndexJson()
 	FString ProjectDir = FPaths::ProjectDir();
 	FString FilePath = ProjectDir / TEXT("UserIndex.json");
 
-	FString DefaultContent = TEXT("{ \"fp studio\" : 0 }"); // 기본 초기화 내용
+	FString DefaultContent = TEXT("{}"); // 기본 초기화 내용
 
 	FFileHelper::SaveStringToFile(DefaultContent, *FilePath);
 }
