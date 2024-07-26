@@ -5,7 +5,7 @@
 #include "NewGridWidget.h"
 
 
-FIntPoint UItemObject::GetDimensions() const
+FIntPoint UItemObject::GetDimensions(UItemObject* _itemObj)
 {
     // UE_LOG(LogTemp, Warning, TEXT("!!! Dimension XY is %d %d"), dimensions.X, dimension.Y);
     UE_LOG(LogTemp, Warning, TEXT("Rotation Angle: %f"), rotationAngle);

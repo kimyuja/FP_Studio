@@ -769,7 +769,7 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 			{
 				itemObject->RotateGA(payLoadTemp);
 
-				FIntPoint NewDimensions = payLoadTemp->GetDimensions();
+				FIntPoint NewDimensions = payLoadTemp->GetDimensions(payLoadTemp);
 				payLoadTemp->SetDimensions(NewDimensions);
 				UE_LOG(LogTemp, Warning, TEXT("!!!! payLoadTemp dimension is (%d, %d)"), payLoadTemp->dimensions.X, payLoadTemp->dimensions.Y);
 

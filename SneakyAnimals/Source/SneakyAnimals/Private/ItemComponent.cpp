@@ -79,7 +79,7 @@ bool UItemComponent::TryAddItem(UItemObject* _ItemObject)
 bool UItemComponent::IsRoomAvailable(UItemObject* __ItemObject, int32 __TopLeftIndex)
 {
 	// itemObject를 위한 공간이 존재하는지 여부 확인
-	FIntPoint itemDimension = __ItemObject->GetDimensions();
+	FIntPoint itemDimension = __ItemObject->GetDimensions(__ItemObject);
 	FTileStructureTemp topLeftTile = IndexToTile(__TopLeftIndex);
 
 	int32 iLastIdx = topLeftTile.X + itemDimension.X;
@@ -194,7 +194,7 @@ bool UItemComponent::GetItemAtIndex(int32 Index)
 
 void UItemComponent::AddItemAt(UItemObject* _ItemObject_, int32 _TopLeftIndex_)
 {
-	FIntPoint itemDimension = _ItemObject_->GetDimensions();
+	FIntPoint itemDimension = _ItemObject_->GetDimensions(_ItemObject_);
 	UE_LOG(LogTemp, Warning, TEXT("!!! ITEMCOMPONENT Dimension XY is %d %d"), itemDimension.X, itemDimension.Y)
 	FTileStructureTemp topLeftTile = IndexToTile(_TopLeftIndex_);
 	UE_LOG(LogTemp, Warning, TEXT("!!! topLeft tile X is %d"), topLeftTile.X);

@@ -39,7 +39,7 @@ public:
 	TSubclassOf<class AGimmick> itemClass;
 
 	UFUNCTION(BlueprintCallable)
-	FIntPoint GetDimensions() const;
+	FIntPoint GetDimensions(UItemObject* _itemObj);
 	
 	UFUNCTION(BlueprintCallable)
 	UMaterialInterface* GetIcon() const;
