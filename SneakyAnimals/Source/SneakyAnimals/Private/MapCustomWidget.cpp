@@ -169,7 +169,7 @@ void UMapCustomWidget::UpdateTimer()
 	if (timeRemaining > 0)
 	{
 		timeRemaining--;
-		UE_LOG(LogTemp, Warning, TEXT("Time remaining: %d"), timeRemaining);
+		//UE_LOG(LogTemp, Warning, TEXT("Time remaining: %d"), timeRemaining);
 
 		if (min)
 		{

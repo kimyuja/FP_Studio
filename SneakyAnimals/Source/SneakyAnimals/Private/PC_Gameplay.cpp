@@ -17,9 +17,10 @@ void APC_Gameplay::BeginPlay()
 }
 void APC_Gameplay::ServerRPC_Spawn_Character_Implementation()
 {
-	// KYJ 0726 Spawn character 함수 호출
+	UE_LOG(LogTemp, Warning, TEXT("2 APC_Gameplay::ServerRPC_Spawn_Character"));
 	Cast<ASAModeBase>(GetWorld()->GetAuthGameMode())->Spawn_Character(this);
 }
+
 bool APC_Gameplay::ValidatePlayerState()
 {
 	// Ensures that the player state is Valid before we setup the PlayerController
@@ -28,13 +29,16 @@ bool APC_Gameplay::ValidatePlayerState()
 	
 	if (PlayerState->IsValidLowLevel())
 	{
+		UE_LOG(LogTemp, Warning, TEXT("0 APC_Gameplay::PlayerState->IsValid"));
 		return true;
 	}
 	else
 	{
+		UE_LOG(LogTemp, Warning, TEXT("0 APC_Gameplay::PlayerState->Is Not Valid"));
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle_PlayerStateCheck, [&]() {
 			if (ValidatePlayerState())
 			{
+				UE_LOG(LogTemp, Warning, TEXT("0 APC_Gameplay::PlayerState 다시 validate!!!!!!!!"));
 				Setup_PC();
 			}
 			}, 0.2f, false);
@@ -47,6 +51,7 @@ void APC_Gameplay::Setup_PC()
 {
 	if (IsLocalPlayerController()) 
 	{
+		UE_LOG(LogTemp, Warning, TEXT("1 APC_Gameplay::Setup_PC()"));
 		ServerRPC_Spawn_Character();
 	}
 }

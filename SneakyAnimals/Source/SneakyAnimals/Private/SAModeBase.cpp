@@ -171,8 +171,24 @@ void ASAModeBase::ServerTravel_ToLobbyMap()
 void ASAModeBase::Spawn_Character(APlayerController* player)
 {
     // spawn character 할 때 pawn destroy하고 다시 possess 하는 과정이 있는데 일단 생략하겠음
-    // OC Init Appearance
-    Cast<ATestPlayer>(player)->ClientRPC_Init_Appearance();
+    UE_LOG(LogTemp, Warning, TEXT("3 ASAModeBase::Spawn_Character"));
+
+    // player가 null인지 확인
+    if (!player)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Player controller is null"));
+        return;
+    }
+
+    // ATestPlayer로 캐스트가 성공하는지 확인
+    ATestPlayer* TestPlayer = Cast<ATestPlayer>(player->GetPawn());
+    if (!TestPlayer)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Cast to ATestPlayer failed"));
+        return;
+    }
+
+    TestPlayer->ClientRPC_Init_Appearance();
 }
 
 void ASAModeBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
