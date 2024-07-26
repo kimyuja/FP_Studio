@@ -46,7 +46,16 @@ public:
 	class UCanvasPanel* MyCanvas;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UWidgetSwitcher* itemImgSwitcher;
+	class UWidgetSwitcher* ItemImgSwitcher;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* BookShelfImgSwitcher;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* BroomStickImgSwitcher;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* PotionImgSwitcher;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* PotImgSwitcher;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	class UItemObject* thisItemObject;
@@ -55,7 +64,7 @@ public:
 	FVector2D size;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Item")
-	float tileSize = 160.f;
+	float tileSize = 80.f;
 
 	UFUNCTION(BlueprintCallable, Category = "Item")
 	void Refresh();

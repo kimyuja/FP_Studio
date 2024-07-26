@@ -2,6 +2,7 @@
 
 
 #include "ItemObject.h"
+#include "NewGridWidget.h"
 
 
 FIntPoint UItemObject::GetDimensions() const
@@ -55,6 +56,8 @@ void UItemObject::RotateGA(UItemObject* _itemObj)
     {
         _itemObj->rotationAngle += 90.f;
     }
+
+    UE_LOG(LogTemp, Warning, TEXT("!!!! rotation Angle is %f"), _itemObj->rotationAngle);
 }
 
 float UItemObject::IsRotatedGA()
@@ -64,7 +67,15 @@ float UItemObject::IsRotatedGA()
 
 void UItemObject::SetDimensions(const FIntPoint& NewDimensions)
 {
-    currentDimensions = NewDimensions;
+    // currentDimensions = NewDimensions;
     dimensions = NewDimensions;
-    UE_LOG(LogTemp, Warning, TEXT("New Dimensions: X=%d, Y=%d"), dimensions.X, dimensions.Y);
+    
+    /*UNewGridWidget* gridWidget = CreateWidget<UNewGridWidget>(GetWorld());
+    if (gridWidget)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("!!!! rreeffrreesshh"));
+        gridWidget->Refresh();
+    }*/
+
+    UE_LOG(LogTemp, Warning, TEXT("!!!! New Dimensions: X=%d, Y=%d"), dimensions.X, dimensions.Y);
 }

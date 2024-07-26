@@ -17,10 +17,13 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Blueprint/DragDropOperation.h>
 #include "Gimmick.h"
 #include "Components/WidgetSwitcher.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetSwitcher.h>
 
 bool UW_ItemImg::Initialize()
 {
 	Super::Initialize();
+
+
 
 	return false;
 }
@@ -38,6 +41,11 @@ void UW_ItemImg::NativeConstruct()
 
 	gridWidget = CreateWidget<UNewGridWidget>(GetWorld(), newGridWidget);
 
+	ItemImgSwitcher->AddChild(BookShelfImgSwitcher);
+	ItemImgSwitcher->AddChild(BroomStickImgSwitcher);
+	ItemImgSwitcher->AddChild(PotionImgSwitcher);
+	ItemImgSwitcher->AddChild(PotImgSwitcher);
+	
 }
 
 void UW_ItemImg::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -80,9 +88,9 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 
 		UE_LOG(LogTemp, Warning, TEXT("!!! SWITCHER INDEX NUM IS %d"), switcherIdx);
 
-		if (switcherIdx != -1 && itemImgSwitcher)
+		if (switcherIdx != -1 && ItemImgSwitcher)
 		{
-			DragVisual->itemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
+			DragVisual->ItemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
 		}
 
 		UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(MyCanvas);

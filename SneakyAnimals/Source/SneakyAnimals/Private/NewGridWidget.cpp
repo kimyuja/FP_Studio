@@ -473,6 +473,7 @@ void UNewGridWidget::Refresh()
 		if (newItemImgWidget)
 		{
 			newItemImgWidget->tileSize = tileSize;
+			
 			// UE_LOG(LogTemp, Warning, TEXT("!!! tileSize : %f"), tileSize);
 
 			//newItemImgWidget->thisItemObject = itemObject;
@@ -481,9 +482,9 @@ void UNewGridWidget::Refresh()
 			AGimmick* gm = FindMatchingActor(itemObject);
 			int32 switcherIdx = GetSwitcherIdx(gm);
 
-			if (switcherIdx != -1 && newItemImgWidget->itemImgSwitcher)
+			if (switcherIdx != -1 && newItemImgWidget->ItemImgSwitcher)
 			{
-				newItemImgWidget->itemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
+				newItemImgWidget->ItemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
 			}
 
 			newItemImgWidget->OnRemoved.AddDynamic(this, &UNewGridWidget::OnItemRemoved);
@@ -770,20 +771,44 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 
 				FIntPoint NewDimensions = payLoadTemp->GetDimensions();
 				payLoadTemp->SetDimensions(NewDimensions);
+				UE_LOG(LogTemp, Warning, TEXT("!!!! payLoadTemp dimension is (%d, %d)"), payLoadTemp->dimensions.X, payLoadTemp->dimensions.Y);
 
-				UW_ItemImg* imgWidgetTemp = Cast<UW_ItemImg>(dragDropOperation->DefaultDragVisual);
+				UE_LOG(LogTemp, Warning, TEXT("!!!! itemObject dimension is (%d, %d)"), itemObject->dimensions.X, itemObject->dimensions.Y);
 
-				if (IsValid(imgWidgetTemp))
-				{
+				Refresh();
+
+				return FReply::Handled();
+				/*UW_ItemImg* imgWidgetTemp = Cast<UW_ItemImg>(dragDropOperation->DefaultDragVisual);*/
+
+				// if (IsValid(imgWidgetTemp))
+				// {
 					// imgWidgetTemp->Refresh();
-					Refresh();
+					// itemObject->SetDimensions(NewDimensions);
+					// UE_LOG(LogTemp, Warning, TEXT("!!!! itemObject dimension is (%d, %d)"), itemObject->dimensions.X, itemObject->dimensions.Y);
 
-					return FReply::Handled();
-				}
+					// Refresh();
+
+					// return FReply::Handled();
+				// }
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("???? payLoadTemp dimension is (%d, %d)"), payLoadTemp->dimensions.X, payLoadTemp->dimensions.Y);
+
+				UE_LOG(LogTemp, Warning, TEXT("???? itemObject dimension is (%d, %d)"), itemObject->dimensions.X, itemObject->dimensions.Y);
 			}
 		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("????????????????!!!"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("????1234545635w6w56346?"));
 	}
 
+	// Refresh();
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
 
