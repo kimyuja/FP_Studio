@@ -18,7 +18,7 @@ void APC_Gameplay::BeginPlay()
 void APC_Gameplay::ServerRPC_Spawn_Character_Implementation()
 {
 	// KYJ 0726 Spawn character 함수 호출
-	Cast<ASAModeBase>(GetWorld()->GetAuthGameMode());
+	Cast<ASAModeBase>(GetWorld()->GetAuthGameMode())->Spawn_Character(this);
 }
 bool APC_Gameplay::ValidatePlayerState()
 {
