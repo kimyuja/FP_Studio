@@ -767,13 +767,35 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 
 			if (IsValid(payLoadTemp))
 			{
-				itemObject->RotateGA(payLoadTemp);
+				payLoadTemp->RotateGA(payLoadTemp);
+				payLoadTemp->setWorldActorRot += 1;
+
+				/*if (payLoadTemp->setWorldActorRot % 2 == 0)
+				{
+					FindMatchingActor(payLoadTemp);
+				}*/
 
 				FIntPoint NewDimensions = payLoadTemp->GetDimensions(payLoadTemp);
 				payLoadTemp->SetDimensions(NewDimensions);
 				UE_LOG(LogTemp, Warning, TEXT("!!!! payLoadTemp dimension is (%d, %d)"), payLoadTemp->dimensions.X, payLoadTemp->dimensions.Y);
 
 				UE_LOG(LogTemp, Warning, TEXT("!!!! itemObject dimension is (%d, %d)"), itemObject->dimensions.X, itemObject->dimensions.Y);
+
+				AGimmick* gAinWorld = FindMatchingActor(itemObject);
+				// int32 switcherIdx = GetSwitcherIdx(gAinWorld);
+
+				if (gAinWorld && payLoadTemp->setWorldActorRot%2==0)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("!!!! Gimmick Actor In World Which Set Rotation +90"));
+
+					FRotator CurrentRotation = gAinWorld->GetActorRotation();
+					FRotator NewRotation = FRotator(CurrentRotation.Pitch, CurrentRotation.Yaw + 90.0f, CurrentRotation.Roll);
+
+					gAinWorld->SetActorRotation(NewRotation);
+
+					// newItemImgWidget->ItemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
+				}
+
 
 				Refresh();
 

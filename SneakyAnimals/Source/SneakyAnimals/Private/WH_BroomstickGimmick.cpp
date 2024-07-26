@@ -89,7 +89,7 @@ UItemObject* AWH_BroomstickGimmick::GetDefaultItemObject()
 		newItemObject->rotationAngle = 0.0f;
 		newItemObject->itemClass = AWH_BroomstickGimmick::StaticClass();
 		newItemObject->itemActiveType = Myactivetype;
-		newItemObject->beginLoc = FVector(50130.f, -50100.f, -910.f);
+		newItemObject->beginLoc = FVector(50130.f, -50100.f, -910.f); newItemObject->setWorldActorRot = 0;
 	}
 	return newItemObject;
 }

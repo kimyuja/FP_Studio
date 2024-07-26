@@ -46,6 +46,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
 	int32 itemActiveType;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Item")
+	int32 setWorldActorRot;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Item")
 	FVector beginLoc;
