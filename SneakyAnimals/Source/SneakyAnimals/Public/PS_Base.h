@@ -23,6 +23,8 @@ protected:
     virtual void Load_Player_Appearance();
     UFUNCTION()
 	virtual void Load_Player_UserProfile();
+	//UFUNCTION()
+	//virtual void Load_Player_UserProfile_Test();
     UFUNCTION()
     virtual void Load_Player_ConnectionInfo(bool ClientReadyStatus);
 

@@ -28,9 +28,11 @@ void APC_Lobby::BeginPlay()
 		Subsystem->AddMappingContext(Lobby_InputMappingContext, 0);
 	}
 
-
-	ValidatePlayerState();
-	Setup_PC();
+	// 플레이어 스테이트가 유효한지 검사하고 유효한 경우에만 Setup_PC 함수를 호출
+	if (ValidatePlayerState())
+	{
+		Setup_PC();
+	}
 }
 
 void APC_Lobby::SetupInputComponent()
@@ -290,7 +292,7 @@ void APC_Lobby::Update_Launchevent()
 	}
 }
 
-void APC_Lobby::ValidatePlayerState()
+bool APC_Lobby::ValidatePlayerState()
 {
 	// Ensures that the player state is Valid before we setup the PlayerController
 	// 플레이어 컨트롤러를 설정하기 전에, 플레이어 스테이트가 유효한지 보장한다.
@@ -298,13 +300,18 @@ void APC_Lobby::ValidatePlayerState()
 
 	if (PlayerState->IsValidLowLevel())
 	{
-		return;
-	} 
+		return true;
+	}
 	else
 	{
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle_PlayerStateCheck, [&](){
-			APC_Lobby::ValidatePlayerState();
-		}, 0.2f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle_PlayerStateCheck, [&]() {
+			if (ValidatePlayerState())
+			{
+				Setup_PC();
+			}
+			}, 0.2f, false);
+
+		return false;
 	}
 }
 

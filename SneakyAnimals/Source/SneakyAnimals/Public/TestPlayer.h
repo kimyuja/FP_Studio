@@ -328,6 +328,46 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_SetGActorLoc(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum);
 
+	// --------------KYJ----------------
+	UFUNCTION(Client, Reliable)
+	void ClientRPC_Init_Appearance();
+	
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_Character(USkeletalMesh* _mesh);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_Skins(UMaterial* mat);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_Eyes(UMaterial* mat);
+	
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_Accessory(USkeletalMesh* _mesh);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_Top(USkeletalMesh* _mesh);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_Bottom(USkeletalMesh* _mesh);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_Outer(USkeletalMesh* _mesh);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_Dress(USkeletalMesh* _mesh);
+
+	void Get_Player_Appearance();
+	void Get_Character();
+	void Get_Skins();
+	void Get_Eyes();
+	void Get_Accessory();
+	void Get_Top();
+	void Get_Bottom();
+	void Get_Outer();
+	void Get_Dress();
+
+	// --------------------------------
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 private:

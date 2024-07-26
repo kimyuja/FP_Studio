@@ -168,6 +168,13 @@ void ASAModeBase::ServerTravel_ToLobbyMap()
     GetWorld()->ServerTravel("/Game/RTY/LEVELS/LobbyMap");
 }
 
+void ASAModeBase::Spawn_Character(APlayerController* player)
+{
+    // spawn character 할 때 pawn destroy하고 다시 possess 하는 과정이 있는데 일단 생략하겠음
+    // OC Init Appearance
+    Cast<ATestPlayer>(player)->ClientRPC_Init_Appearance();
+}
+
 void ASAModeBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);

@@ -67,5 +67,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ServerTravel_ToLobbyMap();
 
+	void Spawn_Character(APlayerController* player);
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

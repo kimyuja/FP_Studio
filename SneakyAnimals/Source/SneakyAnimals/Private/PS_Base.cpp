@@ -204,6 +204,27 @@ void APS_Base::Load_Player_UserProfile()
 	}
 }
 
+//void APS_Base::Load_Player_UserProfile_Test()
+//{
+//	// 세이브 게임 0번 인덱스에서 유저 프로필을 불러옴
+//	FUserProfileResult result = UFL_General::Get_UserProfile();
+//	if (result.success)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
+//
+//		ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
+//		return;
+//	}
+//	else
+//	{
+//		FStructure_UserProfile tmp;
+//		tmp.Username = FText::FromString(TEXT("Username"));
+//		tmp.User_Avatar = T_ProfilePicture;
+//		ServerRPC_Update_Player_UserProfile_Implementation(tmp);
+//		return;
+//	}
+//}
+
 void APS_Base::Load_Player_ConnectionInfo(bool ClientReadyStatus)
 {
 	// Sets Player Connection Info incase we are host

@@ -42,6 +42,7 @@
 #include "BS_HandleGimmick.h"
 #include "BS_GoldBarGimmick.h"
 #include "BS_SwitchGimmick.h"
+#include "FL_General.h"
 
 // Sets default values
 ATestPlayer::ATestPlayer()
@@ -1020,6 +1021,11 @@ void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector
 	}
 }
 
+void ATestPlayer::ClientRPC_Init_Appearance_Implementation()
+{
+	ATestPlayer::Get_Player_Appearance();
+}
+
 void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -1035,4 +1041,168 @@ void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(ATestPlayer, Current_Outer);
 	DOREPLIFETIME(ATestPlayer, Current_Dress);
 	DOREPLIFETIME(ATestPlayer, bCanActive);
+}
+
+void ATestPlayer::Get_Player_Appearance()
+{
+	Get_Character();
+	Get_Skins();
+	Get_Eyes();
+	Get_Accessory();
+	Get_Top();
+	Get_Bottom();
+	Get_Outer();
+	Get_Dress();
+}
+
+void ATestPlayer::Get_Character()
+{
+	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
+	if (result.bSuccess)
+	{
+		ServerRPC_Update_Character(result.Player_Appearance.Character.Mesh);
+	} 
+	else
+	{
+		return;
+	}
+}
+
+void ATestPlayer::Get_Skins()
+{
+	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
+	if (result.bSuccess)
+	{
+		ServerRPC_Update_Skins(result.Player_Appearance.Skins_Slot.Material);
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ATestPlayer::Get_Eyes()
+{
+	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
+	if (result.bSuccess)
+	{
+		ServerRPC_Update_Eyes(result.Player_Appearance.Eyes_Slot.Material);
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ATestPlayer::Get_Accessory()
+{
+	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
+	if (result.bSuccess)
+	{
+		ServerRPC_Update_Accessory(result.Player_Appearance.Accessories_Slot.Mesh);
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ATestPlayer::Get_Top()
+{
+	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
+	if (result.bSuccess)
+	{
+		ServerRPC_Update_Top(result.Player_Appearance.Top_Slot.Mesh);
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ATestPlayer::Get_Bottom()
+{
+	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
+	if (result.bSuccess)
+	{
+		ServerRPC_Update_Bottom(result.Player_Appearance.Bottom_Slot.Mesh);
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ATestPlayer::Get_Outer()
+{
+	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
+	if (result.bSuccess)
+	{
+		ServerRPC_Update_Outer(result.Player_Appearance.Outer_Slot.Mesh);
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ATestPlayer::Get_Dress()
+{
+	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
+	if (result.bSuccess)
+	{
+		ServerRPC_Update_Dress(result.Player_Appearance.Dress_Slot.Mesh);
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ATestPlayer::ServerRPC_Update_Character_Implementation(USkeletalMesh* _mesh)
+{
+	Current_SkeletalMesh = _mesh;
+	OnRep_Current_SkeletalMesh();
+}
+
+void ATestPlayer::ServerRPC_Update_Skins_Implementation(UMaterial* mat)
+{
+	Current_Skins = mat;
+	OnRep_Current_Skins();
+}
+
+void ATestPlayer::ServerRPC_Update_Eyes_Implementation(UMaterial* mat)
+{
+	Current_Eyes = mat;
+	OnRep_Current_Eyes();
+}
+
+void ATestPlayer::ServerRPC_Update_Accessory_Implementation(USkeletalMesh* _mesh)
+{
+	Current_Accessories = _mesh;
+	OnRep_Current_Accessories();
+}
+
+void ATestPlayer::ServerRPC_Update_Top_Implementation(USkeletalMesh* _mesh)
+{
+	Current_Top = _mesh;
+	OnRep_Current_Top();
+}
+
+void ATestPlayer::ServerRPC_Update_Bottom_Implementation(USkeletalMesh* _mesh)
+{
+	Current_Bottom = _mesh;
+	OnRep_Current_Bottom();
+}
+
+void ATestPlayer::ServerRPC_Update_Outer_Implementation(USkeletalMesh* _mesh)
+{
+	Current_Outer = _mesh;
+	OnRep_Current_Outer();
+}
+
+void ATestPlayer::ServerRPC_Update_Dress_Implementation(USkeletalMesh* _mesh)
+{
+	Current_Dress = _mesh;
+	OnRep_Current_Dress();
 }

@@ -89,7 +89,7 @@ public:
 
 	void Update_LobbyPlayerList();
 private:
-	void ValidatePlayerState();
+	bool ValidatePlayerState();
 	void Setup_PC();
 	void Create_WB_Lobby_HUD();
 	void Update_ServerName();
