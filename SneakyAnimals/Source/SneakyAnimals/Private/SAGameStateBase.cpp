@@ -24,11 +24,7 @@ void ASAGameStateBase::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
     clearTime[stageNum - 1] += DeltaTime;
-    UE_LOG(LogTemp, Warning, TEXT("STAGE %d, %f"), (stageNum - 1), clearTime[stageNum - 1]);
-    if (bOnGame)
-    {
-        
-    }
+    //UE_LOG(LogTemp, Warning, TEXT("STAGE %d, %f"), (stageNum - 1), clearTime[stageNum - 1]);
 }
 
 void ASAGameStateBase::SetStageStart()

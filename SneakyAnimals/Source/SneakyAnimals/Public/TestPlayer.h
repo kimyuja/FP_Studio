@@ -317,10 +317,10 @@ public:
 	void MultiRPC_ShowEmo(int32 _emoNum);
 
 	UFUNCTION(Server, Reliable)
-	void ServerRPC_SetPlayerPhysics(AActor* target);
+	void ServerRPC_SetPlayerPhysics(AActor* target, FVector pushDir = FVector(0,100,10));
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MultiRPC_SetPlayerPhysics(AActor* _target);
+	void MultiRPC_SetPlayerPhysics(AActor* _target, FVector _pushDir);
 
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_SetGActorLoc(AActor* MoveObj, FVector GetLoc, int32 ActiveNum);

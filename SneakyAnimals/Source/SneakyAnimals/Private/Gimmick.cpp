@@ -22,6 +22,7 @@
 #include "BS_HandleGimmick.h"
 #include "BS_GoldBarGimmick.h"
 #include "BS_SwitchGimmick.h"
+#include "BS_LaserGimmick.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -124,6 +125,10 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	else if (Cast<ABS_SwitchGimmick>(this))
 	{
 		_key = Cast<ABS_SwitchGimmick>(this)->OnMyActive(ActivePlayer);
+	}
+	else if (Cast<ABS_LaserGimmick>(this))
+	{
+		_key = Cast<ABS_LaserGimmick>(this)->OnMyActive(ActivePlayer);
 	}
 	/*if (_key != 2)
 	{

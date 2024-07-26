@@ -48,16 +48,6 @@ void ABS_SwitchGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if ((_target && FVector::Dist(GetActorLocation(), _target->GetActorLocation()) < 100.0))
-	{
-		UE_LOG(LogTemp, Warning, TEXT(" Shoot!!!!!!!!!!!"));
-		GetWorldTimerManager().ClearTimer(goldT);
-		_target->ServerRPC_SetPlayerPhysics(_target);
-		_target->bIsDie = true;
-		_target->Respawn();
-		_target->DeathCounting();
-		Destroy();
-	}
 
 	if (bCanActive)
 	{
@@ -78,13 +68,18 @@ int32 ABS_SwitchGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
+	if (deltatime > 3)
+	{
+		GetWorldTimerManager().PauseTimer(dropT);
+	}
+
 	switch (activeType)
 	{
 	case 0:
 		DangerousGaurd(ActivePlayer);
 		break;
 	case 1:
-		DropMe(ActivePlayer);
+		ThrowMe(ActivePlayer);
 		break;
 	case 2:
 		SafeGaurd();
@@ -102,9 +97,6 @@ void ABS_SwitchGimmick::DangerousGaurd(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : DangerousGaurd"));
-
-	bCanActive = false;
-	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : WarningAlarm"));
 	FTimerHandle dieT;
 	GetWorldTimerManager().SetTimer(dieT, [&]()
 		{
@@ -122,11 +114,32 @@ void ABS_SwitchGimmick::DropMe(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : DropMe"));
+	dropP = Cast<ATestPlayer>(ActivePlayer);
+	dropP->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetWorldTimerManager().SetTimer(dropT, [&]()
+		{
+			deltatime += GetWorld()->GetDeltaSeconds();
+			dropP->SetActorLocation(dropP->GetActorLocation() - FVector(0,0,-1));
+		}, 0.03, true, 0);
+	dropP->bIsDie = true;
+	dropP->Respawn();
+	dropP->DeathCounting();
+}
+
+
+
+void ABS_SwitchGimmick::ThrowMe(AActor* ActivePlayer)
+{
+	bCanActive = false;
+	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : ThrowMe"));
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
-	player->GetMesh()->SetSimulatePhysics(true);
-	player->bIsDie = true;
-	player->Respawn();
-	player->DeathCounting();
+	if (player)
+	{
+		player->ServerRPC_SetPlayerPhysics(player, (player->GetActorForwardVector() + FVector(0,0,1)) * -1000.0);
+		player->bIsDie = true;
+		player->Respawn();
+		player->DeathCounting();
+	}
 }
 
 void ABS_SwitchGimmick::SafeGaurd()

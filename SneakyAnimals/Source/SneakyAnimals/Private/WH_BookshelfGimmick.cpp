@@ -44,7 +44,7 @@ void AWH_BookshelfGimmick::BeginPlay()
 	Super::BeginPlay();
 
 	SetActiveType(Myactivetype);
-	UE_LOG(LogTemp, Warning, TEXT("BookShelf Spawned at BeginPlay"));
+	//UE_LOG(LogTemp, Warning, TEXT("BookShelf Spawned at BeginPlay"));
 
 	//trigger->SetBoxExtent(activeRange);
 
@@ -53,7 +53,7 @@ void AWH_BookshelfGimmick::BeginPlay()
 void AWH_BookshelfGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("My type : %d"), Myactivetype);
+	//UE_LOG(LogTemp, Warning, TEXT("My type : %d"), Myactivetype);
 	lerpTime += DeltaTime;
 
 	if(lerpTime > 1)

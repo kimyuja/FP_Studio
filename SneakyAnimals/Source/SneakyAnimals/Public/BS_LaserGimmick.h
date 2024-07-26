@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "Gimmick.h"
-#include "BS_SwitchGimmick.generated.h"
+#include "BS_LaserGimmick.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SNEAKYANIMALS_API ABS_SwitchGimmick : public AGimmick
+class SNEAKYANIMALS_API ABS_LaserGimmick : public AGimmick
 {
 	GENERATED_BODY()
 
 public:
 
-	ABS_SwitchGimmick();
+	ABS_LaserGimmick();
 
 protected:
 
@@ -43,20 +43,11 @@ public:
 	int32 Myactivetype;
 
 private:
-	
-	FTimerHandle dropT;
 
-	class ATestPlayer* dropP;
-
-	float deltatime;
-
-	// 누르면 경비원이 와서 다죽음(전체)
-	void DangerousGaurd(AActor* ActivePlayer);
-	// 누르면 바닥이 열려서 떨어진다.(혼자)
-	void DropMe(AActor* ActivePlayer);
-	// 누르면 뒤로 날아간다.(혼자)
-	void ThrowMe(AActor* ActivePlayer);
-	// 경비원이 문을 열어주러 왔다.
-	void SafeGaurd();
-	
+	// 만진사람 본인만 죽음( 혼자)
+	void ElectricGrill(AActor* ActivePlayer);
+	// 경보울려서 다죽음 (전체)
+	void WarningDeath(AActor* ActivePlayer);
+	// 가짜여서 그냥냥통과해서 클리어(클리어)
+	void Faker(AActor* ActivePlayer);	
 };

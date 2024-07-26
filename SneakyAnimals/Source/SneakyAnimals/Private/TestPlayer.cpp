@@ -936,18 +936,18 @@ void ATestPlayer::MultiRPC_ShowEmo_Implementation(int32 _emoNum)
 	Cast<UUserEmoticon>(emoticonUI->GetWidget())->ShowEmoticon(_emoNum - 1);
 }
 
-void ATestPlayer::ServerRPC_SetPlayerPhysics_Implementation(AActor* target)
+void ATestPlayer::ServerRPC_SetPlayerPhysics_Implementation(AActor* target, FVector pushDir)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Rock????"), playerNum);
-	MultiRPC_SetPlayerPhysics(target);
+	MultiRPC_SetPlayerPhysics(target, pushDir);
 }
 
-void ATestPlayer::MultiRPC_SetPlayerPhysics_Implementation(AActor* _target)
+void ATestPlayer::MultiRPC_SetPlayerPhysics_Implementation(AActor* _target, FVector _pushDir)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Rock"), playerNum);
 	GetCapsuleComponent()->SetSimulatePhysics(true);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	GetCapsuleComponent()->AddImpulse(FVector(0,100,10), TEXT(""), true);
+	GetCapsuleComponent()->AddImpulse(_pushDir, TEXT(""), true);
 }
 
 void ATestPlayer::ServerRPC_SetGActorLoc_Implementation(AActor* MoveObj, FVector GetLoc, int32 ActiveNum)
