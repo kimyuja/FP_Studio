@@ -20,12 +20,10 @@ private:
 
 protected:
 	virtual void BeginPlay() override;
-	//virtual void ClientRPC_Init_Implementation();
+	virtual void ClientRPC_Init_Implementation();
 	virtual void Load_Player_ConnectionInfo(bool _ClientReadyStatus) override;
 
 public:
-	UFUNCTION(Client, Reliable)
-	void ClientRPC_Init_Test();
 	virtual void ClientRPC_Init() override;
 
 	// Gets set by Lobby Game Mode

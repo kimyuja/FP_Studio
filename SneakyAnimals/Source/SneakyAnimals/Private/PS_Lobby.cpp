@@ -29,29 +29,21 @@ void APS_Lobby::BeginPlay()
 	Super::BeginPlay();
 }
 
-//void APS_Lobby::ClientRPC_Init_Implementation()
-//{
-//	Load_Player_ConnectionInfo(false);
-//	Super::Load_Player_UserProfile();
-//	Super::Load_Player_Appearance();
-//}
-
-void APS_Lobby::Load_Player_ConnectionInfo(bool _ClientReadyStatus)
-{
-	Super::Load_Player_ConnectionInfo(bCanHostForceLaunchGame);
-}
-
-void APS_Lobby::ClientRPC_Init_Test_Implementation()
+void APS_Lobby::ClientRPC_Init_Implementation()
 {
 	Load_Player_ConnectionInfo(false);
 	Super::Load_Player_UserProfile();
 	Super::Load_Player_Appearance();
 }
 
+void APS_Lobby::Load_Player_ConnectionInfo(bool _ClientReadyStatus)
+{
+	Super::Load_Player_ConnectionInfo(bCanHostForceLaunchGame);
+}
+
 void APS_Lobby::ClientRPC_Init()
 {
-	//ClientRPC_Init_Implementation();
-	ClientRPC_Init_Test();
+	ClientRPC_Init_Implementation();
 }
 
 void APS_Lobby::OnRep_Player_Appearance_OR()
