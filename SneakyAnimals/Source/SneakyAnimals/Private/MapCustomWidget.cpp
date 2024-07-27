@@ -130,8 +130,10 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 				UE_LOG(LogTemp, Warning, TEXT("machinged actor with itemObject"));
 
 				FVector beginLocation = ItemOperation->draggedItemObj->beginLoc;
+				FRotator beginRotation = ItemOperation->draggedItemObj->beginRot;
 
 				matchingActor->SetActorLocation(beginLocation);
+				matchingActor->SetActorRotation(beginRotation);
 			}
 			else
 			{
