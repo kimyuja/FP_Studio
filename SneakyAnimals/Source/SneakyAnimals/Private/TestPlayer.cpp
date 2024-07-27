@@ -53,7 +53,6 @@ ATestPlayer::ATestPlayer()
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90.0f));
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
 	GetMesh()->SetOwnerNoSee(true);
-	SM_Outer->SetOwnerNoSee(true);
 
 	// 악세사리 스켈레탈 메쉬 컴포넌트를 초기화하고 자식으로 설정
 	SM_Accessories = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Accessories"));
@@ -65,6 +64,7 @@ ATestPlayer::ATestPlayer()
 	SM_Top->SetupAttachment(GetMesh());
 	SM_Bottom->SetupAttachment(GetMesh());
 	SM_Outer->SetupAttachment(GetMesh());
+	SM_Outer->SetOwnerNoSee(true);
 	SM_Dress->SetupAttachment(GetMesh());
 
 	// 애니메이션 블루프린트를 로드하고 설정
