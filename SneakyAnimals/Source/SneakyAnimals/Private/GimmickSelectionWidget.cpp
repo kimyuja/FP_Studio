@@ -12,6 +12,7 @@
 #include "WH_PotionGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
 #include "Gimmick.h"
+#include "ItemObject.h"
 #include <MapCustomWidget.h>
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Widgets/InvalidateWidgetReason.h>
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateTypes.h>
@@ -27,6 +28,7 @@ void UGimmickSelectionWidget::NativeConstruct()
 	UE_LOG(LogTemp, Warning, TEXT("Start Clear : %d"), bUsedClearGimmick);
 
 	UpdateClearBtnState();
+
 
 }
 
@@ -97,6 +99,13 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
 	}
 
+	/*if (itemObejct)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("!!!!!! yes"));
+		itemObejct->rotationAngle = 0;
+		itemObejct->rotationImgCheck = 0;
+	}*/
+
 }
 
 void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
@@ -130,6 +139,13 @@ void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
 	}
+
+	/*if (itemObejct)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("!!!!!! yes"));
+		itemObejct->rotationAngle = 0;
+		itemObejct->rotationImgCheck = 0;
+	}*/
 }
 
 void UGimmickSelectionWidget::OnClearBtnClicked()
@@ -163,6 +179,13 @@ void UGimmickSelectionWidget::OnClearBtnClicked()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
 	}
+
+	/*if (itemObejct)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("!!!!!! yes"));
+		itemObejct->rotationAngle = 0;
+		itemObejct->rotationImgCheck = 0;
+	}*/
 
 	bUsedClearGimmick = true;
 	UpdateClearBtnState();
@@ -198,4 +221,9 @@ void UGimmickSelectionWidget::UpdateClearBtnState()
 
 	Invalidate(EInvalidateWidget::LayoutAndVolatility);
 
+}
+
+void UGimmickSelectionWidget::SetItemObejct(UItemObject* _ItemObj)
+{
+	itemObejct = _ItemObj;
 }

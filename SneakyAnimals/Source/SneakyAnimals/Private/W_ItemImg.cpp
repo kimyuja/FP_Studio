@@ -84,7 +84,7 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 		// DragVisual->SetDesiredSizeInViewport(FVector2D(StaticItemObject->dimensions.X * tileSize, StaticItemObject->dimensions.Y * tileSize));
 
 		AGimmick* gm = gridWidget->FindMatchingActor(thisItemObject);
-		int32 switcherIdx = gridWidget->GetSwitcherIdx(gm);
+		int32 switcherIdx = gridWidget->GetSwitcherIdx(gm) + thisItemObject->rotationImgCheck;
 
 		UE_LOG(LogTemp, Warning, TEXT("!!! SWITCHER INDEX NUM IS %d"), switcherIdx);
 

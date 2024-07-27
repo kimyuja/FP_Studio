@@ -97,7 +97,6 @@ public:
 
 
 	UFUNCTION(BlueprintCallable)
-	void RotateItemImage();
-
-
+	void RotateItemImage(); 
+	
 };

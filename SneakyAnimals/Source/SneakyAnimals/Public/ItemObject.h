@@ -68,4 +68,11 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	FIntPoint currentDimensions;
 
+	UPROPERTY(BlueprintReadWrite)
+	int32 rotationImgCheck;
+
+
+	UPROPERTY(BlueprintReadWrite)
+	FRotator beginRot;
+
 }; 

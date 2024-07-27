@@ -115,6 +115,8 @@ void UNewGridWidget::NativeConstruct()
 	{
 		return;
 	}
+	
+
 
 }
 
@@ -328,6 +330,8 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 		{
 			UE_LOG(LogTemp, Warning, TEXT("!!! so sad"));
 		}
+		
+		itemObject->rotationAngle = 0;
 
 		itemComp->TryAddItem(itemObject);
 
@@ -385,15 +389,15 @@ int32 UNewGridWidget::GetSwitcherIdx(AGimmick* _GimmickClass)
 	}
 	else if (_GimmickClass->IsA(AWH_BroomstickGimmick::StaticClass()))
 	{
-		return 1;
+		return 4;
 	}
 	else if (_GimmickClass->IsA(AWH_PotionGimmick::StaticClass()))
 	{
-		return 2;
+		return 8;
 	}
 	else if (_GimmickClass->IsA(AWH_WitchCauldronGimmick::StaticClass()))
 	{
-		return 3;
+		return 12;
 	}
 	else
 	{
@@ -480,7 +484,7 @@ void UNewGridWidget::Refresh()
 			newItemImgWidget->SetItemObject(itemObject);
 
 			AGimmick* gm = FindMatchingActor(itemObject);
-			int32 switcherIdx = GetSwitcherIdx(gm);
+			int32 switcherIdx = GetSwitcherIdx(gm) + itemObject->rotationImgCheck;
 
 			if (switcherIdx != -1 && newItemImgWidget->ItemImgSwitcher)
 			{
@@ -511,6 +515,8 @@ void UNewGridWidget::Refresh()
 
 				AGimmick* gimmickActor = FindMatchingActor(itemObject);
 
+				
+
 				if (gimmickActor)
 				{
 					// 현재 레벨에 배치된 상태라면 X, Y 위치만 변경
@@ -527,6 +533,11 @@ void UNewGridWidget::Refresh()
 					}
 					myPlayer->ServerRPC_SetGActorLoc(gimmickActor, adjustedWorldPosition, gimmickActor->activeType);
 					//gimmickActor->SetActorLocation(adjustedWorldPosition);
+
+					FRotator currentRot = gimmickActor->GetActorRotation();
+					UE_LOG(LogTemp, Warning, TEXT("!!!!!! Gimmick Actor In World Rotation : (%f, %f, %f)"), 
+					currentRot.Pitch, currentRot.Yaw, currentRot.Roll);
+
 				}
 				else
 				{
@@ -779,19 +790,23 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 				payLoadTemp->SetDimensions(NewDimensions);
 				UE_LOG(LogTemp, Warning, TEXT("!!!! payLoadTemp dimension is (%d, %d)"), payLoadTemp->dimensions.X, payLoadTemp->dimensions.Y);
 
-				UE_LOG(LogTemp, Warning, TEXT("!!!! itemObject dimension is (%d, %d)"), itemObject->dimensions.X, itemObject->dimensions.Y);
-
-				AGimmick* gAinWorld = FindMatchingActor(itemObject);
+				AGimmick* gAinWorld = FindMatchingActor(payLoadTemp);
 				// int32 switcherIdx = GetSwitcherIdx(gAinWorld);
+
+				
 
 				if (gAinWorld && payLoadTemp->setWorldActorRot%2==0)
 				{
 					UE_LOG(LogTemp, Warning, TEXT("!!!! Gimmick Actor In World Which Set Rotation +90"));
 
+					payLoadTemp->rotationImgCheck = (payLoadTemp->rotationImgCheck + 1) % 4;
+					
 					FRotator CurrentRotation = gAinWorld->GetActorRotation();
 					FRotator NewRotation = FRotator(CurrentRotation.Pitch, CurrentRotation.Yaw + 90.0f, CurrentRotation.Roll);
 
 					gAinWorld->SetActorRotation(NewRotation);
+
+					UE_LOG(LogTemp, Warning, TEXT("!!!!!! Gimmick Actor In World Rotation : (%f, %f, %f)"), NewRotation.Pitch, NewRotation.Yaw, NewRotation.Roll);
 
 					// newItemImgWidget->ItemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
 				}

@@ -88,6 +88,7 @@ UItemObject* AWH_WitchCauldronGimmick::GetDefaultItemObject()
 		newItemObject->itemActiveType = Myactivetype;
 		newItemObject->beginLoc = FVector(50130.f, -50100.f, -883.0f);
 		newItemObject->setWorldActorRot = 0;
+		newItemObject->rotationImgCheck = 0;
 	}
 	return newItemObject;
 }

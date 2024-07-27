@@ -65,7 +65,7 @@ public:
 	UPROPERTY()
 	FName buttonName;
 
-	 UFUNCTION(BlueprintCallable, Category = "Settings")
+	UFUNCTION(BlueprintCallable, Category = "Settings")
     void UpdateClearBtnState();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
@@ -79,5 +79,11 @@ public:
 	bool bPotionInWorld = false;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	bool bPotInWorld = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	class UItemObject* itemObejct;
+
+	UFUNCTION(BlueprintCallable, Category = "Settings")
+	void SetItemObejct(class UItemObject* _ItemObj);
 
 };
