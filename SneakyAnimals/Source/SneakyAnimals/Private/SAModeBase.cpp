@@ -171,7 +171,6 @@ void ASAModeBase::ServerTravel_ToLobbyMap()
 void ASAModeBase::Spawn_Character(APlayerController* player)
 {
     // spawn character 할 때 pawn destroy하고 다시 possess 하는 과정이 있는데 일단 생략하겠음
-    UE_LOG(LogTemp, Warning, TEXT("3 ASAModeBase::Spawn_Character"));
 
     // player가 null인지 확인
     if (!player)

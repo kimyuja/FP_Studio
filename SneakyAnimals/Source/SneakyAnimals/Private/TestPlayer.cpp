@@ -53,6 +53,7 @@ ATestPlayer::ATestPlayer()
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90.0f));
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
 	GetMesh()->SetOwnerNoSee(true);
+	SM_Outer->SetOwnerNoSee(true);
 
 	// 악세사리 스켈레탈 메쉬 컴포넌트를 초기화하고 자식으로 설정
 	SM_Accessories = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Accessories"));
@@ -304,7 +305,6 @@ void ATestPlayer::OnRep_Current_SkeletalMesh()
 {
 	if (Current_SkeletalMesh->IsValidLowLevelFast())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("8 ATestPlayer::OnRep_Current_SkeletalMesh()"));
 		GetMesh()->SetSkinnedAssetAndUpdate(Current_SkeletalMesh);
 
 		GetMesh()->SetVisibility(true);
@@ -1024,7 +1024,6 @@ void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector
 
 void ATestPlayer::ClientRPC_Init_Appearance_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("4 ATestPlayer::ClientRPC_Init_Appearance_Implementation()"));
 	ATestPlayer::Get_Player_Appearance();
 }
 
@@ -1047,7 +1046,6 @@ void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 
 void ATestPlayer::Get_Player_Appearance()
 {
-	UE_LOG(LogTemp, Warning, TEXT("5 ATestPlayer::Get_Player_Appearance()"));
 	Get_Character();
 	Get_Skins();
 	Get_Eyes();
@@ -1060,7 +1058,6 @@ void ATestPlayer::Get_Player_Appearance()
 
 void ATestPlayer::Get_Character()
 {
-	UE_LOG(LogTemp, Warning, TEXT("6 ATestPlayer::Get_Character()"));
 	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
 	if (result.bSuccess)
 	{
@@ -1165,7 +1162,6 @@ void ATestPlayer::Get_Dress()
 
 void ATestPlayer::ServerRPC_Update_Character_Implementation(USkeletalMesh* _mesh)
 {
-	UE_LOG(LogTemp, Warning, TEXT("7 ATestPlayer::ServerRPC_Update_Character"));
 	Current_SkeletalMesh = _mesh;
 	OnRep_Current_SkeletalMesh();
 }
