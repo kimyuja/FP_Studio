@@ -88,10 +88,18 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "DragDrop")
 	float levelTileSize = 130.f;
 
+	// 마녀의 집
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "WitchsHouse")
 	FVector WHTopLeft = FVector(49480.f, -50750.f, -40.f);
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "WitchsHouse")
+	// 잠수함
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Submarine")
+	FVector SMTopLeft = FVector(49350.f, 493201.f, -50.f);
+
+	// 슈퍼마켓
+
+	// 금고
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	FVector worldPosition;
 
 
@@ -112,12 +120,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void CreateHorizantalLine();
 
+	UFUNCTION(BlueprintCallable, Category = "Custom")
+	void DrawGridLine();
+
 	// 델리게이트 바인딩 할 함수
 	UFUNCTION(BlueprintCallable)
 	void OnItemRemoved(class UItemObject* _ItemObject);
-
-	UFUNCTION(BlueprintCallable, Category = "Custom")
-	void DrawGridLine();
 
 	UFUNCTION(BlueprintCallable, Category = "Custom")
 	FVector2D GetGridBorderTopLeft() const;
@@ -133,6 +141,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
 	void MousePositionInTile(FVector2D _MousePos);
 
+	// 마녀의집
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	TArray<class AWH_BookshelfGimmick*> bookShelfActorArr;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
@@ -142,13 +151,22 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	TArray<class AWH_WitchCauldronGimmick*> cauldronActorArr;
 
+	// 잠수함
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASM_ComputerGimmick*> computerActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASM_PeriscopeGimmick*> periscopeActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASM_PressButtonGimmick*> pressbuttonActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASM_WhistleGimmick*> whistleGimmickActorArr;
+
 
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")
 	void BindItemObjByBtn(TSubclassOf<AGimmick> GimmickClass, int32 _ActiveType);
 
 	UFUNCTION(BlueprintCallable)
 	AGimmick* FindMatchingActor(class UItemObject* _itemObject);
-
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetSwitcherIdx(class AGimmick* _GimmickClass);

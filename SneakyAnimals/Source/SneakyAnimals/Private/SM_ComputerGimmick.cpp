@@ -8,6 +8,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "TestPlayer.h"
+#include "ItemObject.h"
 #include "TrapDoor.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
@@ -93,6 +94,24 @@ void ASM_ComputerGimmick::Tick(float DeltaTime)
 	}
 }
 
+
+UItemObject* ASM_ComputerGimmick::GetDefaultItemObject()
+{
+	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(2, 2);
+		newItemObject->rotationAngle = 0.0f;
+		newItemObject->itemClass = ASM_ComputerGimmick::StaticClass();
+		newItemObject->itemActiveType = Myactivetype;
+		newItemObject->beginLoc = FVector(50000.f, 50000.f, -937.f);
+		newItemObject->beginRot = FRotator(0.f, -90.f, 0.f);
+		newItemObject->setWorldActorRot = 0;
+		newItemObject->rotationImgCheck = 0;
+	}
+	return newItemObject;
+}
 
 int32 ASM_ComputerGimmick::OnMyActive(AActor* ActivePlayer)
 {

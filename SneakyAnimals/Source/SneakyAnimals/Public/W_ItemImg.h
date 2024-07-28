@@ -48,14 +48,6 @@ public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UWidgetSwitcher* ItemImgSwitcher;
 
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UWidgetSwitcher* BookShelfImgSwitcher;
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UWidgetSwitcher* BroomStickImgSwitcher;
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UWidgetSwitcher* PotionImgSwitcher;
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UWidgetSwitcher* PotImgSwitcher;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	class UItemObject* thisItemObject;

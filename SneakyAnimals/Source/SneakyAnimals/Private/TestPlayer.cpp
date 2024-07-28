@@ -42,6 +42,7 @@
 #include "BS_HandleGimmick.h"
 #include "BS_GoldBarGimmick.h"
 #include "BS_SwitchGimmick.h"
+#include "BS_LaserGimmick.h"
 #include "FL_General.h"
 
 // Sets default values
@@ -274,25 +275,30 @@ void ATestPlayer::CreateSelectedWidget()
 	CustomMapWidget = nullptr;
 
 	CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_WitchHouseMap));
-	/*
-	switch(playerNum)
+
+	playerNum = 1;
+	
+	CustomMapWidget->playerRandNum = playerNum;
+
+	/*switch(playerNum)
 	{
 	case 0:
-		CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_WitchHouseMap));
+		CustomMapWidget->playerRandNum = 0;
 		break;
 	case 1:
-		CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_SubmarineMap));
+		CustomMapWidget->playerRandNum = 1;
 		break;
 	case 2:
-		CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_BankMap));
+		CustomMapWidget->playerRandNum = 2;
 		break;
 	case 3:
-		CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_SupermarketMap));
+		CustomMapWidget->playerRandNum = 3;
 		break;
 	default:
+		CustomMapWidget->playerRandNum = -1;
 		break;
-	}
-	*/
+	}*/
+	
 	if (CustomMapWidget)
 	{
 		CustomMapWidget->AddToViewport();
@@ -1019,6 +1025,10 @@ void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector
 	else if (Cast<ABS_SwitchGimmick>(_MoveObj))
 	{
 		Cast<ABS_SwitchGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
+	}
+	else if (Cast<ABS_LaserGimmick>(_MoveObj))
+	{
+		Cast<ABS_LaserGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
 	}
 }
 

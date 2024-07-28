@@ -40,11 +40,6 @@ void UW_ItemImg::NativeConstruct()
 	GetWorld()->GetTimerManager().SetTimer(timerHandle, this, &UW_ItemImg::Refresh, 0.2f, false);
 
 	gridWidget = CreateWidget<UNewGridWidget>(GetWorld(), newGridWidget);
-
-	ItemImgSwitcher->AddChild(BookShelfImgSwitcher);
-	ItemImgSwitcher->AddChild(BroomStickImgSwitcher);
-	ItemImgSwitcher->AddChild(PotionImgSwitcher);
-	ItemImgSwitcher->AddChild(PotImgSwitcher);
 	
 }
 

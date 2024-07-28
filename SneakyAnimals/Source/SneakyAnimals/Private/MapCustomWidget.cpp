@@ -25,11 +25,16 @@
 #include "Components/TextBlock.h"
 #include "Components/ProgressBar.h"
 #include "TimerManager.h"
+#include "Components/WidgetSwitcher.h"
 #include "GameFramework/PlayerController.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "WH_BroomstickGimmick.h"
 #include "WH_PotionGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
+#include "SM_ComputerGimmick.h"
+#include "SM_PeriscopeGimmick.h"
+#include "SM_PressButtonGimmick.h"
+#include "SM_WhistleGimmick.h"
 
 bool UMapCustomWidget::Initialize()
 {
@@ -97,6 +102,18 @@ void UMapCustomWidget::NativeConstruct()
 	{
 		gswPos = canvasSlot->GetPosition();
 	}
+	
+	if (playerRandNum != -1)
+	{
+		BackgroundImgSwitcher->SetActiveWidgetIndex(playerRandNum);
+
+		Btn1WidgetSwitcher->SetActiveWidgetIndex(playerRandNum);
+		Btn2WidgetSwitcher->SetActiveWidgetIndex(playerRandNum);
+		Btn3WidgetSwitcher->SetActiveWidgetIndex(playerRandNum);
+		Btn4WidgetSwitcher->SetActiveWidgetIndex(playerRandNum);
+	}
+
+	gimmickSelectionWidget->SetPlayerRandNum(playerRandNum);
 
 }
 
@@ -233,9 +250,11 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!"));
 
-	UE_LOG(LogTemp, Warning, TEXT("bBookShelfInWorld value is %d"), gimmickSelectionWidget->bBookShelfInWorld);
+	// UE_LOG(LogTemp, Warning, TEXT("bBookShelfInWorld value is %d"), gimmickSelectionWidget->bBookShelfInWorld);
 
-	if (!gimmickSelectionWidget->bBookShelfInWorld)
+	// 마녀의집 || 잠수함
+	if (!gimmickSelectionWidget->bBookShelfInWorld ||
+		!gimmickSelectionWidget->bComputerInWorld)
 	{
 		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
 
@@ -247,20 +266,25 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn2 Clicked!"));
 
-	if (!gimmickSelectionWidget->bBroomstickInWorld)
+	// 마녀의집 || 잠수함
+	if (!gimmickSelectionWidget->bBroomstickInWorld || 
+		!gimmickSelectionWidget->bPeriscopeInWorld)
 	{
 		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
 
 		gswPos += FVector2D(0.f, 150.f);
 		HandleButtonClicked(GActorBtn2, gswPos);
 	}
+
 }
 
 void UMapCustomWidget::OnGActorBtn3Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn3 Clicked!"));
 
-	if (!gimmickSelectionWidget->bPotionInWorld)
+	// 마녀의집 || 잠수함
+	if (!gimmickSelectionWidget->bPotionInWorld || 
+		!gimmickSelectionWidget->bPressBtnInWorld)
 	{
 		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
 
@@ -273,7 +297,9 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn4 Clicked!"));
 
-	if (!gimmickSelectionWidget->bPotInWorld)
+	// 마녀의집 || 잠수함
+	if (!gimmickSelectionWidget->bPotInWorld ||
+		!gimmickSelectionWidget->bWhistleInWorld)
 	{
 		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
@@ -323,6 +349,7 @@ void UMapCustomWidget::SetGSWBasicPos()
 
 void UMapCustomWidget::RemovedItemCheck(UItemObject* _itemObject)
 {
+	// 마녀의집
 	if (_itemObject->itemClass == AWH_BookshelfGimmick::StaticClass())
 	{
 		gimmickSelectionWidget->bBookShelfInWorld = false;
@@ -339,6 +366,25 @@ void UMapCustomWidget::RemovedItemCheck(UItemObject* _itemObject)
 	{
 		gimmickSelectionWidget->bPotInWorld = false;
 	}
+	// 잠수함
+	else if (_itemObject->itemClass == ASM_ComputerGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bComputerInWorld = false;
+	}
+	else if (_itemObject->itemClass == ASM_PeriscopeGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bPeriscopeInWorld = false;
+	}
+	else if (_itemObject->itemClass == ASM_PressButtonGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bPressBtnInWorld = false;
+	}
+	else if (_itemObject->itemClass == ASM_WhistleGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bWhistleInWorld = false;
+	}
+	// 슈퍼마켓
+	// 금고
 
 }
 

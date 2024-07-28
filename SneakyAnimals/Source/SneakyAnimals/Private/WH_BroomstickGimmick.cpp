@@ -74,18 +74,13 @@ void AWH_BroomstickGimmick::Tick(float DeltaTime)
 
 UItemObject* AWH_BroomstickGimmick::GetDefaultItemObject()
 {
-	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+	// UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
 
 	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
 
 	if (newItemObject)
 	{
 		newItemObject->dimensions = FIntPoint(2, 2);
-		/*newItemObject->icon = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf"));
-		newItemObject->iconRotated90 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R90"));
-		newItemObject->iconRotated180 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R180"));
-		newItemObject->iconRotated270 = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/YSM/ItemIconInstance/M_IconBookshelf_R270"));
-		newItemObject->bRotated = false;*/
 		newItemObject->rotationAngle = 0.0f;
 		newItemObject->itemClass = AWH_BroomstickGimmick::StaticClass();
 		newItemObject->itemActiveType = Myactivetype;

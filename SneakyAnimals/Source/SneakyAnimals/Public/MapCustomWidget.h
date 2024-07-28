@@ -24,6 +24,18 @@ public:
     UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
     class UNewGridWidget* NewGridWidget;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* BackgroundImgSwitcher;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* Btn1WidgetSwitcher;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* Btn2WidgetSwitcher;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* Btn3WidgetSwitcher;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* Btn4WidgetSwitcher;
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	float tileSize = 80.f;
 
@@ -66,6 +78,9 @@ public:
 	bool bIsMouseInsideWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsMouseInsideButton;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 playerRandNum;
 
 
 	UFUNCTION(BlueprintCallable, Category = "Timer")
@@ -110,7 +125,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UCanvasPanelSlot* canvasSlot;
 
-	
     UFUNCTION()
     void SetGSWBasicPos();
 

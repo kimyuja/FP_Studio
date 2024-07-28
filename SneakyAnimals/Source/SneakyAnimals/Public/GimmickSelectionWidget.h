@@ -71,6 +71,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
     bool bUsedClearGimmick;
 	
+	// 마녀의집
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	bool bBookShelfInWorld = false;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
@@ -80,10 +81,30 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
 	bool bPotInWorld = false;
 
+	// 잠수함
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bComputerInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bPeriscopeInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bPressBtnInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bWhistleInWorld = false;
+
+	// 슈퍼마켓
+	// 금고
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	class UItemObject* itemObejct;
 
 	UFUNCTION(BlueprintCallable, Category = "Settings")
 	void SetItemObejct(class UItemObject* _ItemObj);
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	int32 playerRandNum;
+
+	UFUNCTION(BlueprintCallable, Category = "Settings")
+	void SetPlayerRandNum(int _PlayerNum);
+
 
 };

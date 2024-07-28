@@ -7,6 +7,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "TestPlayer.h"
+#include "ItemObject.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
 #include "Shark.h"
 
@@ -63,6 +64,24 @@ void ASM_WhistleGimmick::Tick(float DeltaTime)
 	{
 		activeObject->SetRenderCustomDepth(false);
 	}
+}
+
+UItemObject* ASM_WhistleGimmick::GetDefaultItemObject()
+{
+	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(2, 2);
+		newItemObject->rotationAngle = 0.0f;
+		newItemObject->itemClass = ASM_WhistleGimmick::StaticClass();
+		newItemObject->itemActiveType = Myactivetype;
+		newItemObject->beginLoc = FVector(50000.f, 50000.f, -935.f);
+		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
+		newItemObject->setWorldActorRot = 0;
+		newItemObject->rotationImgCheck = 0;
+	}
+	return newItemObject;
 }
 
 

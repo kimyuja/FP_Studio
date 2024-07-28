@@ -36,6 +36,10 @@
 #include "WH_BroomstickGimmick.h"
 #include "WH_PotionGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
+#include "SM_ComputerGimmick.h"
+#include "SM_PeriscopeGimmick.h"
+#include "SM_PressButtonGimmick.h"
+#include "SM_WhistleGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "GimmickSelectionWidget.h"
 
@@ -110,12 +114,12 @@ void UNewGridWidget::NativeConstruct()
 	itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
 
 	gimmickSelectionWidget = CreateWidget<UGimmickSelectionWidget>(GetWorld(), gimmickSelectionWidgetClass);
-	
+
 	if (!gimmickSelectionWidget)
 	{
 		return;
 	}
-	
+
 
 
 }
@@ -222,6 +226,7 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 	if (_GimmickClass)
 	{
+		// 마녀의집
 		if (_GimmickClass->IsChildOf(AWH_BookshelfGimmick::StaticClass()))
 		{
 			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is AWH_BookshelfGimmick"));
@@ -326,11 +331,86 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 
 			}
 		}
+		// 잠수함
+		else if (_GimmickClass->IsChildOf(ASM_ComputerGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ASM_ComputerGimmick"));
+
+			for (TActorIterator<ASM_ComputerGimmick> It(GetWorld()); It; ++It)
+			{
+				computerActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("computerActorArr Num is %d"), computerActorArr.Num());
+
+			for (ASM_ComputerGimmick* computerActor : computerActorArr)
+			{
+				computerActor->Myactivetype = _ActiveType;
+				computerActor->SetActiveType(_ActiveType);
+
+				itemObject = computerActor->GetDefaultItemObject();
+			}
+		}
+		else if (_GimmickClass->IsChildOf(ASM_PeriscopeGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ASM_PeriscopeGimmick"));
+
+			for (TActorIterator<ASM_PeriscopeGimmick> It(GetWorld()); It; ++It)
+			{
+				periscopeActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("periscopeActorArr Num is %d"), periscopeActorArr.Num());
+
+			for (ASM_PeriscopeGimmick* periscopeActor : periscopeActorArr)
+			{
+				periscopeActor->Myactivetype = _ActiveType;
+				periscopeActor->SetActiveType(_ActiveType);
+
+				itemObject = periscopeActor->GetDefaultItemObject();
+			}
+		}
+		else if (_GimmickClass->IsChildOf(ASM_PressButtonGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ASM_PressButtonGimmick"));
+
+			for (TActorIterator<ASM_PressButtonGimmick> It(GetWorld()); It; ++It)
+			{
+				pressbuttonActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("pressbuttonActorArr Num is %d"), pressbuttonActorArr.Num());
+
+			for (ASM_PressButtonGimmick* pressbuttonActor : pressbuttonActorArr)
+			{
+				pressbuttonActor->Myactivetype = _ActiveType;
+				pressbuttonActor->SetActiveType(_ActiveType);
+
+				itemObject = pressbuttonActor->GetDefaultItemObject();
+			}
+		}
+		else if (_GimmickClass->IsChildOf(ASM_WhistleGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ASM_WhistleGimmick"));
+
+			for (TActorIterator<ASM_WhistleGimmick> It(GetWorld()); It; ++It)
+			{
+				whistleGimmickActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("whistleGimmickActorArr Num is %d"), whistleGimmickActorArr.Num());
+
+			for (ASM_WhistleGimmick* whistleGimmickActor : whistleGimmickActorArr)
+			{
+				whistleGimmickActor->Myactivetype = _ActiveType;
+				whistleGimmickActor->SetActiveType(_ActiveType);
+
+				itemObject = whistleGimmickActor->GetDefaultItemObject();
+			}
+		}
+		// 슈퍼마켓
+		// 금고
 		else
 		{
 			UE_LOG(LogTemp, Warning, TEXT("!!! so sad"));
 		}
-		
+
 		itemObject->rotationAngle = 0;
 
 		itemComp->TryAddItem(itemObject);
@@ -349,6 +429,7 @@ AGimmick* UNewGridWidget::FindMatchingActor(UItemObject* _itemObject)
 	{
 		AGimmick* actor = *It;
 
+		// 마녀의집
 		if (AWH_BookshelfGimmick* BookshelfActor = Cast<AWH_BookshelfGimmick>(actor))
 		{
 			if (BookshelfActor->newItemObject == _itemObject)
@@ -377,12 +458,44 @@ AGimmick* UNewGridWidget::FindMatchingActor(UItemObject* _itemObject)
 				return CauldronActor;
 			}
 		}
+		// 잠수함
+		else if (ASM_ComputerGimmick* computerActor = Cast<ASM_ComputerGimmick>(actor))
+		{
+			if (computerActor->newItemObject == _itemObject)
+			{
+				return computerActor;
+			}
+		}
+		else if (ASM_PeriscopeGimmick* periscopeActor = Cast<ASM_PeriscopeGimmick>(actor))
+		{
+			if (periscopeActor->newItemObject == _itemObject)
+			{
+				return periscopeActor;
+			}
+		}
+		else if (ASM_PressButtonGimmick* pressbuttonActor = Cast<ASM_PressButtonGimmick>(actor))
+		{
+			if (pressbuttonActor->newItemObject == _itemObject)
+			{
+				return pressbuttonActor;
+			}
+		}
+		else if (ASM_WhistleGimmick* whistleGimmickActor = Cast<ASM_WhistleGimmick>(actor))
+		{
+			if (whistleGimmickActor->newItemObject == _itemObject)
+			{
+				return whistleGimmickActor;
+			}
+		}
+		// 슈퍼마켓
+		// 금고
 	}
 
 	return nullptr;
 }
 int32 UNewGridWidget::GetSwitcherIdx(AGimmick* _GimmickClass)
 {
+	// 마녀의집
 	if (_GimmickClass->IsA(AWH_BookshelfGimmick::StaticClass()))
 	{
 		return 0;
@@ -399,6 +512,25 @@ int32 UNewGridWidget::GetSwitcherIdx(AGimmick* _GimmickClass)
 	{
 		return 12;
 	}
+	// 잠수함
+	else if (_GimmickClass->IsA(ASM_ComputerGimmick::StaticClass()))
+	{
+		return 16;
+	}
+	else if (_GimmickClass->IsA(ASM_PeriscopeGimmick::StaticClass()))
+	{
+		return 20;
+	}
+	else if (_GimmickClass->IsA(ASM_PressButtonGimmick::StaticClass()))
+	{
+		return 24;
+	}
+	else if (_GimmickClass->IsA(ASM_WhistleGimmick::StaticClass()))
+	{
+		return 28;
+	}
+	// 슈퍼마켓
+	// 금고
 	else
 	{
 		return -1;
@@ -457,14 +589,24 @@ void UNewGridWidget::Refresh()
 
 	UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(gridCanvasPanel);
 
-
 	// 그리드의 좌표를 실제 게임 레벨 내 좌표로 변환
 	auto GridToWorld = [&](int32 gridX, int32 gridY) -> FVector {
-		float worldX = WHTopLeft.X + gridX * levelTileSize;
-		float worldY = WHTopLeft.Y + gridY * levelTileSize;
+		if (myPlayer->playerNum == 0)
+		{
+			float worldX = WHTopLeft.X + gridX * levelTileSize;
+			float worldY = WHTopLeft.Y + gridY * levelTileSize;
 
-		return FVector(worldX, worldY, WHTopLeft.Z);
+			return FVector(worldX, worldY, WHTopLeft.Z);
+		}
+		else// if (mapCustomWidget->playerRandNum == 1)
+		{
+			float worldX = SMTopLeft.X + gridX * levelTileSize;
+			float worldY = SMTopLeft.Y + gridY * levelTileSize;
+
+			return FVector(worldX, worldY, SMTopLeft.Z);
+		}
 	};
+
 
 	for (UItemObject* key : Keys)
 	{
@@ -477,7 +619,7 @@ void UNewGridWidget::Refresh()
 		if (newItemImgWidget)
 		{
 			newItemImgWidget->tileSize = tileSize;
-			
+
 			// UE_LOG(LogTemp, Warning, TEXT("!!! tileSize : %f"), tileSize);
 
 			//newItemImgWidget->thisItemObject = itemObject;
@@ -515,7 +657,7 @@ void UNewGridWidget::Refresh()
 
 				AGimmick* gimmickActor = FindMatchingActor(itemObject);
 
-				
+
 
 				if (gimmickActor)
 				{
@@ -535,8 +677,8 @@ void UNewGridWidget::Refresh()
 					//gimmickActor->SetActorLocation(adjustedWorldPosition);
 
 					FRotator currentRot = gimmickActor->GetActorRotation();
-					UE_LOG(LogTemp, Warning, TEXT("!!!!!! Gimmick Actor In World Rotation : (%f, %f, %f)"), 
-					currentRot.Pitch, currentRot.Yaw, currentRot.Roll);
+					UE_LOG(LogTemp, Warning, TEXT("!!!!!! Gimmick Actor In World Rotation : (%f, %f, %f)"),
+						currentRot.Pitch, currentRot.Yaw, currentRot.Roll);
 
 				}
 				else
@@ -768,7 +910,7 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 
 		// 드래그 앤 드롭 콘텐츠 가져오기
 		UDragDropOperation* dragDroppingContent = UWidgetBlueprintLibrary::GetDragDroppingContent();
-		
+
 		UMyDragDropOperation* dragDropOperation = Cast<UMyDragDropOperation>(dragDroppingContent);
 
 
@@ -793,14 +935,13 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 				AGimmick* gAinWorld = FindMatchingActor(payLoadTemp);
 				// int32 switcherIdx = GetSwitcherIdx(gAinWorld);
 
-				
 
-				if (gAinWorld && payLoadTemp->setWorldActorRot%2==0)
+				if (gAinWorld && payLoadTemp->setWorldActorRot % 2 == 0)
 				{
 					UE_LOG(LogTemp, Warning, TEXT("!!!! Gimmick Actor In World Which Set Rotation +90"));
 
 					payLoadTemp->rotationImgCheck = (payLoadTemp->rotationImgCheck + 1) % 4;
-					
+
 					FRotator CurrentRotation = gAinWorld->GetActorRotation();
 					FRotator NewRotation = FRotator(CurrentRotation.Pitch, CurrentRotation.Yaw + 90.0f, CurrentRotation.Roll);
 
@@ -835,17 +976,8 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 				UE_LOG(LogTemp, Warning, TEXT("???? itemObject dimension is (%d, %d)"), itemObject->dimensions.X, itemObject->dimensions.Y);
 			}
 		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("????????????????!!!"));
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("????1234545635w6w56346?"));
 	}
 
-	// Refresh();
 	return Super::NativeOnPreviewKeyDown(InGeometry, InKeyEvent);
 }
 

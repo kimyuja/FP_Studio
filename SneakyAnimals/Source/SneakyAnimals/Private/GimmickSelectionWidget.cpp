@@ -11,6 +11,10 @@
 #include "WH_BroomstickGimmick.h"
 #include "WH_PotionGimmick.h"
 #include "WH_WitchCauldronGimmick.h"
+#include "SM_ComputerGimmick.h"
+#include "SM_PeriscopeGimmick.h"
+#include "SM_PressButtonGimmick.h"
+#include "SM_WhistleGimmick.h"
 #include "Gimmick.h"
 #include "ItemObject.h"
 #include <MapCustomWidget.h>
@@ -71,33 +75,68 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
 	UE_LOG(LogTemp, Warning, TEXT("!! GIMMICK1 BTN CLICK -> SET ACTIVENUM : 0"));
+	UE_LOG(LogTemp, Warning, TEXT("?? MYPLAYERNUM IS %d"), playerRandNum);
+
 
 	SetVisibility(ESlateVisibility::Collapsed);
-
-	if (buttonName == "GActorBtn1")
+	// 마녀의집
+	if (playerRandNum == 0)
 	{
-		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 0);
-		bBookShelfInWorld = true;
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 0);
+			bBookShelfInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 0);
+			bBroomstickInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 0);
+			bPotionInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 0);
+			bPotInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
 	}
-	else if (buttonName == "GActorBtn2")
+	// 잠수함
+	else if (playerRandNum == 1)
 	{
-		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 0);
-		bBroomstickInWorld = true;
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(ASM_ComputerGimmick::StaticClass(), 0);
+			bComputerInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(ASM_PeriscopeGimmick::StaticClass(), 0);
+			bPeriscopeInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(ASM_PressButtonGimmick::StaticClass(), 0);
+			bPressBtnInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(ASM_WhistleGimmick::StaticClass(), 0);
+			bWhistleInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
 	}
-	else if (buttonName == "GActorBtn3")
-	{
-		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 0);
-		bPotionInWorld = true;
-	}
-	else if (buttonName == "GActorBtn4")
-	{
-		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 0);
-		bPotInWorld = true;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
-	}
+	// 슈퍼마켓
+	// 금고
 
 	/*if (itemObejct)
 	{
@@ -114,31 +153,66 @@ void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 	UE_LOG(LogTemp, Warning, TEXT("!! GIMMICK2 BTN CLICK -> SET ACTIVENUM : 1"));
 
 	SetVisibility(ESlateVisibility::Collapsed);
+	
+	// 마녀의집
+	if (playerRandNum == 0)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 1);
+			bBookShelfInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 1);
+			bBroomstickInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 1);
+			bPotionInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 1);
+			bPotInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
+	// 잠수함
+	else if (playerRandNum == 1)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(ASM_ComputerGimmick::StaticClass(), 1);
+			bComputerInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(ASM_PeriscopeGimmick::StaticClass(), 1);
+			bPeriscopeInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(ASM_PressButtonGimmick::StaticClass(), 1);
+			bPressBtnInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(ASM_WhistleGimmick::StaticClass(), 1);
+			bWhistleInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
+	// 슈퍼마켓
+	// 금고
 
-	if (buttonName == "GActorBtn1")
-	{
-		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 1);
-		bBookShelfInWorld = true;
-	}
-	else if (buttonName == "GActorBtn2")
-	{
-		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 1);
-		bBroomstickInWorld = true;
-	}
-	else if (buttonName == "GActorBtn3")
-	{
-		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 1);
-		bPotionInWorld = true;
-	}
-	else if (buttonName == "GActorBtn4")
-	{
-		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 1);
-		bPotInWorld = true;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
-	}
 
 	/*if (itemObejct)
 	{
@@ -154,31 +228,66 @@ void UGimmickSelectionWidget::OnClearBtnClicked()
 	UE_LOG(LogTemp, Warning, TEXT("!! CLEAR BTN CLICK -> SET ACTIVENUM : 2"));
 
 	SetVisibility(ESlateVisibility::Collapsed);
+	
+	// 마녀의집
+	if (playerRandNum == 0)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 2);
+			bBookShelfInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 2);
+			bBroomstickInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 2);
+			bPotionInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 2);
+			bPotInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
+	// 잠수함
+	else if (playerRandNum == 1)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(ASM_ComputerGimmick::StaticClass(), 2);
+			bComputerInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(ASM_PeriscopeGimmick::StaticClass(), 2);
+			bPeriscopeInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(ASM_PressButtonGimmick::StaticClass(), 2);
+			bPressBtnInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(ASM_WhistleGimmick::StaticClass(), 2);
+			bWhistleInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
+	// 슈퍼마켓
+	// 금고
 
-	if (buttonName == "GActorBtn1")
-	{
-		gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 2);
-		bBookShelfInWorld = true;
-	}
-	else if (buttonName == "GActorBtn2")
-	{
-		gridWidget->BindItemObjByBtn(AWH_BroomstickGimmick::StaticClass(), 2);
-		bBroomstickInWorld = true;
-	}
-	else if (buttonName == "GActorBtn3")
-	{
-		gridWidget->BindItemObjByBtn(AWH_PotionGimmick::StaticClass(), 2);
-		bPotionInWorld = true;
-	}
-	else if (buttonName == "GActorBtn4")
-	{
-		gridWidget->BindItemObjByBtn(AWH_WitchCauldronGimmick::StaticClass(), 2);
-		bPotInWorld = true;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
-	}
 
 	/*if (itemObejct)
 	{
@@ -226,4 +335,9 @@ void UGimmickSelectionWidget::UpdateClearBtnState()
 void UGimmickSelectionWidget::SetItemObejct(UItemObject* _ItemObj)
 {
 	itemObejct = _ItemObj;
+}
+
+void UGimmickSelectionWidget::SetPlayerRandNum(int _PlayerNum)
+{
+	playerRandNum = _PlayerNum;
 }
