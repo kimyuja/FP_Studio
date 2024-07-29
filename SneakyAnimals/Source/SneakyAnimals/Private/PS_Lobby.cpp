@@ -27,6 +27,7 @@ void APS_Lobby::Toggle_ReadyStatus()
 void APS_Lobby::BeginPlay()
 {
 	Super::BeginPlay();
+	ClientRPC_Init();
 }
 
 void APS_Lobby::ClientRPC_Init_Implementation()
