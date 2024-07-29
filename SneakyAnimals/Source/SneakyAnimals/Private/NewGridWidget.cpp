@@ -40,6 +40,10 @@
 #include "SM_PeriscopeGimmick.h"
 #include "SM_PressButtonGimmick.h"
 #include "SM_WhistleGimmick.h"
+#include "SP_BottleGimmick.h"
+#include "SP_CartGimmick.h"
+#include "SP_CleanerGimmick.h"
+#include "SP_ShowcaseGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "GimmickSelectionWidget.h"
 
@@ -405,6 +409,78 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 			}
 		}
 		// 슈퍼마켓
+		else if (_GimmickClass->IsChildOf(ASP_BottleGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ASP_BottleGimmick"));
+
+			for (TActorIterator<ASP_BottleGimmick> It(GetWorld()); It; ++It)
+			{
+				bottleActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("bottleActorArr Num is %d"), bottleActorArr.Num());
+
+			for (ASP_BottleGimmick* bottleActor : bottleActorArr)
+			{
+				bottleActor->Myactivetype = _ActiveType;
+				bottleActor->SetActiveType(_ActiveType);
+
+				itemObject = bottleActor->GetDefaultItemObject();
+			}
+		}
+		else if (_GimmickClass->IsChildOf(ASP_CartGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ASP_CartGimmick"));
+
+			for (TActorIterator<ASP_CartGimmick> It(GetWorld()); It; ++It)
+			{
+				cartActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("cartActorArr Num is %d"), cartActorArr.Num());
+
+			for (ASP_CartGimmick* cartActor : cartActorArr)
+			{
+				cartActor->Myactivetype = _ActiveType;
+				cartActor->SetActiveType(_ActiveType);
+
+				itemObject = cartActor->GetDefaultItemObject();
+			}
+		}
+		else if (_GimmickClass->IsChildOf(ASP_CleanerGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ASP_CleanerGimmick"));
+
+			for (TActorIterator<ASP_CleanerGimmick> It(GetWorld()); It; ++It)
+			{
+				cleanerActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("cleanerActorArr Num is %d"), cleanerActorArr.Num());
+
+			for (ASP_CleanerGimmick* cleanerActor : cleanerActorArr)
+			{
+				cleanerActor->Myactivetype = _ActiveType;
+				cleanerActor->SetActiveType(_ActiveType);
+
+				itemObject = cleanerActor->GetDefaultItemObject();
+			}
+		}
+		else if (_GimmickClass->IsChildOf(ASP_ShowcaseGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ASP_ShowcaseGimmick"));
+
+			for (TActorIterator<ASP_ShowcaseGimmick> It(GetWorld()); It; ++It)
+			{
+				showcaseActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("showcaseActorArr Num is %d"), showcaseActorArr.Num());
+
+			for (ASP_ShowcaseGimmick* showcaseActor : showcaseActorArr)
+			{
+				showcaseActor->Myactivetype = _ActiveType;
+				showcaseActor->SetActiveType(_ActiveType);
+
+				itemObject = showcaseActor->GetDefaultItemObject();
+			}
+		}
 		// 금고
 		else
 		{
@@ -488,6 +564,34 @@ AGimmick* UNewGridWidget::FindMatchingActor(UItemObject* _itemObject)
 			}
 		}
 		// 슈퍼마켓
+		else if (ASP_BottleGimmick* bottleActor = Cast<ASP_BottleGimmick>(actor))
+		{
+			if (bottleActor->newItemObject == _itemObject)
+			{
+				return bottleActor;
+			}
+		}
+		else if (ASP_CartGimmick* cartActor = Cast<ASP_CartGimmick>(actor))
+		{
+			if (cartActor->newItemObject == _itemObject)
+			{
+				return cartActor;
+			}
+		}
+		else if (ASP_CleanerGimmick* cleanerActor = Cast<ASP_CleanerGimmick>(actor))
+		{
+			if (cleanerActor->newItemObject == _itemObject)
+			{
+				return cleanerActor;
+			}
+		}
+		else if (ASP_ShowcaseGimmick* showcaseActor = Cast<ASP_ShowcaseGimmick>(actor))
+		{
+			if (showcaseActor->newItemObject == _itemObject)
+			{
+				return showcaseActor;
+			}
+		}
 		// 금고
 	}
 
@@ -530,6 +634,22 @@ int32 UNewGridWidget::GetSwitcherIdx(AGimmick* _GimmickClass)
 		return 28;
 	}
 	// 슈퍼마켓
+	else if (_GimmickClass->IsA(ASP_BottleGimmick::StaticClass()))
+	{
+		return 32;
+	}
+	else if (_GimmickClass->IsA(ASP_CartGimmick::StaticClass()))
+	{
+		return 36;
+	}
+	else if (_GimmickClass->IsA(ASP_CleanerGimmick::StaticClass()))
+	{
+		return 40;
+	}
+	else if (_GimmickClass->IsA(ASP_ShowcaseGimmick::StaticClass()))
+	{
+		return 44;
+	}
 	// 금고
 	else
 	{
@@ -616,7 +736,7 @@ void UNewGridWidget::Refresh()
 
 			return FVector(worldX, worldY, WHTopLeft.Z);
 		}
-		else// if (mapCustomWidget->playerRandNum == 1)
+		else if (myPlayer->playerNum == 1)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("playerNum 1"));
 
@@ -624,6 +744,15 @@ void UNewGridWidget::Refresh()
 			float worldY = SMTopLeft.Y + gridY * levelTileSize;
 
 			return FVector(worldX, worldY, SMTopLeft.Z);
+		}
+		else //if (mapCustomWidget->playerRandNum == 2)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("playerNum 2"));
+
+			float worldX = SPTopLeft.X + gridX * levelTileSize;
+			float worldY = SPTopLeft.Y + gridY * levelTileSize;
+
+			return FVector(worldX, worldY, SPTopLeft.Z);
 		}
 	};
 
