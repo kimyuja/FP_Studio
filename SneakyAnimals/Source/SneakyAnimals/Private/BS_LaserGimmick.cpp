@@ -10,6 +10,7 @@
 #include "SP_RollingCart.h"
 #include "GI_SneakyAnimals.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
+#include "ItemObject.h"
 
 ABS_LaserGimmick::ABS_LaserGimmick()
 {
@@ -60,6 +61,26 @@ void ABS_LaserGimmick::Tick(float DeltaTime)
 	}
 }
 
+
+UItemObject* ABS_LaserGimmick::GetDefaultItemObject()
+{
+	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+
+	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(2, 2);
+		newItemObject->rotationAngle = 0.0f;
+		newItemObject->itemClass = ABS_LaserGimmick::StaticClass();
+		newItemObject->itemActiveType = Myactivetype;
+		newItemObject->beginLoc = FVector(-50000.f, -50000.f, -950.0f);
+		newItemObject->beginRot = FRotator(0.f, -90.f, 0.f);
+		newItemObject->setWorldActorRot = 0;
+		newItemObject->rotationImgCheck = 0;
+	}
+	return newItemObject;
+}
 
 int32 ABS_LaserGimmick::OnMyActive(AActor* ActivePlayer)
 {

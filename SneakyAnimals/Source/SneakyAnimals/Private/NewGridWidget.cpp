@@ -44,6 +44,10 @@
 #include "SP_CartGimmick.h"
 #include "SP_CleanerGimmick.h"
 #include "SP_ShowcaseGimmick.h"
+#include "BS_GoldBarGimmick.h"
+#include "BS_HandleGimmick.h"
+#include "BS_LaserGimmick.h"
+#include "BS_SwitchGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "GimmickSelectionWidget.h"
 
@@ -482,6 +486,78 @@ void UNewGridWidget::BindItemObjByBtn(TSubclassOf<AGimmick> _GimmickClass, int32
 			}
 		}
 		// 금고
+		else if (_GimmickClass->IsChildOf(ABS_GoldBarGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ABS_GoldBarGimmick"));
+
+			for (TActorIterator<ABS_GoldBarGimmick> It(GetWorld()); It; ++It)
+			{
+				goldbarActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("goldbarActorArr Num is %d"), goldbarActorArr.Num());
+
+			for (ABS_GoldBarGimmick* goldbarActor : goldbarActorArr)
+			{
+				goldbarActor->Myactivetype = _ActiveType;
+				goldbarActor->SetActiveType(_ActiveType);
+
+				itemObject = goldbarActor->GetDefaultItemObject();
+			}
+			}
+		else if (_GimmickClass->IsChildOf(ABS_HandleGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ABS_HandleGimmick"));
+
+			for (TActorIterator<ABS_HandleGimmick> It(GetWorld()); It; ++It)
+			{
+				handleActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("handleActorArr Num is %d"), handleActorArr.Num());
+
+			for (ABS_HandleGimmick* handleActor : handleActorArr)
+			{
+				handleActor->Myactivetype = _ActiveType;
+				handleActor->SetActiveType(_ActiveType);
+
+				itemObject = handleActor->GetDefaultItemObject();
+			}
+			}
+		else if (_GimmickClass->IsChildOf(ABS_LaserGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ABS_LaserGimmick"));
+
+			for (TActorIterator<ABS_LaserGimmick> It(GetWorld()); It; ++It)
+			{
+				laserActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("laserActorArr Num is %d"), laserActorArr.Num());
+
+			for (ABS_LaserGimmick* laserActor : laserActorArr)
+			{
+				laserActor->Myactivetype = _ActiveType;
+				laserActor->SetActiveType(_ActiveType);
+
+				itemObject = laserActor->GetDefaultItemObject();
+			}
+			}
+		else if (_GimmickClass->IsChildOf(ABS_SwitchGimmick::StaticClass()))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GimmickClass is ABS_SwitchGimmick"));
+
+			for (TActorIterator<ABS_SwitchGimmick> It(GetWorld()); It; ++It)
+			{
+				switchActorArr.Add(*It);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("switchActorArr Num is %d"), switchActorArr.Num());
+
+			for (ABS_SwitchGimmick* switchActor : switchActorArr)
+			{
+				switchActor->Myactivetype = _ActiveType;
+				switchActor->SetActiveType(_ActiveType);
+
+				itemObject = switchActor->GetDefaultItemObject();
+			}
+		}
 		else
 		{
 			UE_LOG(LogTemp, Warning, TEXT("!!! so sad"));
@@ -593,6 +669,34 @@ AGimmick* UNewGridWidget::FindMatchingActor(UItemObject* _itemObject)
 			}
 		}
 		// 금고
+		else if (ABS_GoldBarGimmick* goldbarActor = Cast<ABS_GoldBarGimmick>(actor))
+		{
+			if (goldbarActor->newItemObject == _itemObject)
+			{
+				return goldbarActor;
+			}
+		}
+		else if (ABS_HandleGimmick* handleActor = Cast<ABS_HandleGimmick>(actor))
+		{
+			if (handleActor->newItemObject == _itemObject)
+			{
+				return handleActor;
+			}
+		}
+		else if (ABS_LaserGimmick* laserActor = Cast<ABS_LaserGimmick>(actor))
+		{
+			if (laserActor->newItemObject == _itemObject)
+			{
+				return laserActor;
+			}
+		}
+		else if (ABS_SwitchGimmick* switchActor = Cast<ABS_SwitchGimmick>(actor))
+		{
+			if (switchActor->newItemObject == _itemObject)
+			{
+				return switchActor;
+			}
+		}
 	}
 
 	return nullptr;
@@ -651,6 +755,22 @@ int32 UNewGridWidget::GetSwitcherIdx(AGimmick* _GimmickClass)
 		return 44;
 	}
 	// 금고
+	else if (_GimmickClass->IsA(ASP_BottleGimmick::StaticClass()))
+	{
+		return 48;
+	}
+	else if (_GimmickClass->IsA(ASP_CartGimmick::StaticClass()))
+	{
+		return 52;
+	}
+	else if (_GimmickClass->IsA(ASP_CleanerGimmick::StaticClass()))
+	{
+		return 56;
+	}
+	else if (_GimmickClass->IsA(ASP_ShowcaseGimmick::StaticClass()))
+	{
+		return 60;
+	}
 	else
 	{
 		return -1;
@@ -745,7 +865,7 @@ void UNewGridWidget::Refresh()
 
 			return FVector(worldX, worldY, SMTopLeft.Z);
 		}
-		else //if (mapCustomWidget->playerRandNum == 2)
+		else if (myPlayer->playerNum == 2)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("playerNum 2"));
 
@@ -753,6 +873,15 @@ void UNewGridWidget::Refresh()
 			float worldY = SPTopLeft.Y + gridY * levelTileSize;
 
 			return FVector(worldX, worldY, SPTopLeft.Z);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("playerNum 3"));
+
+			float worldX = BSTopLeft.X + gridX * levelTileSize;
+			float worldY = BSTopLeft.Y + gridY * levelTileSize;
+
+			return FVector(worldX, worldY, BSTopLeft.Z);
 		}
 	};
 

@@ -12,6 +12,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 #include "SM_ComputerMoniter.h"
+#include "ItemObject.h"
 
 ABS_HandleGimmick::ABS_HandleGimmick()
 {
@@ -59,6 +60,26 @@ void ABS_HandleGimmick::Tick(float DeltaTime)
 	}
 }
 
+
+UItemObject* ABS_HandleGimmick::GetDefaultItemObject()
+{
+	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+
+	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(2, 2);
+		newItemObject->rotationAngle = 0.0f;
+		newItemObject->itemClass = ABS_HandleGimmick::StaticClass();
+		newItemObject->itemActiveType = Myactivetype;
+		newItemObject->beginLoc = FVector(-50000.f, -50000.f, -940.0f);
+		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
+		newItemObject->setWorldActorRot = 0;
+		newItemObject->rotationImgCheck = 0;
+	}
+	return newItemObject;
+}
 
 int32 ABS_HandleGimmick::OnMyActive(AActor* ActivePlayer)
 {

@@ -92,16 +92,27 @@ public:
 	bool bWhistleInWorld = false;
 
 	// 슈퍼마켓
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Supermarket")
 	bool bBottleInWorld = false;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Supermarket")
 	bool bCartInWorld = false;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Supermarket")
 	bool bCleanerInWorld = false;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Supermarket")
 	bool bShowcaseInWorld = false;
 	
 	// 금고
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bGoldbarInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bHandleInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bLaserInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bSwitchInWorld = false;
+
+
+
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	class UItemObject* itemObejct;
