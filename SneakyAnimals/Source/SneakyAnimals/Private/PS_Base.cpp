@@ -220,6 +220,14 @@ void APS_Base::Load_Player_UserProfile()
 			}, 0.3f, false);
 			return;
 		}
+		else if (HasAuthority() && Cast<AGS_Lobby>(GetWorld()->GetGameState())->PlayerArray.Num() > 1 && result.S_UserProfile.Username.ToString() == Cast<AGS_Lobby>(GetWorld()->GetGameState())->ServerName.ToString()) {
+			// 서버이고 다른 사람 들어왔는데 서버 네임으로만 불러왔으면 다시 불러 와
+			FTimerHandle t;
+			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+				Load_Player_UserProfile();
+				}, 0.3f, false);
+			return;
+		}
 		ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
 		return;
 	}
