@@ -10,14 +10,14 @@
 #include "GS_Lobby.h"
 
 
-void APS_Base::ServerRPC_Update_Player_Appearance_Implementation(const FStructure_Player_Appearance _Player_Appearance)
+void APS_Base::ServerRPC_Update_Player_Appearance_Implementation(const FStructure_Player_Appearance& _Player_Appearance)
 {
 	Player_Appearance = _Player_Appearance;
 	// 클라이언트 뿐만 아니라 서버에서도 OnRep 호출하려면 아래처럼 수동으로 호출해줘야한다.
 	OnRep_Player_Appearance();
 }
 
-void APS_Base::ServerRPC_Update_Player_UserProfile_Implementation(const FStructure_UserProfile _Player_UserProfile)
+void APS_Base::ServerRPC_Update_Player_UserProfile_Implementation(const FStructure_UserProfile& _Player_UserProfile)
 {
 	// 만약 여기서 에러나면 if (HasAuthority()) 붙이기
 	Player_UserProfile = _Player_UserProfile;
@@ -25,7 +25,7 @@ void APS_Base::ServerRPC_Update_Player_UserProfile_Implementation(const FStructu
 
 }
 
-void APS_Base::ServerRPC_Update_Player_ConnectionInfo_Implementation(const FStructure_PlayerConnectionInfo _Player_ConnectionInfo)
+void APS_Base::ServerRPC_Update_Player_ConnectionInfo_Implementation(const FStructure_PlayerConnectionInfo& _Player_ConnectionInfo)
 {
 	// 만약 여기서 에러나면 if (HasAuthority()) 붙이기
 	Player_ConnectionInfo = _Player_ConnectionInfo;
@@ -207,45 +207,37 @@ void APS_Base::Load_Player_Appearance()
 void APS_Base::Load_Player_UserProfile()
 {
 	// 세이브 게임 0번 인덱스에서 유저 프로필을 불러옴
-	if (UKismetSystemLibrary::IsServer(GetWorld()))
+	FUserProfileResult result = UFL_General::Get_UserProfile();
+	if (result.success)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
 		// 서버라면...
-		FUserProfileResult result = UFL_General::Get_UserProfile();
-		if (result.success)
+		if (UKismetSystemLibrary::IsServer(GetWorld()))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Server Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
-			//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
 			Player_UserProfile = result.S_UserProfile;
 			OnRep_Player_UserProfile();
-			return;
 		}
+		// 클라이언트라면...
 		else
 		{
-			FStructure_UserProfile tmp;
-			tmp.Username = FText::FromString(TEXT("Username"));
-			tmp.User_Avatar = T_ProfilePicture;
-			//ServerRPC_Update_Player_UserProfile_Implementation(tmp);
-			Player_UserProfile = tmp;
-			OnRep_Player_UserProfile();
-			return;
+			ServerRPC_Update_Player_UserProfile(result.S_UserProfile);
 		}
 	}
 	else
 	{
-		// 클라이언트라면...
-		FUserProfileResult result = UFL_General::Get_UserProfile();
-		if (result.success)
+		FStructure_UserProfile tmp;
+		tmp.Username = FText::FromString(TEXT("Username"));
+		tmp.User_Avatar = nullptr;
+		// 서버라면...
+		if (UKismetSystemLibrary::IsServer(GetWorld()))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Client Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
-			ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
+			Player_UserProfile = tmp;
+			OnRep_Player_UserProfile();
 		}
+		// 클라이언트라면...
 		else
 		{
-			FStructure_UserProfile tmp;
-			tmp.Username = FText::FromString(TEXT("Username"));
-			tmp.User_Avatar = T_ProfilePicture;
-			ServerRPC_Update_Player_UserProfile_Implementation(tmp);
-			return;
+			ServerRPC_Update_Player_UserProfile(tmp);
 		}
 	}
 }
@@ -301,6 +293,7 @@ void APS_Base::OnRep_Player_Appearance()
 void APS_Base::OnRep_Player_UserProfile()
 {
 	// 자식 클래스에서 오버라이드 된 OnRep_Player_UserProfile_OR()를 호출해야 함
+	UE_LOG(LogTemp, Warning, TEXT("Player User Profile Updated: %s"), *Player_UserProfile.Username.ToString());
 	OnRep_Player_UserProfile_OR();
 }
 

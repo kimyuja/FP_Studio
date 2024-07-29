@@ -35,7 +35,7 @@ public:
 	UPROPERTY(ReplicatedUsing = OnRep_Player_Appearance)
 	FStructure_Player_Appearance Player_Appearance;
 	
-	UPROPERTY(ReplicatedUsing = OnRep_Player_UserProfile)
+	UPROPERTY(ReplicatedUsing = OnRep_Player_UserProfile, BlueprintReadOnly)
 	FStructure_UserProfile Player_UserProfile;
 	
 	UPROPERTY(ReplicatedUsing = OnRep_Player_ConnectionInfo)
@@ -61,13 +61,13 @@ public:
 
 	// RPC (Remote Procedure Call)
 	UFUNCTION(Server, Reliable)
-	void ServerRPC_Update_Player_Appearance(const FStructure_Player_Appearance _Player_Appearance);
+	void ServerRPC_Update_Player_Appearance(const FStructure_Player_Appearance& _Player_Appearance);
 	
 	UFUNCTION(Server, Reliable)
-	void ServerRPC_Update_Player_UserProfile(const FStructure_UserProfile _Player_UserProfile);
+	void ServerRPC_Update_Player_UserProfile(const FStructure_UserProfile& _Player_UserProfile);
 	
 	UFUNCTION(Server, Reliable)
-	void ServerRPC_Update_Player_ConnectionInfo(const FStructure_PlayerConnectionInfo _Player_ConnectionInfo);
+	void ServerRPC_Update_Player_ConnectionInfo(const FStructure_PlayerConnectionInfo& _Player_ConnectionInfo);
 
 	// KYJ Test
 	UFUNCTION(Server, Reliable)
