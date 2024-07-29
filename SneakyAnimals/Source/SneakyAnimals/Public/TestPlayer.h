@@ -215,7 +215,7 @@ public:
 	float lerpTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
-	int32 endNum = 3;
+	int32 endNum = 1;
 
 	class AGimmick* g;
 
