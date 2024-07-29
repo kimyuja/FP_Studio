@@ -40,5 +40,9 @@ void AGM_Base::Handle_PlayerDisconnection(UObject* Player)
 
 void AGM_Base::ServerTravel_ToGameplayMap()
 {
+	for (auto* pc : All_PCs)
+	{
+		GetWorld()->GetTimerManager().ClearAllTimersForObject(pc);	
+	}
 	GetWorld()->ServerTravel("/Game/RTY/LEVELS/GameMaps");
 }
