@@ -135,9 +135,12 @@ void AGS_Lobby::Update_ConnectedPlayers_Array()
 			if (HasAuthority() && idx>0 && ps_base->Player_UserProfile.Username.ToString() == ServerName.ToString())
 			{
 			// 유저네임 제대로 가져왔니??
-				UE_LOG(LogTemp, Warning, TEXT("AGS_Lobby::Update_ConnectedPlayers_Array() is invalid user name"));
-				ps_base->ClientRPC_Init();
-				return;
+				FTimerHandle t;
+				GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+					UE_LOG(LogTemp, Warning, TEXT("AGS_Lobby::Update_ConnectedPlayers_Array() is invalid user name"));
+					ps_base->ClientRPC_Init();
+					return;
+				}, 2.0f, false);
 			}
 			Local_ConnectedPlayer.S_UserProfile = ps_base->Player_UserProfile;
 			UE_LOG(LogTemp, Warning, TEXT("player array user name :  %s"), *ps_base->Player_UserProfile.Username.ToString());
