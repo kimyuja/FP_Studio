@@ -97,8 +97,14 @@ public:
 	FVector SMTopLeft = FVector(49350.f, 49320.f, -50.f);
 
 	// ½´ÆÛ¸¶ÄÏ
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Submarine")
+	FVector SPTopLeft = FVector(-50330.f, 48845.f, -20.f);
 
 	// ±Ý°í
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Submarine")
+	FVector BSTopLeft;
+
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
 	FVector worldPosition;
 
@@ -160,6 +166,17 @@ public:
 	TArray<class ASM_PressButtonGimmick*> pressbuttonActorArr;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
 	TArray<class ASM_WhistleGimmick*> whistleGimmickActorArr;
+	
+	// ½´ÆÛ¸¶ÄÏ
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASP_BottleGimmick*> bottleActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASP_CartGimmick*> cartActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASP_CleanerGimmick*> cleanerActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASP_ShowcaseGimmick*> showcaseActorArr;
+	
 
 
 	UFUNCTION(BlueprintCallable, Category = "DragDrop")

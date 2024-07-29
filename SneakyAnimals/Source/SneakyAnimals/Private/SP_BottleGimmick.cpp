@@ -9,6 +9,7 @@
 #include "SP_RollingCart.h"
 #include "GI_SneakyAnimals.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
+#include "ItemObject.h"
 
 ASP_BottleGimmick::ASP_BottleGimmick()
 {
@@ -69,6 +70,26 @@ void ASP_BottleGimmick::Tick(float DeltaTime)
 	}
 }
 
+
+UItemObject* ASP_BottleGimmick::GetDefaultItemObject()
+{
+	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+
+	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(2, 2);
+		newItemObject->rotationAngle = 0.0f;
+		newItemObject->itemClass = ASP_BottleGimmick::StaticClass();
+		newItemObject->itemActiveType = Myactivetype;
+		newItemObject->beginLoc = FVector(-49813.f, 49355.f, -874.f);
+		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
+		newItemObject->setWorldActorRot = 0;
+		newItemObject->rotationImgCheck = 0;
+	}
+	return newItemObject;	
+}
 
 int32 ASP_BottleGimmick::OnMyActive(AActor* ActivePlayer)
 {
