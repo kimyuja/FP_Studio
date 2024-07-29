@@ -106,7 +106,7 @@ UItemObject* ASM_ComputerGimmick::GetDefaultItemObject()
 		newItemObject->itemClass = ASM_ComputerGimmick::StaticClass();
 		newItemObject->itemActiveType = Myactivetype;
 		newItemObject->beginLoc = FVector(50000.f, 50000.f, -937.f);
-		newItemObject->beginRot = FRotator(0.f, -90.f, 0.f);
+		newItemObject->beginRot = FRotator(0.f, 180.f, 0.f);
 		newItemObject->setWorldActorRot = 0;
 		newItemObject->rotationImgCheck = 0;
 	}

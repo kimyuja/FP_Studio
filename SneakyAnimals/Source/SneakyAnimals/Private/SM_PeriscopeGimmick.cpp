@@ -78,7 +78,7 @@ UItemObject* ASM_PeriscopeGimmick::GetDefaultItemObject()
 		newItemObject->itemClass = ASM_PeriscopeGimmick::StaticClass();
 		newItemObject->itemActiveType = Myactivetype;
 		newItemObject->beginLoc = FVector(50000.f, 50000.f, -933.f);
-		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
+		newItemObject->beginRot = FRotator(0.f, -90.f, 0.f);
 		newItemObject->setWorldActorRot = 0;
 		newItemObject->rotationImgCheck = 0;
 	}
