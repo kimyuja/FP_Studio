@@ -967,12 +967,32 @@ void ATestPlayer::MultiRPC_SetPlayerPhysics_Implementation(AActor* _target, FVec
 	GetCapsuleComponent()->AddImpulse(_pushDir, TEXT(""), true);
 }
 
-void ATestPlayer::ServerRPC_SetGActorLoc_Implementation(AActor* MoveObj, FVector GetLoc, int32 ActiveNum)
+void ATestPlayer::ServerRPC_SetGActorLoc_Implementation(AActor* MoveObj, FVector GetLoc)
 {
-	MultiRPC_SetGActorLoc(MoveObj, GetLoc, ActiveNum);
+	MultiRPC_SetGActorLoc(MoveObj, GetLoc);
 }
 
-void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum)
+void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector _GetLoc)
+{
+	_MoveObj->SetActorLocation(_GetLoc);
+}
+
+void ATestPlayer::ServerRPC_SetGActorRot_Implementation(AActor* MoveObj, FRotator GetRot)
+{
+	MultiRPC_SetGActorRot(MoveObj, GetRot);
+}
+
+void ATestPlayer::MultiRPC_SetGActorRot_Implementation(AActor* _MoveObj, FRotator _GetRot)
+{
+	_MoveObj->SetActorRotation(_GetRot);
+}
+
+void ATestPlayer::ServerRPC_SetGActorLocAndActiveNum_Implementation(AActor* MoveObj, FVector GetLoc, int32 ActiveNum)
+{
+	MultiRPC_SetGActorLocAndActiveNum(MoveObj, GetLoc, ActiveNum);
+}
+
+void ATestPlayer::MultiRPC_SetGActorLocAndActiveNum_Implementation(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum)
 {
 	_MoveObj->SetActorLocation(_GetLoc);
 	if (Cast<AWH_BookshelfGimmick>(_MoveObj))
@@ -1226,3 +1246,4 @@ void ATestPlayer::ServerRPC_Update_Dress_Implementation(USkeletalMesh* _mesh)
 	Current_Dress = _mesh;
 	OnRep_Current_Dress();
 }
+
