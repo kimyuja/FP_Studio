@@ -132,6 +132,13 @@ void AGS_Lobby::Update_ConnectedPlayers_Array()
 			// ConnectedPlayer 구조체 만들어서 배열에 저장하기
 			FStructure_ConnectedPlayer Local_ConnectedPlayer;
 			Local_ConnectedPlayer.S_PlayerConnectionInfo = Local_PlayerConnectionInfo;
+			if (HasAuthority() && idx>0 && ps_base->Player_UserProfile.Username.ToString() == ServerName.ToString())
+			{
+			// 유저네임 제대로 가져왔니??
+				UE_LOG(LogTemp, Warning, TEXT("AGS_Lobby::Update_ConnectedPlayers_Array() is invalid user name"));
+				ps_base->ClientRPC_Init();
+				return;
+			}
 			Local_ConnectedPlayer.S_UserProfile = ps_base->Player_UserProfile;
 			UE_LOG(LogTemp, Warning, TEXT("player array user name :  %s"), *ps_base->Player_UserProfile.Username.ToString());
 			Local_ConnectedPlayer.S_Player_Appearance = ps_base->Player_Appearance;
