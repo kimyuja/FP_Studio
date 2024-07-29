@@ -20,7 +20,7 @@ private:
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void ClientRPC_Init_Implementation();
+	virtual void ClientRPC_Init_Implementation() override;
 	virtual void Load_Player_ConnectionInfo(bool _ClientReadyStatus) override;
 
 public:
