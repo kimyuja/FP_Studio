@@ -238,12 +238,6 @@ void APS_Base::Load_Player_UserProfile()
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Client Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
 			ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
-			FTimerHandle t;
-			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-				ServerRPC_Update_Player_UserProfile_Implementation(UFL_General::Get_UserProfile().S_UserProfile);
-				APS_Base::Load_Player_UserProfile();
-				return;
-			}, 2.0f, false);
 		}
 		else
 		{
@@ -253,140 +247,108 @@ void APS_Base::Load_Player_UserProfile()
 			ServerRPC_Update_Player_UserProfile_Implementation(tmp);
 			return;
 		}
-		}
-		//if (result.success)
-		//{
-		//	UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
-			//if (!HasAuthority() && (result.S_UserProfile.Username.ToString() == "" || result.S_UserProfile.Username.ToString() == Cast<AGS_Lobby>(GetWorld()->GetGameState())->ServerName.ToString()))
-			//{
-			//	//  클라이언트인데 아직 유저 프로필 제대로 못 불러왔으면 다시 불러 와
-			//	FTimerHandle t;
-			//	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-			//		ServerRPC_Update_Player_UserProfile_Implementation(UFL_General::Get_UserProfile().S_UserProfile);
-			//		Load_Player_UserProfile();
-			//	}, 0.3f, false);
-			//	return;
-			//}
-			//else if (HasAuthority() && Cast<AGS_Lobby>(GetWorld()->GetGameState())->PlayerArray.Num() > 1 && result.S_UserProfile.Username.ToString() == Cast<AGS_Lobby>(GetWorld()->GetGameState())->ServerName.ToString()) {
-			//	// 서버이고 다른 사람 들어왔는데 서버 네임으로만 불러왔으면 다시 불러 와
-			//	FTimerHandle t;
-			//	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-			//		Load_Player_UserProfile();
-			//		}, 0.3f, false);
-			//	return;
-			//}
-		//	ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
-		//	return;
-		//}
-		//else
-		//{
-		//	FStructure_UserProfile tmp;
-		//	tmp.Username = FText::FromString(TEXT("Username"));
-		//	tmp.User_Avatar = T_ProfilePicture;
-		//	ServerRPC_Update_Player_UserProfile_Implementation(tmp);
-		//	return;
-		//}
 	}
+}
 
-	void APS_Base::Load_Player_ConnectionInfo(bool ClientReadyStatus)
+void APS_Base::Load_Player_ConnectionInfo(bool ClientReadyStatus)
+{
+	// Sets Player Connection Info incase we are host
+	if (UKismetSystemLibrary::IsServer(GetWorld()))
 	{
-		// Sets Player Connection Info incase we are host
-		if (UKismetSystemLibrary::IsServer(GetWorld()))
-		{
-			// The host is always ready, so set ready status to true.
-			FStructure_PlayerConnectionInfo p;
-			p.bIsHost = true;
-			p.bReadyStatus = true;
-			p.PlayerID = 0;
-			ServerRPC_Update_Player_ConnectionInfo(p);
-		}
-		// Sets Player Connection Info incase we are a client
-		else
-		{
-			FStructure_PlayerConnectionInfo p;
-			p.bIsHost = false;
-			// ClientReadyStatus : This variable gets set by the GM_Lobby variable called 'CanHostForceLaunch'
-			p.bReadyStatus = ClientReadyStatus;
-			p.PlayerID = 0;
-			ServerRPC_Update_Player_ConnectionInfo(p);
-		}
-
+		// The host is always ready, so set ready status to true.
+		FStructure_PlayerConnectionInfo p;
+		p.bIsHost = true;
+		p.bReadyStatus = true;
+		p.PlayerID = 0;
+		ServerRPC_Update_Player_ConnectionInfo(p);
 	}
-
-	APS_Base::APS_Base()
+	// Sets Player Connection Info incase we are a client
+	else
 	{
-		// Loading Screen Texture2D 경로 설정
-		FSoftObjectPath TextureRef(TEXT("/Game/KYJ/Assets/Widgets/Placeholders/T_ProfilePicture_Placeholder.T_ProfilePicture_Placeholder"));
-
-		// Loading Screen Texture2D 로드
-		T_ProfilePicture = Cast<UTexture2D>(TextureRef.TryLoad());
+		FStructure_PlayerConnectionInfo p;
+		p.bIsHost = false;
+		// ClientReadyStatus : This variable gets set by the GM_Lobby variable called 'CanHostForceLaunch'
+		p.bReadyStatus = ClientReadyStatus;
+		p.PlayerID = 0;
+		ServerRPC_Update_Player_ConnectionInfo(p);
 	}
 
-	void APS_Base::BeginPlay()
-	{
-		Super::BeginPlay();
+}
 
-		// This initialization event can be overridden in Child Player States
-		ClientRPC_Init();
-	}
+APS_Base::APS_Base()
+{
+	// Loading Screen Texture2D 경로 설정
+	FSoftObjectPath TextureRef(TEXT("/Game/KYJ/Assets/Widgets/Placeholders/T_ProfilePicture_Placeholder.T_ProfilePicture_Placeholder"));
 
-	void APS_Base::OnRep_Player_Appearance()
-	{
-		// 자식 클래스에서 오버라이드 된 OnRep_Player_Appearance_OR()를 호출해야 함
-		OnRep_Player_Appearance_OR();
-	}
+	// Loading Screen Texture2D 로드
+	T_ProfilePicture = Cast<UTexture2D>(TextureRef.TryLoad());
+}
 
-	void APS_Base::OnRep_Player_UserProfile()
-	{
-		// 자식 클래스에서 오버라이드 된 OnRep_Player_UserProfile_OR()를 호출해야 함
-		OnRep_Player_UserProfile_OR();
-	}
+void APS_Base::BeginPlay()
+{
+	Super::BeginPlay();
 
-	void APS_Base::OnRep_Player_ConnectionInfo()
-	{
-		// 자식 클래스에서 오버라이드 된 OnRep_Player_ConnectionInfo_OR()를 호출해야 함
-		OnRep_Player_ConnectionInfo_OR();
-	}
+	// This initialization event can be overridden in Child Player States
+	ClientRPC_Init();
+}
+
+void APS_Base::OnRep_Player_Appearance()
+{
+	// 자식 클래스에서 오버라이드 된 OnRep_Player_Appearance_OR()를 호출해야 함
+	OnRep_Player_Appearance_OR();
+}
+
+void APS_Base::OnRep_Player_UserProfile()
+{
+	// 자식 클래스에서 오버라이드 된 OnRep_Player_UserProfile_OR()를 호출해야 함
+	OnRep_Player_UserProfile_OR();
+}
+
+void APS_Base::OnRep_Player_ConnectionInfo()
+{
+	// 자식 클래스에서 오버라이드 된 OnRep_Player_ConnectionInfo_OR()를 호출해야 함
+	OnRep_Player_ConnectionInfo_OR();
+}
 
 
-	void APS_Base::OnRep_Player_Appearance_OR()
-	{
-		/*
-		Repnotifies OnRep functions 는 자식 클래스에서 오버라이드 될 수 없다. 그래서 오버라이드 할 수 있도록 OnRep_Player_Appearance_OR()를 만들었다.
-		(OR = Override)
-		OR 접미사는 Override의 준말이다.
-		*/
-	}
+void APS_Base::OnRep_Player_Appearance_OR()
+{
+	/*
+	Repnotifies OnRep functions 는 자식 클래스에서 오버라이드 될 수 없다. 그래서 오버라이드 할 수 있도록 OnRep_Player_Appearance_OR()를 만들었다.
+	(OR = Override)
+	OR 접미사는 Override의 준말이다.
+	*/
+}
 
-	void APS_Base::OnRep_Player_UserProfile_OR()
-	{
-		/*
-		Repnotifies OnRep functions 는 자식 클래스에서 오버라이드 될 수 없다. 그래서 오버라이드 할 수 있도록 OnRep_Player_UserProfile_OR()를 만들었다.
-		(OR = Override)
-		OR 접미사는 Override의 준말이다.
-		*/
-	}
+void APS_Base::OnRep_Player_UserProfile_OR()
+{
+	/*
+	Repnotifies OnRep functions 는 자식 클래스에서 오버라이드 될 수 없다. 그래서 오버라이드 할 수 있도록 OnRep_Player_UserProfile_OR()를 만들었다.
+	(OR = Override)
+	OR 접미사는 Override의 준말이다.
+	*/
+}
 
-	void APS_Base::OnRep_Player_ConnectionInfo_OR()
-	{
-		/*
-		Repnotifies OnRep functions 는 자식 클래스에서 오버라이드 될 수 없다. 그래서 오버라이드 할 수 있도록 OnRep_Player_ConnectionInfo_OR()를 만들었다.
-		(OR = Override)
-		OR 접미사는 Override의 준말이다.
-		*/
-	}
+void APS_Base::OnRep_Player_ConnectionInfo_OR()
+{
+	/*
+	Repnotifies OnRep functions 는 자식 클래스에서 오버라이드 될 수 없다. 그래서 오버라이드 할 수 있도록 OnRep_Player_ConnectionInfo_OR()를 만들었다.
+	(OR = Override)
+	OR 접미사는 Override의 준말이다.
+	*/
+}
 
-	void APS_Base::ServerRPC_Update_SaveGame_Player_UserProfile_Implementation(int32 uniqueIdx, const FStructure_UserProfile _Player_UserProfile)
-	{
-		//UFL_General::Save_UserProfile_with_idx(Cast<UGI_SneakyAnimals>(GetGameInstance())->Get_UserIndex(_Player_UserProfile.Username.ToString()), _Player_UserProfile);
-		UFL_General::Save_UserProfile_with_idx(uniqueIdx, _Player_UserProfile);
-	}
+void APS_Base::ServerRPC_Update_SaveGame_Player_UserProfile_Implementation(int32 uniqueIdx, const FStructure_UserProfile _Player_UserProfile)
+{
+	//UFL_General::Save_UserProfile_with_idx(Cast<UGI_SneakyAnimals>(GetGameInstance())->Get_UserIndex(_Player_UserProfile.Username.ToString()), _Player_UserProfile);
+	UFL_General::Save_UserProfile_with_idx(uniqueIdx, _Player_UserProfile);
+}
 
-	void APS_Base::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&OutLifetimeProps) const
-	{
-		Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+void APS_Base::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-		DOREPLIFETIME(APS_Base, Player_Appearance);
-		DOREPLIFETIME(APS_Base, Player_UserProfile);
-		DOREPLIFETIME(APS_Base, Player_ConnectionInfo);
-	}
+	DOREPLIFETIME(APS_Base, Player_Appearance);
+	DOREPLIFETIME(APS_Base, Player_UserProfile);
+	DOREPLIFETIME(APS_Base, Player_ConnectionInfo);
+}
