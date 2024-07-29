@@ -35,6 +35,10 @@
 #include "SM_PeriscopeGimmick.h"
 #include "SM_PressButtonGimmick.h"
 #include "SM_WhistleGimmick.h"
+#include "SP_BottleGimmick.h"
+#include "SP_CartGimmick.h"
+#include "SP_CleanerGimmick.h"
+#include "SP_ShowcaseGimmick.h"
 
 bool UMapCustomWidget::Initialize()
 {
@@ -114,6 +118,8 @@ void UMapCustomWidget::NativeConstruct()
 	}
 
 	gimmickSelectionWidget->SetPlayerRandNum(playerRandNum);
+
+	UE_LOG(LogTemp, Error, TEXT("PLAYER RANDOM NUM IS %d"), playerRandNum);
 
 }
 
@@ -275,6 +281,16 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 			HandleButtonClicked(GActorBtn1, gswPos);
 		}
 	}
+	// ½´ÆÛ¸¶ÄÏ
+	else if (playerRandNum == 2)
+	{
+		if (!gimmickSelectionWidget->bBottleInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
+
+			HandleButtonClicked(GActorBtn1, gswPos);
+		}
+	}
 }
 
 void UMapCustomWidget::OnGActorBtn2Clicked()
@@ -301,6 +317,17 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 
 			gswPos += FVector2D(0.f, 150.f);
 			HandleButtonClicked(GActorBtn2, gswPos);
+		}
+	}
+	// ½´ÆÛ¸¶ÄÏ
+	else if (playerRandNum == 2)
+	{
+		if (!gimmickSelectionWidget->bCartInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
+
+			gswPos += FVector2D(0.f, 150.f);
+			HandleButtonClicked(GActorBtn1, gswPos);
 		}
 	}
 
@@ -332,6 +359,17 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 			HandleButtonClicked(GActorBtn3, gswPos);
 		}
 	}
+	// ½´ÆÛ¸¶ÄÏ
+	else if (playerRandNum == 2)
+	{
+		if (!gimmickSelectionWidget->bCleanerInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
+
+			gswPos += FVector2D(0.f, 370.f);
+			HandleButtonClicked(GActorBtn1, gswPos);
+		}
+	}
 }
 
 void UMapCustomWidget::OnGActorBtn4Clicked()
@@ -358,6 +396,17 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 
 			gswPos += FVector2D(0.f, 520.f);
 			HandleButtonClicked(GActorBtn4, gswPos);
+		}
+	}
+	// ½´ÆÛ¸¶ÄÏ
+	else if (playerRandNum == 2)
+	{
+		if (!gimmickSelectionWidget->bShowcaseInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
+
+			gswPos += FVector2D(0.f, 520.f);
+			HandleButtonClicked(GActorBtn1, gswPos);
 		}
 	}
 
@@ -438,6 +487,22 @@ void UMapCustomWidget::RemovedItemCheck(UItemObject* _itemObject)
 		gimmickSelectionWidget->bWhistleInWorld = false;
 	}
 	// ½´ÆÛ¸¶ÄÏ
+	else if (_itemObject->itemClass == ASP_BottleGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bBottleInWorld = false;
+	}
+	else if (_itemObject->itemClass == ASP_CartGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bCartInWorld = false;
+	}
+	else if (_itemObject->itemClass == ASP_CleanerGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bCleanerInWorld = false;
+	}
+	else if (_itemObject->itemClass == ASP_ShowcaseGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bShowcaseInWorld = false;
+	}
 	// ±Ý°í
 
 }

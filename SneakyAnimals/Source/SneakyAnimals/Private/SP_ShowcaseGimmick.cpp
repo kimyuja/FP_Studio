@@ -9,6 +9,7 @@
 #include "SP_RollingCart.h"
 #include "GI_SneakyAnimals.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
+#include "ItemObject.h"
 
 ASP_ShowcaseGimmick::ASP_ShowcaseGimmick()
 {
@@ -67,6 +68,26 @@ void ASP_ShowcaseGimmick::Tick(float DeltaTime)
 	}
 }
 
+
+UItemObject* ASP_ShowcaseGimmick::GetDefaultItemObject()
+{
+	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+
+	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(4, 4);
+		newItemObject->rotationAngle = 0.0f;
+		newItemObject->itemClass = ASP_ShowcaseGimmick::StaticClass();
+		newItemObject->itemActiveType = Myactivetype;
+		newItemObject->beginLoc = FVector(-49813.f, 49355.f, -889.f);
+		newItemObject->beginRot = FRotator(0.f, -90.f, 0.f);
+		newItemObject->setWorldActorRot = 0;
+		newItemObject->rotationImgCheck = 0;
+	}
+	return newItemObject;
+}
 
 int32 ASP_ShowcaseGimmick::OnMyActive(AActor* ActivePlayer)
 {
