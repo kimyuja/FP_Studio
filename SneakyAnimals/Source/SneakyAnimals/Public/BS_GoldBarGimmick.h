@@ -50,6 +50,8 @@ private:
 
 	class ATestPlayer* _target;
 
+	bool bIsActived = false;
+
 	// 손대면 경보울리고 랜덤한명 죽음 (랜덤한명)
 	void Alarm(AActor* ActivePlayer);
 	// 손이 미끄러져서 금괴에 맞았다.(혼자)
