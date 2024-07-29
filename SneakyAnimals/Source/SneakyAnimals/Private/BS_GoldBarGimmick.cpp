@@ -48,7 +48,11 @@ void ABS_GoldBarGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if ((_target && FVector::Dist(GetActorLocation(), _target->GetActorLocation()) < 100.0))
+	if (bIsActived)
+	{
+		return;
+	}
+	if ((_target && FVector::Dist(activeObject->GetComponentLocation(), _target->GetActorLocation()) < 100.0))
 	{
 		UE_LOG(LogTemp, Warning, TEXT(" Shoot!!!!!!!!!!!"));
 		GetWorldTimerManager().ClearTimer(goldT);
@@ -56,8 +60,13 @@ void ABS_GoldBarGimmick::Tick(float DeltaTime)
 		_target->bIsDie = true;
 		_target->Respawn();
 		_target->DeathCounting();
-		Destroy();
+		activeObject->DestroyComponent(true);
+		bIsActived = true;
 	}
+	/*else if((_target && FVector::Dist(activeObject->GetComponentLocation(), _target->GetActorLocation()) > 100.0))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%f"), FVector::Dist(activeObject->GetComponentLocation(), _target->GetActorLocation()));
+	}*/
 
 	if (bCanActive)
 	{
@@ -124,9 +133,9 @@ void ABS_GoldBarGimmick::Golden(AActor* ActivePlayer)
 	_target = Cast<ATestPlayer>(ActivePlayer);
 	GetWorldTimerManager().SetTimer(goldT, [&]()
 		{
-			FVector targetLoc = (_target->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-			targetLoc = FVector(targetLoc.X, targetLoc.Y, 0.3);
-			SetActorLocation(GetActorLocation() + targetLoc * 30.0);
+			FVector targetLoc = (_target->GetActorLocation() - activeObject->GetComponentLocation()).GetSafeNormal();
+			//targetLoc = FVector(targetLoc.X, targetLoc.Y, 0);
+			activeObject->SetRelativeLocation(activeObject->GetRelativeLocation() + targetLoc * 30.0);
 		}, 0.03f, true, 0);
 }
 
