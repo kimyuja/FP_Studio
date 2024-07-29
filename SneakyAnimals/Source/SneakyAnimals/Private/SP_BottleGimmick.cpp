@@ -83,7 +83,7 @@ UItemObject* ASP_BottleGimmick::GetDefaultItemObject()
 		newItemObject->rotationAngle = 0.0f;
 		newItemObject->itemClass = ASP_BottleGimmick::StaticClass();
 		newItemObject->itemActiveType = Myactivetype;
-		newItemObject->beginLoc = FVector(-49813.f, 49355.f, -874.f);
+		newItemObject->beginLoc = FVector(-49813.f, 49355.f, -860.f);
 		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
 		newItemObject->setWorldActorRot = 0;
 		newItemObject->rotationImgCheck = 0;
