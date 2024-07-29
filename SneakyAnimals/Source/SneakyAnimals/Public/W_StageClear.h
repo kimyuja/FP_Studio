@@ -51,6 +51,8 @@ public:
 
 	bool bIsClear = false;
 
+	bool bIsSuccess = false;
+
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetState();
 };

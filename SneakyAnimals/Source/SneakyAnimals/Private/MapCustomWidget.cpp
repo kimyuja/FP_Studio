@@ -252,13 +252,25 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 
 	// UE_LOG(LogTemp, Warning, TEXT("bBookShelfInWorld value is %d"), gimmickSelectionWidget->bBookShelfInWorld);
 
-	// 마녀의집 || 잠수함
-	if (!gimmickSelectionWidget->bBookShelfInWorld ||
-		!gimmickSelectionWidget->bComputerInWorld)
+	// 마녀의집
+	if (playerRandNum == 0)
 	{
-		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
+		if (!gimmickSelectionWidget->bBookShelfInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
 
-		HandleButtonClicked(GActorBtn1, gswPos);
+			HandleButtonClicked(GActorBtn1, gswPos);
+		}
+	}
+	// 잠수함
+	else if (playerRandNum == 1)
+	{
+		if (!gimmickSelectionWidget->bComputerInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
+
+			HandleButtonClicked(GActorBtn1, gswPos);
+		}
 	}
 }
 
@@ -266,14 +278,27 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn2 Clicked!"));
 
-	// 마녀의집 || 잠수함
-	if (!gimmickSelectionWidget->bBroomstickInWorld || 
-		!gimmickSelectionWidget->bPeriscopeInWorld)
+	// 마녀의집
+	if (playerRandNum == 0)
 	{
-		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
+		if (!gimmickSelectionWidget->bBroomstickInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
 
-		gswPos += FVector2D(0.f, 150.f);
-		HandleButtonClicked(GActorBtn2, gswPos);
+			gswPos += FVector2D(0.f, 150.f);
+			HandleButtonClicked(GActorBtn2, gswPos);
+		}
+	}
+	// 잠수함
+	else if (playerRandNum == 1)
+	{
+		if (!gimmickSelectionWidget->bPeriscopeInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
+
+			gswPos += FVector2D(0.f, 150.f);
+			HandleButtonClicked(GActorBtn2, gswPos);
+		}
 	}
 
 }
@@ -282,14 +307,27 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn3 Clicked!"));
 
-	// 마녀의집 || 잠수함
-	if (!gimmickSelectionWidget->bPotionInWorld || 
-		!gimmickSelectionWidget->bPressBtnInWorld)
+	// 마녀의집
+	if (playerRandNum == 0)
 	{
-		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
+		if (!gimmickSelectionWidget->bPotionInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
 
-		gswPos += FVector2D(0.f, 370.f);
-		HandleButtonClicked(GActorBtn3, gswPos);
+			gswPos += FVector2D(0.f, 370.f);
+			HandleButtonClicked(GActorBtn3, gswPos);
+		}
+	}
+	// 잠수함
+	else if (playerRandNum == 1)
+	{
+		if (!gimmickSelectionWidget->bPressBtnInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
+
+			gswPos += FVector2D(0.f, 370.f);
+			HandleButtonClicked(GActorBtn3, gswPos);
+		}
 	}
 }
 
@@ -297,14 +335,27 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn4 Clicked!"));
 
-	// 마녀의집 || 잠수함
-	if (!gimmickSelectionWidget->bPotInWorld ||
-		!gimmickSelectionWidget->bWhistleInWorld)
+	// 마녀의집
+	if (playerRandNum == 0)
 	{
-		gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
+		if (!gimmickSelectionWidget->bPotInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
-		gswPos += FVector2D(0.f, 520.f);
-		HandleButtonClicked(GActorBtn4, gswPos);
+			gswPos += FVector2D(0.f, 520.f);
+			HandleButtonClicked(GActorBtn4, gswPos);
+		}
+	}
+	// 잠수함
+	else if (playerRandNum==1)
+	{
+		if (!gimmickSelectionWidget->bWhistleInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
+
+			gswPos += FVector2D(0.f, 520.f);
+			HandleButtonClicked(GActorBtn4, gswPos);
+		}
 	}
 
 }

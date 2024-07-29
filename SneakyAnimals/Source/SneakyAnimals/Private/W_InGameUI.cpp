@@ -7,6 +7,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/ProgressBar.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Overlay.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetTextLibrary.h>
+#include "TestPlayer.h"
 
 void UW_InGameUI::NativeConstruct()
 {
@@ -86,6 +87,11 @@ void UW_InGameUI::SetStageTimer()
 {
 	float time = maxtime - gametime;
 	time = FMath::Clamp(time, 0, 180);
+	if (time == 0)
+	{
+		auto* p = Cast<ATestPlayer>(GetOwningPlayer());
+		if(p) p->ServerRPC_ClearStage();
+	}
 	if (time < 30.0)
 	{
 		Minuite->SetColorAndOpacity(FLinearColor::Red);
