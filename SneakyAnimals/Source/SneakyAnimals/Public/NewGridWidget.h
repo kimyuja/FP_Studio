@@ -94,7 +94,7 @@ public:
 
 	// 잠수함
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Submarine")
-	FVector SMTopLeft = FVector(49350.f, 493201.f, -50.f);
+	FVector SMTopLeft = FVector(49350.f, 49320.f, -50.f);
 
 	// 슈퍼마켓
 

@@ -593,6 +593,8 @@ void UNewGridWidget::Refresh()
 	auto GridToWorld = [&](int32 gridX, int32 gridY) -> FVector {
 		if (myPlayer->playerNum == 0)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("playerNum 0"));
+
 			float worldX = WHTopLeft.X + gridX * levelTileSize;
 			float worldY = WHTopLeft.Y + gridY * levelTileSize;
 
@@ -600,6 +602,8 @@ void UNewGridWidget::Refresh()
 		}
 		else// if (mapCustomWidget->playerRandNum == 1)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("playerNum 1"));
+
 			float worldX = SMTopLeft.X + gridX * levelTileSize;
 			float worldY = SMTopLeft.Y + gridY * levelTileSize;
 
