@@ -10,6 +10,7 @@
 #include "SP_RollingCart.h"
 #include "GI_SneakyAnimals.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
+#include "ItemObject.h"
 
 ASP_CleanerGimmick::ASP_CleanerGimmick()
 {
@@ -60,6 +61,26 @@ void ASP_CleanerGimmick::Tick(float DeltaTime)
 	}
 }
 
+
+UItemObject* ASP_CleanerGimmick::GetDefaultItemObject()
+{
+	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+
+	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(2, 2);
+		newItemObject->rotationAngle = 0.0f;
+		newItemObject->itemClass = ASP_CleanerGimmick::StaticClass();
+		newItemObject->itemActiveType = Myactivetype;
+		newItemObject->beginLoc = FVector(-49813.f, 49355.f, -888.f);
+		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
+		newItemObject->setWorldActorRot = 0;
+		newItemObject->rotationImgCheck = 0;
+	}
+	return newItemObject;
+}
 
 int32 ASP_CleanerGimmick::OnMyActive(AActor* ActivePlayer)
 {

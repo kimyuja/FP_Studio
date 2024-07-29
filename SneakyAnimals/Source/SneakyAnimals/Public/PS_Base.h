@@ -35,10 +35,10 @@ public:
 	UPROPERTY(ReplicatedUsing = OnRep_Player_Appearance)
 	FStructure_Player_Appearance Player_Appearance;
 	
-	UPROPERTY(ReplicatedUsing = OnRep_Player_Appearance)
+	UPROPERTY(ReplicatedUsing = OnRep_Player_UserProfile)
 	FStructure_UserProfile Player_UserProfile;
 	
-	UPROPERTY(ReplicatedUsing = OnRep_Player_Appearance)
+	UPROPERTY(ReplicatedUsing = OnRep_Player_ConnectionInfo)
 	FStructure_PlayerConnectionInfo Player_ConnectionInfo;
 
 	UFUNCTION()

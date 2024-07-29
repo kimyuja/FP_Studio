@@ -406,6 +406,7 @@ void APC_Lobby::Update_LobbyPlayerList()
 	} 
 	else
 	{
+		UE_LOG(LogTemp, Warning, TEXT("APC_Lobby::Update_LobbyPlayerList() Lobby_Menu_inst is invalid!!!!!!"));
 		return;
 	}
 }

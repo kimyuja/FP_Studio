@@ -92,6 +92,15 @@ public:
 	bool bWhistleInWorld = false;
 
 	// 슈퍼마켓
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bBottleInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bCartInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bCleanerInWorld = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	bool bShowcaseInWorld = false;
+	
 	// 금고
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)

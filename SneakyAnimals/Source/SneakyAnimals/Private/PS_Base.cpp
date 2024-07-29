@@ -238,7 +238,6 @@ void APS_Base::Load_Player_UserProfile()
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Client Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
 			ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
-			return;
 		}
 		else
 		{
@@ -249,38 +248,6 @@ void APS_Base::Load_Player_UserProfile()
 			return;
 		}
 	}
-	//if (result.success)
-	//{
-	//	UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
-		//if (!HasAuthority() && (result.S_UserProfile.Username.ToString() == "" || result.S_UserProfile.Username.ToString() == Cast<AGS_Lobby>(GetWorld()->GetGameState())->ServerName.ToString()))
-		//{
-		//	//  클라이언트인데 아직 유저 프로필 제대로 못 불러왔으면 다시 불러 와
-		//	FTimerHandle t;
-		//	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-		//		ServerRPC_Update_Player_UserProfile_Implementation(UFL_General::Get_UserProfile().S_UserProfile);
-		//		Load_Player_UserProfile();
-		//	}, 0.3f, false);
-		//	return;
-		//}
-		//else if (HasAuthority() && Cast<AGS_Lobby>(GetWorld()->GetGameState())->PlayerArray.Num() > 1 && result.S_UserProfile.Username.ToString() == Cast<AGS_Lobby>(GetWorld()->GetGameState())->ServerName.ToString()) {
-		//	// 서버이고 다른 사람 들어왔는데 서버 네임으로만 불러왔으면 다시 불러 와
-		//	FTimerHandle t;
-		//	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-		//		Load_Player_UserProfile();
-		//		}, 0.3f, false);
-		//	return;
-		//}
-	//	ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
-	//	return;
-	//}
-	//else
-	//{
-	//	FStructure_UserProfile tmp;
-	//	tmp.Username = FText::FromString(TEXT("Username"));
-	//	tmp.User_Avatar = T_ProfilePicture;
-	//	ServerRPC_Update_Player_UserProfile_Implementation(tmp);
-	//	return;
-	//}
 }
 
 void APS_Base::Load_Player_ConnectionInfo(bool ClientReadyStatus)

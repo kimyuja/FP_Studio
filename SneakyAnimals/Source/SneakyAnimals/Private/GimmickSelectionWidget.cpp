@@ -15,6 +15,10 @@
 #include "SM_PeriscopeGimmick.h"
 #include "SM_PressButtonGimmick.h"
 #include "SM_WhistleGimmick.h"
+#include "SP_BottleGimmick.h"
+#include "SP_CartGimmick.h"
+#include "SP_CleanerGimmick.h"
+#include "SP_ShowcaseGimmick.h"
 #include "Gimmick.h"
 #include "ItemObject.h"
 #include <MapCustomWidget.h>
@@ -136,6 +140,33 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 		}
 	}
 	// 슈퍼마켓
+	else if (playerRandNum == 2)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(ASP_BottleGimmick::StaticClass(), 0);
+			bBottleInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(ASP_CartGimmick::StaticClass(), 0);
+			bCartInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(ASP_CleanerGimmick::StaticClass(), 0);
+			bCleanerInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(ASP_ShowcaseGimmick::StaticClass(), 0);
+			bShowcaseInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
 	// 금고
 
 	/*if (itemObejct)
@@ -211,6 +242,33 @@ void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 		}
 	}
 	// 슈퍼마켓
+	else if (playerRandNum == 2)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(ASP_BottleGimmick::StaticClass(), 1);
+			bBottleInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(ASP_CartGimmick::StaticClass(), 1);
+			bCartInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(ASP_CleanerGimmick::StaticClass(), 1);
+			bCleanerInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(ASP_ShowcaseGimmick::StaticClass(), 1);
+			bShowcaseInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
 	// 금고
 
 
@@ -286,6 +344,33 @@ void UGimmickSelectionWidget::OnClearBtnClicked()
 		}
 	}
 	// 슈퍼마켓
+	else if (playerRandNum == 2)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(ASP_BottleGimmick::StaticClass(), 2);
+			bBottleInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(ASP_CartGimmick::StaticClass(), 2);
+			bCartInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(ASP_CleanerGimmick::StaticClass(), 2);
+			bCleanerInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(ASP_ShowcaseGimmick::StaticClass(), 2);
+			bShowcaseInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
 	// 금고
 
 
