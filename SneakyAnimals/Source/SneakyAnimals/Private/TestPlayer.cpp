@@ -126,11 +126,9 @@ void ATestPlayer::BeginPlay()
 	
 	if (clearUI)
 	{
-		//if (IsLocallyControlled())
-		//{
-			clearUI->AddToViewport(1);
-			clearUI->SetVisibility(ESlateVisibility::Hidden);
-		//}
+		clearUI->SetOwningPlayer(GetWorld()->GetFirstPlayerController());
+		clearUI->AddToViewport(1);
+		clearUI->SetVisibility(ESlateVisibility::Hidden);
 	}
 	gameState = Cast<ASAGameStateBase>(GetWorld()->GetGameState());
 
@@ -276,7 +274,7 @@ void ATestPlayer::CreateSelectedWidget()
 
 	CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_WitchHouseMap));
 
-	playerNum = 1;
+	// playerNum = 1;
 	
 	CustomMapWidget->playerRandNum = playerNum;
 

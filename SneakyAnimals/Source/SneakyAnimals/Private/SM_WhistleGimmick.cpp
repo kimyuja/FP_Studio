@@ -77,7 +77,7 @@ UItemObject* ASM_WhistleGimmick::GetDefaultItemObject()
 		newItemObject->itemClass = ASM_WhistleGimmick::StaticClass();
 		newItemObject->itemActiveType = Myactivetype;
 		newItemObject->beginLoc = FVector(50000.f, 50000.f, -935.f);
-		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
+		newItemObject->beginRot = FRotator(0.f, -90.f, 0.f);
 		newItemObject->setWorldActorRot = 0;
 		newItemObject->rotationImgCheck = 0;
 	}

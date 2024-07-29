@@ -87,10 +87,14 @@ void UW_InGameUI::SetStageTimer()
 {
 	float time = maxtime - gametime;
 	time = FMath::Clamp(time, 0, 180);
-	if (time == 0)
+	if (time <= 0)
 	{
 		auto* p = Cast<ATestPlayer>(GetOwningPlayer());
-		if(p) p->ServerRPC_ClearStage();
+		if(p)
+		{
+			p->ServerRPC_ClearStage();
+		}
+		UE_LOG(LogTemp, Warning, TEXT("End"));
 	}
 	if (time < 30.0)
 	{
