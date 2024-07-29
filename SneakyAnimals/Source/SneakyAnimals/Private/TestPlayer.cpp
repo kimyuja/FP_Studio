@@ -62,15 +62,10 @@ ATestPlayer::ATestPlayer()
 	SM_Outer = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Outer"));
 	SM_Dress = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SM_Dress"));
 	SM_Accessories->SetupAttachment(GetMesh());
-	SM_Accessories->SetOwnerNoSee(true);
 	SM_Top->SetupAttachment(GetMesh());
-	SM_Top->SetOwnerNoSee(true);
 	SM_Bottom->SetupAttachment(GetMesh());
-	SM_Bottom->SetOwnerNoSee(true);
 	SM_Outer->SetupAttachment(GetMesh());
-	SM_Outer->SetOwnerNoSee(true);
 	SM_Dress->SetupAttachment(GetMesh());
-	SM_Dress->SetOwnerNoSee(true);
 
 	// 애니메이션 블루프린트를 로드하고 설정
 	/*static ConstructorHelpers::FObjectFinder<UAnimBlueprint> AnimBlueprint(TEXT("/Game/Characters/Mannequins/Animations/ABP_Quinn.ABP_Quinn_C"));
@@ -188,6 +183,15 @@ void ATestPlayer::BeginPlay()
 		{
 			FTimerHandle cameraT;
 			GetWorldTimerManager().SetTimer(cameraT,this, &ATestPlayer::SetThirdPersonView, 1.0, false);
+		}
+		else
+		{
+			// 게임 맵(1인칭)의 경우 본인의 메쉬 다 본인이 안 보이게 하기 -> 시야 확보
+			SM_Accessories->SetOwnerNoSee(true);
+			SM_Top->SetOwnerNoSee(true);
+			SM_Bottom->SetOwnerNoSee(true);
+			SM_Outer->SetOwnerNoSee(true);
+			SM_Dress->SetOwnerNoSee(true);
 		}
 	}
 

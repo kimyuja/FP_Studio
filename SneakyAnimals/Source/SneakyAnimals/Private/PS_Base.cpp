@@ -53,192 +53,21 @@ void APS_Base::Load_Player_Appearance()
 
 }
 
-//void APS_Base::Load_Player_UserProfile()
-//{
-//	// 세이브 게임 0번 인덱스에서 유저 프로필을 불러옴
-//	FUserProfileResult result = UFL_General::Get_UserProfile();
-//
-//	// json 파일에서, 0번 인덱스는 무조건 서버여야 함(유저네임 주의 fp studio : 0 이 서버)
-//	// 예외 처리
-//	UGameInstance* GI = GetGameInstance();
-//	if (!IsValid(GI))
-//	{
-//		UE_LOG(LogTemp, Error, TEXT("GetGameInstance() returned nullptr."));
-//	}
-//	else
-//	{
-//		UE_LOG(LogTemp, Warning, TEXT("GetGameInstance() returned valid instance."));
-//	}
-//	UGI_SneakyAnimals* GameInstance = Cast<UGI_SneakyAnimals>(GI);
-//	if (GameInstance == nullptr)
-//	{
-//		UE_LOG(LogTemp, Error, TEXT("Failed to get GameInstance or invalid cast to UGI_SneakyAnimals."));
-//		return;
-//	}
-//
-//	FString Username = result.S_UserProfile.Username.ToString();
-//	// 클라이언트일 때 유저네임이 맨끝 유저네임이 진짜 자기 꺼임
-//	// 클라이언트면 맨 끝 유저네임 뽑을 때까지 계속 반복 (SG에 남아있는 예전 프로필은 안 돼)
-//	// 맨 끝인지 확인하는 건 Username으로 getuserindex 함수 실행하고 그 값이 userindexmap num이랑 같은지 확인하면 됨
-//	// 근데 그 인덱스 값은 서버랑 다름 주의!!
-//	int32 idx = -1;
-//	// 강퇴할 때 kick count 를 게임 인스턴스 말고 모두가 공유하는-서버 따로 클라 따로가 아닌 곳-에 저장해서 업뎃하면 됨
-//	// kick count 는 ServerRPC_Update_KickCount(int32 cnt);
-//
-//	// 게임 맵으로 이동 후 클라 : json에 있는 가장 마지막 유저네임이 본인
-//	// 게임 맵으로 이동 후 서버 : json에 있는 0번이 서버 꺼.
-//
-//	try
-//	{
-//		idx = GameInstance->Get_UserIndex(Username);
-//		//// 클라이언트인데, 유저 프로필이 예전 save game에 남아있던 유저 프로필이라면...
-//		//if (!HasAuthority() && idx != GameInstance->Get_MyUserIndex_Num())
-//		//{
-//		//	// 최신 유저 프로필로 될 때까지 계속 다시 해
-//		//	FTimerHandle t;
-//		//	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-//		//		APS_Base::Load_Player_UserProfile();
-//		//		return;
-//		//		}, 0.2f, false);
-//		//	return;
-//		//}
-//		//else if (!HasAuthority() && idx == GameInstance->Get_MyUserIndex_Num()) {
-//		//	// 클라이언트인데, 최신 유저 프로필을 불러왔다면...
-//
-//		//	// 서버의 save game에 json 인덱스 끝에다가 저장해
-//		//	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
-//		//}
-//	}
-//	catch (const std::exception& e)
-//	{
-//		UE_LOG(LogTemp, Error, TEXT("Exception occurred while getting user index: %s"), *FString(e.what()));
-//		return;
-//	}
-//	if (idx == -1)
-//	{
-//		UE_LOG(LogTemp, Warning, TEXT("User index not found for username: %s"), *Username);
-//		return;
-//	}
-//
-//	//int32 idx = Cast<UGI_SneakyAnimals>(GetGameInstance())->GetUserIndex(result.S_UserProfile.Username.ToString());
-//	ServerRPC_Update_SaveGame_Player_UserProfile(idx, result.S_UserProfile);
-//
-//	// idx == 0 이면 서버
-//	//if (idx == 0 && !HasAuthority()) // server만 나옴
-//	//if (idx == 0) // client -> server로 전염
-//	if (idx < GetWorld()->GetGameState()->PlayerArray.Num()-1 + Cast<AGS_Lobby>(GetWorld()->GetGameState())->Get_KickCount() && HasAuthority()) // 잘 되는데 강퇴하고 같은 놈이 프로필 바꿔서 다시 들어오면 강퇴한 놈의 프로필로 들어감
-//	{
-//		UE_LOG(LogTemp, Warning, TEXT("Kickcount : %d"), Cast<AGS_Lobby>(GetWorld()->GetGameState())->Get_KickCount());
-//		// 다시 해 idx 맞을 때 까지
-//		FTimerHandle t;
-//		GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-//			APS_Base::Load_Player_UserProfile();
-//			return;
-//			}, 0.2f, false);
-//	}
-//	else {
-//		// player state 에게 맞는 인덱스라면...
-//		if (HasAuthority())
-//		{
-//			// 서버면 인덱스 0 가져와
-//			// KYJ Test 이거 해보고 안 되면 주석 처리 하기
-//			result = UFL_General::Get_UserProfile_with_idx(0);
-//		} 
-//		else
-//		{
-//			// 클라이언트면 고유 인덱스로 가져와
-//			result = UFL_General::Get_UserProfile_with_idx(idx);
-//		}
-//		if (!result.S_UserProfile.Username.IsEmpty())
-//		{
-//			// 각 player state 별로 my name 기억해두기
-//			SetPlayerName(result.S_UserProfile.Username.ToString());
-//		}
-//	}
-//
-//
-//	if (result.success)
-//	{
-//		UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
-//
-//		ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
-//		////if (HasAuthority())
-//		////{
-//		////	FTimerHandle t;
-//		////	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-//		////		//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile); // 방만들고 5초 뒤 터짐
-//		////		//Load_Player_UserProfile();// 여전히 host 것만 나옴
-//		////		}, 5.0f, false);
-//		////}
-//		////else {
-//		////	ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
-//		////}
-//		//if (HasAuthority())
-//		//{
-//		//}
-//		//else {
-//		//	FTimerHandle t;
-//		//	GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-//		//		//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile); // 5초 뒤 클라이언트 터짐
-//		//		ServerRPC_Update_Player_UserProfile_Implementation(UFL_General::Get_UserProfile().S_UserProfile);
-//		//		// KYJ Test 0726 윗줄 해보고 안 되면 아랫줄 주석 해제 후 다시 해보기
-//		//		GetWorld()->GetTimerManager().SetTimer(t, [&]() {
-//
-//		//		Load_Player_UserProfile();// 빈 프로필만 나옴 서버에서
-//		//			}, 2.0f, false);
-//		//		// 아랫줄 주석해제 후 안 되면 윗줄만 하고 Update_lobby()만 추가해서 해보기
-//		//		
-//		//		}, 5.0f, false);
-//		//	//ServerRPC_Update_Player_UserProfile_Implementation(result.S_UserProfile);
-//		//}
-//
-//		return;
-//	}
-//	else
-//	{
-//		FStructure_UserProfile tmp;
-//		tmp.Username = FText::FromString(TEXT("Username"));
-//		tmp.User_Avatar = T_ProfilePicture;
-//		ServerRPC_Update_Player_UserProfile_Implementation(tmp);
-//		return;
-//	}
-//}
-
 void APS_Base::Load_Player_UserProfile()
 {
-	// 세이브 게임 0번 인덱스에서 유저 프로필을 불러옴
 	FUserProfileResult result = UFL_General::Get_UserProfile();
 	if (result.success)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Load Player User Profile : %s"), *result.S_UserProfile.Username.ToString());
-		// 서버라면...
-		if (UKismetSystemLibrary::IsServer(GetWorld()))
-		{
-			Player_UserProfile = result.S_UserProfile;
-			OnRep_Player_UserProfile();
-		}
-		// 클라이언트라면...
-		else
-		{
-			ServerRPC_Update_Player_UserProfile(result.S_UserProfile);
-		}
+		ServerRPC_Update_Player_UserProfile(result.S_UserProfile);
+		return;
 	}
 	else
 	{
 		FStructure_UserProfile tmp;
 		tmp.Username = FText::FromString(TEXT("Username"));
-		tmp.User_Avatar = nullptr;
-		// 서버라면...
-		if (UKismetSystemLibrary::IsServer(GetWorld()))
-		{
-			Player_UserProfile = tmp;
-			OnRep_Player_UserProfile();
-		}
-		// 클라이언트라면...
-		else
-		{
-			ServerRPC_Update_Player_UserProfile(tmp);
-		}
+		tmp.User_Avatar = T_ProfilePicture;
+		ServerRPC_Update_Player_UserProfile_Implementation(tmp);
+		return;
 	}
 }
 
