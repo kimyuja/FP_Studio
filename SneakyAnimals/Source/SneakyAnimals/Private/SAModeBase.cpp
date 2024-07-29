@@ -165,6 +165,14 @@ void ASAModeBase::MultiRPC_SetClearInstance_Implementation()
 
 void ASAModeBase::ServerTravel_ToLobbyMap()
 {
+    for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+    {
+        GetWorldTimerManager().ClearAllTimersForObject(*it);
+    }
+    for (TActorIterator<AGimmick> g(GetWorld()); g; ++g)
+    {
+        GetWorldTimerManager().ClearAllTimersForObject(*g);
+    }
     GetWorld()->ServerTravel("/Game/RTY/LEVELS/LobbyMap");
 }
 

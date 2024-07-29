@@ -768,7 +768,7 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 		}
 	}
 
-	if (IsLocallyControlled())
+	if (!IsLocallyControlled())
 	{
 		CreateWidget(GetWorld(),voteUI)->AddToViewport(0);
 	}
@@ -876,7 +876,18 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	UE_LOG(LogTemp, Warning, TEXT("MOOOOOOOOOOOOOOOOOOOOOOOOOOve        %d"), gameState->stageNum);
 	if (gameState->stageNum > endNum)
 	{
-		ServerRPC_StartGetFinalScore();
+		CreateWidget(GetWorld(), voteUI)->AddToViewport(0);
+
+		if (!HasAuthority())
+		{
+			// On the Client
+			ServerRPC_StartGetFinalScore();	
+		} 
+		else
+		{
+			// On the Server
+			MultiRPC_StartGetFinalScore();
+		}
 	}
 	else if (gameState->stageNum > 1)
 	{
