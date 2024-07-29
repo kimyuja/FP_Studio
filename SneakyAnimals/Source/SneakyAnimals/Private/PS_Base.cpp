@@ -216,6 +216,7 @@ void APS_Base::Load_Player_UserProfile()
 			//  클라이언트인데 아직 유저 프로필 제대로 못 불러왔으면 다시 불러 와
 			FTimerHandle t;
 			GetWorld()->GetTimerManager().SetTimer(t, [&]() {
+				ServerRPC_Update_Player_UserProfile_Implementation(UFL_General::Get_UserProfile().S_UserProfile);
 				Load_Player_UserProfile();
 			}, 0.3f, false);
 			return;
