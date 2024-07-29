@@ -276,7 +276,7 @@ void ATestPlayer::CreateSelectedWidget()
 
 	CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_WitchHouseMap));
 
-	playerNum = 1;
+	// playerNum = 1;
 	
 	CustomMapWidget->playerRandNum = playerNum;
 
