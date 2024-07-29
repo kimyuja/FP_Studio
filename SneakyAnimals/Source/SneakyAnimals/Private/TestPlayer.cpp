@@ -126,11 +126,9 @@ void ATestPlayer::BeginPlay()
 	
 	if (clearUI)
 	{
-		//if (IsLocallyControlled())
-		//{
-			clearUI->AddToViewport(1);
-			clearUI->SetVisibility(ESlateVisibility::Hidden);
-		//}
+		clearUI->SetOwningPlayer(GetWorld()->GetFirstPlayerController());
+		clearUI->AddToViewport(1);
+		clearUI->SetVisibility(ESlateVisibility::Hidden);
 	}
 	gameState = Cast<ASAGameStateBase>(GetWorld()->GetGameState());
 
