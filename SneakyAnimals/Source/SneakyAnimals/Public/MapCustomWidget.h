@@ -70,6 +70,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UItemObject* DraggedItem;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
+	class ATestPlayer* myPlayer;
+
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> GimmickSelectionWidgetClass;

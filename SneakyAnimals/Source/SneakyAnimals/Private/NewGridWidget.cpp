@@ -537,6 +537,22 @@ int32 UNewGridWidget::GetSwitcherIdx(AGimmick* _GimmickClass)
 	}
 }
 
+void UNewGridWidget::WhenGADropSetMulti(AActor* MoveObj, FVector GetLoc, FRotator GetRot)
+{
+	if (myPlayer == nullptr)
+	{
+		ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+
+		if (playerCharacter)
+		myPlayer = Cast<ATestPlayer>(playerCharacter);
+
+		myPlayer->ServerRPC_SetGActorLoc(MoveObj, GetLoc);
+		myPlayer->ServerRPC_SetGActorRot(MoveObj, GetRot);
+		UE_LOG(LogTemp, Warning, TEXT("HELLOHELLOHELLO"));
+	}
+	UE_LOG(LogTemp, Warning, TEXT("BYEBYEBYE"));
+}
+
 void UNewGridWidget::GridBorderSetSize(float _TileSize)
 {
 	canvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(gridBorder);
@@ -677,7 +693,7 @@ void UNewGridWidget::Refresh()
 					{
 						adjustedWorldPosition.Z = currentLoc.Z + 1000.f;
 					}
-					myPlayer->ServerRPC_SetGActorLoc(gimmickActor, adjustedWorldPosition, gimmickActor->activeType);
+					myPlayer->ServerRPC_SetGActorLocAndActiveNum(gimmickActor, adjustedWorldPosition, gimmickActor->activeType);
 					//gimmickActor->SetActorLocation(adjustedWorldPosition);
 
 					FRotator currentRot = gimmickActor->GetActorRotation();
@@ -949,10 +965,11 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 					FRotator CurrentRotation = gAinWorld->GetActorRotation();
 					FRotator NewRotation = FRotator(CurrentRotation.Pitch, CurrentRotation.Yaw + 90.0f, CurrentRotation.Roll);
 
-					gAinWorld->SetActorRotation(NewRotation);
+					// gAinWorld->SetActorRotation(NewRotation);
 
 					UE_LOG(LogTemp, Warning, TEXT("!!!!!! Gimmick Actor In World Rotation : (%f, %f, %f)"), NewRotation.Pitch, NewRotation.Yaw, NewRotation.Roll);
 
+					myPlayer->ServerRPC_SetGActorRot(gAinWorld, NewRotation);
 					// newItemImgWidget->ItemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
 				}
 

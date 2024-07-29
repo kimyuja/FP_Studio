@@ -151,6 +151,9 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 
 				matchingActor->SetActorLocation(beginLocation);
 				matchingActor->SetActorRotation(beginRotation);
+
+				NewGridWidget->WhenGADropSetMulti(matchingActor, beginLocation, beginRotation);
+				// myPlayer->ServerRPC_SetGActorLoc(matchingActor, beginLocation, );
 			}
 			else
 			{

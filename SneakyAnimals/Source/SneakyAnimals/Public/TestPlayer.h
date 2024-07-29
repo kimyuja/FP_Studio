@@ -323,10 +323,22 @@ public:
 	void MultiRPC_SetPlayerPhysics(AActor* _target, FVector _pushDir);
 
 	UFUNCTION(Server, Reliable)
-	void ServerRPC_SetGActorLoc(AActor* MoveObj, FVector GetLoc, int32 ActiveNum);
+	void ServerRPC_SetGActorLocAndActiveNum(AActor* MoveObj, FVector GetLoc, int32 ActiveNum);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MultiRPC_SetGActorLoc(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum);
+	void MultiRPC_SetGActorLocAndActiveNum(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum);
+	
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_SetGActorRot(AActor* MoveObj, FRotator GetRot);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_SetGActorRot(AActor* _MoveObj, FRotator _GetRot);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_SetGActorLoc(AActor* MoveObj, FVector GetLoc);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_SetGActorLoc(AActor* _MoveObj, FVector _GetLoc);
 
 	// --------------KYJ----------------
 	UFUNCTION(Client, Reliable)

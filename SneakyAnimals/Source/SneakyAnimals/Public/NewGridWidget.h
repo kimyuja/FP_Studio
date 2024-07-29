@@ -171,5 +171,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetSwitcherIdx(class AGimmick* _GimmickClass);
 	
-
+	UFUNCTION(BlueprintCallable)
+	void WhenGADropSetMulti(AActor* MoveObj, FVector GetLoc, FRotator GetRot);
+	
 };
