@@ -39,6 +39,10 @@
 #include "SP_CartGimmick.h"
 #include "SP_CleanerGimmick.h"
 #include "SP_ShowcaseGimmick.h"
+#include "BS_GoldBarGimmick.h"
+#include "BS_HandleGimmick.h"
+#include "BS_LaserGimmick.h"
+#include "BS_SwitchGimmick.h"
 
 bool UMapCustomWidget::Initialize()
 {
@@ -291,6 +295,16 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 			HandleButtonClicked(GActorBtn1, gswPos);
 		}
 	}
+	// 금고
+	else if (playerRandNum == 3)
+	{
+		if (!gimmickSelectionWidget->bGoldbarInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
+
+			HandleButtonClicked(GActorBtn1, gswPos);
+		}
+	}
 }
 
 void UMapCustomWidget::OnGActorBtn2Clicked()
@@ -327,7 +341,18 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
 
 			gswPos += FVector2D(0.f, 150.f);
-			HandleButtonClicked(GActorBtn1, gswPos);
+			HandleButtonClicked(GActorBtn2, gswPos);
+		}
+	}
+	// 금고
+	else if (playerRandNum == 3)
+	{
+		if (!gimmickSelectionWidget->bHandleInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
+
+			gswPos += FVector2D(0.f, 150.f);
+			HandleButtonClicked(GActorBtn2, gswPos);
 		}
 	}
 
@@ -367,7 +392,18 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
 
 			gswPos += FVector2D(0.f, 370.f);
-			HandleButtonClicked(GActorBtn1, gswPos);
+			HandleButtonClicked(GActorBtn3, gswPos);
+		}
+	}
+	// 금고
+	else if (playerRandNum == 3)
+	{
+		if (!gimmickSelectionWidget->bLaserInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
+
+			gswPos += FVector2D(0.f, 370.f);
+			HandleButtonClicked(GActorBtn3, gswPos);
 		}
 	}
 }
@@ -406,7 +442,18 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
 			gswPos += FVector2D(0.f, 520.f);
-			HandleButtonClicked(GActorBtn1, gswPos);
+			HandleButtonClicked(GActorBtn4, gswPos);
+		}
+	}
+	// 금고
+	else if (playerRandNum == 3)
+	{
+		if (!gimmickSelectionWidget->bSwitchInWorld)
+		{
+			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
+
+			gswPos += FVector2D(0.f, 520.f);
+			HandleButtonClicked(GActorBtn4, gswPos);
 		}
 	}
 
@@ -504,6 +551,22 @@ void UMapCustomWidget::RemovedItemCheck(UItemObject* _itemObject)
 		gimmickSelectionWidget->bShowcaseInWorld = false;
 	}
 	// 금고
+	else if (_itemObject->itemClass == ABS_GoldBarGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bGoldbarInWorld = false;
+	}
+	else if (_itemObject->itemClass == ABS_HandleGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bHandleInWorld = false;
+	}
+	else if (_itemObject->itemClass == ABS_LaserGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bLaserInWorld = false;
+	}
+	else if (_itemObject->itemClass == ABS_SwitchGimmick::StaticClass())
+	{
+		gimmickSelectionWidget->bSwitchInWorld = false;
+	}
 
 }
 

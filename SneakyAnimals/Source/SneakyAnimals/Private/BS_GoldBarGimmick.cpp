@@ -12,6 +12,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 #include "SM_ComputerMoniter.h"
+#include "ItemObject.h"
 
 ABS_GoldBarGimmick::ABS_GoldBarGimmick()
 {
@@ -78,6 +79,26 @@ void ABS_GoldBarGimmick::Tick(float DeltaTime)
 	}
 }
 
+
+UItemObject* ABS_GoldBarGimmick::GetDefaultItemObject()
+{
+	UE_LOG(LogTemp, Warning, TEXT("my pos : (%f, %f, %f)"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
+
+	newItemObject = NewObject<UItemObject>(this, UItemObject::StaticClass());
+
+	if (newItemObject)
+	{
+		newItemObject->dimensions = FIntPoint(2, 2);
+		newItemObject->rotationAngle = 0.0f;
+		newItemObject->itemClass = ABS_GoldBarGimmick::StaticClass();
+		newItemObject->itemActiveType = Myactivetype;
+		newItemObject->beginLoc = FVector(-50000.f, -50000.f, -950.0f);
+		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
+		newItemObject->setWorldActorRot = 0;
+		newItemObject->rotationImgCheck = 0;
+	}
+	return newItemObject;
+}
 
 int32 ABS_GoldBarGimmick::OnMyActive(AActor* ActivePlayer)
 {

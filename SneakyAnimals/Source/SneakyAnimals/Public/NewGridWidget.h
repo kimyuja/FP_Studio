@@ -99,10 +99,10 @@ public:
 	// 슈퍼마켓
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Submarine")
 	FVector SPTopLeft = FVector(-50330.f, 48845.f, -20.f);
-
+	
 	// 금고
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Submarine")
-	FVector BSTopLeft;
+	FVector BSTopLeft = FVector(-50730.f, -50730.f, -100.f);
 
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "UI")
@@ -176,6 +176,16 @@ public:
 	TArray<class ASP_CleanerGimmick*> cleanerActorArr;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
 	TArray<class ASP_ShowcaseGimmick*> showcaseActorArr;
+
+	// 금고
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ABS_GoldBarGimmick*> goldbarActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ABS_HandleGimmick*> handleActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ABS_LaserGimmick*> laserActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ABS_SwitchGimmick*> switchActorArr;
 	
 
 

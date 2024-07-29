@@ -19,6 +19,10 @@
 #include "SP_CartGimmick.h"
 #include "SP_CleanerGimmick.h"
 #include "SP_ShowcaseGimmick.h"
+#include "BS_GoldBarGimmick.h"
+#include "BS_HandleGimmick.h"
+#include "BS_LaserGimmick.h"
+#include "BS_SwitchGimmick.h"
 #include "Gimmick.h"
 #include "ItemObject.h"
 #include <MapCustomWidget.h>
@@ -168,6 +172,33 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 		}
 	}
 	// 금고
+	else if (playerRandNum == 3)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(ABS_GoldBarGimmick::StaticClass(), 0);
+			bGoldbarInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(ABS_HandleGimmick::StaticClass(), 0);
+			bHandleInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(ABS_LaserGimmick::StaticClass(), 0);
+			bLaserInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(ABS_SwitchGimmick::StaticClass(), 0);
+			bSwitchInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
 
 	/*if (itemObejct)
 	{
@@ -270,6 +301,33 @@ void UGimmickSelectionWidget::OnGimmickBtn2Clicked()
 		}
 	}
 	// 금고
+	else if (playerRandNum == 3)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(ABS_GoldBarGimmick::StaticClass(), 1);
+			bGoldbarInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(ABS_HandleGimmick::StaticClass(), 1);
+			bHandleInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(ABS_LaserGimmick::StaticClass(), 1);
+			bLaserInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(ABS_SwitchGimmick::StaticClass(), 1);
+			bSwitchInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
 
 
 	/*if (itemObejct)
@@ -372,7 +430,33 @@ void UGimmickSelectionWidget::OnClearBtnClicked()
 		}
 	}
 	// 금고
-
+	else if (playerRandNum == 3)
+	{
+		if (buttonName == "GActorBtn1")
+		{
+			gridWidget->BindItemObjByBtn(ABS_GoldBarGimmick::StaticClass(), 2);
+			bGoldbarInWorld = true;
+		}
+		else if (buttonName == "GActorBtn2")
+		{
+			gridWidget->BindItemObjByBtn(ABS_HandleGimmick::StaticClass(), 2);
+			bHandleInWorld = true;
+		}
+		else if (buttonName == "GActorBtn3")
+		{
+			gridWidget->BindItemObjByBtn(ABS_LaserGimmick::StaticClass(), 2);
+			bLaserInWorld = true;
+		}
+		else if (buttonName == "GActorBtn4")
+		{
+			gridWidget->BindItemObjByBtn(ABS_SwitchGimmick::StaticClass(), 2);
+			bSwitchInWorld = true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("what is this btn..."));
+		}
+	}
 
 	/*if (itemObejct)
 	{
