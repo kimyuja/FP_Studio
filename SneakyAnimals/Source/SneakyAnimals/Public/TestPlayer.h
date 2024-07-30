@@ -60,7 +60,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Test)
 	class UInputAction* ia_currentScore;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite ,Category = Test)
+	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite ,Category = Test)
 	FVector respawnLoc = FVector(0, 0, 80);
 	
 	UPROPERTY(EditDefaultsOnly, Category = Test)

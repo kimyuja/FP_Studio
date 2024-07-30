@@ -908,7 +908,7 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 			}
 		}
 	}
-	if(gameState->stageNum == 0)
+	/*if (gameState->stageNum == 0)
 	{
 		for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 		{
@@ -919,7 +919,7 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 				UE_LOG(LogTemp, Warning, TEXT("Show!!!!!!!!!!!!!!!!!!!"));
 			}
 		}
-	}
+	}*/
 	
 	UE_LOG(LogTemp, Warning, TEXT("Show???????????????"));
 }
@@ -1079,7 +1079,7 @@ void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ATestPlayer, playerNum);
-
+	DOREPLIFETIME(ATestPlayer, respawnLoc);
 	DOREPLIFETIME(ATestPlayer, Current_SkeletalMesh);
 	DOREPLIFETIME(ATestPlayer, Current_Accessories);
 	DOREPLIFETIME(ATestPlayer, Current_Skins);
