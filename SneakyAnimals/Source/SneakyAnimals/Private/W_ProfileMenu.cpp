@@ -42,13 +42,6 @@ void UW_ProfileMenu::OnUsername_Textbox_Changed(const FText& Text)
 
 void UW_ProfileMenu::OnSave_BtnClicked()
 {
-	// 중복된 유저 이름인가?
-	if (New_Username.ToString() != "fp studio" && Cast<UGI_SneakyAnimals>(GetGameInstance())->bContains_UserName(New_Username.ToString())) {
-
-		UFL_General::Create_PopUp(GetWorld(), FText::FromString(TEXT("This username is already in use")), FText::FromString(TEXT("Close")), false, FText::FromString(TEXT("")));
-		return;
-	}
-
 	// structure user profile 만들기
 	S_UserProfile.Username = New_Username;
 	S_UserProfile.User_Avatar = Selected_Avatar;

@@ -160,12 +160,6 @@ void APS_Base::OnRep_Player_ConnectionInfo_OR()
 	*/
 }
 
-void APS_Base::ServerRPC_Update_SaveGame_Player_UserProfile_Implementation(int32 uniqueIdx, const FStructure_UserProfile _Player_UserProfile)
-{
-	//UFL_General::Save_UserProfile_with_idx(Cast<UGI_SneakyAnimals>(GetGameInstance())->Get_UserIndex(_Player_UserProfile.Username.ToString()), _Player_UserProfile);
-	UFL_General::Save_UserProfile_with_idx(uniqueIdx, _Player_UserProfile);
-}
-
 void APS_Base::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);

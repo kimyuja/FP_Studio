@@ -27,11 +27,6 @@ public:
 	virtual void Shutdown() override;
 	virtual void Init() override;
 
-	int32 Get_UserIndex(const FString& UserName);
-	int32 Get_MyUserIndex_Num();
-    void Remove_UserIndex(const FString& UserName);
-	bool bContains_UserName(const FString& UserName);
-
 	// new version(net tps gs)
 	UPROPERTY(BlueprintReadOnly, Category = "Session")
     FSessionInfo S_SessionInfo;
@@ -84,8 +79,6 @@ public:
     UPROPERTY(BlueprintAssignable, Category = "Network")
     FOnCreateSessionFailure OnCreateSessionFailure;
 
-	FText MyName;
-
 //--------------------
 	
 	UFUNCTION()
@@ -96,10 +89,5 @@ public:
 	TArray<class ATestPlayer*> players;
 
 //--------------------
-private:
-	TMap<FString, int32> UserIndexMap;
-	void LoadUserIndexMap();
-	void SaveUserIndexMap();
-	void InitializeUserIndexJson();
 
 };

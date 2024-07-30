@@ -23,8 +23,6 @@ protected:
     virtual void Load_Player_Appearance();
     UFUNCTION()
 	virtual void Load_Player_UserProfile();
-	//UFUNCTION()
-	//virtual void Load_Player_UserProfile_Test();
     UFUNCTION()
     virtual void Load_Player_ConnectionInfo(bool ClientReadyStatus);
 
@@ -68,10 +66,6 @@ public:
 	
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_Update_Player_ConnectionInfo(const FStructure_PlayerConnectionInfo& _Player_ConnectionInfo);
-
-	// KYJ Test
-	UFUNCTION(Server, Reliable)
-	void ServerRPC_Update_SaveGame_Player_UserProfile(int32 uniqueIdx, const FStructure_UserProfile _Player_UserProfile);
 
 	UFUNCTION(Client, Reliable)
     virtual void ClientRPC_Init();

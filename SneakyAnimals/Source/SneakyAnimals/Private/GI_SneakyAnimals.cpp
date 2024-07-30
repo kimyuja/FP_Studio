@@ -13,24 +13,14 @@
 #include "TestPlayer.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 
-// JSON 관련 헤더 파일 포함
-#include "Dom/JsonObject.h"
-#include "Serialization/JsonReader.h"
-#include "Serialization/JsonSerializer.h"
-#include "GS_Lobby.h"
-
 void UGI_SneakyAnimals::Shutdown()
 {
 	Super::Shutdown();
-
-	InitializeUserIndexJson();
 }
 
 void UGI_SneakyAnimals::Init()
 {
 	Super::Init();
-
-	LoadUserIndexMap();
 
 	// 서브시스템에서 세션인터페이스 가져오고싶다.
 	auto subsys = IOnlineSubsystem::Get();
@@ -46,43 +36,6 @@ void UGI_SneakyAnimals::Init()
 			sessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UGI_SneakyAnimals::OnMyExitRoomComplete);
 		}
 	}
-}
-
-int32 UGI_SneakyAnimals::Get_UserIndex(const FString& UserName)
-{
-	if (!UserIndexMap.Contains(UserName))
-	{
-		int32 NewIndex = UserIndexMap.Num();
-		UserIndexMap.Add(UserName, NewIndex);
-		SaveUserIndexMap();
-	}
-	MyName = FText::FromString(UserName);
-	UE_LOG(LogTemp, Warning, TEXT("Get User Index UserName : %s"), *UserName);
-	return UserIndexMap[UserName];
-}
-
-int32 UGI_SneakyAnimals::Get_MyUserIndex_Num()
-{
-	return UserIndexMap.Num();
-}
-
-void UGI_SneakyAnimals::Remove_UserIndex(const FString& UserName)
-{
-	if (UserIndexMap.Contains(UserName))
-	{
-		UserIndexMap.Remove(UserName);
-		SaveUserIndexMap();
-		UE_LOG(LogTemp, Warning, TEXT("Removed User Index for UserName: %s"), *UserName);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UserName not found: %s"), *UserName);
-	}
-}
-
-bool UGI_SneakyAnimals::bContains_UserName(const FString& UserName)
-{
-	return UserIndexMap.Contains(UserName);
 }
 
 void UGI_SneakyAnimals::OnCreateSessionComplete(FName sessionName, bool bWasSuccessful)
@@ -207,12 +160,6 @@ void UGI_SneakyAnimals::OnJoinSessionComplete(FName SessionName, EOnJoinSessionC
 
 void UGI_SneakyAnimals::ExitRoom(FString DeleteUserName)
 {
-	// json에서 DeleteUserName 에 해당하는 데이터를 지운다 -> 나중에 같은 이름의 유저가 들어오더라도 중복 방지 하기 위해서.
-	//Remove_UserIndex(DeleteUserName);
-
-	//ServerRPC_KickCountUpdate();
-	Cast<AGS_Lobby>(GetWorld()->GetGameState())->Update_KickCount();
-	
 	sessionInterface->DestroySession(FName(*mySessionName));
 }
 
@@ -252,54 +199,6 @@ void UGI_SneakyAnimals::GetRandomplayer()
 		int32 ranNum = FMath::RandRange(0, players.Num() - 1);
 		ranPlayer = players[ranNum];
 	}
-}
-
-
-void UGI_SneakyAnimals::LoadUserIndexMap()
-{
-	FString FilePath = FPaths::ProjectDir() / TEXT("UserIndex.json");
-	FString JsonString;
-
-	if (FFileHelper::LoadFileToString(JsonString, *FilePath))
-	{
-		TSharedPtr<FJsonObject> JsonObject;
-		TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(JsonString);
-
-		if (FJsonSerializer::Deserialize(Reader, JsonObject))
-		{
-			for (auto& Elem : JsonObject->Values)
-			{
-				UserIndexMap.Add(Elem.Key, Elem.Value->AsNumber());
-			}
-		}
-	}
-}
-
-void UGI_SneakyAnimals::SaveUserIndexMap()
-{
-	FString FilePath = FPaths::ProjectDir() / TEXT("UserIndex.json");
-	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
-
-	for (auto& Elem : UserIndexMap)
-	{
-		JsonObject->SetNumberField(Elem.Key, Elem.Value);
-	}
-
-	FString JsonString;
-	TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&JsonString);
-	FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer);
-
-	FFileHelper::SaveStringToFile(JsonString, *FilePath);
-}
-
-void UGI_SneakyAnimals::InitializeUserIndexJson()
-{
-	FString ProjectDir = FPaths::ProjectDir();
-	FString FilePath = ProjectDir / TEXT("UserIndex.json");
-
-	FString DefaultContent = TEXT("{}"); // 기본 초기화 내용
-
-	FFileHelper::SaveStringToFile(DefaultContent, *FilePath);
 }
 
 void UGI_SneakyAnimals::CreateSession(FString roomName, int32 playerCount)
