@@ -102,13 +102,13 @@ public:
 	bool bShowcaseInWorld = false;
 	
 	// ±Ý°í
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Bank")
 	bool bGoldbarInWorld = false;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Bank")
 	bool bHandleInWorld = false;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Bank")
 	bool bLaserInWorld = false;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Bank")
 	bool bSwitchInWorld = false;
 
 
