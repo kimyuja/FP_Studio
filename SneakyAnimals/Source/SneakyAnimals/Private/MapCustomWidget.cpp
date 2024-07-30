@@ -122,6 +122,7 @@ void UMapCustomWidget::NativeConstruct()
 	}
 
 	gimmickSelectionWidget->SetPlayerRandNum(playerRandNum);
+	floorTopViewSwitcher->SetActiveWidgetIndex(playerRandNum);
 
 	UE_LOG(LogTemp, Error, TEXT("PLAYER RANDOM NUM IS %d"), playerRandNum);
 

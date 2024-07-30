@@ -28,6 +28,9 @@ public:
 	class UWidgetSwitcher* BackgroundImgSwitcher;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UWidgetSwitcher* floorTopViewSwitcher;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UWidgetSwitcher* Btn1WidgetSwitcher;
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UWidgetSwitcher* Btn2WidgetSwitcher;
