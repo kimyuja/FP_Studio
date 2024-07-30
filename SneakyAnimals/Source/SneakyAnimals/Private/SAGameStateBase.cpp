@@ -6,6 +6,7 @@
 #include "TestPlayer.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/Net/UnrealNetwork.h>
 #include "PS_Gameplay.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 
 
 
@@ -86,18 +87,21 @@ void ASAGameStateBase::SetPlayerNum()
 		{
 			ps_gameplay->PlayerRandNum = (idx + RandSeed) % PlayerArray.Num();
 			ps_gameplay->PlayerShowNum = idx;
-
-			ATestPlayer* player = Cast<ATestPlayer>(ps_gameplay->GetPlayerController());
-			player->playerNum = (idx + RandSeed) % PlayerArray.Num();
-			player->playerShowNum = idx;
-
-			idx++;
 		}
 		else
 		{
 			UE_LOG(LogTemp, Warning, TEXT("player state game play is not valid."));
 		}
+
+		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+		{
+			it->playerNum = (idx + RandSeed) % PlayerArray.Num();
+			it->playerShowNum = idx;
+			
+		}
 		// ATestPlayer에서 PlayerRandNum 접근하고 싶으면 GetPlayerState해서 접근하시면 돼요.
+		UE_LOG(LogTemp, Warning, TEXT("playerNum : %d, playerShowNum : %d"), (idx + RandSeed) % PlayerArray.Num(), idx);
+		idx++;
 	}
 	//--------------------------
 
