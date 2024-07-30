@@ -124,8 +124,8 @@ void ASP_ShowcaseGimmick::RedBull(AActor* ActivePlayer)
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 		{
-			float rot = FMath::Lerp(0, -90.0, lerpTime);
-			activeObject->SetRelativeRotation(FRotator(0, 0, rot));
+			float rot = FMath::Lerp(0, 90.0, lerpTime);
+			object->SetRelativeRotation(FRotator(rot, 0, 0));
 		}, 0.03f, true, 0);
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
