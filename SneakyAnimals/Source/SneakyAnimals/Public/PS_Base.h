@@ -30,7 +30,7 @@ public:
 	APS_Base();
 	virtual void BeginPlay() override;
 
-	UPROPERTY(ReplicatedUsing = OnRep_Player_Appearance)
+	UPROPERTY(ReplicatedUsing = OnRep_Player_Appearance, BlueprintReadOnly)
 	FStructure_Player_Appearance Player_Appearance;
 	
 	UPROPERTY(ReplicatedUsing = OnRep_Player_UserProfile, BlueprintReadOnly)
