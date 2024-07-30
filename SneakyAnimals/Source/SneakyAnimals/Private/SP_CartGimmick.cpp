@@ -138,6 +138,8 @@ void ASP_CartGimmick::Defective(AActor* ActivePlayer)
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : RoadRoller"));
 	activeObject->SetSimulatePhysics(true);
+	activeObject->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	activeObject->AddImpulse(FVector(0,0,10), TEXT(""), true);
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{

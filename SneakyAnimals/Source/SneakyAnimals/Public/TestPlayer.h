@@ -337,6 +337,12 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void MultiRPC_SetGActorLoc(AActor* _MoveObj, FVector _GetLoc);
 
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_RespawnPlayer(float dTime);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_RespawnPlayer(float _dTime);
+
 	// --------------KYJ----------------
 	UFUNCTION(Client, Reliable)
 	void ClientRPC_Init_Appearance();

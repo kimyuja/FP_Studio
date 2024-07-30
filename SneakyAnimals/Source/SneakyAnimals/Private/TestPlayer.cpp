@@ -984,6 +984,47 @@ void ATestPlayer::MultiRPC_SetGActorLoc_Implementation(AActor* _MoveObj, FVector
 	_MoveObj->SetActorLocation(_GetLoc);
 }
 
+void ATestPlayer::ServerRPC_RespawnPlayer_Implementation(float dTime)
+{
+	MultiRPC_RespawnPlayer(dTime);
+}
+
+void ATestPlayer::MultiRPC_RespawnPlayer_Implementation(float _dTime)
+{
+	if (!bIsBlack)
+	{
+		ServerRPC_FadeOut(true);
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Player %d Respawn"), playerNum);
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	/*FTimerHandle pT;
+	GetWorldTimerManager().SetTimer(pT, [&]() {
+		GetMesh()->SetSimulatePhysics(false);
+		}, 1.0, false, 2.0);*/
+	FTimerHandle respawnT;
+	GetWorldTimerManager().SetTimer(respawnT, [&]() {
+		GetMesh()->SetSimulatePhysics(false);
+		ServerRPC_FadeOut(false);
+		GetCapsuleComponent()->SetSimulatePhysics(false);
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		GetCapsuleComponent()->SetRelativeRotation(FRotator(0, 0, 0));
+		GetMesh()->SetRelativeScale3D(FVector(1.0, 1.0, 1.0));
+		GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
+		SetActorLocation(respawnLoc);
+		//for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+		//{
+		//	//it->GetMesh()->SetSimulatePhysics(false);
+		//	cameraBoom->SetRelativeLocation(FVector(0, 0, 170));
+		//}
+		cameraBoom->SetRelativeLocation(FVector(0, 0, 170));
+		//FadeInOut(false);
+		bIsDie = false;
+		bIsBlack = false;
+		bCanActive = true;
+		GetWorldTimerManager().ClearAllTimersForObject(this);
+		}, 1.0, false, _dTime);
+}
+
 void ATestPlayer::ServerRPC_SetGActorRot_Implementation(AActor* MoveObj, FRotator GetRot)
 {
 	MultiRPC_SetGActorRot(MoveObj, GetRot);

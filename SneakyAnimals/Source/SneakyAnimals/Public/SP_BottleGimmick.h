@@ -51,6 +51,8 @@ private:
 	
 	class ATestPlayer* _target;
 
+	float timerCheck;
+
 	FTimerHandle sonT;
 
 	// 밟고 넘어졌다.(혼자)
