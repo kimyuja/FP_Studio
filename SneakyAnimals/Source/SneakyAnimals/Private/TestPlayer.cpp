@@ -874,7 +874,8 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	gameState->MoveNextStage(moveLoc);
 	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 	{
-		p->respawnLoc = moveLoc;	
+		p->respawnLoc = moveLoc;
+		p->bGameIsStart = true;
 	}
 	clearUI->SetVisibility(ESlateVisibility::Hidden);
 	UE_LOG(LogTemp, Warning, TEXT("MOOOOOOOOOOOOOOOOOOOOOOOOOOve        %d"), gameState->stageNum);
@@ -895,7 +896,7 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	}
 	else if (gameState->stageNum > 1)
 	{
-		bGameIsStart = true;
+		//bGameIsStart = true;
 		for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 		{
 			if (p->mainUI)
