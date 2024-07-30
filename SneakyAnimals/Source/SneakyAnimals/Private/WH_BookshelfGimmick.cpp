@@ -36,6 +36,9 @@ AWH_BookshelfGimmick::AWH_BookshelfGimmick()
 
 	trigger->OnComponentBeginOverlap.AddDynamic(this, &AGimmick::SetCanActiveT);
 	trigger->OnComponentEndOverlap.AddDynamic(this, &AGimmick::SetCanActiveF);
+
+	bReplicates = true;
+	bNetLoadOnClient = true;
 }
 
 

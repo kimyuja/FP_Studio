@@ -103,8 +103,9 @@ ATestPlayer::ATestPlayer()
 	emoticonUI->SetDrawSize(FVector2D(100, 100));
 	emoticonUI->SetWidgetClass(emoUI);
 
-	bReplicates = true;
-	SetReplicateMovement(true);
+	/*bReplicates = true;
+	bNetLoadOnClient = true;
+	SetReplicateMovement(true);*/
 
 	itemComponent = CreateDefaultSubobject<UItemComponent>(TEXT("itemComponent"));
 
@@ -114,6 +115,10 @@ ATestPlayer::ATestPlayer()
 void ATestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	bReplicates = true;
+	bNetLoadOnClient = true;
+	SetReplicateMovement(true);
 
 	if (!itemComponent)
 	{
@@ -802,11 +807,17 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 		//UE_LOG(LogTemp, Warning, TEXT("P = %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
 		bCanActive = false;
 		int32 key = g->OnMyActive(_aP);
-		if (key == 2)
+		/*if (key == 2)
 		{
-			ServerRPC_ClearStage();
-		}
+			ClearStage();
+			UE_LOG(LogTemp, Warning, TEXT("1111111111111111111!!!!!!!!"));
+		}*/
 	}
+}
+
+void ATestPlayer::ClearStage()
+{
+	ServerRPC_ClearStage();
 }
 
 void ATestPlayer::ServerRPC_ClearStage_Implementation()
@@ -816,6 +827,7 @@ void ATestPlayer::ServerRPC_ClearStage_Implementation()
 
 void ATestPlayer::MultiRPC_ClearStage_Implementation()
 {
+	UE_LOG(LogTemp, Warning, TEXT("22222222222222222222!!!!!!!!"));
 	if (gameState->stageNum == 3)
 	{
 		for (TActorIterator<AUnderTheSea> sea(GetWorld()); sea; ++sea)

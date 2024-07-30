@@ -23,6 +23,7 @@
 #include "BS_GoldBarGimmick.h"
 #include "BS_SwitchGimmick.h"
 #include "BS_LaserGimmick.h"
+#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 
 // Sets default values
 AGimmick::AGimmick()
@@ -130,11 +131,13 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	{
 		_key = Cast<ABS_LaserGimmick>(this)->OnMyActive(ActivePlayer);
 	}
-	/*if (_key != 2)
+	if (_key == 2)
 	{
-		gameState->SetDeathCountUp(Cast<ATestPlayer>(ActivePlayer)->playerNum);
-		UE_LOG(LogTemp, Warning, TEXT("YOU DIE"));
-	}*/
+		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+		{
+			it->ServerRPC_ClearStage();
+		}
+	}
 	//ServerRPC_OnMyActive(ActivePlayer);
 	UE_LOG(LogTemp, Warning, TEXT("Auth"));
 
