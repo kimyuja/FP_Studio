@@ -94,7 +94,7 @@ int32 ASM_PressButtonGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		Waterbomb();

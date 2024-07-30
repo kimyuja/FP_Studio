@@ -102,7 +102,7 @@ int32 AWH_BroomstickGimmick::OnMyActive(AActor* ActivePlayer)
 
 	bCanActive = false;
 
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		BroomSmash(ActivePlayer);

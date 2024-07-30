@@ -877,7 +877,10 @@ void ATestPlayer::ServerRPC_MoveStage_Implementation()
 void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 {
 	gameState->MoveNextStage(moveLoc);
-	respawnLoc = moveLoc;
+	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	{
+		p->respawnLoc = moveLoc;	
+	}
 	clearUI->SetVisibility(ESlateVisibility::Hidden);
 	UE_LOG(LogTemp, Warning, TEXT("MOOOOOOOOOOOOOOOOOOOOOOOOOOve        %d"), gameState->stageNum);
 	if (gameState->stageNum > endNum)

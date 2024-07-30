@@ -121,7 +121,7 @@ int32 ASM_ComputerGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		Electrocution(ActivePlayer);

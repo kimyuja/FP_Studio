@@ -107,11 +107,11 @@ int32 AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("%d"), activeType);
+	UE_LOG(LogTemp, Warning, TEXT("%d"), Myactivetype);
 
 	bCanActive = false;
 
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		FallOver();

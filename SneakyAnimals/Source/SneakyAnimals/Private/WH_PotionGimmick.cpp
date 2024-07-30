@@ -96,7 +96,7 @@ int32 AWH_PotionGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		Extincion(ActivePlayer);

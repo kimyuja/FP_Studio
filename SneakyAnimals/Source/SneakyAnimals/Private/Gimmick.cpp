@@ -156,7 +156,7 @@ void AGimmick::SetCanActiveT(UPrimitiveComponent* OverlappedComponent, AActor* O
 	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+		//UE_LOG(LogTemp, Warning, TEXT("overlap"));
 		player->bCanActive = true;
 		//OnMyActive(OtherActor);
 	}
