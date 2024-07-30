@@ -71,57 +71,26 @@ void ASAGameStateBase::SetClearInstance()
 
 void ASAGameStateBase::SetPlayerNum()
 {
-	//if (bIsMixed)
-	//{
-	//    return;
-	//}
-	//bIsMixed = true;
-	//--------------------------
-	// KYJ Test
 	int32 idx = 0; // 인덱스 초기화
 	int32 RandSeed = FMath::Rand(); // 인덱스에 더할 랜덤 숫자 저장 (각 플레이어에게 더하는 랜덤 숫자는 동일)
-	for (APlayerState* ps : PlayerArray)
-	{
-		APS_Gameplay* ps_gameplay = Cast<APS_Gameplay>(ps);
-		if (ps_gameplay)
-		{
-			ps_gameplay->PlayerRandNum = (idx + RandSeed) % PlayerArray.Num();
-			ps_gameplay->PlayerShowNum = idx;
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("player state game play is not valid."));
-		}
 
-		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	// TActorIterator<ATestPlayer> 루프를 돌면서 각 ATestPlayer의 playerNum과 playerShowNum 설정
+	idx = 0;
+	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	{
+		if (PlayerArray.Num()<1)
 		{
-			it->playerNum = (idx + RandSeed) % PlayerArray.Num();
-			it->playerShowNum = idx;
-			
+			return;
 		}
-		// ATestPlayer에서 PlayerRandNum 접근하고 싶으면 GetPlayerState해서 접근하시면 돼요.
-		UE_LOG(LogTemp, Warning, TEXT("playerNum : %d, playerShowNum : %d"), (idx + RandSeed) % PlayerArray.Num(), idx);
+		it->playerNum = (idx + RandSeed) % PlayerArray.Num();
+		it->playerShowNum = idx;
+		// player 전부 들어오기 전에 맵 커스텀 UI 띄워버리면 중복되는 playerNum이 들어감. 그래서 레벨 BP 에서 딜레이를 준다.
+		if (it->GetLocalRole() == ROLE_Authority) // 서버에서만 호출
+		{
+			it->ClientRPC_Update_PlayerNum_PlayerShowNum(it->playerNum, it->playerShowNum);
+		}
 		idx++;
 	}
-	//--------------------------
-
-	//TArray<int32> playerNums = { 0,1,2,3 };
-	//int32 LastIndex = playerNums.Num() - 1;
-	//int count = 0;
-	//for (int32 i = 0; i <= LastIndex; ++i)
-	//{
-	//    int32 Index = FMath::RandRange(0, LastIndex);
-	//    if (i != Index)
-	//    {
-	//        playerNums.Swap(i, Index);
-	//    }
-	//}
-	//for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-	//{
-	//	it->playerNum = playerNums[count];
-	//	UE_LOG(LogTemp, Warning, TEXT("Player %d"), playerNums[count]);
-	//	count++;
-	//}
 }
 
 void ASAGameStateBase::SetDeathCountUp(int32 playerNum)

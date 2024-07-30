@@ -1189,6 +1189,22 @@ void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	DOREPLIFETIME(ATestPlayer, bCanActive);
 }
 
+void ATestPlayer::ClientRPC_Update_PlayerNum_PlayerShowNum_Implementation(int32 _PlayerNum, int32 _PlayerShowNum)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ClientRPC playernum : %d, player show num : %d"), _PlayerNum, _PlayerShowNum);
+	playerNum = _PlayerNum;
+	playerShowNum = _PlayerShowNum;
+	//ServerRPC_Update_PlayerNum_PlayerShowNum(_PlayerNum, _PlayerShowNum);
+	//OnRep_PlayerNum(); // player num 바뀌면 방 커스텀 UI 나오도록 하기
+}
+
+void ATestPlayer::ServerRPC_Update_PlayerNum_PlayerShowNum_Implementation(int32 _PlayerNum, int32 _PlayerShowNum)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ServerRPC playernum : %d, player show num : %d"), _PlayerNum, _PlayerShowNum);
+	playerNum = _PlayerNum;
+	playerShowNum = _PlayerShowNum;
+}
+
 void ATestPlayer::Get_Player_Appearance()
 {
 	Get_Character();

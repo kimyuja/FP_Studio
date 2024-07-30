@@ -370,6 +370,11 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_Update_Dress(USkeletalMesh* _mesh);
+	
+	UFUNCTION(Client, Reliable)
+	void ClientRPC_Update_PlayerNum_PlayerShowNum(int32 _PlayerNum, int32 _PlayerShowNum);
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Update_PlayerNum_PlayerShowNum(int32 _PlayerNum, int32 _PlayerShowNum);
 
 	void Get_Player_Appearance();
 	void Get_Character();
