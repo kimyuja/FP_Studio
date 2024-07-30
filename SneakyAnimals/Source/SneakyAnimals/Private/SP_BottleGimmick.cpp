@@ -53,8 +53,10 @@ void ASP_BottleGimmick::Tick(float DeltaTime)
 	if ((_target && FVector::Dist(GetActorLocation(), _target->GetActorLocation()) < 100.0))
 	{
 		UE_LOG(LogTemp, Warning, TEXT(" Shoot!!!!!!!!!!!"));
+		GetWorldTimerManager().PauseTimer(sonT);
 		GetWorldTimerManager().ClearTimer(sonT);
 		_target->bIsDie = true;
+		//_target->ServerRPC_SetPlayerPhysics(_target);
 		_target->Respawn();
 		_target->DeathCounting();
 		Destroy();
@@ -138,12 +140,16 @@ void ASP_BottleGimmick::Son(AActor* ActivePlayer)
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Son"));
 	_target = Cast<ATestPlayer>(ActivePlayer);
-	GetWorldTimerManager().SetTimer(sonT, [&]()
-		{
-			FVector targetLoc = (_target->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-			targetLoc = FVector(targetLoc.X, targetLoc.Y, 0);
-			SetActorLocation(GetActorLocation() + targetLoc * 30.0);
-		}, 0.03f, true, 0);
+	if (_target->IsLocallyControlled())
+	{
+		GetWorldTimerManager().SetTimer(sonT, [&]()
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Wowowowowowowowowowowowowowowow"));
+				FVector targetLoc = (_target->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+				targetLoc = FVector(targetLoc.X, targetLoc.Y, 0);
+				SetActorLocation(GetActorLocation() + targetLoc * 30.0);
+			}, 0.03f, true, 0);
+	}
 }
 
 void ASP_BottleGimmick::MasterKey(AActor* ActivePlayer)
