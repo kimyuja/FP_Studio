@@ -29,11 +29,13 @@
 #include "SAGameStateBase.h"
 #include "ItemComponent.h"
 #include "MapCustomWidget.h"
+#include "NewGridWidget.h"
 #include "W_CustomMap.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Camera/CameraActor.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "W_InGameUI.h"
 #include "UnderTheSea.h"
+#include "Gimmick.h"
 #include "SM_WhistleGimmick.h"
 #include "SP_CartGimmick.h"
 #include "SP_CleanerGimmick.h"
@@ -280,30 +282,11 @@ void ATestPlayer::CreateSelectedWidget()
 {
 	CustomMapWidget = nullptr;
 
-	CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), C_WitchHouseMap));
+	CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), customMapWidgetClass));
 
 	// playerNum = 1;
 	
 	CustomMapWidget->playerRandNum = playerNum;
-
-	/*switch(playerNum)
-	{
-	case 0:
-		CustomMapWidget->playerRandNum = 0;
-		break;
-	case 1:
-		CustomMapWidget->playerRandNum = 1;
-		break;
-	case 2:
-		CustomMapWidget->playerRandNum = 2;
-		break;
-	case 3:
-		CustomMapWidget->playerRandNum = 3;
-		break;
-	default:
-		CustomMapWidget->playerRandNum = -1;
-		break;
-	}*/
 	
 	if (CustomMapWidget)
 	{
@@ -998,77 +981,135 @@ void ATestPlayer::MultiRPC_SetGActorRot_Implementation(AActor* _MoveObj, FRotato
 	_MoveObj->SetActorRotation(_GetRot);
 }
 
-void ATestPlayer::ServerRPC_SetGActorLocAndActiveNum_Implementation(AActor* MoveObj, FVector GetLoc, int32 ActiveNum)
+void ATestPlayer::ServerRPC_SetGActorLocAndActiveNum_Implementation(AActor* MoveObj, int32 ActiveNum)
 {
-	MultiRPC_SetGActorLocAndActiveNum(MoveObj, GetLoc, ActiveNum);
+	MultiRPC_SetGActorLocAndActiveNum(MoveObj, ActiveNum);
 }
 
-void ATestPlayer::MultiRPC_SetGActorLocAndActiveNum_Implementation(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum)
+void ATestPlayer::MultiRPC_SetGActorLocAndActiveNum_Implementation(AActor* _MoveObj, int32 _ActiveNum)
 {
-	_MoveObj->SetActorLocation(_GetLoc);
-	if (Cast<AWH_BookshelfGimmick>(_MoveObj))
+	newGridWidget = nullptr;
+
+	newGridWidget = CreateWidget<UNewGridWidget>(GetWorld(), newGridWidgetClass);
+
+	if (newGridWidget != nullptr)
 	{
-		Cast<AWH_BookshelfGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<AWH_WitchCauldronGimmick>(_MoveObj))
-	{
-		Cast<AWH_WitchCauldronGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<AWH_BroomstickGimmick>(_MoveObj))
-	{
-		Cast<AWH_BroomstickGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<AWH_PotionGimmick>(_MoveObj))
-	{
-		Cast<AWH_PotionGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ASM_PeriscopeGimmick>(_MoveObj))
-	{
-		Cast<ASM_PeriscopeGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ASM_PressButtonGimmick>(_MoveObj))
-	{
-		Cast<ASM_PressButtonGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ASM_ComputerGimmick>(_MoveObj))
-	{
-		Cast<ASM_ComputerGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ASM_WhistleGimmick>(_MoveObj))
-	{
-		Cast<ASM_WhistleGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ASP_CartGimmick>(_MoveObj))
-	{
-		Cast<ASP_CartGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ASP_CleanerGimmick>(_MoveObj))
-	{
-		Cast<ASP_CleanerGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ASP_ShowcaseGimmick>(_MoveObj))
-	{
-		Cast<ASP_ShowcaseGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ASP_BottleGimmick>(_MoveObj))
-	{
-		Cast<ASP_BottleGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ABS_HandleGimmick>(_MoveObj))
-	{
-		Cast<ABS_HandleGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ABS_GoldBarGimmick>(_MoveObj))
-	{
-		Cast<ABS_GoldBarGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ABS_SwitchGimmick>(_MoveObj))
-	{
-		Cast<ABS_SwitchGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
-	}
-	else if (Cast<ABS_LaserGimmick>(_MoveObj))
-	{
-		Cast<ABS_LaserGimmick>(_MoveObj)->Myactivetype = _ActiveNum;
+		// 마녀의집
+		if (_MoveObj->IsA(AWH_BookshelfGimmick::StaticClass()))
+		{
+			for (TActorIterator<AWH_BookshelfGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(AWH_BroomstickGimmick::StaticClass()))
+		{
+			for (TActorIterator<AWH_BroomstickGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(AWH_PotionGimmick::StaticClass()))
+		{
+			for (TActorIterator<AWH_PotionGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(AWH_WitchCauldronGimmick::StaticClass()))
+		{
+			for (TActorIterator<AWH_WitchCauldronGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		// 잠수함
+		else if (_MoveObj->IsA(ASM_ComputerGimmick::StaticClass()))
+		{
+			for (TActorIterator<ASM_ComputerGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(ASM_PeriscopeGimmick::StaticClass()))
+		{
+			for (TActorIterator<ASM_PeriscopeGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(ASM_PressButtonGimmick::StaticClass()))
+		{
+			for (TActorIterator<ASM_PressButtonGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(ASM_WhistleGimmick::StaticClass()))
+		{
+			for (TActorIterator<ASM_WhistleGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		// 슈퍼마켓
+		else if (_MoveObj->IsA(ASP_BottleGimmick::StaticClass()))
+		{
+			for (TActorIterator<ASP_BottleGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(ASP_CartGimmick::StaticClass()))
+		{
+			for (TActorIterator<ASP_CartGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(ASP_CleanerGimmick::StaticClass()))
+		{
+			for (TActorIterator<ASP_CleanerGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(ASP_ShowcaseGimmick::StaticClass()))
+		{
+			for (TActorIterator<ASP_ShowcaseGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		// 금고
+		else if (_MoveObj->IsA(ABS_GoldBarGimmick::StaticClass()))
+		{
+			for (TActorIterator<ABS_GoldBarGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(ABS_HandleGimmick::StaticClass()))
+		{
+			for (TActorIterator<ABS_HandleGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(ABS_LaserGimmick::StaticClass()))
+		{
+			for (TActorIterator<ABS_LaserGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
+		else if (_MoveObj->IsA(ABS_SwitchGimmick::StaticClass()))
+		{
+			for (TActorIterator<ABS_SwitchGimmick> It(GetWorld()); It; ++It)
+			{
+				(*It)->Myactivetype = _ActiveNum;
+			}
+		}
 	}
 }
 

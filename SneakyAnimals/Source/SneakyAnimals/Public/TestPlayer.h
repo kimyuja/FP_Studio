@@ -143,21 +143,17 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
     USkeletalMeshComponent* SM_Dress;
 
-	//
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
-	class UMapCustomWidget* MapCustomWidget;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
+	class UMapCustomWidget* CustomMapWidget;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-    TSubclassOf<UMapCustomWidget> C_WitchHouseMap;
+    TSubclassOf<UMapCustomWidget> customMapWidgetClass;
 
-	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-    TSubclassOf<UMapCustomWidget> C_SubmarineMap;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
+	class UNewGridWidget* newGridWidget;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-    TSubclassOf<UMapCustomWidget> C_BankMap;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
-    TSubclassOf<UMapCustomWidget> C_SupermarketMap;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+    TSubclassOf<UNewGridWidget> newGridWidgetClass;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
     class UItemComponent* itemComponent;
@@ -168,8 +164,6 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
 	class UItemObject* itemObject;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "UI")
-	class UMapCustomWidget* CustomMapWidget;
 
     UFUNCTION(BlueprintCallable, Category = "CreateWidget")
 	void CreateSelectedWidget();
@@ -323,10 +317,10 @@ public:
 	void MultiRPC_SetPlayerPhysics(AActor* _target, FVector _pushDir);
 
 	UFUNCTION(Server, Reliable)
-	void ServerRPC_SetGActorLocAndActiveNum(AActor* MoveObj, FVector GetLoc, int32 ActiveNum);
+	void ServerRPC_SetGActorLocAndActiveNum(AActor* MoveObj, int32 ActiveNum);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MultiRPC_SetGActorLocAndActiveNum(AActor* _MoveObj, FVector _GetLoc, int32 _ActiveNum);
+	void MultiRPC_SetGActorLocAndActiveNum(AActor* _MoveObj, int32 _ActiveNum);
 	
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_SetGActorRot(AActor* MoveObj, FRotator GetRot);

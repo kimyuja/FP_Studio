@@ -951,8 +951,8 @@ void UNewGridWidget::Refresh()
 					{
 						adjustedWorldPosition.Z = currentLoc.Z + 1000.f;
 					}
-					myPlayer->ServerRPC_SetGActorLocAndActiveNum(gimmickActor, adjustedWorldPosition, gimmickActor->activeType);
-					//gimmickActor->SetActorLocation(adjustedWorldPosition);
+					myPlayer->ServerRPC_SetGActorLoc(gimmickActor, adjustedWorldPosition);
+					myPlayer->ServerRPC_SetGActorLocAndActiveNum(gimmickActor, gimmickActor->activeType);
 
 					FRotator currentRot = gimmickActor->GetActorRotation();
 					UE_LOG(LogTemp, Warning, TEXT("!!!!!! Gimmick Actor In World Rotation : (%f, %f, %f)"),
