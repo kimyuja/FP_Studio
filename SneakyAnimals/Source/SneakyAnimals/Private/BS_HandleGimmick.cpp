@@ -73,7 +73,7 @@ UItemObject* ABS_HandleGimmick::GetDefaultItemObject()
 		newItemObject->rotationAngle = 0.0f;
 		newItemObject->itemClass = ABS_HandleGimmick::StaticClass();
 		newItemObject->itemActiveType = Myactivetype;
-		newItemObject->beginLoc = FVector(-50000.f, -50000.f, -940.0f);
+		newItemObject->beginLoc = FVector(-50000.f, -50000.f, -960.0f);
 		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
 		newItemObject->setWorldActorRot = 0;
 		newItemObject->rotationImgCheck = 0;

@@ -755,19 +755,19 @@ int32 UNewGridWidget::GetSwitcherIdx(AGimmick* _GimmickClass)
 		return 44;
 	}
 	// ±Ý°í
-	else if (_GimmickClass->IsA(ASP_BottleGimmick::StaticClass()))
+	else if (_GimmickClass->IsA(ABS_GoldBarGimmick::StaticClass()))
 	{
 		return 48;
 	}
-	else if (_GimmickClass->IsA(ASP_CartGimmick::StaticClass()))
+	else if (_GimmickClass->IsA(ABS_HandleGimmick::StaticClass()))
 	{
 		return 52;
 	}
-	else if (_GimmickClass->IsA(ASP_CleanerGimmick::StaticClass()))
+	else if (_GimmickClass->IsA(ABS_LaserGimmick::StaticClass()))
 	{
 		return 56;
 	}
-	else if (_GimmickClass->IsA(ASP_ShowcaseGimmick::StaticClass()))
+	else if (_GimmickClass->IsA(ABS_SwitchGimmick::StaticClass()))
 	{
 		return 60;
 	}
