@@ -20,6 +20,12 @@ public:
 	virtual bool Initialize() override;
 	virtual void NativeConstruct() override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override; 
+	virtual void NativeDestruct() override;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+    USoundBase* customUIBgm;
+
+    UAudioComponent* audioComponent;
 
     UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
     class UNewGridWidget* NewGridWidget;
