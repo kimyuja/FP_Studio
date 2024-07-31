@@ -89,6 +89,7 @@ int32 ABS_SwitchGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
+
 	switch (activeType)
 	{
 	case 0:

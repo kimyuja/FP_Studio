@@ -33,6 +33,9 @@ protected:
 
 	float timerCheck;
 
+	UPROPERTY(EditAnywhere)
+	TArray<class USoundBase*> sounds;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

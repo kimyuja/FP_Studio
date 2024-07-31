@@ -24,6 +24,7 @@
 #include "BS_SwitchGimmick.h"
 #include "BS_LaserGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
+#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 
 // Sets default values
 AGimmick::AGimmick()
@@ -144,9 +145,13 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 			it->ServerRPC_ClearStage();
 		}
 	}
+	if (sounds.Num() == 3)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sounds[_key], ActivePlayer->GetActorLocation());
+		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d"), _key);
+	}
 	//ServerRPC_OnMyActive(ActivePlayer);
-	UE_LOG(LogTemp, Warning, TEXT("Auth"));
-
+	
 	//ServerRPC_OnMyActive(ActivePlayer);
 	return _key;
 }
