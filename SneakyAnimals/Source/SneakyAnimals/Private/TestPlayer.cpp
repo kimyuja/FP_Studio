@@ -885,6 +885,18 @@ void ATestPlayer::ServerRPC_MoveStage_Implementation()
 
 void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 {
+	if (HasAuthority())
+	{
+		curStageNum++;
+		gameState->stageNum = curStageNum;
+		UE_LOG(LogTemp, Warning, TEXT("Server Stage Num : %d"), gameState->stageNum);
+	}
+	else
+	{
+		gameState->stageNum = curStageNum;
+		UE_LOG(LogTemp, Warning, TEXT("Client Stage Num : %d"), gameState->stageNum);
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Show???????????????"));
 	gameState->MoveNextStage(moveLoc);
 	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 	{
@@ -893,7 +905,7 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	}
 	clearUI->SetVisibility(ESlateVisibility::Hidden);
 	UE_LOG(LogTemp, Warning, TEXT("MOOOOOOOOOOOOOOOOOOOOOOOOOOve        %d"), gameState->stageNum);
-	if (gameState->stageNum > endNum)
+	if (gameState->stageNum > 4)
 	{
 		CreateWidget(GetWorld(), voteUI)->AddToViewport(0);
 
@@ -937,17 +949,7 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 			}
 		}
 	}*/
-	curStageNum++;
-	gameState->stageNum = curStageNum;
-	if(HasAuthority())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Server Stage Num : %d"), gameState->stageNum);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Client Stage Num : %d"), gameState->stageNum);
-	}
-	UE_LOG(LogTemp, Warning, TEXT("Show???????????????"));
+	
 }
 
 void ATestPlayer::ServerRPC_FadeOut_Implementation(bool _bInOut)
