@@ -1199,54 +1199,61 @@ FReply UNewGridWidget::NativeOnPreviewKeyDown(const FGeometry& InGeometry, const
 			if (IsValid(payLoadTemp))
 			{
 				payLoadTemp->RotateGA(payLoadTemp);
-				payLoadTemp->setWorldActorRot += 1;
-
-				/*if (payLoadTemp->setWorldActorRot % 2 == 0)
+				
+				if(payLoadTemp->itemClass != ABS_HandleGimmick::StaticClass())
 				{
-					FindMatchingActor(payLoadTemp);
-				}*/
+					UE_LOG(LogTemp, Warning, TEXT("!!!!! this is not handleGimmick"));
 
-				FIntPoint NewDimensions = payLoadTemp->GetDimensions(payLoadTemp);
-				payLoadTemp->SetDimensions(NewDimensions);
-				UE_LOG(LogTemp, Warning, TEXT("!!!! payLoadTemp dimension is (%d, %d)"), payLoadTemp->dimensions.X, payLoadTemp->dimensions.Y);
+					payLoadTemp->setWorldActorRot += 1;
 
-				AGimmick* gAinWorld = FindMatchingActor(payLoadTemp);
-				// int32 switcherIdx = GetSwitcherIdx(gAinWorld);
+					/*if (payLoadTemp->setWorldActorRot % 2 == 0)
+					{
+						FindMatchingActor(payLoadTemp);
+					}*/
+
+					FIntPoint NewDimensions = payLoadTemp->GetDimensions(payLoadTemp);
+					payLoadTemp->SetDimensions(NewDimensions);
+					UE_LOG(LogTemp, Warning, TEXT("!!!! payLoadTemp dimension is (%d, %d)"), payLoadTemp->dimensions.X, payLoadTemp->dimensions.Y);
+
+					AGimmick* gAinWorld = FindMatchingActor(payLoadTemp);
+					// int32 switcherIdx = GetSwitcherIdx(gAinWorld);
 
 
-				if (gAinWorld && payLoadTemp->setWorldActorRot % 2 == 0)
-				{
-					UE_LOG(LogTemp, Warning, TEXT("!!!! Gimmick Actor In World Which Set Rotation +90"));
+					if (gAinWorld && payLoadTemp->setWorldActorRot % 2 == 0)
+					{
+						UE_LOG(LogTemp, Warning, TEXT("!!!! Gimmick Actor In World Which Set Rotation +90"));
 
-					payLoadTemp->rotationImgCheck = (payLoadTemp->rotationImgCheck + 1) % 4;
+						payLoadTemp->rotationImgCheck = (payLoadTemp->rotationImgCheck + 1) % 4;
 
-					FRotator CurrentRotation = gAinWorld->GetActorRotation();
-					FRotator NewRotation = FRotator(CurrentRotation.Pitch, CurrentRotation.Yaw + 90.0f, CurrentRotation.Roll);
+						FRotator CurrentRotation = gAinWorld->GetActorRotation();
+						FRotator NewRotation = FRotator(CurrentRotation.Pitch, CurrentRotation.Yaw + 90.0f, CurrentRotation.Roll);
 
-					// gAinWorld->SetActorRotation(NewRotation);
+						// gAinWorld->SetActorRotation(NewRotation);
 
-					UE_LOG(LogTemp, Warning, TEXT("!!!!!! Gimmick Actor In World Rotation : (%f, %f, %f)"), NewRotation.Pitch, NewRotation.Yaw, NewRotation.Roll);
+						UE_LOG(LogTemp, Warning, TEXT("!!!!!! Gimmick Actor In World Rotation : (%f, %f, %f)"), NewRotation.Pitch, NewRotation.Yaw, NewRotation.Roll);
 
-					myPlayer->ServerRPC_SetGActorRot(gAinWorld, NewRotation);
-					// newItemImgWidget->ItemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
+						myPlayer->ServerRPC_SetGActorRot(gAinWorld, NewRotation);
+						// newItemImgWidget->ItemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
+					}
+
+
+					Refresh();
+
+					return FReply::Handled();
+					/*UW_ItemImg* imgWidgetTemp = Cast<UW_ItemImg>(dragDropOperation->DefaultDragVisual);*/
+
+					// if (IsValid(imgWidgetTemp))
+					// {
+						// imgWidgetTemp->Refresh();
+						// itemObject->SetDimensions(NewDimensions);
+						// UE_LOG(LogTemp, Warning, TEXT("!!!! itemObject dimension is (%d, %d)"), itemObject->dimensions.X, itemObject->dimensions.Y);
+
+						// Refresh();
+
+						// return FReply::Handled();
+					// }
+
 				}
-
-
-				Refresh();
-
-				return FReply::Handled();
-				/*UW_ItemImg* imgWidgetTemp = Cast<UW_ItemImg>(dragDropOperation->DefaultDragVisual);*/
-
-				// if (IsValid(imgWidgetTemp))
-				// {
-					// imgWidgetTemp->Refresh();
-					// itemObject->SetDimensions(NewDimensions);
-					// UE_LOG(LogTemp, Warning, TEXT("!!!! itemObject dimension is (%d, %d)"), itemObject->dimensions.X, itemObject->dimensions.Y);
-
-					// Refresh();
-
-					// return FReply::Handled();
-				// }
 			}
 			else
 			{

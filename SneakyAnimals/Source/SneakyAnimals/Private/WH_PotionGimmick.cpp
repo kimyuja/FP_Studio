@@ -84,6 +84,7 @@ UItemObject* AWH_PotionGimmick::GetDefaultItemObject()
 		newItemObject->beginRot = FRotator(0.f, -90.f, 0.f);
 		newItemObject->setWorldActorRot = 0;
 		newItemObject->rotationImgCheck = 0;
+		newItemObject->bIsDraggable = true;
 	}
 	return newItemObject;
 }

@@ -70,7 +70,7 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
 
-
+	
 	UW_ItemImg* DragVisual = CreateWidget<UW_ItemImg>(GetWorld()->GetFirstPlayerController(), DragVisualClass);
 	
 	if (DragVisual)
@@ -78,58 +78,62 @@ void UW_ItemImg::NativeOnDragDetected(const FGeometry& InGeometry, const FPointe
 		DragVisual->SetItemObject(this->thisItemObject);
 		// DragVisual->SetDesiredSizeInViewport(FVector2D(StaticItemObject->dimensions.X * tileSize, StaticItemObject->dimensions.Y * tileSize));
 
-		AGimmick* gm = gridWidget->FindMatchingActor(thisItemObject);
-		int32 switcherIdx = gridWidget->GetSwitcherIdx(gm) + thisItemObject->rotationImgCheck;
-
-		UE_LOG(LogTemp, Warning, TEXT("!!! SWITCHER INDEX NUM IS %d"), switcherIdx);
-
-		if (switcherIdx != -1 && ItemImgSwitcher)
+		if (thisItemObject->bIsDraggable == true)
 		{
-			DragVisual->ItemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
+			AGimmick* gm = gridWidget->FindMatchingActor(thisItemObject);
+			int32 switcherIdx = gridWidget->GetSwitcherIdx(gm) + thisItemObject->rotationImgCheck;
+
+			UE_LOG(LogTemp, Warning, TEXT("!!! SWITCHER INDEX NUM IS %d"), switcherIdx);
+
+			if (switcherIdx != -1 && ItemImgSwitcher)
+			{
+				DragVisual->ItemImgSwitcher->SetActiveWidgetIndex(switcherIdx);
+			}
+
+			UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(MyCanvas);
+
+			// UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(DragVisual->Slot);
+			UCanvasPanelSlot* CanvasSlot = rootCanvas->AddChildToCanvas(DragVisual);
+
+			if (CanvasSlot)
+			{
+				CanvasSlot->SetSize(FVector2D(thisItemObject->dimensions.X * tileSize, thisItemObject->dimensions.Y * tileSize));
+
+				UE_LOG(LogTemp, Warning, TEXT("!!! staticItemObject size : (%f, %f)"), thisItemObject->dimensions.X * tileSize, thisItemObject->dimensions.Y * tileSize);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("bbb"));
+			}
+
+			// 두 방법 동일한 결과
+			UMyDragDropOperation* dragDropOperation = NewObject<UMyDragDropOperation>(this);
+			// UMyDragDropOperation* dragDropOperation = Cast<UMyDragDropOperation>(UWidgetBlueprintLibrary::CreateDragDropOperation(UMyDragDropOperation::StaticClass()));
+
+			if (dragDropOperation)
+			{
+				dragDropOperation->Payload = thisItemObject;
+
+
+				dragDropOperation->DefaultDragVisual = rootCanvas;  // 드래그 시 보일 위젯 설정
+				// dragDropOperation->draggedItemObj->dimensions
+				dragDropOperation->Pivot = EDragPivot::CenterCenter;
+
+				/*this->size.X = thisItemObject->dimensions.X * tileSize;
+				this->size.Y = thisItemObject->dimensions.Y * tileSize;*/
+
+				dragDropOperation->draggedItemObj = thisItemObject;
+
+				UE_LOG(LogTemp, Warning, TEXT("My size : (%f, %f)"), this->size.X, this->size.Y);
+				//UE_LOG(LogTemp, Warning, TEXT("this itemObject dimension : (%d, %d)"), DragVisual->thisItemObject->dimensions.X, DragVisual->thisItemObject->dimensions.Y);
+
+				// 드래그를 시작하면 인벤토리에서 제거된 것으로 간주하고 remove
+				RemoveItem(thisItemObject);
+				RemoveFromParent();
+
+				OutOperation = dragDropOperation;
+
 		}
-
-		UCanvasPanel* rootCanvas = Cast<UCanvasPanel>(MyCanvas);
-
-		// UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(DragVisual->Slot);
-		UCanvasPanelSlot* CanvasSlot = rootCanvas->AddChildToCanvas(DragVisual);
-
-		if (CanvasSlot)
-		{
-			CanvasSlot->SetSize(FVector2D(thisItemObject->dimensions.X * tileSize, thisItemObject->dimensions.Y * tileSize));
-
-			UE_LOG(LogTemp, Warning, TEXT("!!! staticItemObject size : (%f, %f)"), thisItemObject->dimensions.X * tileSize, thisItemObject->dimensions.Y * tileSize);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("bbb"));
-		}
-
-		// 두 방법 동일한 결과
-		UMyDragDropOperation* dragDropOperation = NewObject<UMyDragDropOperation>(this);
-		// UMyDragDropOperation* dragDropOperation = Cast<UMyDragDropOperation>(UWidgetBlueprintLibrary::CreateDragDropOperation(UMyDragDropOperation::StaticClass()));
-
-		if (dragDropOperation)
-		{
-			dragDropOperation->Payload = thisItemObject;
-
-
-			dragDropOperation->DefaultDragVisual = rootCanvas;  // 드래그 시 보일 위젯 설정
-			// dragDropOperation->draggedItemObj->dimensions
-			dragDropOperation->Pivot = EDragPivot::CenterCenter;
-
-			/*this->size.X = thisItemObject->dimensions.X * tileSize;
-			this->size.Y = thisItemObject->dimensions.Y * tileSize;*/
-
-			dragDropOperation->draggedItemObj = thisItemObject;
-
-			UE_LOG(LogTemp, Warning, TEXT("My size : (%f, %f)"), this->size.X, this->size.Y);
-			//UE_LOG(LogTemp, Warning, TEXT("this itemObject dimension : (%d, %d)"), DragVisual->thisItemObject->dimensions.X, DragVisual->thisItemObject->dimensions.Y);
-
-			// 드래그를 시작하면 인벤토리에서 제거된 것으로 간주하고 remove
-			RemoveItem(thisItemObject);
-			RemoveFromParent();
-
-			OutOperation = dragDropOperation;
 		}
 	}
 	UE_LOG(LogTemp, Warning, TEXT("!!! MY ACTIVETYPE NUM IS %d"), DragVisual->thisItemObject->itemActiveType);

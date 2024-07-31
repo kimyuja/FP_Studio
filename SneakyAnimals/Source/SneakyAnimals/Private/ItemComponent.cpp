@@ -4,6 +4,7 @@
 #include "ItemComponent.h"
 #include "ItemObject.h"
 #include "TileStructure.h"
+#include "BS_HandleGimmick.h"
 // #include <../../../../../../../Source/Runtime/CoreUObject/Public/UObject/NoExportTypes.h>
 
 // Sets default values for this component's properties
@@ -54,17 +55,35 @@ bool UItemComponent::TryAddItem(UItemObject* _ItemObject)
 	// 그리드에 추가하려는 아이템을 받고 이 아이템이 유효한지 확인
 	if (IsValid(_ItemObject))
 	{
-		// leftTop 부터 시작해 rightBottom 까지 그리드의 각 타일에 대해 해당 타일 주변에 추가할 아이템을 배치할 수 있는 만큼의 공간이 있는지 확인  
-		for (int32 idx = 0; idx < items.Num(); idx++)
+		// 핸들 기믹은 고정된 자리에 배치되어야 한다
+		if (_ItemObject->itemClass == ABS_HandleGimmick::StaticClass())
 		{
-			bool bRoomAvailable = IsRoomAvailable(_ItemObject, idx);
-			UE_LOG(LogTemp, Warning, TEXT("idx: %d"), idx);
+			int32 specialIndex = 40;	// 핸들이 배치될 그리드 인덱스
 
-			// 공간이 있다면 인덱스에 항목 추가하고 true 반환
-			if (bRoomAvailable)
+			if (IsRoomAvailable(_ItemObject, specialIndex))
 			{
-				AddItemAt(_ItemObject, idx);
+				AddItemAt(_ItemObject, specialIndex);
+				// _ItemObject->bIsDraggable = false;
+
 				return true;
+			}
+			return false;
+		}
+
+		else
+		{
+			// leftTop 부터 시작해 rightBottom 까지 그리드의 각 타일에 대해 해당 타일 주변에 추가할 아이템을 배치할 수 있는 만큼의 공간이 있는지 확인  
+			for (int32 idx = 0; idx < items.Num(); idx++)
+			{
+				bool bRoomAvailable = IsRoomAvailable(_ItemObject, idx);
+				UE_LOG(LogTemp, Warning, TEXT("idx: %d"), idx);
+
+				// 공간이 있다면 인덱스에 항목 추가하고 true 반환
+				if (bRoomAvailable)
+				{
+					AddItemAt(_ItemObject, idx);
+					return true;
+				}
 			}
 		}
 		return false;
