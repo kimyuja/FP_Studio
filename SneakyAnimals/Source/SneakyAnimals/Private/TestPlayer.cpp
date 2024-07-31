@@ -928,7 +928,16 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 			}
 		}
 	}*/
-	
+	curStageNum++;
+	gameState->stageNum = curStageNum;
+	if(HasAuthority())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Server Stage Num : %d"), gameState->stageNum);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Client Stage Num : %d"), gameState->stageNum);
+	}
 	UE_LOG(LogTemp, Warning, TEXT("Show???????????????"));
 }
 

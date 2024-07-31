@@ -211,6 +211,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
 	int32 endNum = 1;
 
+	int32 curStageNum = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
+	bool bIsCustomEnd = false;
+
 	class AGimmick* g;
 
 	FTimerHandle falloverT;

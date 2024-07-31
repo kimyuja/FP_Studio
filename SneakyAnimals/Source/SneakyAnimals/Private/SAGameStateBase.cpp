@@ -188,7 +188,7 @@ void ASAGameStateBase::MoveNextStage(FVector moveLoc)
 		players[i]->SetActorLocation(moveLoc);
 		UE_LOG(LogTemp, Warning, TEXT("player %d Move"), i);
 	}
-	stageNum++;
+	//stageNum++;
 }
 
 void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
