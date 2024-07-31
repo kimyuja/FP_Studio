@@ -53,7 +53,7 @@ public:
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
 	TArray<class ATestPlayer*> players;
-	
+
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
 	bool bIsMixed = false;
 
@@ -65,7 +65,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetPlayerNum();
-	
+
 	UFUNCTION(BlueprintCallable)
 	void SetEndNum();
 

@@ -880,7 +880,7 @@ void ATestPlayer::MultiRPC_ClearStage_Implementation()
 void ATestPlayer::ServerRPC_MoveStage_Implementation()
 {
 	MultiRPC_MoveStage(gameState->stageLoc[gameState->stageNum]);
-	UE_LOG(LogTemp, Warning, TEXT("Stage %d"), gameState->stageNum);
+	UE_LOG(LogTemp, Warning, TEXT("Stage %d (ServerRPC_MoveStage)"), gameState->stageNum);
 }
 
 void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
@@ -912,8 +912,8 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 		if (!HasAuthority())
 		{
 			// On the Client
-			ServerRPC_StartGetFinalScore();	
-		} 
+			ServerRPC_StartGetFinalScore();
+		}
 		else
 		{
 			// On the Server
@@ -937,19 +937,6 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 			}
 		}
 	}
-	/*if (gameState->stageNum == 0)
-	{
-		for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
-		{
-			if (p->mainUI)
-			{
-				p->mainUI->maxtime = 90.0;
-				p->mainUI->SetTimerShow(true);
-				UE_LOG(LogTemp, Warning, TEXT("Show!!!!!!!!!!!!!!!!!!!"));
-			}
-		}
-	}*/
-	
 }
 
 void ATestPlayer::ServerRPC_FadeOut_Implementation(bool _bInOut)
