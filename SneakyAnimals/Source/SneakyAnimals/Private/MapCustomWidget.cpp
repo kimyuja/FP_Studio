@@ -43,6 +43,7 @@
 #include "BS_HandleGimmick.h"
 #include "BS_LaserGimmick.h"
 #include "BS_SwitchGimmick.h"
+#include <../../../../../../../Source/Runtime/SlateCore/Public/Fonts/SlateFontInfo.h>
 
 bool UMapCustomWidget::Initialize()
 {
@@ -108,7 +109,8 @@ void UMapCustomWidget::NativeConstruct()
 
 	if (canvasSlot)
 	{
-		gswPos = canvasSlot->GetPosition();
+		// gswPos = canvasSlot->GetPosition();
+		gswPos = FVector2D(620.f, -220.f);
 	}
 	
 	if (playerRandNum != -1)
@@ -264,6 +266,14 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!"));
 
+	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->Font;
+	fontInfo1.Size = 22.f;
+	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo1);
+
+	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->Font;
+	fontInfo2.Size = 22.f;
+	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
+
 	// UE_LOG(LogTemp, Warning, TEXT("bBookShelfInWorld value is %d"), gimmickSelectionWidget->bBookShelfInWorld);
 
 	// ¸¶³àÀÇÁý
@@ -272,6 +282,14 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 		if (!gimmickSelectionWidget->bBookShelfInWorld)
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
+
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Nearby Players"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
+
+			fontInfo1.Size = 13.f;
+			gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
+			fontInfo2.Size = 16.f;
+			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
 			HandleButtonClicked(GActorBtn1, gswPos);
 		}
@@ -283,6 +301,9 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
 
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To All"));
+
 			HandleButtonClicked(GActorBtn1, gswPos);
 		}
 	}
@@ -292,6 +313,12 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 		if (!gimmickSelectionWidget->bBottleInWorld)
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
+
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
+
+			fontInfo2.Size = 16.f;
+			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
 			HandleButtonClicked(GActorBtn1, gswPos);
 		}
@@ -303,6 +330,12 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
 
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Random One"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
+
+			fontInfo1.Size = 16.f;
+			gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
+
 			HandleButtonClicked(GActorBtn1, gswPos);
 		}
 	}
@@ -310,6 +343,14 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 
 void UMapCustomWidget::OnGActorBtn2Clicked()
 {
+	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->Font;
+	fontInfo1.Size = 22.f;
+	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
+
+	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->Font;
+	fontInfo2.Size = 22.f;
+	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
+
 	UE_LOG(LogTemp, Warning, TEXT("btn2 Clicked!"));
 
 	// ¸¶³àÀÇÁý
@@ -318,6 +359,9 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 		if (!gimmickSelectionWidget->bBroomstickInWorld)
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
+
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
 
 			gswPos += FVector2D(0.f, 150.f);
 			HandleButtonClicked(GActorBtn2, gswPos);
@@ -330,6 +374,9 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
 
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
+
 			gswPos += FVector2D(0.f, 150.f);
 			HandleButtonClicked(GActorBtn2, gswPos);
 		}
@@ -340,6 +387,13 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 		if (!gimmickSelectionWidget->bCartInWorld)
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
+
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self")); 
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
+
+			fontInfo2.Size = 16.f;
+			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
+
 
 			gswPos += FVector2D(0.f, 150.f);
 			HandleButtonClicked(GActorBtn2, gswPos);
@@ -352,6 +406,9 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
 
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To All"));
+
 			gswPos += FVector2D(0.f, 150.f);
 			HandleButtonClicked(GActorBtn2, gswPos);
 		}
@@ -361,6 +418,14 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 
 void UMapCustomWidget::OnGActorBtn3Clicked()
 {
+	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->Font;
+	fontInfo1.Size = 22.f;
+	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
+
+	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->Font;
+	fontInfo2.Size = 22.f;
+	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
+
 	UE_LOG(LogTemp, Warning, TEXT("btn3 Clicked!"));
 
 	// ¸¶³àÀÇÁý
@@ -369,6 +434,12 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 		if (!gimmickSelectionWidget->bPotionInWorld)
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
+
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To All Except Self"));
+
+			fontInfo2.Size = 13.5f;
+			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
 			gswPos += FVector2D(0.f, 370.f);
 			HandleButtonClicked(GActorBtn3, gswPos);
@@ -380,6 +451,12 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 		if (!gimmickSelectionWidget->bPressBtnInWorld)
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
+	
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To All"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
+
+			fontInfo2.Size = 16.f;
+			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
 			gswPos += FVector2D(0.f, 370.f);
 			HandleButtonClicked(GActorBtn3, gswPos);
@@ -392,6 +469,9 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
 
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
+
 			gswPos += FVector2D(0.f, 370.f);
 			HandleButtonClicked(GActorBtn3, gswPos);
 		}
@@ -403,6 +483,9 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
 
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To All"));
+
 			gswPos += FVector2D(0.f, 370.f);
 			HandleButtonClicked(GActorBtn3, gswPos);
 		}
@@ -413,12 +496,29 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn4 Clicked!"));
 
+	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->Font;
+	fontInfo1.Size = 22.f;
+	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
+
+	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->Font;
+	fontInfo2.Size = 22.f;
+	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
+
 	// ¸¶³àÀÇÁý
 	if (playerRandNum == 0)
 	{
 		if (!gimmickSelectionWidget->bPotInWorld)
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
+
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Random One"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
+
+			fontInfo1.Size = 16.f;
+			gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
+
+			fontInfo2.Size = 16.f;
+			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
 			gswPos += FVector2D(0.f, 520.f);
 			HandleButtonClicked(GActorBtn4, gswPos);
@@ -431,6 +531,12 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Random One"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
+
+			fontInfo1.Size = 16.f;
+			gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
+
 			gswPos += FVector2D(0.f, 520.f);
 			HandleButtonClicked(GActorBtn4, gswPos);
 		}
@@ -442,6 +548,12 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Nearby Players"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
+
+			fontInfo1.Size = 13.f;
+			gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
+
 			gswPos += FVector2D(0.f, 520.f);
 			HandleButtonClicked(GActorBtn4, gswPos);
 		}
@@ -452,6 +564,9 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 		if (!gimmickSelectionWidget->bSwitchInWorld)
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
+
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To All"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
 
 			gswPos += FVector2D(0.f, 520.f);
 			HandleButtonClicked(GActorBtn4, gswPos);

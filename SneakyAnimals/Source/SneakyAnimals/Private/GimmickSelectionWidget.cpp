@@ -95,9 +95,6 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 		{
 			gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 0);
 
-			GmTxt1->SetText(FText::FromString("ToAll"));
-			GmTxt2->SetText(FText::FromString("ToRandomOne"));
-
 			bBookShelfInWorld = true;
 		}
 		else if (buttonName == "GActorBtn2")
