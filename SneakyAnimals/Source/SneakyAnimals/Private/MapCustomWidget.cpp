@@ -44,6 +44,7 @@
 #include "BS_LaserGimmick.h"
 #include "BS_SwitchGimmick.h"
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Fonts/SlateFontInfo.h>
+#include <../../../../../../../Source/Runtime/Engine/Classes/Components/AudioComponent.h>
 
 bool UMapCustomWidget::Initialize()
 {
@@ -128,6 +129,12 @@ void UMapCustomWidget::NativeConstruct()
 
 	UE_LOG(LogTemp, Error, TEXT("PLAYER RANDOM NUM IS %d"), playerRandNum);
 
+	if (customUIBgm)
+	{
+		audioComponent = UGameplayStatics::SpawnSound2D(this, customUIBgm);
+	}
+
+
 }
 
 bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
@@ -179,6 +186,14 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 		return false;
 	}
 	return false;
+}
+
+void UMapCustomWidget::NativeDestruct()
+{
+	if (customUIBgm)
+	{
+		audioComponent->Stop();
+	}
 }
 
 void UMapCustomWidget::StartTimer()
