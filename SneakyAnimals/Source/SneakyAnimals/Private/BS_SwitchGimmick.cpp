@@ -89,11 +89,6 @@ int32 ABS_SwitchGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	if (deltatime > 3)
-	{
-		GetWorldTimerManager().PauseTimer(dropT);
-	}
-
 	switch (activeType)
 	{
 	case 0:
@@ -139,7 +134,7 @@ void ABS_SwitchGimmick::DropMe(AActor* ActivePlayer)
 	dropP->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetWorldTimerManager().SetTimer(dropT, [&]()
 		{
-			deltatime += GetWorld()->GetDeltaSeconds();
+			timerCheck += GetWorld()->GetDeltaSeconds();
 			dropP->SetActorLocation(dropP->GetActorLocation() - FVector(0,0,-1));
 		}, 0.03, true, 0);
 	dropP->bIsDie = true;

@@ -173,6 +173,7 @@ void ASP_CartGimmick::RoadRoller(AActor* ActivePlayer)
 			FVector targetLoc = (cartTarget->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 			targetLoc = FVector(targetLoc.X, targetLoc.Y, 0);
 			SetActorLocation(GetActorLocation() + targetLoc * 30.0);
+			timerCheck += GetWorld()->GetDeltaSeconds();
 		}, 0.03f, true, 0);
 }
 
@@ -185,6 +186,7 @@ void ASP_CartGimmick::RollingCart()
 			FVector targetLoc = (FVector(0, 0, 0) - GetActorLocation()).GetSafeNormal();
 			UE_LOG(LogTemp, Warning, TEXT("Door Boom!"));
 			SetActorLocation(GetActorLocation() + targetLoc * 100.0);
+			timerCheck += GetWorld()->GetDeltaSeconds();
 		}, 0.03f, true, 0);
 	lerpTime = 0;
 }

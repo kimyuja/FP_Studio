@@ -157,6 +157,7 @@ void ABS_GoldBarGimmick::Golden(AActor* ActivePlayer)
 			FVector targetLoc = (_target->GetActorLocation() - activeObject->GetComponentLocation()).GetSafeNormal();
 			//targetLoc = FVector(targetLoc.X, targetLoc.Y, 0);
 			activeObject->SetRelativeLocation(activeObject->GetRelativeLocation() + targetLoc * 30.0);
+			timerCheck += GetWorld()->GetDeltaSeconds();
 		}, 0.03f, true, 0);
 }
 

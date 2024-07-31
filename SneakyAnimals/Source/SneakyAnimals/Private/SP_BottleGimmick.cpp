@@ -50,12 +50,12 @@ void ASP_BottleGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (timerCheck > 5.0)
+	/*if (timerCheck > 5.0)
 	{
 		GetWorldTimerManager().PauseTimer(sonT);
 		GetWorldTimerManager().ClearTimer(sonT);
 		timerCheck = 0;
-	}
+	}*/
 	if ((_target && FVector::Dist(GetActorLocation(), _target->GetActorLocation()) < 100.0))
 	{
 		UE_LOG(LogTemp, Warning, TEXT(" Shoot!!!!!!!!!!!"));

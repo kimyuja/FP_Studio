@@ -55,6 +55,12 @@ void AGimmick::BeginPlay()
 void AGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (timerCheck > 5.0)
+	{
+		GetWorldTimerManager().ClearAllTimersForObject(this);
+		timerCheck = 0;
+	}
 }
 
 int32 AGimmick::OnMyActive(AActor* ActivePlayer)
