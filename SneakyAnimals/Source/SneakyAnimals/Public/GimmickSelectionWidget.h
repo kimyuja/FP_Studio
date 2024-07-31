@@ -35,6 +35,14 @@ public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UButton* ClearBtn;
 
+	
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* GmTxt1;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* GmTxt2;
+
+
 	UPROPERTY()
 	FOnCustomMouseLeaveEvent OnCustomMouseLeave;
 	UPROPERTY(BlueprintAssignable, Category = "Event")

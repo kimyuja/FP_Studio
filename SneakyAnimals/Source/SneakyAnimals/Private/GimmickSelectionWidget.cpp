@@ -28,6 +28,7 @@
 #include <MapCustomWidget.h>
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Widgets/InvalidateWidgetReason.h>
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Styling/SlateTypes.h>
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/TextBlock.h>
 
 void UGimmickSelectionWidget::NativeConstruct()
 {
@@ -93,6 +94,10 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 		if (buttonName == "GActorBtn1")
 		{
 			gridWidget->BindItemObjByBtn(AWH_BookshelfGimmick::StaticClass(), 0);
+
+			GmTxt1->SetText(FText::FromString("ToAll"));
+			GmTxt2->SetText(FText::FromString("ToRandomOne"));
+
 			bBookShelfInWorld = true;
 		}
 		else if (buttonName == "GActorBtn2")

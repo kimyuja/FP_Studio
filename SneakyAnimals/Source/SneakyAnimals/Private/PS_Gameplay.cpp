@@ -4,6 +4,7 @@
 #include "PS_Gameplay.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include "SAGameStateBase.h"
+#include <../../../../../../../Source/Runtime/Engine/Public/Net/UnrealNetwork.h>
 
 void APS_Gameplay::BeginPlay()
 {
