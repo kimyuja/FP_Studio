@@ -6,6 +6,8 @@
 #include "TestPlayer.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/Net/UnrealNetwork.h>
 #include "Gimmick.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/GameStateBase.h>
+#include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/PlayerState.h>
 
 
 
@@ -134,6 +136,34 @@ FText ASAModeBase::MakeClearTime()
 
     /*FString clearS = FString::FromInt(clearTime[stageNum - 1]/60) + ":" + FString::FromInt((int)clearTime[stageNum - 1] % 60);
     return FText::FromString(clearS);*/
+}
+
+bool ASAModeBase::AreAllPlayersLoaded()
+{
+    if (GameState)
+    {
+        // Get the list of all PlayerControllers
+        for (APlayerState* PlayerState : GameState->PlayerArray)
+        {
+            if (PlayerState)
+            {
+                APlayerController* PlayerController = Cast<APlayerController>(PlayerState->GetOwningController());
+                // Check if the player is correctly loaded into the game
+                // You might want to implement additional checks here, e.g. PlayerState
+                if (!PlayerController)
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("PlayerController cast failed."));
+                    return false;
+                }
+                if (!PlayerController->HasClientLoadedCurrentWorld())
+                {
+                    return false; // At least one player hasn't finished loading
+                }
+            }
+        }
+        return true; // All players have finished loading
+    }
+    return false; // GameState is null or some error occurred
 }
 
 void ASAModeBase::ServerRPC_SetClearInstance_Implementation()

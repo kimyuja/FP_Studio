@@ -58,6 +58,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FText MakeClearTime();
 
+    UFUNCTION(BlueprintCallable, Category = "Game")
+    bool AreAllPlayersLoaded();
+
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_SetClearInstance();
 
