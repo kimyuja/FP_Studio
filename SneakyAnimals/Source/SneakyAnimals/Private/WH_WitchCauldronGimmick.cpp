@@ -85,6 +85,7 @@ UItemObject* AWH_WitchCauldronGimmick::GetDefaultItemObject()
 		newItemObject->beginRot = FRotator(0.f, 0.f, 0.f);
 		newItemObject->setWorldActorRot = 0;
 		newItemObject->rotationImgCheck = 0;
+		newItemObject->bIsDraggable = true;
 	}
 	return newItemObject;
 }

@@ -56,6 +56,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	float rotationAngle;
 
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Item")
+	bool bIsDraggable;
+
 	UFUNCTION()
 	void RotateGA(class UItemObject* _itemObj);
 
