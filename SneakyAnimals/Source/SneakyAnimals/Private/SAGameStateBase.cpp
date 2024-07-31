@@ -166,7 +166,7 @@ FText ASAGameStateBase::MakeClearTime()
 
 void ASAGameStateBase::MoveNextStage(FVector moveLoc)
 {
-    if (players.Num() == 0)
+    /*if (players.Num() == 0)
     {
         for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
         {
@@ -182,7 +182,14 @@ void ASAGameStateBase::MoveNextStage(FVector moveLoc)
     {
         players[i]->SetActorLocation(moveLoc);
         UE_LOG(LogTemp, Warning, TEXT("player %d Move to Stage %d Location"), i, stageNum);
+    }*/
+
+    for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+    {
+        it->SetActorLocation(moveLoc);
+        UE_LOG(LogTemp, Warning, TEXT("player %d Move to Stage %d Location"), it->playerNum, stageNum);
     }
+
     //stageNum++;
 }
 

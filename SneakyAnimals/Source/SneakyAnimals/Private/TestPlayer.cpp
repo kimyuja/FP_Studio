@@ -815,7 +815,7 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 	{
 		mainUI->SetTimerShow(false);
 	}
-	if (bCanActive)
+	if (bCanActive && g->bCanActive)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("aP = %f, %f, %f"), _aP->GetActorLocation().X, _aP->GetActorLocation().Y, _aP->GetActorLocation().Z);
 		//UE_LOG(LogTemp, Warning, TEXT("P = %f, %f, %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
@@ -826,6 +826,7 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 			ClearStage();
 			UE_LOG(LogTemp, Warning, TEXT("1111111111111111111!!!!!!!!"));
 		}*/
+		g = nullptr;
 	}
 }
 
@@ -879,8 +880,22 @@ void ATestPlayer::MultiRPC_ClearStage_Implementation()
 
 void ATestPlayer::ServerRPC_MoveStage_Implementation()
 {
+	/*for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	{
+		curStageNum++;
+		p->gameState->stageNum = curStageNum;
+		p->respawnLoc = gameState->stageLoc[gameState->stageNum];
+		p->bGameIsStart = true;
+	}*/
+	//for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	//{
+	//	//p->respawnLoc = moveLoc;
+	//	p->bGameIsStart = true;
+	//	clearUI->SetVisibility(ESlateVisibility::Hidden);
+	//	UE_LOG(LogTemp, Warning, TEXT("Clean"));
+	//}
 	MultiRPC_MoveStage(gameState->stageLoc[gameState->stageNum]);
-	UE_LOG(LogTemp, Warning, TEXT("Stage %d (ServerRPC_MoveStage)"), gameState->stageNum);
+	//UE_LOG(LogTemp, Warning, TEXT("Stage %d (ServerRPC_MoveStage)"), gameState->stageNum);
 }
 
 void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
@@ -889,21 +904,28 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 	{
 		curStageNum++;
 		gameState->stageNum = curStageNum;
+		respawnLoc = gameState->stageLoc[gameState->stageNum];
+	}
+	//bGameIsStart = true;
+	if (IsLocallyControlled())
+	{
+		/*curStageNum++;
+		gameState->stageNum = curStageNum;*/
 		UE_LOG(LogTemp, Warning, TEXT("Server Stage Num : %d"), gameState->stageNum);
 	}
 	else
 	{
-		gameState->stageNum = curStageNum;
+		/*gameState->stageNum = curStageNum;*/
 		UE_LOG(LogTemp, Warning, TEXT("Client Stage Num : %d"), gameState->stageNum);
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Show???????????????"));
 	gameState->MoveNextStage(moveLoc);
 	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 	{
-		p->respawnLoc = moveLoc;
+		//p->respawnLoc = moveLoc;
 		p->bGameIsStart = true;
+		clearUI->SetVisibility(ESlateVisibility::Hidden);
 	}
-	clearUI->SetVisibility(ESlateVisibility::Hidden);
 	UE_LOG(LogTemp, Warning, TEXT("MOOOOOOOOOOOOOOOOOOOOOOOOOOve        %d"), gameState->stageNum);
 	if (gameState->stageNum > 4)
 	{

@@ -69,7 +69,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	if (!bCanActive)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
-		return -1;
+		return 3;
 	}
 	//Cast<ATestPlayer>(ActivePlayer)->bIsDie = true;
 	//Cast<ATestPlayer>(ActivePlayer)->bCanActive = false;
@@ -145,7 +145,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 			it->ServerRPC_ClearStage();
 		}
 	}
-	if (sounds.Num() == 3)
+	if (bCanActive && sounds.Num() == 3)
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sounds[_key], ActivePlayer->GetActorLocation());
 		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d"), _key);
@@ -153,6 +153,9 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	//ServerRPC_OnMyActive(ActivePlayer);
 	
 	//ServerRPC_OnMyActive(ActivePlayer);
+
+	bCanActive = false;
+
 	return _key;
 }
 
