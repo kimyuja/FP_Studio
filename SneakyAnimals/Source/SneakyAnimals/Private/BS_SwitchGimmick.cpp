@@ -90,7 +90,7 @@ int32 ABS_SwitchGimmick::OnMyActive(AActor* ActivePlayer)
 	}
 
 
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		DangerousGaurd(ActivePlayer);

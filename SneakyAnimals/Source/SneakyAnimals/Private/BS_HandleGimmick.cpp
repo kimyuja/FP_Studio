@@ -89,7 +89,7 @@ int32 ABS_HandleGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 	
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		Pikachu(ActivePlayer);

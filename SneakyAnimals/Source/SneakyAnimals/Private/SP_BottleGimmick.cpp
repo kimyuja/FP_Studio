@@ -107,7 +107,7 @@ int32 ASP_BottleGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		BottleTrap(ActivePlayer);

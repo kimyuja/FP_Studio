@@ -113,7 +113,7 @@ int32 ASP_CartGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		Defective(ActivePlayer);

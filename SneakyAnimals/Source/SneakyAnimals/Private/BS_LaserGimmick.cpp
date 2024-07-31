@@ -90,7 +90,7 @@ int32 ABS_LaserGimmick::OnMyActive(AActor* ActivePlayer)
 		return -1;
 	}
 
-	switch (activeType)
+	switch (Myactivetype)
 	{
 	case 0:
 		ElectricGrill(ActivePlayer);
