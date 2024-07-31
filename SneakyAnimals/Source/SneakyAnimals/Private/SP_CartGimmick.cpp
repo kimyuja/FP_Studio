@@ -181,12 +181,12 @@ void ASP_CartGimmick::RollingCart()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
-	GetWorldTimerManager().SetTimer(doorT, [&]()
+	/*GetWorldTimerManager().SetTimer(doorT, [&]()
 		{
 			FVector targetLoc = (FVector(0, 0, 0) - GetActorLocation()).GetSafeNormal();
 			UE_LOG(LogTemp, Warning, TEXT("Door Boom!"));
 			SetActorLocation(GetActorLocation() + targetLoc * 100.0);
 			timerCheck += GetWorld()->GetDeltaSeconds();
-		}, 0.03f, true, 0);
+		}, 0.03f, true, 0);*/
 	lerpTime = 0;
 }
