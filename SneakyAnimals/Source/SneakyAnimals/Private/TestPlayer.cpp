@@ -150,6 +150,7 @@ void ATestPlayer::BeginPlay()
 		//gameState->SetEndNum();
 	}
 
+	mainUI = Cast<UW_InGameUI>(CreateWidget(GetWorld(), mainUIF));
 	if (IsLocallyControlled())
 	{
 		mainUI = Cast<UW_InGameUI>(CreateWidget(GetWorld(), mainUIF));
@@ -169,6 +170,10 @@ void ATestPlayer::BeginPlay()
 			}
 			mainUI->SetTimerShow(false);
 		//}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Main Fail!!!!!!!!"));
 	}
 
 	if (emoUI)
@@ -903,7 +908,7 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 			MultiRPC_StartGetFinalScore();
 		}
 	}
-	else if (gameState->stageNum > 1)
+	else if (gameState->stageNum >= 1)
 	{
 		//bGameIsStart = true;
 		for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
