@@ -41,11 +41,14 @@ void ALevelSound_SP::FadeOutSound(float FadeOutDuration)
 	{
 		AudioComponent->FadeOut(FadeOutDuration, 0.0f);
 
-		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+		FTimerHandle TimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
 			{
-				AudioComponent->Stop();
-			});
-
+				if (AudioComponent)
+				{
+					AudioComponent->Stop();
+				}
+			}, 4.0f, false);
 	}
 }
 

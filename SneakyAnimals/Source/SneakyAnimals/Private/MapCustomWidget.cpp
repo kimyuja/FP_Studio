@@ -192,7 +192,16 @@ void UMapCustomWidget::NativeDestruct()
 {
 	if (customUIBgm)
 	{
-		audioComponent->Stop();
+		audioComponent->FadeOut(2.0f, 0.0f);
+
+		FTimerHandle TimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
+			{
+				if (audioComponent)
+				{
+					audioComponent->Stop();
+				}
+			}, 2.0f, false);
 	}
 }
 
