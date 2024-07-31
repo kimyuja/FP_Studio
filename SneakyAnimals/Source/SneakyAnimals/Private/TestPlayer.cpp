@@ -908,11 +908,15 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 		//bGameIsStart = true;
 		for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 		{
-			if (IsLocallyControlled())
+			if (p->mainUI)
 			{
 				p->mainUI->maxtime = 180.0;
 				p->mainUI->SetTimerShow(true);
 				UE_LOG(LogTemp, Warning, TEXT("Show!!!!!!!!!!!!!!!!!!!"));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("MangGam!!!!!!!!!!!!!!!!!!!"));
 			}
 		}
 	}
