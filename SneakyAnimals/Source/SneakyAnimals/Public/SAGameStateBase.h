@@ -65,6 +65,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetPlayerNum();
+	
+	UFUNCTION(BlueprintCallable)
+	void SetEndNum();
 
 	UFUNCTION(BlueprintCallable)
 	void SetDeathCountUp(int32 playerNum);

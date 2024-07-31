@@ -147,6 +147,7 @@ void ATestPlayer::BeginPlay()
 		}
 		gameState->SetStageStart();
 		gameState->SetPlayerNum();
+		gameState->SetEndNum();
 	}
 
 	if (IsLocallyControlled())
