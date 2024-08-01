@@ -945,7 +945,6 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc, int32 _stag
 		respawnLoc = gameState->stageLoc[gameState->stageNum];
 		UE_LOG(LogTemp, Warning, TEXT("Check : %d"), check);
 	}*/
-	respawnLoc = moveLoc;
 	gameState->stageNum = _stageNum;
 	bGameIsStart = true;
 	if (HasAuthority())
@@ -962,9 +961,10 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc, int32 _stag
 	
 	UE_LOG(LogTemp, Warning, TEXT("Show???????????????"));
 	gameState->MoveNextStage(moveLoc);
+	//respawnLoc = moveLoc;
 	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 	{
-		//p->respawnLoc = moveLoc;
+		p->respawnLoc = moveLoc;
 		p->bGameIsStart = true;
 		clearUI->SetVisibility(ESlateVisibility::Hidden);
 	}
