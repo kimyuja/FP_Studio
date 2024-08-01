@@ -25,7 +25,10 @@ void ASAGameStateBase::BeginPlay()
 void ASAGameStateBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	clearTime[stageNum - 1] += DeltaTime;
+    if (stageNum <= 4)
+    {
+        clearTime[stageNum - 1] += DeltaTime;
+    }
 	//UE_LOG(LogTemp, Warning, TEXT("STAGE %d, %f"), (stageNum - 1), clearTime[stageNum - 1]);
 }
 
@@ -186,7 +189,10 @@ void ASAGameStateBase::MoveNextStage(FVector moveLoc)
 
     for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
     {
-        it->SetActorLocation(moveLoc);
+        if (stageNum <= 4)
+        {
+            it->SetActorLocation(stageLoc[stageNum]);
+        }
         UE_LOG(LogTemp, Warning, TEXT("player %d Move to Stage %d Location"), it->playerNum, stageNum);
     }
 

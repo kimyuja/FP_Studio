@@ -140,9 +140,14 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	}
 	if (_key == 2)
 	{
+		//Cast<ATestPlayer>(ActivePlayer)->ClearStage();
 		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 		{
-			it->ServerRPC_ClearStage();
+			if(it->IsLocallyControlled())
+			{
+				it->ServerRPC_ClearStage();
+				break;
+			}
 		}
 	}
 	if (bCanActive && sounds.Num() == 3)

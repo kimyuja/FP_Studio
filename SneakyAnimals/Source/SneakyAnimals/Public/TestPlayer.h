@@ -211,7 +211,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
 	int32 endNum = 1;
 
-	int32 curStageNum = 1;
+	int32 curStageNum = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
 	bool bIsCustomEnd = false;
@@ -227,6 +227,8 @@ public:
 	FTimerHandle ThunderT;
 
 	APlayerController* con;
+
+	int32 check = 0;
 
 	UPROPERTY()
 	TObjectPtr<AClearDoor> CheckDoor;
@@ -304,7 +306,7 @@ public:
 	void ServerRPC_MoveStage();
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MultiRPC_MoveStage(FVector moveLoc);
+	void MultiRPC_MoveStage(FVector moveLoc, int32 _stageNum);
 
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_FadeOut(bool _bInOut);

@@ -253,6 +253,10 @@ void ATestPlayer::Tick(float DeltaTime)
 
 	if (clearUI && clearUI->curtime > 5 && HasAuthority())
 	{
+		//curStageNum++;
+		////gameState->stageNum = curStageNum;
+		//respawnLoc = gameState->stageLoc[gameState->stageNum];
+		UE_LOG(LogTemp, Warning, TEXT("!@!@!@!@!@!@!@!@!@!@!@"));
 		ServerRPC_MoveStage();
 		clearUI->curtime = 0;
 	}
@@ -838,11 +842,21 @@ void ATestPlayer::ClearStage()
 void ATestPlayer::ServerRPC_ClearStage_Implementation()
 {
 	MultiRPC_ClearStage();
+	//curStageNum++;
+	//UE_LOG(LogTemp, Warning, TEXT("%d : %d"), playerNum, curStageNum);
+	/*for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	{
+		if (IsLocallyControlled())
+		{
+			p->curStageNum++;
+			UE_LOG(LogTemp, Warning, TEXT("%d : %d"), p->playerNum, p->curStageNum);
+		}
+	}*/
 }
 
 void ATestPlayer::MultiRPC_ClearStage_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("22222222222222222222!!!!!!!!"));
+	//UE_LOG(LogTemp, Warning, TEXT("22222222222222222222!!!!!!!!"));
 	if (gameState->stageNum == 3)
 	{
 		for (TActorIterator<AUnderTheSea> sea(GetWorld()); sea; ++sea)
@@ -858,16 +872,15 @@ void ATestPlayer::MultiRPC_ClearStage_Implementation()
 			p->mainUI->SetTimerShow(false);
 		}
 	}
-	
 	bCanOpenDoor = true;
 	gameState->bOnGame = false;
 	if (HasAuthority())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("server End!!!!!!!!"));
+		//UE_LOG(LogTemp, Warning, TEXT("server End!!!!!!!!"));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("client End!!!!!!!!"));
+		//UE_LOG(LogTemp, Warning, TEXT("client End!!!!!!!!"));
 	}
 	FTimerHandle clearT;
 	GetWorldTimerManager().SetTimer(clearT, [&]() {
@@ -880,13 +893,6 @@ void ATestPlayer::MultiRPC_ClearStage_Implementation()
 
 void ATestPlayer::ServerRPC_MoveStage_Implementation()
 {
-	/*for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
-	{
-		curStageNum++;
-		p->gameState->stageNum = curStageNum;
-		p->respawnLoc = gameState->stageLoc[gameState->stageNum];
-		p->bGameIsStart = true;
-	}*/
 	//for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 	//{
 	//	//p->respawnLoc = moveLoc;
@@ -894,23 +900,61 @@ void ATestPlayer::ServerRPC_MoveStage_Implementation()
 	//	clearUI->SetVisibility(ESlateVisibility::Hidden);
 	//	UE_LOG(LogTemp, Warning, TEXT("Clean"));
 	//}
-	MultiRPC_MoveStage(gameState->stageLoc[gameState->stageNum]);
+	UE_LOG(LogTemp, Warning, TEXT(" cur %d : %d"), playerNum, curStageNum);
+	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	{
+		p->curStageNum++;
+		UE_LOG(LogTemp, Warning, TEXT("%d : %d"), p->playerNum, p->curStageNum);
+		/*if (IsLocallyControlled())
+		{
+			p->curStageNum++;
+			UE_LOG(LogTemp, Warning, TEXT("%d : %d"), p->playerNum, p->curStageNum);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("FAil %d : %d"), p->playerNum, p->curStageNum);
+		}*/
+	}
+
+	/*if (curStageNum == 0)
+	{
+		curStageNum++;
+	}*/
+
+	MultiRPC_MoveStage(gameState->stageLoc[curStageNum-1], curStageNum);
 	//UE_LOG(LogTemp, Warning, TEXT("Stage %d (ServerRPC_MoveStage)"), gameState->stageNum);
+	//if (HasAuthority() && IsLocallyControlled())
+	//{
+	//	/*for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	//	{
+	//		p->curStageNum++;
+	//		p->gameState->stageNum = curStageNum;
+	//		p->respawnLoc = gameState->stageLoc[gameState->stageNum -1];
+	//		p->bGameIsStart = true;
+	//	}*/
+	//	curStageNum++;
+	//	gameState->stageNum = curStageNum;
+	//	//respawnLoc = gameState->stageLoc[gameState->stageNum];
+	//	UE_LOG(LogTemp, Warning, TEXT("Check : %d"), check);
+	//}
 }
 
-void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
+void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc, int32 _stageNum)
 {
-	if (HasAuthority())
+	/*if (HasAuthority())
 	{
 		curStageNum++;
 		gameState->stageNum = curStageNum;
 		respawnLoc = gameState->stageLoc[gameState->stageNum];
-	}
-	//bGameIsStart = true;
-	if (IsLocallyControlled())
+		UE_LOG(LogTemp, Warning, TEXT("Check : %d"), check);
+	}*/
+	respawnLoc = moveLoc;
+	gameState->stageNum = _stageNum;
+	bGameIsStart = true;
+	if (HasAuthority())
 	{
-		/*curStageNum++;
-		gameState->stageNum = curStageNum;*/
+		//curStageNum++;
+		//gameState->stageNum = curStageNum;
 		UE_LOG(LogTemp, Warning, TEXT("Server Stage Num : %d"), gameState->stageNum);
 	}
 	else
@@ -918,6 +962,7 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc)
 		/*gameState->stageNum = curStageNum;*/
 		UE_LOG(LogTemp, Warning, TEXT("Client Stage Num : %d"), gameState->stageNum);
 	}
+	
 	UE_LOG(LogTemp, Warning, TEXT("Show???????????????"));
 	gameState->MoveNextStage(moveLoc);
 	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
