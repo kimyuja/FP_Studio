@@ -385,6 +385,9 @@ public:
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_Update_PlayerNum_PlayerShowNum(int32 _PlayerNum, int32 _PlayerShowNum);
 
+    UFUNCTION(NetMulticast, Reliable)
+    void MulticastSetOwnerNoSee();
+
 	void Get_Player_Appearance();
 	void Get_Character();
 	void Get_Skins();
