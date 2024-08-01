@@ -147,7 +147,6 @@ void ATestPlayer::BeginPlay()
 		}
 		gameState->SetStageStart();
 		gameState->SetPlayerNum();
-		//gameState->SetEndNum();
 	}
 
 	mainUI = Cast<UW_InGameUI>(CreateWidget(GetWorld(), mainUIF));

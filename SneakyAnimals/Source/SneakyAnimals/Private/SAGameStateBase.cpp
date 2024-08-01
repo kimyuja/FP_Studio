@@ -90,18 +90,6 @@ void ASAGameStateBase::SetPlayerNum()
     }
 }
 
-void ASAGameStateBase::SetEndNum()
-{
-    for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
-    {
-        if (PlayerArray.Num() < 1)
-        {
-            return;
-        }
-        it->endNum = PlayerArray.Num();
-    }
-}
-
 void ASAGameStateBase::SetDeathCountUp(int32 playerNum)
 {
     UE_LOG(LogTemp, Warning, TEXT("stage %d : Player %d"), stageNum, playerNum);
