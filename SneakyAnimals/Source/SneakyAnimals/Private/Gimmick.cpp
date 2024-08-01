@@ -73,7 +73,10 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	}
 	//Cast<ATestPlayer>(ActivePlayer)->bIsDie = true;
 	//Cast<ATestPlayer>(ActivePlayer)->bCanActive = false;
-	_key = 0;
+	for (TActorIterator<AGimmick> g(GetWorld()); g; ++g)
+	{
+		g->_key = 0;
+	}
 	if (Cast<AWH_BookshelfGimmick>(this))
 	{
 		_key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(ActivePlayer);

@@ -296,6 +296,8 @@ public:
 	UFUNCTION()
 	void ClearStage();
 
+	bool bIsEnd = false;
+
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_ClearStage();
 

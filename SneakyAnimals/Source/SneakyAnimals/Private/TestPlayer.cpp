@@ -827,6 +827,16 @@ void ATestPlayer::MultiRPC_ActiveGimmick_Implementation(ATestPlayer* _aP)
 
 void ATestPlayer::ClearStage()
 {
+	if (bIsEnd)
+	{
+		return;
+	}
+	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	{
+		
+		p->bIsEnd = true;
+		
+	}
 	ServerRPC_ClearStage();
 }
 
@@ -848,7 +858,7 @@ void ATestPlayer::ServerRPC_ClearStage_Implementation()
 void ATestPlayer::MultiRPC_ClearStage_Implementation()
 {
 	//UE_LOG(LogTemp, Warning, TEXT("22222222222222222222!!!!!!!!"));
-	if (gameState->stageNum == 3)
+	if (gameState->stageNum == 2)
 	{
 		for (TActorIterator<AUnderTheSea> sea(GetWorld()); sea; ++sea)
 		{
@@ -934,6 +944,12 @@ void ATestPlayer::ServerRPC_MoveStage_Implementation()
 	//	//respawnLoc = gameState->stageLoc[gameState->stageNum];
 	//	UE_LOG(LogTemp, Warning, TEXT("Check : %d"), check);
 	//}
+	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	{
+
+		p->bIsEnd = false;
+
+	}
 }
 
 void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc, int32 _stageNum)
