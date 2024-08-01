@@ -754,7 +754,7 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 		}
 	}
 
-	if (!IsLocallyControlled())
+	if (IsLocallyControlled())
 	{
 		CreateWidget(GetWorld(),voteUI)->AddToViewport(0);
 	}

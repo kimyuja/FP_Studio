@@ -54,7 +54,7 @@ private:
 	FTimerHandle falloverT;
 
 	// 진열장이 무너졌다.(근처 사람들)
-	void RedBull(AActor* ActivePlayer);
+	void WaRRRR(AActor* ActivePlayer);
 	// 꺼내먹은 음식이 유통기한이 지나있었다.(혼자)
 	void Babo(AActor* ActivePlayer);
 	// 진열장 사이에 열쇠를 찾았다.(클리어)

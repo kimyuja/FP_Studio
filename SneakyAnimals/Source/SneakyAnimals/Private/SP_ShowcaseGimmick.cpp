@@ -101,7 +101,7 @@ int32 ASP_ShowcaseGimmick::OnMyActive(AActor* ActivePlayer)
 	switch (Myactivetype)
 	{
 	case 0:
-		RedBull(ActivePlayer);
+		WaRRRR(ActivePlayer);
 		break;
 	case 1:
 		Babo(ActivePlayer);
@@ -118,10 +118,10 @@ int32 ASP_ShowcaseGimmick::OnMyActive(AActor* ActivePlayer)
 	return activeType;
 }
 
-void ASP_ShowcaseGimmick::RedBull(AActor* ActivePlayer)
+void ASP_ShowcaseGimmick::WaRRRR(AActor* ActivePlayer)
 {
 	bCanActive = false;
-	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : RedBull"));
+	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : WaRRRR"));
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 		{
