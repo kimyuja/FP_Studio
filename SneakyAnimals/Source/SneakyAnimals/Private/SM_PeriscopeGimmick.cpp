@@ -51,6 +51,13 @@ void ASM_PeriscopeGimmick::Tick(float DeltaTime)
 
 	lerpTime += DeltaTime;
 
+	if (timerCheck >= 2.0)
+	{
+		GetWorldTimerManager().PauseTimer(clearSpinT);
+		//GetWorldTimerManager().ClearAllTimersForObject(GetWorld());
+		timerCheck = 0;
+	}
+
 	if (lerpTime > 1)
 	{
 		lerpTime = 0;
@@ -158,6 +165,8 @@ void ASM_PeriscopeGimmick::HandleShake()
 		{
 			float rot = FMath::Lerp(0, 360.0, lerpTime);
 			activeObject->SetRelativeRotation(FRotator(0, rot, 0));
+			UE_LOG(LogTemp, Warning, TEXT("WWWWWWWWWWWWWWWWWW!   %f"),timerCheck);
+			timerCheck += GetWorld()->GetDeltaSeconds();
 		}, 0.03f, true, 0);
 
 }
