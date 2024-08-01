@@ -68,20 +68,7 @@ ATestPlayer::ATestPlayer()
 	SM_Bottom->SetupAttachment(GetMesh());
 	SM_Outer->SetupAttachment(GetMesh());
 	SM_Dress->SetupAttachment(GetMesh());
-
-	// 애니메이션 블루프린트를 로드하고 설정
-	/*static ConstructorHelpers::FObjectFinder<UAnimBlueprint> AnimBlueprint(TEXT("/Game/Characters/Mannequins/Animations/ABP_Quinn.ABP_Quinn_C"));
-	if (AnimBlueprint.Succeeded())
-	{
-		AnimationBlueprintClass = AnimBlueprint.Object->GeneratedClass;
-		SM_Accessories->SetAnimInstanceClass(AnimationBlueprintClass);
-		SM_Top->SetAnimInstanceClass(AnimationBlueprintClass);
-		SM_Bottom->SetAnimInstanceClass(AnimationBlueprintClass);
-		SM_Outer->SetAnimInstanceClass(AnimationBlueprintClass);
-		SM_Dress->SetAnimInstanceClass(AnimationBlueprintClass);
-	}*/
 	
-
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	cameraBoom->SetupAttachment(GetMesh());
 	cameraBoom->SetRelativeLocation(FVector(0, 0, 170));
@@ -194,16 +181,12 @@ void ATestPlayer::BeginPlay()
 		if (gm_lobby)
 		{
 			FTimerHandle cameraT;
-			GetWorldTimerManager().SetTimer(cameraT,this, &ATestPlayer::SetThirdPersonView, 1.0, false);
+			GetWorldTimerManager().SetTimer(cameraT, this, &ATestPlayer::SetThirdPersonView, 1.0f, false);
 		}
 		else
 		{
-			// 게임 맵(1인칭)의 경우 본인의 메쉬 다 본인이 안 보이게 하기 -> 시야 확보
-			SM_Accessories->SetOwnerNoSee(true);
-			SM_Top->SetOwnerNoSee(true);
-			SM_Bottom->SetOwnerNoSee(true);
-			SM_Outer->SetOwnerNoSee(true);
-			SM_Dress->SetOwnerNoSee(true);
+			FTimerHandle TimerHandle;
+			GetWorldTimerManager().SetTimer(TimerHandle, this, &ATestPlayer::MulticastSetOwnerNoSee, 1.0f, false);
 		}
 	}
 
@@ -1299,6 +1282,18 @@ void ATestPlayer::ServerRPC_Update_PlayerNum_PlayerShowNum_Implementation(int32 
 	UE_LOG(LogTemp, Warning, TEXT("ServerRPC playernum : %d, player show num : %d"), _PlayerNum, _PlayerShowNum);
 	playerNum = _PlayerNum;
 	playerShowNum = _PlayerShowNum;
+}
+
+void ATestPlayer::MulticastSetOwnerNoSee_Implementation()
+{
+	if (IsLocallyControlled())
+	{
+		SM_Accessories->SetOwnerNoSee(true);
+		SM_Top->SetOwnerNoSee(true);
+		SM_Bottom->SetOwnerNoSee(true);
+		SM_Outer->SetOwnerNoSee(true);
+		SM_Dress->SetOwnerNoSee(true);
+	}
 }
 
 void ATestPlayer::Get_Player_Appearance()
