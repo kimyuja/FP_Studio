@@ -754,10 +754,14 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 		}
 	}
 
-	if (IsLocallyControlled())
+	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 	{
-		CreateWidget(GetWorld(),voteUI)->AddToViewport(0);
+		if (IsLocallyControlled())
+		{
+			CreateWidget(GetWorld(), voteUI)->AddToViewport(0);
+		}
 	}
+	
 }
 
 void ATestPlayer::MultiRPC_SetThirdPersonView_Implementation()
