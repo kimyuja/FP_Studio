@@ -290,11 +290,11 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!"));
 
-	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->Font;
+	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
 	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo1);
 
-	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->Font;
+	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->GetFont();
 	fontInfo2.Size = 22.f;
 	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
@@ -367,11 +367,11 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 
 void UMapCustomWidget::OnGActorBtn2Clicked()
 {
-	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->Font;
+	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
 	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
 
-	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->Font;
+	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->GetFont();
 	fontInfo2.Size = 22.f;
 	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
@@ -442,11 +442,11 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 
 void UMapCustomWidget::OnGActorBtn3Clicked()
 {
-	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->Font;
+	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
 	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
 
-	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->Font;
+	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->GetFont();
 	fontInfo2.Size = 22.f;
 	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
@@ -520,11 +520,11 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn4 Clicked!"));
 
-	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->Font;
+	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
 	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
 
-	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->Font;
+	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->GetFont();
 	fontInfo2.Size = 22.f;
 	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 

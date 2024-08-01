@@ -153,7 +153,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 			}
 		}
 	}
-	if (bCanActive && sounds.Num() == 3)
+	if (sounds.Num() == 3)
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sounds[_key], ActivePlayer->GetActorLocation());
 		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d"), _key);
