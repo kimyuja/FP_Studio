@@ -911,8 +911,14 @@ void ATestPlayer::ServerRPC_MoveStage_Implementation()
 	{
 		curStageNum++;
 	}*/
-
-	MultiRPC_MoveStage(gameState->stageLoc[curStageNum-1], curStageNum);
+	if (curStageNum <= 4)
+	{
+		MultiRPC_MoveStage(gameState->stageLoc[curStageNum], curStageNum);
+	}
+	else
+	{
+		MultiRPC_MoveStage(gameState->stageLoc[0], curStageNum);
+	}
 	//UE_LOG(LogTemp, Warning, TEXT("Stage %d (ServerRPC_MoveStage)"), gameState->stageNum);
 	//if (HasAuthority() && IsLocallyControlled())
 	//{
