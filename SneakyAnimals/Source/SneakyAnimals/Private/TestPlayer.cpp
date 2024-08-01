@@ -291,14 +291,6 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void ATestPlayer::CreateSelectedWidget()
 {
-	if (GetWorld()->GetGameState()->PlayerArray.Num() < endNum) {
-		// 현재 플레이어가 아직 다 안 들어왔으면
-		FTimerHandle t;
-		GetWorld()->GetTimerManager().SetTimer(t, [&](){
-			ATestPlayer::CreateSelectedWidget();
-			return;
-		}, 0.5f, false);
-	}
 	CustomMapWidget = nullptr;
 
 	CustomMapWidget = Cast<UMapCustomWidget>(CreateWidget(GetWorld(), customMapWidgetClass));
