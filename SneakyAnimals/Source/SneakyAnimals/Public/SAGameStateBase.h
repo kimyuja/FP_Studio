@@ -51,7 +51,7 @@ public:
 	UPROPERTY(Replicated, EditDefaultsOnly, BlueprintReadWrite)
 	TArray<FVector> stageLoc;
 
-	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<class ATestPlayer*> players;
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)

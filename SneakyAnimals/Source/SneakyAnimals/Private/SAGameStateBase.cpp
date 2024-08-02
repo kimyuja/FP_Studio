@@ -193,6 +193,7 @@ void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ASAGameStateBase, stageNum);
+	DOREPLIFETIME(ASAGameStateBase, activeCount);
 	DOREPLIFETIME(ASAGameStateBase, deathCount1);
 	DOREPLIFETIME(ASAGameStateBase, deathCount2);
 	DOREPLIFETIME(ASAGameStateBase, deathCount3);
