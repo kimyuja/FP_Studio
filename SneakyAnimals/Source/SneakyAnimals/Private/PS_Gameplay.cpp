@@ -31,12 +31,12 @@ void APS_Gameplay::OnRep_Player_UserProfile_OR()
 	가 있다.
 	*/
 
-	// 유저 프로필 다 불러왔으면 랜덤한 유저 넘버를 할당받자
-	if (HasAuthority())
-	{
-		ASAGameStateBase* gs_gameplay = Cast<ASAGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
-		gs_gameplay->SetPlayerNum();
-	}
+	//// 유저 프로필 다 불러왔으면 랜덤한 유저 넘버를 할당받자
+	//if (HasAuthority())
+	//{
+	//	ASAGameStateBase* gs_gameplay = Cast<ASAGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
+	//	gs_gameplay->SetPlayerNum();
+	//}
 }
 
 void APS_Gameplay::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
