@@ -513,7 +513,7 @@ void ATestPlayer::CloseScore(const FInputActionValue& Value)
 
 void ATestPlayer::DeathCounting()
 {
-	gameState->SetDeathCountUp(playerNum);
+	gameState->SetDeathCountUp(playerShowNum);
 }
 
 void ATestPlayer::FadeInOut(bool bInOut)
@@ -556,7 +556,7 @@ void ATestPlayer::Respawn(float delaytime)
 	{
 		ServerRPC_FadeOut(true);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Player %d Respawn"), playerNum);
+	UE_LOG(LogTemp, Warning, TEXT("Player %d Respawn"), playerShowNum);
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	/*FTimerHandle pT;
 	GetWorldTimerManager().SetTimer(pT, [&]() {
@@ -888,11 +888,11 @@ void ATestPlayer::ServerRPC_MoveStage_Implementation()
 	//	clearUI->SetVisibility(ESlateVisibility::Hidden);
 	//	UE_LOG(LogTemp, Warning, TEXT("Clean"));
 	//}
-	UE_LOG(LogTemp, Warning, TEXT(" cur %d : %d"), playerNum, curStageNum);
+	UE_LOG(LogTemp, Warning, TEXT(" cur %d : %d"), playerShowNum, curStageNum);
 	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 	{
 		p->curStageNum++;
-		UE_LOG(LogTemp, Warning, TEXT("%d : %d"), p->playerNum, p->curStageNum);
+		UE_LOG(LogTemp, Warning, TEXT("%d : %d"), p->playerShowNum, p->curStageNum);
 		/*if (IsLocallyControlled())
 		{
 			p->curStageNum++;
@@ -1022,13 +1022,13 @@ void ATestPlayer::MultiRPC_FadeOut_Implementation(bool _bOut)
 	if (_bOut)
 	{
 		cameraManager->StartCameraFade(0, 1.0f, 1.0f, FColor::Black, false, true);
-		UE_LOG(LogTemp, Warning, TEXT("Player %d FadeOut"), playerNum);
+		UE_LOG(LogTemp, Warning, TEXT("Player %d FadeOut"), playerShowNum);
 		bIsBlack = true;
 	}
 	else
 	{
 		cameraManager->StartCameraFade(1.0f, 0, 1.5f, FColor::Black);
-		UE_LOG(LogTemp, Warning, TEXT("Player %d FadeIn"), playerNum);
+		UE_LOG(LogTemp, Warning, TEXT("Player %d FadeIn"), playerShowNum);
 		bIsBlack = false;
 	}
 }
@@ -1045,13 +1045,13 @@ void ATestPlayer::MultiRPC_ShowEmo_Implementation(int32 _emoNum)
 
 void ATestPlayer::ServerRPC_SetPlayerPhysics_Implementation(AActor* target, FVector pushDir)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Rock????"), playerNum);
+	UE_LOG(LogTemp, Warning, TEXT("Rock????"), playerShowNum);
 	MultiRPC_SetPlayerPhysics(target, pushDir);
 }
 
 void ATestPlayer::MultiRPC_SetPlayerPhysics_Implementation(AActor* _target, FVector _pushDir)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Rock"), playerNum);
+	UE_LOG(LogTemp, Warning, TEXT("Rock"), playerShowNum);
 	GetCapsuleComponent()->SetSimulatePhysics(true);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	GetCapsuleComponent()->AddImpulse(_pushDir, TEXT(""), true);
@@ -1078,7 +1078,7 @@ void ATestPlayer::MultiRPC_RespawnPlayer_Implementation(float _dTime)
 	{
 		ServerRPC_FadeOut(true);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Player %d Respawn"), playerNum);
+	UE_LOG(LogTemp, Warning, TEXT("Player %d Respawn"), playerShowNum);
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	/*FTimerHandle pT;
 	GetWorldTimerManager().SetTimer(pT, [&]() {
@@ -1260,6 +1260,7 @@ void ATestPlayer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ATestPlayer, playerNum);
+	DOREPLIFETIME(ATestPlayer, playerShowNum);
 	DOREPLIFETIME(ATestPlayer, respawnLoc);
 	DOREPLIFETIME(ATestPlayer, Current_SkeletalMesh);
 	DOREPLIFETIME(ATestPlayer, Current_Accessories);
