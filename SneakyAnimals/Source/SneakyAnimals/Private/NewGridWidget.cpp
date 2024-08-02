@@ -49,7 +49,6 @@
 #include "BS_LaserGimmick.h"
 #include "BS_SwitchGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
-#include "GimmickSelectionWidget.h"
 
 bool UNewGridWidget::Initialize()
 {
@@ -121,12 +120,12 @@ void UNewGridWidget::NativeConstruct()
 
 	itemComp->OnInventoryChanged.AddDynamic(this, &UNewGridWidget::Refresh);
 
-	gimmickSelectionWidget = CreateWidget<UGimmickSelectionWidget>(GetWorld(), gimmickSelectionWidgetClass);
+	/*gimmickSelectionWidget = CreateWidget<UGimmickSelectionWidget>(GetWorld(), gimmickSelectionWidgetClass);
 
 	if (!gimmickSelectionWidget)
 	{
 		return;
-	}
+	}*/
 
 
 

@@ -305,7 +305,7 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 
 	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
-	gimmickSelectionWidget->GmTxt2->SetFont(fontInfo1);
+	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
 
 	FSlateFontInfo fontInfo2 = gimmickSelectionWidget->GmTxt2->GetFont();
 	fontInfo2.Size = 22.f;

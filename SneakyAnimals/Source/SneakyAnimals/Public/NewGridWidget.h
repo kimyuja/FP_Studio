@@ -40,11 +40,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
     TSubclassOf<UUserWidget> itemImgWidgetClass;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-    TSubclassOf<UUserWidget> gimmickSelectionWidgetClass;
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UUserWidget> gimmickSelectionWidgetClass;*/
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	class UGimmickSelectionWidget* gimmickSelectionWidget;
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	class UGimmickSelectionWidget* gimmickSelectionWidget;*/
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	class UCanvasPanelSlot* canvasSlot;
