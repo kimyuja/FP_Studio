@@ -10,6 +10,8 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Image.h>
 #include "WH_BookshelfGimmick.h"
 #include "Kismet/GameplayStatics.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
+#include "TestPlayer.h"
 #include "NewGridWidget.h"
 #include "Input/Reply.h"
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/Border.h>
@@ -81,6 +83,14 @@ void UMapCustomWidget::NativeConstruct()
 		UE_LOG(LogTemp, Error, TEXT("Failed to create CustomMapGridWidget"));
 		return;
 	}
+
+	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+
+	if (playerCharacter)
+	{
+		myPlayer = Cast<ATestPlayer>(playerCharacter);
+	}
+	
 
 
 	if (GActorBtn1)
@@ -171,6 +181,9 @@ bool UMapCustomWidget::NativeOnDrop(const FGeometry& InGeometry, const FDragDrop
 
 				matchingActor->SetActorLocation(beginLocation);
 				matchingActor->SetActorRotation(beginRotation);
+
+				myPlayer->ServerRPC_SetGActorLoc(matchingActor, beginLocation);
+				myPlayer->ServerRPC_SetGActorRot(matchingActor, beginRotation);
 
 				NewGridWidget->WhenGADropSetMulti(matchingActor, beginLocation, beginRotation);
 				// myPlayer->ServerRPC_SetGActorLoc(matchingActor, beginLocation, );

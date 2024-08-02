@@ -80,7 +80,7 @@ UItemObject* AWH_PotionGimmick::GetDefaultItemObject()
 		newItemObject->rotationAngle = 0.0f;
 		newItemObject->itemClass = AWH_PotionGimmick::StaticClass();
 		newItemObject->itemActiveType = Myactivetype;
-		newItemObject->beginLoc = FVector(50130.f, -50100.f, -915.f);
+		newItemObject->beginLoc = FVector(50130.f, -50100.f, -913.f);
 		newItemObject->beginRot = FRotator(0.f, -90.f, 0.f);
 		newItemObject->setWorldActorRot = 0;
 		newItemObject->rotationImgCheck = 0;
