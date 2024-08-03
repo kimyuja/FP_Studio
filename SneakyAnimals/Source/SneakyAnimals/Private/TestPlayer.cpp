@@ -133,7 +133,7 @@ void ATestPlayer::BeginPlay()
 			gameState->SetClearInstance();
 		}
 		gameState->SetStageStart();
-		gameState->SetPlayerNum();
+		//gameState->SetPlayerNum();
 	}
 
 	mainUI = Cast<UW_InGameUI>(CreateWidget(GetWorld(), mainUIF));
