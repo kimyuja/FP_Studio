@@ -88,6 +88,17 @@ public:
 	class UW_Lobby_Menu* Lobby_Menu_inst;
 
 	void Update_LobbyPlayerList();
+	// ----------------------------------
+	/** Quit Game Pop Up */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* IA_QuitGamePopup;
+	UFUNCTION()
+	void Create_QuitGame_PopUp();
+	UFUNCTION()
+	void QuitGame_Btn_Confirm();
+	UFUNCTION()
+	void QuitGame_Btn_Decline();
+
 private:
 	bool ValidatePlayerState();
 	void Setup_PC();

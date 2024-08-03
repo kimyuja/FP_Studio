@@ -17,6 +17,7 @@
 #include "W_Lobby_Menu.h"
 #include "W_Lobby_PlayerList.h"
 #include "PS_Lobby.h"
+#include "W_PopUp.h"
 
 void APC_Lobby::BeginPlay()
 {
@@ -48,6 +49,9 @@ void APC_Lobby::SetupInputComponent()
 		
 		// Toggle_WB_Lobby_Menu
 		EnhancedInputComponent->BindAction(Toggle_WB_Lobby_Menu_Action, ETriggerEvent::Completed, this, &APC_Lobby::Toggle_WB_Lobby_Menu);
+		
+		// Create Quit Game Pop Up
+		EnhancedInputComponent->BindAction(IA_QuitGamePopup, ETriggerEvent::Completed, this, &APC_Lobby::Create_QuitGame_PopUp);
 	}
 }
 
@@ -290,6 +294,26 @@ void APC_Lobby::Update_Launchevent()
 		Update_ReadyUpButton();
 		return;
 	}
+}
+
+void APC_Lobby::Create_QuitGame_PopUp()
+{
+	UW_PopUp* popup = UFL_General::Create_PopUp(GetWorld(), FText::FromString(TEXT("Are you sure to quit the game?")), FText::FromString(TEXT("Quit")), true, FText::FromString(TEXT("Cancel")));
+	UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this, Character_Customization_inst, EMouseLockMode::DoNotLock, false, false);
+	this->bShowMouseCursor = true;
+	popup->OnClicked_Confirm.AddDynamic(this, &APC_Lobby::QuitGame_Btn_Confirm);
+	popup->OnClicked_Decline.AddDynamic(this, &APC_Lobby::QuitGame_Btn_Decline);
+}
+
+void APC_Lobby::QuitGame_Btn_Confirm()
+{
+	UKismetSystemLibrary::QuitGame(this, GetWorld()->GetFirstPlayerController(), EQuitPreference::Quit, false);
+}
+
+void APC_Lobby::QuitGame_Btn_Decline()
+{
+	this->bShowMouseCursor = false;
+	UWidgetBlueprintLibrary::SetInputMode_GameOnly(this);
 }
 
 bool APC_Lobby::ValidatePlayerState()
