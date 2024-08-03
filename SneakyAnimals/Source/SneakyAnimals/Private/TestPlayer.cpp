@@ -758,6 +758,7 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 	{
 		if (IsLocallyControlled())
 		{
+			UE_LOG(LogTemp, Warning, TEXT("create vote ui, player num : %d"), playerNum);
 			CreateWidget(GetWorld(), voteUI)->AddToViewport(0);
 		}
 	}
