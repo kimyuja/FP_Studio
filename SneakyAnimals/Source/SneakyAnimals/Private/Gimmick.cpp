@@ -157,7 +157,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	{
 		bIsPlayed = true;
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sounds[_key], ActivePlayer->GetActorLocation());
-		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d, %s"), _key, *UEnum::GetValueAsString(TEXT("Engine.ENetRole"), GetRemoteRole()));
+		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d, %swwwwwww"), _key, *UEnum::GetValueAsString(TEXT("Engine.ENetRole"), GetRemoteRole()));
 	}
 	//ServerRPC_OnMyActive(ActivePlayer);
 	

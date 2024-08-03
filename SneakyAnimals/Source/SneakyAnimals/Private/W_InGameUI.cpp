@@ -55,6 +55,10 @@ void UW_InGameUI::SetPlayerTD()
 		Player2_DeathCount->SetText(FText::FromString(FString::FromInt(gameState->deathCount1[1])));
 		Player3_DeathCount->SetText(FText::FromString(FString::FromInt(gameState->deathCount1[2])));
 		Player4_DeathCount->SetText(FText::FromString(FString::FromInt(gameState->deathCount1[3])));
+		UE_LOG(LogTemp, Warning, TEXT("Player 1 Death Count %d"), gameState->deathCount1[0]);
+		UE_LOG(LogTemp, Warning, TEXT("Player 2 Death Count %d"), gameState->deathCount1[1]);
+		UE_LOG(LogTemp, Warning, TEXT("Player 3 Death Count %d"), gameState->deathCount1[2]);
+		UE_LOG(LogTemp, Warning, TEXT("Player 4 Death Count %d"), gameState->deathCount1[3]);
 		break;
 	case 2:
 		Player1_DeathCount->SetText(FText::FromString(FString::FromInt(gameState->deathCount2[0])));
@@ -81,6 +85,10 @@ void UW_InGameUI::SetPlayerTD()
 	Player2_TriggeredCount->SetText(FText::FromString(FString::FromInt(gameState->activeCount[1])));
 	Player3_TriggeredCount->SetText(FText::FromString(FString::FromInt(gameState->activeCount[2])));
 	Player4_TriggeredCount->SetText(FText::FromString(FString::FromInt(gameState->activeCount[3])));
+	UE_LOG(LogTemp, Warning, TEXT("Player 1 Trigger Count %d"), gameState->deathCount1[0]);
+	UE_LOG(LogTemp, Warning, TEXT("Player 2 Trigger Count %d"), gameState->deathCount1[1]);
+	UE_LOG(LogTemp, Warning, TEXT("Player 3 Trigger Count %d"), gameState->deathCount1[2]);
+	UE_LOG(LogTemp, Warning, TEXT("Player 4 Trigger Count %d"), gameState->deathCount1[3]);
 }
 
 void UW_InGameUI::SetStageTimer()
