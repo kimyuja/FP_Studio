@@ -189,8 +189,8 @@ public:
 	
 
 
-	UFUNCTION(BlueprintCallable, Category = "DragDrop")
-	void BindItemObjByBtn(TSubclassOf<AGimmick> GimmickClass, int32 _ActiveType);
+	/*UFUNCTION(BlueprintCallable, Category = "DragDrop")
+	void BindItemObjByBtn(TSubclassOf<AGimmick> GimmickClass, int32 _ActiveType);*/
 
 	UFUNCTION(BlueprintCallable)
 	AGimmick* FindMatchingActor(class UItemObject* _itemObject);

@@ -49,11 +49,11 @@ public:
     FOnCustomMouseEnterEvent OnCustomMouseEnter;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> newGridWidget;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UI")
-	class UNewGridWidget* gridWidget;
+	class UNewGridWidget* gridWidget;*/
 
 
 	UFUNCTION()
@@ -120,10 +120,15 @@ public:
 	bool bSwitchInWorld = false;
 
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
+	class ATestPlayer* myPlayer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DragDrop")
+	class UItemComponent* itemComp;
 
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	class UItemObject* itemObejct;
+	class UItemObject* itemObject;
 
 	UFUNCTION(BlueprintCallable, Category = "Settings")
 	void SetItemObejct(class UItemObject* _ItemObj);
@@ -134,5 +139,46 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Settings")
 	void SetPlayerRandNum(int _PlayerNum);
 
+	UFUNCTION(BlueprintCallable, Category = "DragDrop")
+	void BindItemObjByBtn(TSubclassOf<AGimmick> GimmickClass, int32 _ActiveType);
 
+	// 마녀의집
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
+	TArray<class AWH_BookshelfGimmick*> bookShelfActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
+	TArray<class AWH_BroomstickGimmick*> broomStickActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
+	TArray<class AWH_PotionGimmick*> potionActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "WitchsHouse")
+	TArray<class AWH_WitchCauldronGimmick*> cauldronActorArr;
+
+	// 잠수함
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASM_ComputerGimmick*> computerActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASM_PeriscopeGimmick*> periscopeActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASM_PressButtonGimmick*> pressbuttonActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASM_WhistleGimmick*> whistleGimmickActorArr;
+	
+	// 슈퍼마켓
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASP_BottleGimmick*> bottleActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASP_CartGimmick*> cartActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASP_CleanerGimmick*> cleanerActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ASP_ShowcaseGimmick*> showcaseActorArr;
+
+	// 금고
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ABS_GoldBarGimmick*> goldbarActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ABS_HandleGimmick*> handleActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ABS_LaserGimmick*> laserActorArr;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Submarine")
+	TArray<class ABS_SwitchGimmick*> switchActorArr;
 };
