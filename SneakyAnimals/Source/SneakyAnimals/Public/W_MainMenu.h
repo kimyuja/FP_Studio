@@ -27,9 +27,6 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "MySettings", meta = (BindWidget))
 	class UW_Base_Button* QuitGame_Btn;
-
-	UPROPERTY(EditAnywhere, Category = "MySettings", meta = (BindWidget))
-	class UW_Base_Button* Settings_Btn;
 	
 	UPROPERTY(EditAnywhere, Category = "MySettings", meta = (BindWidget))
 	class UVerticalBox* VerticalBox_ButtonContainer;
