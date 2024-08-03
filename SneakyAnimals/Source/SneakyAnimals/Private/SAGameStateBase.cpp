@@ -83,7 +83,8 @@ void ASAGameStateBase::SetPlayerNum()
             return;
         }
         //it->playerNum = (idx + RandSeed) % PlayerArray.Num();
-        it->playerNum = (idx + RandSeed) % it->endNum;
+        //it->playerNum = (idx + RandSeed) % it->endNum;
+        it->playerNum = (idx + RandSeed) % 4;
         it->playerShowNum = idx;
         // player 전부 들어오기 전에 맵 커스텀 UI 띄워버리면 중복되는 playerNum이 들어감. 그래서 레벨 BP 에서 딜레이를 준다.
         if (it->GetLocalRole() == ROLE_Authority) // 서버에서만 호출
