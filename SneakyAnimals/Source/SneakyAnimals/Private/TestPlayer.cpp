@@ -976,16 +976,16 @@ void ATestPlayer::MultiRPC_MoveStage_Implementation(FVector moveLoc, int32 _stag
 	{
 		CreateWidget(GetWorld(), voteUI)->AddToViewport(0);
 
-		if (!HasAuthority())
+		if (HasAuthority())
 		{
 			// On the Client
 			ServerRPC_StartGetFinalScore();
 		}
-		else
-		{
-			// On the Server
-			MultiRPC_StartGetFinalScore();
-		}
+		//else
+		//{
+		//	// On the Server
+		//	MultiRPC_StartGetFinalScore();
+		//}
 	}
 	else if (gameState->stageNum >= 1)
 	{
