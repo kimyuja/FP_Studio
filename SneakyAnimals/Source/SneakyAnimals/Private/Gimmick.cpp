@@ -153,11 +153,11 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 			}
 		}
 	}
-	if (sounds.Num() == 3 && !bIsPlayed)
+	if (sounds.Num() == 3 && Cast<ATestPlayer>(ActivePlayer)->IsLocallyControlled())
 	{
 		bIsPlayed = true;
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sounds[_key], ActivePlayer->GetActorLocation());
-		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d"), _key);
+		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d, %s"), _key, *UEnum::GetValueAsString(TEXT("Engine.ENetRole"), GetRemoteRole()));
 	}
 	//ServerRPC_OnMyActive(ActivePlayer);
 	
