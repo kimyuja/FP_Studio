@@ -47,6 +47,7 @@
 #include "BS_SwitchGimmick.h"
 #include <../../../../../../../Source/Runtime/SlateCore/Public/Fonts/SlateFontInfo.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/AudioComponent.h>
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetSwitcher.h>
 
 bool UMapCustomWidget::Initialize()
 {
@@ -301,7 +302,9 @@ float UMapCustomWidget::GetProgressBarPercent()
 
 void UMapCustomWidget::OnGActorBtn1Clicked()
 {
-	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!"));
+	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!")); 
+	
+	gimmickSelectionWidget->SpeechBubbleSwitcher->SetActiveWidgetIndex(0);
 
 	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
@@ -380,6 +383,9 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 
 void UMapCustomWidget::OnGActorBtn2Clicked()
 {
+
+	gimmickSelectionWidget->SpeechBubbleSwitcher->SetActiveWidgetIndex(1);
+
 	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
 	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
@@ -455,6 +461,9 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 
 void UMapCustomWidget::OnGActorBtn3Clicked()
 {
+
+	gimmickSelectionWidget->SpeechBubbleSwitcher->SetActiveWidgetIndex(2);
+
 	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
 	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
@@ -531,6 +540,8 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 
 void UMapCustomWidget::OnGActorBtn4Clicked()
 {
+	gimmickSelectionWidget->SpeechBubbleSwitcher->SetActiveWidgetIndex(3);
+
 	UE_LOG(LogTemp, Warning, TEXT("btn4 Clicked!"));
 
 	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();

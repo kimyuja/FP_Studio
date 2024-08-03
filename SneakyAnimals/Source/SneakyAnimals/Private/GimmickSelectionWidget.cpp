@@ -33,6 +33,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include "TestPlayer.h"
+#include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetSwitcher.h>
 
 void UGimmickSelectionWidget::NativeConstruct()
 {
@@ -105,7 +106,6 @@ void UGimmickSelectionWidget::OnGimmickBtn1Clicked()
 	UE_LOG(LogTemp, Warning, TEXT("clicked button name is %s"), *buttonName.ToString());
 	UE_LOG(LogTemp, Warning, TEXT("!! GIMMICK1 BTN CLICK -> SET ACTIVENUM : 0"));
 	UE_LOG(LogTemp, Warning, TEXT("?? MYPLAYERNUM IS %d"), playerRandNum);
-
 
 	SetVisibility(ESlateVisibility::Collapsed);
 	// ¸¶³àÀÇÁý
