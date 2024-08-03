@@ -37,10 +37,6 @@ public:
 
 	
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UWidgetSwitcher* SpeechBubbleSwitcher;
-
-	
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* GmTxt1;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
