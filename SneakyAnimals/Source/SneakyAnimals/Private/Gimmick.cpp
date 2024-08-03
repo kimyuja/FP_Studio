@@ -153,14 +153,20 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 			}
 		}
 	}
-	if (sounds.Num() == 3)
+	if (sounds.Num() == 3 && !bIsPlayed)
 	{
+		bIsPlayed = true;
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sounds[_key], ActivePlayer->GetActorLocation());
 		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d"), _key);
 	}
 	//ServerRPC_OnMyActive(ActivePlayer);
 	
 	//ServerRPC_OnMyActive(ActivePlayer);
+	FTimerHandle playT;
+	GetWorldTimerManager().SetTimer(playT, [&](){
+		bIsPlayed = false;
+	}, 1.0, false, 0.5);
+
 
 	bCanActive = false;
 
@@ -213,6 +219,7 @@ void AGimmick::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetime
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AGimmick, _key);
+	DOREPLIFETIME(AGimmick, bIsPlayed);
 }
 
 // ¼±¹Î

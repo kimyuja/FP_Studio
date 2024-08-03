@@ -43,6 +43,9 @@ public:
 	UPROPERTY(Replicated)
 	int32 _key;
 
+	UPROPERTY(Replicated)
+	bool bIsPlayed = false;
+
 	UFUNCTION()
 	int32 OnMyActive(AActor* ActivePlayer);
 
