@@ -86,9 +86,9 @@ void ASAGameStateBase::SetPlayerNum()
         it->playerShowNum = idx;
         
         // --- player name, mesh ---
-        APS_Gameplay* ps_gameplay = Cast<APS_Gameplay>(it->GetPlayerState());
-        UserProfiles.Add(ps_gameplay->Player_UserProfile);
-        PlayerAppearances.Add(ps_gameplay->Player_Appearance);
+        //APS_Gameplay* ps_gameplay = Cast<APS_Gameplay>(it->GetPlayerState());
+        //UserProfiles.Add(ps_gameplay->Player_UserProfile);
+        //PlayerAppearances.Add(ps_gameplay->Player_Appearance);
         // --- player name, mesh end ---
  
         // player 전부 들어오기 전에 맵 커스텀 UI 띄워버리면 중복되는 playerNum이 들어감. 그래서 레벨 BP 에서 딜레이를 준다.
@@ -162,10 +162,10 @@ FText ASAGameStateBase::MakeClearTime()
     return FText::FromString(clearS);*/
 }
 
-FText ASAGameStateBase::Get_UserName(int32 _PlayerShowNum)
-{
-    return UserProfiles[_PlayerShowNum].Username;
-}
+//FText ASAGameStateBase::Get_UserName(int32 _PlayerShowNum)
+//{
+//    return UserProfiles[_PlayerShowNum].Username;
+//}
 
 void ASAGameStateBase::MoveNextStage(FVector moveLoc)
 {
@@ -214,6 +214,6 @@ void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(ASAGameStateBase, bOnGame);
 	DOREPLIFETIME(ASAGameStateBase, stageLoc);
 	DOREPLIFETIME(ASAGameStateBase, bIsMixed);
-	DOREPLIFETIME(ASAGameStateBase, UserProfiles);
-	DOREPLIFETIME(ASAGameStateBase, PlayerAppearances);
+	//DOREPLIFETIME(ASAGameStateBase, UserProfiles);
+	//DOREPLIFETIME(ASAGameStateBase, PlayerAppearances);
 }

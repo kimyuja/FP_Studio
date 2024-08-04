@@ -73,14 +73,14 @@ public:
 	FText MakeClearTime();
 
 	// ------player name, player mesh
-	UPROPERTY(Replicated, BlueprintReadOnly)
-	TArray<struct FStructure_UserProfile> UserProfiles;
+	//UPROPERTY(Replicated, BlueprintReadOnly)
+	//TArray<struct FStructure_UserProfile> UserProfiles;
 
-	UPROPERTY(Replicated, BlueprintReadOnly)
-	TArray<struct FStructure_Player_Appearance> PlayerAppearances;
+	//UPROPERTY(Replicated, BlueprintReadOnly)
+	//TArray<struct FStructure_Player_Appearance> PlayerAppearances;
 
-	UFUNCTION(BlueprintCallable)
-	FText Get_UserName(int32 _PlayerShowNum);
+	//UFUNCTION(BlueprintCallable)
+	//FText Get_UserName(int32 _PlayerShowNum);
 	// ------player name, player mesh end
 
 	UFUNCTION(BlueprintCallable)
