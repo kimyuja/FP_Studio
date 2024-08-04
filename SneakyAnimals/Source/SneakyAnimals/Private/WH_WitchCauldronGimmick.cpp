@@ -105,7 +105,7 @@ int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 		BlindFog();
 		break;
 	case 1:
-		HereIsAWitch();
+		HereIsAWitch(ActivePlayer);
 		break;
 	case 2:
 		KindWitch();
@@ -154,21 +154,18 @@ void AWH_WitchCauldronGimmick::BlindFog()
 	//players[targetNum]->Respawn();
 }
 
-void AWH_WitchCauldronGimmick::HereIsAWitch()
+void AWH_WitchCauldronGimmick::HereIsAWitch(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : HereIsAWitch"));
 
-	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
 	{
-		players.Add(*it);
+		player->bIsDie = true;
+		player->DeathCounting();
+		player->Respawn();
 	}
-
-	int targetNum = FMath::RandRange(0, players.Num() - 1);
-
-	players[targetNum]->bIsDie = true;
-	players[targetNum]->Respawn();
-	players[targetNum]->DeathCounting();
 }
 
 void AWH_WitchCauldronGimmick::KindWitch()

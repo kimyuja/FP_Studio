@@ -101,7 +101,7 @@ int32 ASM_PressButtonGimmick::OnMyActive(AActor* ActivePlayer)
 		Waterbomb();
 		break;
 	case 1:
-		Blinklife();
+		Blinklife(ActivePlayer);
 		break;
 	case 2:
 		Autopilot();
@@ -139,20 +139,19 @@ void ASM_PressButtonGimmick::Waterbomb()
 	UKismetSystemLibrary::Delay(GetWorld(),3.0, actionInfo);
 }
 
-void ASM_PressButtonGimmick::Blinklife()
+void ASM_PressButtonGimmick::Blinklife(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Blinklife"));
-	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
 	{
-		it->BlackScreen();
-		players.Add(*it);
+		// player->BlackScreen();
+		player->bIsDie = true;
+		player->DeathCounting();
+		player->Respawn();
 	}
-
-	int targetNum = FMath::RandRange(0, players.Num() - 1);
-	players[targetNum]->bIsDie = true;
-	players[targetNum]->Respawn();
-	players[targetNum]->DeathCounting();
 }
 
 void ASM_PressButtonGimmick::Autopilot()

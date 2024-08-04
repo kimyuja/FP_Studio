@@ -134,7 +134,7 @@ void ABS_GoldBarGimmick::Alarm(AActor* ActivePlayer)
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : Alarm"));
 
-	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	/*for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
 		players.Add(*it);
 	}
@@ -144,7 +144,16 @@ void ABS_GoldBarGimmick::Alarm(AActor* ActivePlayer)
 	players[targetNum]->bIsBlack = true;
 	players[targetNum]->bIsDie = true;
 	players[targetNum]->Respawn(5.0);
-	players[targetNum]->DeathCounting();
+	players[targetNum]->DeathCounting();*/
+
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
+	{
+		player->bIsDie = true;
+		player->DeathCounting();
+		player->Respawn(5.0);
+	}
+
 }
 
 void ABS_GoldBarGimmick::Golden(AActor* ActivePlayer)

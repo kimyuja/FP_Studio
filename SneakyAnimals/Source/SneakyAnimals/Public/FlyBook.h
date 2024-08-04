@@ -23,6 +23,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY()
+	class AActor* ActivePlayer;
+
+	UFUNCTION()
+	void SetActivePlayer(AActor* Player);
+
 private:
 	
 	int32 targetNum;
@@ -34,9 +40,12 @@ private:
 	UPROPERTY()
 	TArray<class ATestPlayer*> players;
 
+
 	UFUNCTION()
 	void SearchRandomPlayer();
 
 	UFUNCTION()
-	void AttackRandomPlayer();
+	void AttackActivePlayer();
+
+
 };

@@ -60,7 +60,7 @@ private:
 	// 문 열려서 물 들어옴
 	void Waterbomb();
 	// 불이 꺼지고 랜덤 한명 사망
-	void Blinklife();
+	void Blinklife(AActor* ActivePlayer);
 	// 잠수함이 지상으로 올라간다.
 	void Autopilot();
 

@@ -67,7 +67,7 @@ private:
 	// 책장이 넘어져서 책장 주위 사람 사망
 	void FallOver();
 	// 책이 날아다니다가 랜덤 한명 사망
-	void BookCanFly();
+	void BookCanFly(AActor* ActivePlayer);
 	// 책이 버튼이여서 문이 열림
 	void ButtonBook();
 

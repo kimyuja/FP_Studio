@@ -302,6 +302,7 @@ float UMapCustomWidget::GetProgressBarPercent()
 void UMapCustomWidget::OnGActorBtn1Clicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!"));
+	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!!!!!"));
 
 	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
@@ -321,12 +322,10 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
 
 			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Nearby Players"));
-			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
 
 			fontInfo1.Size = 13.f;
 			gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
-			fontInfo2.Size = 16.f;
-			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
 			HandleButtonClicked(GActorBtn1, gswPos);
 		}
@@ -352,10 +351,10 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
 
 			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
-			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
 
-			fontInfo2.Size = 16.f;
-			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
+			// fontInfo2.Size = 16.f;
+			// gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
 			HandleButtonClicked(GActorBtn1, gswPos);
 		}
@@ -367,11 +366,8 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn1->GetName());
 
-			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Random One"));
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
 			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
-
-			fontInfo1.Size = 16.f;
-			gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
 
 			HandleButtonClicked(GActorBtn1, gswPos);
 		}
@@ -380,6 +376,9 @@ void UMapCustomWidget::OnGActorBtn1Clicked()
 
 void UMapCustomWidget::OnGActorBtn2Clicked()
 {
+
+	UE_LOG(LogTemp, Warning, TEXT("btn1 Clicked!"));
+
 	FSlateFontInfo fontInfo1 = gimmickSelectionWidget->GmTxt1->GetFont();
 	fontInfo1.Size = 22.f;
 	gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
@@ -426,11 +425,7 @@ void UMapCustomWidget::OnGActorBtn2Clicked()
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn2->GetName());
 
 			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self")); 
-			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
-
-			fontInfo2.Size = 16.f;
-			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
-
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
 
 			gswPos += FVector2D(0.f, 150.f);
 			HandleButtonClicked(GActorBtn2, gswPos);
@@ -490,10 +485,7 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
 	
 			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To All"));
-			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
-
-			fontInfo2.Size = 16.f;
-			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
 
 			gswPos += FVector2D(0.f, 370.f);
 			HandleButtonClicked(GActorBtn3, gswPos);
@@ -548,14 +540,8 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
-			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Random One"));
-			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Random One"));
-
-			fontInfo1.Size = 16.f;
-			gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
-
-			fontInfo2.Size = 16.f;
-			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
 
 			gswPos += FVector2D(0.f, 520.f);
 			HandleButtonClicked(GActorBtn4, gswPos);
@@ -568,11 +554,8 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
-			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Random One"));
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To All"));
 			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
-
-			fontInfo1.Size = 16.f;
-			gimmickSelectionWidget->GmTxt1->SetFont(fontInfo1);
 
 			gswPos += FVector2D(0.f, 520.f);
 			HandleButtonClicked(GActorBtn4, gswPos);

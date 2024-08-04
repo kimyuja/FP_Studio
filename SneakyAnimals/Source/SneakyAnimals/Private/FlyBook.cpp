@@ -33,38 +33,47 @@ void AFlyBook::Tick(float DeltaTime)
 
 	accel += DeltaTime * 10.0f;
 
-	if(bAttack)
+	if(bAttack && ActivePlayer)
 	{
-		AttackRandomPlayer();
+		AttackActivePlayer();
 	}
 }
 
 void AFlyBook::SearchRandomPlayer()
 {
-	players.Empty();
+	/*players.Empty();
 
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
 		players.Add(*it);
 	}
 
-	targetNum = FMath::RandRange(0, players.Num() - 1);
+	targetNum = FMath::RandRange(0, players.Num() - 1);*/
 }
 
-void AFlyBook::AttackRandomPlayer()
+
+void AFlyBook::AttackActivePlayer()
 {
-	if (FVector::Dist(GetActorLocation(), players[targetNum]->GetActorLocation()) > 100.0f)
+	if (ActivePlayer && FVector::Dist(GetActorLocation(), ActivePlayer->GetActorLocation()) > 100.0f)
 	{
-		FVector targetLoc = (players[targetNum]->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-		//UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), targetLoc.X, targetLoc.Y, targetLoc.Z);
+		FVector targetLoc = (ActivePlayer->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 		SetActorLocation(GetActorLocation() + targetLoc * (1.0f + accel));
 	}
-	else
+	else if (ActivePlayer)
 	{
-		players[targetNum]->bIsDie = true;
-		players[targetNum]->Respawn();
-		players[targetNum]->DeathCounting();
-		Destroy();
+		ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+		if (player)
+		{
+			player->bIsDie = true;
+			player->Respawn();
+			player->DeathCounting();
+			Destroy();
+		}
 	}
+}
+
+void AFlyBook::SetActivePlayer(AActor* Player)
+{
+	ActivePlayer = Player;
 }
 

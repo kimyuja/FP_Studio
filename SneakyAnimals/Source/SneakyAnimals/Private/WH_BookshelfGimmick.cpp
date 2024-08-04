@@ -121,7 +121,7 @@ int32 AWH_BookshelfGimmick::OnMyActive(AActor* ActivePlayer)
 		FallOver();
 		break;
 	case 1:
-		BookCanFly();
+		BookCanFly(ActivePlayer);
 		break;
 	case 2:
 		ButtonBook();
@@ -160,10 +160,14 @@ void AWH_BookshelfGimmick::FallOver()
 	}
 }
 
-void AWH_BookshelfGimmick::BookCanFly()
+void AWH_BookshelfGimmick::BookCanFly(AActor* ActivePlayer)
 {
 	bCanActive = false;
-	GetWorld()->SpawnActor<AFlyBook>(flyBook, GetActorLocation() + GetActorUpVector() * 300.0f, GetActorRotation());
+	AFlyBook* spawnedFlyBook = GetWorld()->SpawnActor<AFlyBook>(flyBook, GetActorLocation() + GetActorUpVector() * 300.0f, GetActorRotation());
+	if (spawnedFlyBook)
+	{
+		spawnedFlyBook->SetActivePlayer(ActivePlayer);
+	}
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : BookCanFly"));
 }
 

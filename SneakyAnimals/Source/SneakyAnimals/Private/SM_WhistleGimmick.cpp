@@ -97,7 +97,7 @@ int32 ASM_WhistleGimmick::OnMyActive(AActor* ActivePlayer)
 	switch (Myactivetype)
 	{
 	case 0:
-		BabyShark();
+		BabyShark(ActivePlayer);
 		break;
 	case 1:
 		IronSupplementation(ActivePlayer);
@@ -114,7 +114,7 @@ int32 ASM_WhistleGimmick::OnMyActive(AActor* ActivePlayer)
 	return activeType;
 }
 
-void ASM_WhistleGimmick::BabyShark()
+void ASM_WhistleGimmick::BabyShark(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BabyShark"));
@@ -123,17 +123,14 @@ void ASM_WhistleGimmick::BabyShark()
 		it->bIsActive = true;
 	}
 	
-	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
 	{
-		players.Add(*it);
+		player->bIsBlack = true;
+		player->bIsDie = true;
+		player->DeathCounting();
+		player->Respawn(5.0);
 	}
-
-	int targetNum = FMath::RandRange(0, players.Num() - 1);
-
-	players[targetNum]->bIsBlack = true;
-	players[targetNum]->bIsDie = true;
-	players[targetNum]->Respawn(5.0);
-	players[targetNum]->DeathCounting();
 }
 
 void ASM_WhistleGimmick::IronSupplementation(AActor* ActivePlayer)

@@ -57,7 +57,7 @@ private:
 	TArray<class ATestPlayer*> players;
 
 	// 감전사
-	void BabyShark();
+	void BabyShark(AActor* ActivePlayer);
 	// 자폭시퀸스
 	void IronSupplementation(AActor* ActivePlayer);
 	// 구조요청
