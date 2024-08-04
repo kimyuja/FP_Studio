@@ -153,11 +153,15 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 			}
 		}
 	}
+	if (soundNum == 0)
+	{
+		soundNum = _key;
+	}
 	if (sounds.Num() == 3 && Cast<ATestPlayer>(ActivePlayer)->IsLocallyControlled())
 	{
 		bIsPlayed = true;
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sounds[_key], ActivePlayer->GetActorLocation());
-		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d, %swwwwwww"), _key, *UEnum::GetValueAsString(TEXT("Engine.ENetRole"), GetRemoteRole()));
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sounds[soundNum], ActivePlayer->GetActorLocation());
+		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d, %swwwwwww"), soundNum, *UEnum::GetValueAsString(TEXT("Engine.ENetRole"), GetRemoteRole()));
 	}
 	//ServerRPC_OnMyActive(ActivePlayer);
 	
@@ -219,6 +223,7 @@ void AGimmick::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetime
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AGimmick, _key);
+	DOREPLIFETIME(AGimmick, soundNum);
 	DOREPLIFETIME(AGimmick, bIsPlayed);
 }
 
