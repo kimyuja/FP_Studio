@@ -214,4 +214,6 @@ void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(ASAGameStateBase, bOnGame);
 	DOREPLIFETIME(ASAGameStateBase, stageLoc);
 	DOREPLIFETIME(ASAGameStateBase, bIsMixed);
+	DOREPLIFETIME(ASAGameStateBase, UserProfiles);
+	DOREPLIFETIME(ASAGameStateBase, PlayerAppearances);
 }
