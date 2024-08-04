@@ -62,6 +62,18 @@ public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UOverlay* DeathCount;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* Player1_NameText;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* Player2_NameText;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* Player3_NameText;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* Player4_NameText;
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	class ASAGameStateBase* gameState;
 

@@ -43,6 +43,18 @@ public:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* LevelName_Text;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* Player1_Text;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* Player2_Text;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* Player3_Text;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* Player4_Text;
 	
 	UPROPERTY(EditAnywhere, Transient ,meta = (BindWidgetAnim))
 	class UWidgetAnimation* GameEnd;

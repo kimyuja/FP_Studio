@@ -4,6 +4,7 @@
 #include "GM_Base.h"
 #include "PC_Lobby.h"
 #include "TestPlayer.h"
+#include "GS_Lobby.h"
 
 void AGM_Base::PostLogin(APlayerController* NewPlayer)
 {
@@ -26,6 +27,11 @@ void AGM_Base::Logout(AController* Exiting)
 void AGM_Base::KickPlayer(int32 PlayerID)
 {
 	Cast<APC_Lobby>(All_PCs[PlayerID])->ClientRPC_KickedFromLobby();
+
+	FTimerHandle t;
+	GetWorld()->GetTimerManager().SetTimer(t, [&](){
+		Cast<AGS_Lobby>(GetWorld()->GetGameState())->Update_Lobby();
+	}, 3.0f, false);
 }
 
 void AGM_Base::Handle_PlayerConnection(APlayerController* NewPlayer)

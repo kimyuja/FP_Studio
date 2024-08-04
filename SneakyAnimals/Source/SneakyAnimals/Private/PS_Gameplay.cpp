@@ -31,18 +31,6 @@ void APS_Gameplay::OnRep_Player_UserProfile_OR()
 	가 있다.
 	*/
 
-	//// 유저 프로필 다 불러왔으면 랜덤한 유저 넘버를 할당받자
-	//if (HasAuthority())
-	//{
-	//	ASAGameStateBase* gs_gameplay = Cast<ASAGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
-	//	gs_gameplay->SetPlayerNum();
-	//}
-}
+	// Username을 각각 player show num에 맞는 player 1, 2, 3, 4에게 할당해주어야 함 (투표 UI와 클리어 UI)
 
-void APS_Gameplay::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	DOREPLIFETIME(APS_Gameplay, PlayerRandNum);
-	DOREPLIFETIME(APS_Gameplay, PlayerShowNum);
 }

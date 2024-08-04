@@ -22,12 +22,4 @@ public:
 	virtual void ClientRPC_Init() override;
 
 	virtual void OnRep_Player_UserProfile_OR() override;
-
-	UPROPERTY(Replicated, EditAnywhere, Category =  "Player Num")
-	int32 PlayerRandNum;
-	
-	UPROPERTY(Replicated, EditAnywhere, Category =  "Player Num")
-	int32 PlayerShowNum;
-
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
