@@ -65,7 +65,9 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 		cartTarget->bIsDie = true;
 		cartTarget->Respawn();
 		cartTarget->DeathCounting();
-		Destroy();
+		activeObject->DestroyComponent();
+		object->DestroyComponent();
+		GetWorldTimerManager().ClearTimer(roadRollerT);
 	}
 	if (Myactivetype == 2 && FVector::Dist(GetActorLocation(), FVector(0)) < 100.0)
 	{

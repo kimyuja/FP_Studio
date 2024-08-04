@@ -541,7 +541,7 @@ void ATestPlayer::BlackScreen()
 {
 	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
 	cameraManager->StartCameraFade(0, 1.0f, 0.1f, FColor::Black, false, true);
-	//bIsBlack = true;
+	bIsBlack = true;
 }
 
 void ATestPlayer::SetPlayerPhysics()
@@ -565,7 +565,14 @@ void ATestPlayer::Respawn(float delaytime)
 	FTimerHandle respawnT;
 	GetWorldTimerManager().SetTimer(respawnT, [&](){
 		GetMesh()->SetSimulatePhysics(false);
-		ServerRPC_FadeOut(false);
+		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+		{
+			if (it->bIsBlack)
+			{
+				it->FadeInOut(false);
+			}
+		}
+		//ServerRPC_FadeOut(false);
 		GetCapsuleComponent()->SetSimulatePhysics(false);
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		GetCapsuleComponent()->SetRelativeRotation(FRotator(0, 0, 0));

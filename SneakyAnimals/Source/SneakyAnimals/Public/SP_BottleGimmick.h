@@ -55,7 +55,7 @@ private:
 
 	// 밟고 넘어졌다.(혼자)
 	void BottleTrap(AActor* ActivePlayer);
-	// 발로 찼더니 날아갔다.(랜덤 한명)
+	// 발로 찼더니 날아갔다.(혼자)
 	void Son(AActor* ActivePlayer);
 	// 안에 열쇠가 있었다. (클리어)
 	void MasterKey(AActor* ActivePlayer);

@@ -64,7 +64,7 @@ private:
 
 	// 카트 손잡이가 빠져서 넘어졌다 (혼자)
 	void Defective(AActor* ActivePlayer);
-	// 카트가 다른사람에게 굴러갔다 (다른 사람 1명)
+	// 카트가 다른사람에게 굴러갔다 (혼자)
 	void RoadRoller(AActor* ActivePlayer);
 	// 카트가 굴러가서 문을 부순다 (클리어)
 	void RollingCart();

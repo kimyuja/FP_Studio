@@ -43,7 +43,7 @@ void AShark::Jaws()
 	}
 	else
 	{
-		SetActorLocation(GetActorLocation() + moveLoc * 100.0f);
+		SetActorLocation(GetActorLocation() + moveLoc * 200.0f);
 	}
 }
 
