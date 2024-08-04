@@ -43,7 +43,7 @@ void APS_Base::Load_Player_Appearance()
 	FStructure_Player_Appearance_Result result = UFL_General::Get_Player_Appearance();
 	if (result.bSuccess)
 	{
-		ServerRPC_Update_Player_Appearance_Implementation(result.Player_Appearance);
+		ServerRPC_Update_Player_Appearance(result.Player_Appearance);
 		return;
 	}
 	else
@@ -66,7 +66,7 @@ void APS_Base::Load_Player_UserProfile()
 		FStructure_UserProfile tmp;
 		tmp.Username = FText::FromString(TEXT("Username"));
 		tmp.User_Avatar = T_ProfilePicture;
-		ServerRPC_Update_Player_UserProfile_Implementation(tmp);
+		ServerRPC_Update_Player_UserProfile(tmp);
 		return;
 	}
 }
