@@ -39,7 +39,10 @@ void UW_Lobby_HUD::Countdown_Launchevent()
 {
 	FText CountDownText = FText::Format(FText::FromString(TEXT("{0} seconds till game starts")), CountDown);
 
-	Update_LobbyStatus_Indicator(ESlateVisibility::Collapsed, CountDownText);
+	if (!CountDownText.IsEmpty())
+	{
+		Update_LobbyStatus_Indicator(ESlateVisibility::Collapsed, CountDownText);
+	}
 	CountDown--;
 	if (CountDown == -1)
 	{
@@ -98,8 +101,14 @@ void UW_Lobby_HUD::Toggle_BackgroundBlur(bool bEnableBlur)
 
 void UW_Lobby_HUD::Update_LobbyStatus_Indicator(ESlateVisibility _CircularThrobberVisibility, const FText& _LobbyStatus_Text)
 {
+	if(CircularThrobber)
+	{
 	CircularThrobber->SetVisibility(_CircularThrobberVisibility);
+	}
+	if(LobbyStatus_Text->IsValidLowLevel() && !_LobbyStatus_Text.IsEmpty()) 
+	{
 	LobbyStatus_Text->SetText(_LobbyStatus_Text);
+	}
 }
 
 void UW_Lobby_HUD::Setup()
