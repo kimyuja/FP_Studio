@@ -219,7 +219,7 @@ struct FStructure_Available_Dress : public FTableRowBase
     int32 CharacterID;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(Atomic, BlueprintType)
 struct FStructure_Player_Appearance
 {
 	GENERATED_BODY()
@@ -249,7 +249,7 @@ struct FStructure_Player_Appearance
 	FStructure_Available_Dress Dress_Slot;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(Atomic, BlueprintType)
 struct FStructure_Player_Appearance_Result
 {
 	GENERATED_BODY()
