@@ -567,10 +567,8 @@ void ATestPlayer::Respawn(float delaytime)
 		GetMesh()->SetSimulatePhysics(false);
 		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 		{
-			if (it->bIsBlack)
-			{
-				it->FadeInOut(false);
-			}
+			it->ServerRPC_FadeOut(false);
+			UE_LOG(LogTemp, Warning, TEXT("Player %d Fade"), playerShowNum);
 		}
 		//ServerRPC_FadeOut(false);
 		GetCapsuleComponent()->SetSimulatePhysics(false);
@@ -589,7 +587,7 @@ void ATestPlayer::Respawn(float delaytime)
 		bIsDie = false;
 		bIsBlack = false;
 		bCanActive = true;
-		GetWorldTimerManager().ClearAllTimersForObject(this);
+		GetWorldTimerManager().ClearAllTimersForObject(GetWorld());
 	}, 1.0, false, delaytime);
 	
 }
@@ -763,10 +761,15 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 
 	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 	{
-		if (IsLocallyControlled())
+		if (HasAuthority()&&IsLocallyControlled())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("create vote ui, player num : %d"), playerNum);
-			CreateWidget(GetWorld(), voteUI)->AddToViewport(0);
+			//UE_LOG(LogTemp, Warning, TEXT("create vote ui, player num : %d"), p->playerNum);
+			p->myVoteUI = CreateWidget(GetWorld(), voteUI);
+			if (p->myVoteUI)
+			{
+				p->myVoteUI->AddToViewport(0);
+				UE_LOG(LogTemp, Warning, TEXT("create vote ui, player num : %d"), p->playerNum);
+			}
 		}
 	}
 	

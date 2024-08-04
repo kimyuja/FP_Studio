@@ -82,6 +82,9 @@ public:
 	TSubclassOf<UUserWidget> voteUI;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UUserWidget* myVoteUI;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UW_StageClear* clearUI;
 
 	UPROPERTY(EditDefaultsOnly)
