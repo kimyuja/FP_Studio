@@ -98,6 +98,9 @@ public:
 	void QuitGame_Btn_Confirm();
 	UFUNCTION()
 	void QuitGame_Btn_Decline();
+	//-----------------------------------
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_Spawn_Character();
 
 private:
 	bool ValidatePlayerState();

@@ -18,6 +18,7 @@
 #include "W_Lobby_PlayerList.h"
 #include "PS_Lobby.h"
 #include "W_PopUp.h"
+#include "GM_Base.h"
 
 void APC_Lobby::BeginPlay()
 {
@@ -314,6 +315,11 @@ void APC_Lobby::QuitGame_Btn_Decline()
 {
 	this->bShowMouseCursor = false;
 	UWidgetBlueprintLibrary::SetInputMode_GameOnly(this);
+}
+
+void APC_Lobby::ServerRPC_Spawn_Character_Implementation()
+{
+	Cast<AGM_Base>(GetWorld()->GetAuthGameMode())->Spawn_Character(this);
 }
 
 bool APC_Lobby::ValidatePlayerState()

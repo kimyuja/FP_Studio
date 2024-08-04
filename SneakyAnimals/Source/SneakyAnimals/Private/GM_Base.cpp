@@ -3,6 +3,7 @@
 
 #include "GM_Base.h"
 #include "PC_Lobby.h"
+#include "TestPlayer.h"
 
 void AGM_Base::PostLogin(APlayerController* NewPlayer)
 {
@@ -36,6 +37,26 @@ void AGM_Base::Handle_PlayerDisconnection(UObject* Player)
 {
 	APC_Base* pc_base = Cast<APC_Base>(Player);
 	All_PCs.Remove(pc_base);
+}
+
+void AGM_Base::Spawn_Character(APlayerController* player)
+{
+	// player가 null인지 확인
+	if (!player)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Player controller is null"));
+		return;
+	}
+
+	// ATestPlayer로 캐스트가 성공하는지 확인
+	ATestPlayer* TestPlayer = Cast<ATestPlayer>(player->GetPawn());
+	if (!TestPlayer)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Cast to ATestPlayer failed"));
+		return;
+	}
+
+	TestPlayer->ClientRPC_Init_Appearance();
 }
 
 void AGM_Base::ServerTravel_ToGameplayMap()

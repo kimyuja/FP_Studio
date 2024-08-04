@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Connection")
 	void Handle_PlayerDisconnection(UObject* Player);
 
+	UFUNCTION(BlueprintCallable, Category = "Player Respawn")
+	void Spawn_Character(APlayerController* player);
+
 protected:
 	void ServerTravel_ToGameplayMap();
 
