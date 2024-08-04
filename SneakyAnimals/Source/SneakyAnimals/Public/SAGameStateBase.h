@@ -76,9 +76,6 @@ public:
 	UPROPERTY(Replicated, BlueprintReadOnly)
 	TArray<struct FStructure_UserProfile> UserProfiles;
 
-	UPROPERTY(Replicated, BlueprintReadOnly)
-	TArray<struct FStructure_Player_Appearance> PlayerAppearances;
-
 	UFUNCTION(BlueprintCallable)
 	FText Get_UserName(int32 _PlayerShowNum);
 	// ------player name, player mesh end

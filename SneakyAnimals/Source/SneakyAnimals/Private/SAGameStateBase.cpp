@@ -85,11 +85,10 @@ void ASAGameStateBase::SetPlayerNum()
         it->playerNum = (idx + RandSeed) % it->endNum;
         it->playerShowNum = idx;
         
-        // --- player name, mesh ---
+        // --- player name     ---
         APS_Gameplay* ps_gameplay = Cast<APS_Gameplay>(it->GetPlayerState());
         UserProfiles.Add(ps_gameplay->Player_UserProfile);
-        PlayerAppearances.Add(ps_gameplay->Player_Appearance);
-        // --- player name, mesh end ---
+        // --- player name end ---
  
         // player 전부 들어오기 전에 맵 커스텀 UI 띄워버리면 중복되는 playerNum이 들어감. 그래서 레벨 BP 에서 딜레이를 준다.
         if (it->GetLocalRole() == ROLE_Authority) // 서버에서만 호출
@@ -222,5 +221,4 @@ void ASAGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(ASAGameStateBase, stageLoc);
 	DOREPLIFETIME(ASAGameStateBase, bIsMixed);
 	DOREPLIFETIME(ASAGameStateBase, UserProfiles);
-	DOREPLIFETIME(ASAGameStateBase, PlayerAppearances);
 }
