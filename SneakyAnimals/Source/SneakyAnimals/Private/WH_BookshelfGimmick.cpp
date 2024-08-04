@@ -14,6 +14,7 @@
 #include "Materials/MaterialInterface.h"
 #include "ItemObject.h"
 #include "Engine/Engine.h"
+#include "Kismet/GameplayStatics.h"
 
 AWH_BookshelfGimmick::AWH_BookshelfGimmick()
 {
@@ -50,6 +51,8 @@ void AWH_BookshelfGimmick::BeginPlay()
 	//UE_LOG(LogTemp, Warning, TEXT("BookShelf Spawned at BeginPlay"));
 
 	//trigger->SetBoxExtent(activeRange);
+	
+	WorldContextObject = this;
 
 }
 
@@ -153,6 +156,8 @@ void AWH_BookshelfGimmick::FallOver()
 	{
 		if (FVector::Dist(GetActorLocation(), it->GetActorLocation()) < 500.0)
 		{
+			UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 			it->bIsDie = true;
 			it->Death_Fallover();
 			it->DeathCounting();
@@ -166,6 +171,8 @@ void AWH_BookshelfGimmick::BookCanFly(AActor* ActivePlayer)
 	AFlyBook* spawnedFlyBook = GetWorld()->SpawnActor<AFlyBook>(flyBook, GetActorLocation() + GetActorUpVector() * 300.0f, GetActorRotation());
 	if (spawnedFlyBook)
 	{
+		UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 		spawnedFlyBook->SetActivePlayer(ActivePlayer);
 	}
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : BookCanFly"));
@@ -174,6 +181,9 @@ void AWH_BookshelfGimmick::BookCanFly(AActor* ActivePlayer)
 void AWH_BookshelfGimmick::ButtonBook()
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 	
 }

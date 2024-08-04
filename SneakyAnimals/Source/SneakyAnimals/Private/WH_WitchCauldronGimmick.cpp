@@ -10,6 +10,7 @@
 #include "ItemObject.h"
 #include "TestPlayer.h"
 #include "ClearDoor.h"
+#include "Kismet/GameplayStatics.h"
 
 AWH_WitchCauldronGimmick::AWH_WitchCauldronGimmick()
 {
@@ -134,6 +135,9 @@ void AWH_WitchCauldronGimmick::BlindFog()
 			float loc = FMath::Lerp(object->GetComponentLocation().Z, 0, lerpTime);
 			object->SetRelativeLocation(FVector(0,0,loc));
 			lerpTime += GetWorld()->DeltaTimeSeconds;
+
+			UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 		}, 0.03f, true, 0);
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
@@ -159,6 +163,8 @@ void AWH_WitchCauldronGimmick::HereIsAWitch(AActor* ActivePlayer)
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : HereIsAWitch"));
 
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -172,6 +178,8 @@ void AWH_WitchCauldronGimmick::KindWitch()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
 
 	for (TActorIterator<AClearDoor> it(GetWorld()); it; ++it)
 	{

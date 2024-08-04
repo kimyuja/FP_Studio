@@ -10,6 +10,7 @@
 #include "ItemObject.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Engine/EngineTypes.h>
+#include "Kismet/GameplayStatics.h"
 
 AWH_BroomstickGimmick::AWH_BroomstickGimmick()
 {
@@ -137,6 +138,9 @@ void AWH_BroomstickGimmick::BroomSmash(AActor* ActivePlayer)
 			activeObject->SetRelativeLocation(FVector(0, 0, loc));
 			activeObject->SetRelativeRotation(FRotator(0, rot, rot2));
 		}, 0.03f, true, 0);
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -156,6 +160,9 @@ void AWH_BroomstickGimmick::PoorDriver(AActor* ActivePlayer)
 	activeObject->SetRelativeRotation(FRotator(-90.0f,0,0));
 	activeObject->SetRelativeLocation(FVector(-100, 0, -30));
 	AttachToActor(ActivePlayer, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("broomRide"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -187,6 +194,9 @@ void AWH_BroomstickGimmick::DoorBurst(AActor* ActivePlayer)
 	FTimerHandle broomBurstT;
 	GetWorldTimerManager().SetTimer(broomBurstT, [&]()
 		{
+
+			UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 			DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 			Destroy();
 		}, 1.0, false, 0);

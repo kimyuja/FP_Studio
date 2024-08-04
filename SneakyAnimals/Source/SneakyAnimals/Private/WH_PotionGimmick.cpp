@@ -8,6 +8,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "ItemObject.h"
 #include "TestPlayer.h"
+#include "Kismet/GameplayStatics.h"
 
 AWH_PotionGimmick::AWH_PotionGimmick()
 {
@@ -121,6 +122,9 @@ void AWH_PotionGimmick::Extincion(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : Extincion"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+	
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -133,6 +137,8 @@ void AWH_PotionGimmick::SelfExplosion(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : SelfExplosion"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
 
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
@@ -147,6 +153,9 @@ void AWH_PotionGimmick::SelfExplosion(AActor* ActivePlayer)
 void AWH_PotionGimmick::knowledgeinjection()
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }
 
