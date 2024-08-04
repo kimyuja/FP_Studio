@@ -49,11 +49,47 @@ void UW_InGameUI::SetPlayerTD()
 {
 	int32 stage = gameState->stageNum;
 
+	//// player 1,2,3,4에 user name 넣어주기
+	//Player1_NameText->SetText(gameState->Get_UserName(0));
+	//Player2_NameText->SetText(gameState->Get_UserName(1));
+	//Player3_NameText->SetText(gameState->Get_UserName(2));
+	//Player4_NameText->SetText(gameState->Get_UserName(3));
+	if (gameState == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("gameState is nullptr"));
+		return;
+	}
+
+	int32 NumProfiles = gameState->UserProfiles.Num();
+	UE_LOG(LogTemp, Log, TEXT("Number of UserProfiles: %d"), NumProfiles);
+
 	// player 1,2,3,4에 user name 넣어주기
-	Player1_NameText->SetText(gameState->Get_UserName(0));
-	Player2_NameText->SetText(gameState->Get_UserName(1));
-	Player3_NameText->SetText(gameState->Get_UserName(2));
-	Player4_NameText->SetText(gameState->Get_UserName(3));
+	if (NumProfiles > 0) {
+		Player1_NameText->SetText(gameState->Get_UserName(0));
+	}
+	else {
+		Player1_NameText->SetText(FText::FromString("Player 1"));
+	}
+
+	if (NumProfiles > 1) {
+		Player2_NameText->SetText(gameState->Get_UserName(1));
+	}
+	else {
+		Player2_NameText->SetText(FText::FromString("Player 2"));
+	}
+
+	if (NumProfiles > 2) {
+		Player3_NameText->SetText(gameState->Get_UserName(2));
+	}
+	else {
+		Player3_NameText->SetText(FText::FromString("Player 3"));
+	}
+
+	if (NumProfiles > 3) {
+		Player4_NameText->SetText(gameState->Get_UserName(3));
+	}
+	else {
+		Player4_NameText->SetText(FText::FromString("Player 4"));
+	}
 
 	switch (stage)
 	{
