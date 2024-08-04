@@ -48,6 +48,13 @@ void UW_InGameUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 void UW_InGameUI::SetPlayerTD()
 {
 	int32 stage = gameState->stageNum;
+
+	// player 1,2,3,4에 user name 넣어주기
+	Player1_NameText->SetText(gameState->Get_UserName(0));
+	Player2_NameText->SetText(gameState->Get_UserName(1));
+	Player3_NameText->SetText(gameState->Get_UserName(2));
+	Player4_NameText->SetText(gameState->Get_UserName(3));
+
 	switch (stage)
 	{
 	case 1:

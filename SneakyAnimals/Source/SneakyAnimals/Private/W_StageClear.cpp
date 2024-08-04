@@ -59,6 +59,13 @@ void UW_StageClear::SetWidgetState()
 	int32 stage = gameState->stageNum;
 	// LevelNum_Text->SetText(FText::FromString(FString::FromInt(gameState->stageNum - 1)));
 	ClearTime->SetText(gameState->MakeClearTime());
+
+	// player name
+	Player1_Text->SetText(gameState->Get_UserName(0));
+	Player2_Text->SetText(gameState->Get_UserName(1));
+	Player3_Text->SetText(gameState->Get_UserName(2));
+	Player4_Text->SetText(gameState->Get_UserName(3));
+
 	switch (stage)
 	{
 	// 마녀의집 클리어
