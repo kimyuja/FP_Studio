@@ -44,6 +44,9 @@ void ASM_PressButtonGimmick::BeginPlay()
 
 	SetActiveType(Myactivetype);
 
+
+	WorldContextObject = this;
+
 }
 
 void ASM_PressButtonGimmick::Tick(float DeltaTime)

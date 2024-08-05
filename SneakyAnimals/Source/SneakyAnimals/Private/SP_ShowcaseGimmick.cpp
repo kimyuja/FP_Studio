@@ -43,6 +43,8 @@ void ASP_ShowcaseGimmick::BeginPlay()
 
 	SetActiveType(Myactivetype);
 
+	WorldContextObject = this;
+
 	//trigger->SetBoxExtent(activeRange);
 
 }

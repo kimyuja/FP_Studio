@@ -44,6 +44,9 @@ void ABS_HandleGimmick::BeginPlay()
 	Super::BeginPlay();
 
 	SetActiveType(Myactivetype);
+
+	WorldContextObject = this;
+
 }
 
 void ABS_HandleGimmick::Tick(float DeltaTime)

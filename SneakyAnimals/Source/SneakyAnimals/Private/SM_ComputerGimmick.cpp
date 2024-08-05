@@ -72,6 +72,9 @@ void ASM_ComputerGimmick::BeginPlay()
 	SetActiveType(Myactivetype);
 	planePanel1->SetVisibility(false);
 	planePanel2->SetVisibility(false);
+
+	WorldContextObject = this;
+
 }
 
 void ASM_ComputerGimmick::Tick(float DeltaTime)

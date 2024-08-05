@@ -44,6 +44,8 @@ void ASM_PeriscopeGimmick::BeginPlay()
 
 	//trigger->SetBoxExtent(activeRange);
 
+	WorldContextObject = this;
+
 }
 
 void ASM_PeriscopeGimmick::Tick(float DeltaTime)

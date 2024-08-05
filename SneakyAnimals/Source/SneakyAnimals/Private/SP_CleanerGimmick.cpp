@@ -44,6 +44,9 @@ void ASP_CleanerGimmick::BeginPlay()
 
 	SetActiveType(Myactivetype);
 
+
+	WorldContextObject = this;
+
 	//trigger->SetBoxExtent(activeRange);
 
 }
@@ -122,6 +125,9 @@ void ASP_CleanerGimmick::RedBull(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
+		/*FTimerDelegate TimerDel;
+		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, TimerDel, 2.0f, false);*/
+	
 		player->ServerRPC_SetPlayerPhysics(player);
 		player->bIsDie = true;
 		player->Respawn();

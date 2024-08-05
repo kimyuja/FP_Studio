@@ -44,6 +44,9 @@ void ABS_LaserGimmick::BeginPlay()
 
 	SetActiveType(Myactivetype);
 
+	WorldContextObject = this;
+
+
 	//trigger->SetBoxExtent(activeRange);
 
 }

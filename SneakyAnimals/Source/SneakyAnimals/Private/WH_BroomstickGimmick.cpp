@@ -46,6 +46,8 @@ void AWH_BroomstickGimmick::BeginPlay()
 
 	//trigger->SetBoxExtent(activeRange);
 
+	WorldContextObject = this;
+
 }
 
 void AWH_BroomstickGimmick::Tick(float DeltaTime)

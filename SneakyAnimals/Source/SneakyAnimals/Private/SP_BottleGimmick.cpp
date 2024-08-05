@@ -45,6 +45,8 @@ void ASP_BottleGimmick::BeginPlay()
 
 	//trigger->SetBoxExtent(activeRange);
 
+	WorldContextObject = this;
+
 }
 
 void ASP_BottleGimmick::Tick(float DeltaTime)

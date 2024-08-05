@@ -46,6 +46,7 @@ void AWH_WitchCauldronGimmick::BeginPlay()
 
 	//trigger->SetBoxExtent(activeRange);
 
+	WorldContextObject = this;
 }
 
 void AWH_WitchCauldronGimmick::Tick(float DeltaTime)

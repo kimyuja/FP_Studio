@@ -44,6 +44,8 @@ void ASM_WhistleGimmick::BeginPlay()
 
 	SetActiveType(Myactivetype);
 
+	WorldContextObject = this;
+
 }
 
 void ASM_WhistleGimmick::Tick(float DeltaTime)

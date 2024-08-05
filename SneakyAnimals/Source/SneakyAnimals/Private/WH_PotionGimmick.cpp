@@ -43,6 +43,8 @@ void AWH_PotionGimmick::BeginPlay()
 
 	//trigger->SetBoxExtent(activeRange);
 
+	WorldContextObject = this;
+
 }
 
 void AWH_PotionGimmick::Tick(float DeltaTime)

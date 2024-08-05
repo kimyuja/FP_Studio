@@ -44,6 +44,9 @@ void ABS_GoldBarGimmick::BeginPlay()
 	Super::BeginPlay();
 
 	SetActiveType(Myactivetype);
+
+	WorldContextObject = this;
+
 }
 
 void ABS_GoldBarGimmick::Tick(float DeltaTime)

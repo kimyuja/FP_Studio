@@ -45,6 +45,8 @@ void ASP_CartGimmick::BeginPlay()
 
 	//trigger->SetBoxExtent(activeRange);
 
+	WorldContextObject = this;
+
 }
 
 void ASP_CartGimmick::Tick(float DeltaTime)
