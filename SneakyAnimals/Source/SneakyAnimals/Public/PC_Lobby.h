@@ -99,6 +99,21 @@ public:
 	UFUNCTION()
 	void QuitGame_Btn_Decline();
 	//-----------------------------------
+
+	//----------------Key Inform---------
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* Toggle_KeyInform;
+	
+	UPROPERTY(EditAnywhere, Category="References")
+	TSubclassOf<class UUserWidget> KeyInfom_bp;
+
+	UPROPERTY(EditAnywhere, Category = "References")
+	class UUserWidget* KeyInfom_inst;
+
+	UFUNCTION()
+	void Toggle_Key_Inform();
+	//-----------------------------------
+
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_Spawn_Character();
 

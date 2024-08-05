@@ -53,6 +53,9 @@ void APC_Lobby::SetupInputComponent()
 		
 		// Create Quit Game Pop Up
 		EnhancedInputComponent->BindAction(IA_QuitGamePopup, ETriggerEvent::Completed, this, &APC_Lobby::Create_QuitGame_PopUp);
+		
+		// Toggle_Key_Infom
+		EnhancedInputComponent->BindAction(Toggle_KeyInform, ETriggerEvent::Completed, this, &APC_Lobby::Toggle_Key_Inform);
 	}
 }
 
@@ -320,6 +323,70 @@ void APC_Lobby::QuitGame_Btn_Decline()
 void APC_Lobby::ServerRPC_Spawn_Character_Implementation()
 {
 	Cast<AGM_Base>(GetWorld()->GetAuthGameMode())->Spawn_Character(this);
+}
+
+void APC_Lobby::Toggle_Key_Inform()
+{
+
+	// Get the pawn and cast it to ATestPlayer
+	APawn* pawn = this->GetPawn();
+	if (!pawn) {
+		return;
+	}
+
+	ATestPlayer* testPlayer = Cast<ATestPlayer>(pawn);
+	if (!testPlayer) {
+		return;
+	}
+
+	// 게임 메뉴가 뷰포트에 있니? PC_Base에서 함수 실행해
+
+	// 없으면, WB_Character_Customization가 valid 하니?
+	if (KeyInfom_inst->IsValidLowLevelFast())
+	{
+		// WB_Character_Customization is valid
+		// 라면, WB_Character_Customization가 뷰포트에 있니?
+		if (KeyInfom_inst->IsInViewport())
+		{
+			// 뷰포트에 있으면
+			// WB_Character_Customization Remove From Parent
+			KeyInfom_inst->RemoveFromParent();
+			// Show Mouse Cursor false
+			this->bShowMouseCursor = false;
+			// Set Input Mode Game Only
+			UWidgetBlueprintLibrary::SetInputMode_GameOnly(this);
+		}
+		else
+		{
+			// 뷰포트에 없으면
+			// Remove WB_Lobby_Menu
+			KeyInfom_inst->AddToViewport(0);
+			UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this, KeyInfom_inst, EMouseLockMode::DoNotLock, false, false);
+			// Show Mouse Cursor true
+			this->bShowMouseCursor = true;
+		}
+
+	}
+	else
+	{
+		// WB_Character_Customization is not valid
+		// WB_Character_Customization를 create 해라
+		// MainMenu_inst = CreateWidget<UW_MainMenu>(this, MainMenu_bp, FName("WB_MainMenu"));
+		KeyInfom_inst = CreateWidget<UUserWidget>(this, KeyInfom_bp, FName("WBP_KeyInformLobby"));
+		// WB_Character_Customization가 뷰포트에 없으면 하는 로직으로 똑같이 실행한다.
+
+		// 뷰포트에 없으면
+		// Remove WB_Lobby_Menu
+
+		// WB_Character_Customization Add to Viewport
+		KeyInfom_inst->AddToViewport(0);
+		// Set Input Mode Game And UI Do Not Lock(코드는 PC_MainMenu.cpp 참고)
+		UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this, KeyInfom_inst, EMouseLockMode::DoNotLock, false, false);
+		// Show Mouse Cursor true
+		this->bShowMouseCursor = true;
+
+	}
+
 }
 
 bool APC_Lobby::ValidatePlayerState()
