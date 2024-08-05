@@ -140,7 +140,7 @@ void ABS_SwitchGimmick::DropMe(AActor* ActivePlayer)
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : DropMe"));
 
-	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+	
 
 	dropP = Cast<ATestPlayer>(ActivePlayer);
 	dropP->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -161,7 +161,7 @@ void ABS_SwitchGimmick::ThrowMe(AActor* ActivePlayer)
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : ThrowMe"));
 
-	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
 
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
@@ -176,5 +176,6 @@ void ABS_SwitchGimmick::ThrowMe(AActor* ActivePlayer)
 void ABS_SwitchGimmick::SafeGaurd()
 {
 	bCanActive = false;
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }

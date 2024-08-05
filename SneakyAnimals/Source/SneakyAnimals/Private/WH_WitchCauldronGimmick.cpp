@@ -143,10 +143,13 @@ void AWH_WitchCauldronGimmick::BlindFog()
 		}, 0.03f, true, 0);
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
+		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [it]()
+			{
+				it->bIsDie = true;
+				it->Respawn();
+				it->DeathCounting();
+			}, 2.5f, false);
 		//players.Add(*it);
-		it->bIsDie = true;
-		it->DeathCounting();
-		it->Respawn();
 	}
 	/*for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
@@ -170,9 +173,13 @@ void AWH_WitchCauldronGimmick::HereIsAWitch(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
-		player->bIsDie = true;
-		player->DeathCounting();
-		player->Respawn();
+		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
+			{
+				player->ServerRPC_SetPlayerPhysics(player);
+				player->bIsDie = true;
+				player->Respawn();
+				player->DeathCounting();
+			}, 1.5f, false);
 	}
 }
 

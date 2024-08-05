@@ -49,6 +49,8 @@ public:
 
 	UObject* WorldContextObject;
 
+	FTimerHandle DelayTimerHandle;
+
 private:
 
 	// 만진사람 본인만 죽음( 혼자)

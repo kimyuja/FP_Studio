@@ -49,6 +49,8 @@ public:
 
 	UObject* WorldContextObject;
 
+	FTimerHandle DelayTimerHandle;
+
 private:
 	
 	TArray<class ATestPlayer*> players;

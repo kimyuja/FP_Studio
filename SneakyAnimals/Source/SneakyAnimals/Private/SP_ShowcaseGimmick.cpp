@@ -138,9 +138,12 @@ void ASP_ShowcaseGimmick::WaRRRR(AActor* ActivePlayer)
 	{
 		if (FVector::Dist(GetActorLocation(), it->GetActorLocation()) < 500.0)
 		{
-			it->bIsDie = true;
-			it->Death_Fallover();
-			it->DeathCounting();
+			GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [it]()
+				{
+					it->bIsDie = true;
+					it->Death_Fallover();
+					it->DeathCounting();
+				}, 1.5f, false);
 		}
 	}
 }
@@ -155,10 +158,13 @@ void ASP_ShowcaseGimmick::Babo(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
-		player->ServerRPC_SetPlayerPhysics(player);
-		player->bIsDie = true;
-		player->Respawn();
-		player->DeathCounting();
+		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
+			{
+				player->ServerRPC_SetPlayerPhysics(player);
+				player->bIsDie = true;
+				player->Respawn();
+				player->DeathCounting();
+			}, 1.5f, false);
 	}
 }
 

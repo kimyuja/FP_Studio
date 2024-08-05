@@ -55,6 +55,9 @@ public:
 	FVector activeRange;
 
 	UObject* WorldContextObject;
+	
+	FTimerHandle DelayTimerHandle;
+
 
 
 private:
