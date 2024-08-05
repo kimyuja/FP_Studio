@@ -72,6 +72,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
 		return 3;
 	}
+	bCanActive = false;
 	FText playerName = Cast<APS_Gameplay>(Cast<ATestPlayer>(ActivePlayer)->GetPlayerState())->Player_UserProfile.Username;
 	//Cast<ATestPlayer>(ActivePlayer)->bIsDie = true;
 	//Cast<ATestPlayer>(ActivePlayer)->bCanActive = false;
@@ -172,9 +173,6 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	GetWorldTimerManager().SetTimer(playT, [&](){
 		bIsPlayed = false;
 	}, 1.0, false, 0.5);*/
-
-
-	bCanActive = false;
 
 	return _key;
 }
