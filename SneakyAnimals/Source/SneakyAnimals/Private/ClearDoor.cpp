@@ -49,7 +49,7 @@ void AClearDoor::Tick(float DeltaTime)
 
 void AClearDoor::OpenDoor()
 {
-	UE_LOG(LogTemp, Warning, TEXT(" DoorOpen"));
+	//UE_LOG(LogTemp, Warning, TEXT(" DoorOpen"));
 	lerpTime = 0;
 	bIsOpen = true;
 	GetWorldTimerManager().SetTimer(openDoorT, [&]()
@@ -67,19 +67,19 @@ void AClearDoor::AutoOpen(UPrimitiveComponent * OverlappedComponent, AActor * Ot
 	{
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Test"));
+	//UE_LOG(LogTemp, Warning, TEXT("Test"));
 	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{
 		if (player->bCanOpenDoor == true)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("overlap"));
+			//UE_LOG(LogTemp, Warning, TEXT("overlap"));
 			player->bCanActive = true;
 			OpenDoor();
 		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("RTY"));
+		//UE_LOG(LogTemp, Warning, TEXT("RTY"));
 	}
 }

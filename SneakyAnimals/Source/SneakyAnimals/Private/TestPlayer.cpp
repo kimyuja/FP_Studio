@@ -746,27 +746,27 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 {
 	con = GetWorld()->GetFirstPlayerController();
 	DisableInput(con);
-	switch (playerShowNum)
+	/*switch (playerShowNum)
 	{
 	case 0 :
 		SetActorRotation(FRotator(0, 90, 0));
-		SetActorLocation(FVector(221, -590, 72));
+		SetActorLocation(FVector(221, -590, 100));
 		break;
 	case 1:
 		SetActorRotation(FRotator(0, 90, 0));
-		SetActorLocation(FVector(221, -200, 72));
+		SetActorLocation(FVector(221, -200, 100));
 		break;
 	case 2:
 		SetActorRotation(FRotator(0, 90, 0));
-		SetActorLocation(FVector(221, 200, 72));
+		SetActorLocation(FVector(221, 200, 100));
 		break;
 	case 3:
 		SetActorRotation(FRotator(0, 90, 0));
-		SetActorLocation(FVector(221, 590, 72));
+		SetActorLocation(FVector(221, 590, 100));
 		break;
 	default:
 		break;
-	}
+	}*/
 	/*SetActorRotation(FRotator(0, 90, 0));
 	SetActorLocation(FVector(-1000, 0, 0));*/
 	for (TActorIterator<ACameraActor> it(GetWorld()); it; ++it)
@@ -782,6 +782,27 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 
 	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
 	{
+		switch (p->playerShowNum)
+		{
+		case 0:
+			p->SetActorRotation(FRotator(0, 90, 0));
+			p->SetActorLocation(FVector(221, -590, 100));
+			break;
+		case 1:
+			p->SetActorRotation(FRotator(0, 90, 0));
+			p->SetActorLocation(FVector(221, -200, 100));
+			break;
+		case 2:
+			p->SetActorRotation(FRotator(0, 90, 0));
+			p->SetActorLocation(FVector(221, 200, 100));
+			break;
+		case 3:
+			p->SetActorRotation(FRotator(0, 90, 0));
+			p->SetActorLocation(FVector(221, 590, 100));
+			break;
+		default:
+			break;
+		}
 		if (HasAuthority()&&IsLocallyControlled())
 		{
 			//UE_LOG(LogTemp, Warning, TEXT("create vote ui, player num : %d"), p->playerNum);
