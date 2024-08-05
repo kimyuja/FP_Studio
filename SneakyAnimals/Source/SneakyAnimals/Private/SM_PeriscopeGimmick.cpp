@@ -8,6 +8,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/GameFramework/Character.h>
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include "TestPlayer.h"
+#include "Kismet/GameplayStatics.h"
 
 ASM_PeriscopeGimmick::ASM_PeriscopeGimmick()
 {
@@ -126,6 +127,9 @@ void ASM_PeriscopeGimmick::PeriscopeSpin(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : PeriscopeSpin"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(spinT, [&]()
 		{
@@ -146,6 +150,9 @@ void ASM_PeriscopeGimmick::ByeHandle(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : ByeHandle"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	activeObject->SetSimulatePhysics(true);
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
@@ -160,6 +167,9 @@ void ASM_PeriscopeGimmick::HandleShake()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(clearSpinT, [&]()
 		{

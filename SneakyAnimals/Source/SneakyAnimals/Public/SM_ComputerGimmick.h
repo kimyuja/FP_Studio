@@ -62,6 +62,8 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	class UWidgetComponent* moniterUI;
 
+	UObject* WorldContextObject;
+
 private:
 
 	

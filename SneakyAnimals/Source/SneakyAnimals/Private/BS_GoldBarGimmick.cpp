@@ -13,6 +13,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 #include "SM_ComputerMoniter.h"
 #include "ItemObject.h"
+#include "Kismet/GameplayStatics.h"
 
 ABS_GoldBarGimmick::ABS_GoldBarGimmick()
 {
@@ -146,6 +147,8 @@ void ABS_GoldBarGimmick::Alarm(AActor* ActivePlayer)
 	players[targetNum]->Respawn(5.0);
 	players[targetNum]->DeathCounting();*/
 
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -162,8 +165,13 @@ void ABS_GoldBarGimmick::Golden(AActor* ActivePlayer)
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Golden"));
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	_target = Cast<ATestPlayer>(ActivePlayer);
+	
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+	
 	GetWorldTimerManager().SetTimer(goldT, [&]()
 		{
+
+
 			FVector targetLoc = (_target->GetActorLocation() - activeObject->GetComponentLocation()).GetSafeNormal();
 			//targetLoc = FVector(targetLoc.X, targetLoc.Y, 0);
 			activeObject->SetRelativeLocation(activeObject->GetRelativeLocation() + targetLoc * 30.0);
@@ -174,5 +182,8 @@ void ABS_GoldBarGimmick::Golden(AActor* ActivePlayer)
 void ABS_GoldBarGimmick::DoorOpen()
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }

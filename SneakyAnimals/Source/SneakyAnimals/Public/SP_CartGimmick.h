@@ -53,6 +53,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<AActor> cart;
 
+	UObject* WorldContextObject;
+
 private:
 
 	float lerpTime;

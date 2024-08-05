@@ -11,6 +11,7 @@
 #include "GI_SneakyAnimals.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 #include "ItemObject.h"
+#include "Kismet/GameplayStatics.h"
 
 ABS_LaserGimmick::ABS_LaserGimmick()
 {
@@ -115,6 +116,9 @@ void ABS_LaserGimmick::ElectricGrill(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : ElectricGrill"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -130,6 +134,9 @@ void ABS_LaserGimmick::WarningDeath(AActor* ActivePlayer)
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : WarningDeath"));
 	FTimerHandle dieT;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	GetWorldTimerManager().SetTimer(dieT, [&]()
 		{
 			for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
@@ -145,5 +152,6 @@ void ABS_LaserGimmick::WarningDeath(AActor* ActivePlayer)
 void ABS_LaserGimmick::Faker(AActor* ActivePlayer)
 {
 	bCanActive = false;
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }

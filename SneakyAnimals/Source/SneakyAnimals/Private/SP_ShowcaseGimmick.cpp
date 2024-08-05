@@ -10,6 +10,7 @@
 #include "GI_SneakyAnimals.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 #include "ItemObject.h"
+#include "Kismet/GameplayStatics.h"
 
 ASP_ShowcaseGimmick::ASP_ShowcaseGimmick()
 {
@@ -122,6 +123,9 @@ void ASP_ShowcaseGimmick::WaRRRR(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : WaRRRR"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 		{
@@ -143,6 +147,9 @@ void ASP_ShowcaseGimmick::Babo(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Babo"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -157,5 +164,8 @@ void ASP_ShowcaseGimmick
 ::MasterKey(AActor* ActivePlayer)
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }

@@ -50,6 +50,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FVector activeRange;
 
+	UObject* WorldContextObject;
+
 private:
 
 	float lerpTime;

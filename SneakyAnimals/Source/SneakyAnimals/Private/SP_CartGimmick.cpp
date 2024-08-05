@@ -10,6 +10,7 @@
 #include "SP_RollingCart.h"
 #include "GI_SneakyAnimals.h"
 #include "ItemObject.h"
+#include "Kismet/GameplayStatics.h"
 
 ASP_CartGimmick::ASP_CartGimmick()
 {
@@ -140,6 +141,9 @@ void ASP_CartGimmick::Defective(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : RoadRoller"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	activeObject->SetSimulatePhysics(true);
 	activeObject->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	activeObject->AddImpulse(FVector(0,0,10), TEXT(""), true);
@@ -156,6 +160,9 @@ void ASP_CartGimmick::RoadRoller(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : RoadRoller"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	//GetWorld()->SpawnActor<ASP_RollingCart>(cart, GetActorLocation() + GetActorUpVector(), GetActorRotation());
 	//if (ActivePlayer->HasAuthority())
 	//{
@@ -184,6 +191,9 @@ void ASP_CartGimmick::RollingCart()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	/*GetWorldTimerManager().SetTimer(doorT, [&]()
 		{
 			FVector targetLoc = (FVector(0, 0, 0) - GetActorLocation()).GetSafeNormal();

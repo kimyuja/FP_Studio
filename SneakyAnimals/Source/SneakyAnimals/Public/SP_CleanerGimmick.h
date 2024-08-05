@@ -47,6 +47,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Myactivetype;
 
+	UObject* WorldContextObject;
+
 private:
 
 	// 음료수병에 담겨있던 청소약을 마셨다(혼자)

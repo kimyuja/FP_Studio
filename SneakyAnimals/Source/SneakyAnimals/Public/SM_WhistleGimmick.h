@@ -47,6 +47,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Myactivetype;
 
+	UObject* WorldContextObject;
+
 private:
 
 	

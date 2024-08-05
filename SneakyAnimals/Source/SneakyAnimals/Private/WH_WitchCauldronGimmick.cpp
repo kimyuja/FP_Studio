@@ -126,6 +126,8 @@ void AWH_WitchCauldronGimmick::BlindFog()
 
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BlindFog"));
 
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+	
 	GetWorldTimerManager().SetTimer(fogT, [&]()
 		{
 			if (object->GetComponentLocation().Z >= 0)
@@ -136,7 +138,6 @@ void AWH_WitchCauldronGimmick::BlindFog()
 			object->SetRelativeLocation(FVector(0,0,loc));
 			lerpTime += GetWorld()->DeltaTimeSeconds;
 
-			UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
 
 		}, 0.03f, true, 0);
 	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)

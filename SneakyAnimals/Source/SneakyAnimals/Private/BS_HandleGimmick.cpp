@@ -13,6 +13,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 #include "SM_ComputerMoniter.h"
 #include "ItemObject.h"
+#include "Kismet/GameplayStatics.h"
 
 ABS_HandleGimmick::ABS_HandleGimmick()
 {
@@ -114,6 +115,9 @@ void ABS_HandleGimmick::Pikachu(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : Pikachu"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -126,6 +130,9 @@ void ABS_HandleGimmick::WarningAlarm()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : WarningAlarm"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	FTimerHandle dieT;
 	GetWorldTimerManager().SetTimer(dieT, [&]()
 	{
@@ -142,5 +149,8 @@ void ABS_HandleGimmick::WarningAlarm()
 void ABS_HandleGimmick::DoorOpen()
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }

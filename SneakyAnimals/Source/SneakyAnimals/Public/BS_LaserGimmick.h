@@ -47,6 +47,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Myactivetype;
 
+	UObject* WorldContextObject;
+
 private:
 
 	// 만진사람 본인만 죽음( 혼자)

@@ -10,6 +10,7 @@
 #include "GI_SneakyAnimals.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 #include "ItemObject.h"
+#include "Kismet/GameplayStatics.h"
 
 ASP_BottleGimmick::ASP_BottleGimmick()
 {
@@ -132,6 +133,9 @@ void ASP_BottleGimmick::BottleTrap(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BottleTrap"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -146,6 +150,9 @@ void ASP_BottleGimmick::Son(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Son"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	_target = Cast<ATestPlayer>(ActivePlayer);
 	GetWorldTimerManager().SetTimer(sonT, [&]()
 		{
@@ -159,5 +166,8 @@ void ASP_BottleGimmick::Son(AActor* ActivePlayer)
 void ASP_BottleGimmick::MasterKey(AActor* ActivePlayer)
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }

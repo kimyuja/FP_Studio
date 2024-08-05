@@ -13,6 +13,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 #include "SM_ComputerMoniter.h"
+#include "Kismet/GameplayStatics.h"
 
 ASM_ComputerGimmick::ASM_ComputerGimmick()
 {
@@ -146,6 +147,9 @@ void ASM_ComputerGimmick::Electrocution(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : Electrocution"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -158,6 +162,9 @@ void ASM_ComputerGimmick::SelfExplosion()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : SelfExplosion"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	planePanel1->SetVisibility(true);
 	planePanel2->SetVisibility(true);
 	FTimerHandle hideT;
@@ -177,6 +184,9 @@ void ASM_ComputerGimmick::SelfExplosion()
 void ASM_ComputerGimmick::SOS()
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 	//Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetHelp();
 }

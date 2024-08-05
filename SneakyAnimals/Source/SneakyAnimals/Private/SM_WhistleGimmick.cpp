@@ -10,6 +10,7 @@
 #include "ItemObject.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
 #include "Shark.h"
+#include "Kismet/GameplayStatics.h"
 
 ASM_WhistleGimmick::ASM_WhistleGimmick()
 {
@@ -118,6 +119,9 @@ void ASM_WhistleGimmick::BabyShark(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : BabyShark"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	for (TActorIterator<AShark> it(GetWorld()); it; ++it)
 	{
 		it->bIsActive = true;
@@ -138,6 +142,8 @@ void ASM_WhistleGimmick::IronSupplementation(AActor* ActivePlayer)
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : IronSupplementation"));
 
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -150,6 +156,9 @@ void ASM_WhistleGimmick::IronSupplementation(AActor* ActivePlayer)
 void ASM_WhistleGimmick::WhalePush()
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 	
 }

@@ -11,6 +11,7 @@
 #include "GI_SneakyAnimals.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/BoxComponent.h>
 #include "ItemObject.h"
+#include "Kismet/GameplayStatics.h"
 
 ASP_CleanerGimmick::ASP_CleanerGimmick()
 {
@@ -115,6 +116,9 @@ void ASP_CleanerGimmick::RedBull(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : RedBull"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -129,6 +133,9 @@ void ASP_CleanerGimmick::Lego(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Lego"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
@@ -142,5 +149,8 @@ void ASP_CleanerGimmick::Lego(AActor* ActivePlayer)
 void ASP_CleanerGimmick::MasterKey(AActor* ActivePlayer)
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }

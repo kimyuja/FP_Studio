@@ -13,6 +13,7 @@
 #include <../../../../../../../Source/Runtime/UMG/Public/Components/WidgetComponent.h>
 #include "SM_ComputerMoniter.h"
 #include "ItemObject.h"
+#include "Kismet/GameplayStatics.h"
 
 ABS_SwitchGimmick::ABS_SwitchGimmick()
 {
@@ -115,6 +116,9 @@ void ABS_SwitchGimmick::DangerousGaurd(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : DangerousGaurd"));
+	
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+	
 	FTimerHandle dieT;
 	GetWorldTimerManager().SetTimer(dieT, [&]()
 		{
@@ -132,6 +136,9 @@ void ABS_SwitchGimmick::DropMe(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : DropMe"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
+
 	dropP = Cast<ATestPlayer>(ActivePlayer);
 	dropP->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetWorldTimerManager().SetTimer(dropT, [&]()
@@ -150,6 +157,9 @@ void ABS_SwitchGimmick::ThrowMe(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : ThrowMe"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{

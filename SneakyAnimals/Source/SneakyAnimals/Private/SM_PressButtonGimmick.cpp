@@ -11,6 +11,7 @@
 #include "ItemObject.h"
 #include "TrapDoor.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h>
+#include "Kismet/GameplayStatics.h"
 
 ASM_PressButtonGimmick::ASM_PressButtonGimmick()
 {
@@ -119,6 +120,9 @@ void ASM_PressButtonGimmick::Waterbomb()
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : Waterbomb"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+
 	lerpTime = 0;
 	GetWorldTimerManager().SetTimer(pressT, [&]()
 		{
@@ -143,6 +147,8 @@ void ASM_PressButtonGimmick::Blinklife(AActor* ActivePlayer)
 {
 	bCanActive = false;
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Blinklife"));
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
 	
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
@@ -157,6 +163,9 @@ void ASM_PressButtonGimmick::Blinklife(AActor* ActivePlayer)
 void ASM_PressButtonGimmick::Autopilot()
 {
 	bCanActive = false;
+
+	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[2], GetActorLocation());
+
 	UE_LOG(LogTemp, Warning, TEXT("Clear!"));
 }
 
