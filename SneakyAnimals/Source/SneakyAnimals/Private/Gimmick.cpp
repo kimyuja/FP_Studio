@@ -25,6 +25,7 @@
 #include "BS_LaserGimmick.h"
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
+#include "PS_Gameplay.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -71,6 +72,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 		UE_LOG(LogTemp, Warning, TEXT("Can't Active"));
 		return 3;
 	}
+	FText playerName = Cast<APS_Gameplay>(Cast<ATestPlayer>(ActivePlayer)->GetPlayerState())->Player_UserProfile.Username;
 	//Cast<ATestPlayer>(ActivePlayer)->bIsDie = true;
 	//Cast<ATestPlayer>(ActivePlayer)->bCanActive = false;
 	for (TActorIterator<AGimmick> g(GetWorld()); g; ++g)
