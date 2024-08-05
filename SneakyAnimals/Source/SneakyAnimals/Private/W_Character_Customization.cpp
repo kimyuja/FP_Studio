@@ -22,21 +22,21 @@ UW_Character_Customization::UW_Character_Customization(const FObjectInitializer&
 	{
 		DT_Available_Characters = InGameAvailableCharactersTable.Object;
 	}
-	
+
 	// DT_Available_Accessories 를 로드한다.
 	static ConstructorHelpers::FObjectFinder<UDataTable> InGameAvailableAccessoriesTable(TEXT("/Game/KYJ/Data/DT_Available_Accessories"));
 	if (InGameAvailableAccessoriesTable.Succeeded())
 	{
 		DT_Available_Accessories = InGameAvailableAccessoriesTable.Object;
 	}
-	
+
 	// DT_Available_Skins 를 로드한다.
 	static ConstructorHelpers::FObjectFinder<UDataTable> InGameAvailableSkinsTable(TEXT("/Game/KYJ/Data/DT_Available_Skins"));
 	if (InGameAvailableSkinsTable.Succeeded())
 	{
 		DT_Available_Skins = InGameAvailableSkinsTable.Object;
 	}
-	
+
 	// DT_Available_Eyes 를 로드한다.
 	static ConstructorHelpers::FObjectFinder<UDataTable> InGameAvailableEyesTable(TEXT("/Game/KYJ/Data/DT_Available_Eyes"));
 	if (InGameAvailableEyesTable.Succeeded())
@@ -177,12 +177,12 @@ void UW_Character_Customization::NativeConstruct()
 	{
 		Accessoires_Btn->Button->OnClicked.AddDynamic(this, &UW_Character_Customization::OnAccessoires_BtnClicked);
 	}
-	
+
 	if (Skins_Btn)
 	{
 		Skins_Btn->Button->OnClicked.AddDynamic(this, &UW_Character_Customization::OnSkins_BtnClicked);
 	}
-	
+
 	if (Clothes_Btn)
 	{
 		Clothes_Btn->Button->OnClicked.AddDynamic(this, &UW_Character_Customization::OnClothes_BtnClicked);
@@ -255,13 +255,23 @@ void UW_Character_Customization::Load_Available_Accessories()
 		// 구조체로 캐스팅하여 데이터 가져오기
 		S_Available_Accessories = *(DT_Available_Accessories->FindRow<FStructure_Available_Accessories>(RowName, TEXT("")));
 
-		// S_Available_Accessories.CharacterID == -1 이면 모든 캐릭터에 할당 가능한 아이템이라는 뜻
-		// 현재 나의 캐릭터에 맞는 아이템만 AddChild 하고 싶다...
-		if (S_Available_Accessories.CharacterID!=-1 && S_Available_Accessories.CharacterID!=PS_Lobby->Player_Appearance.Character.ItemID)
-		{
-			// 현재 나의 캐릭터에 맞지 않는 아이템이라면 그냥 넘어가!
-			continue;
+
+		if (PS_Lobby == nullptr) {
+			UE_LOG(LogTemp, Error, TEXT("PS_Lobby is null"));
 		}
+		else if (!PS_Lobby->Player_Appearance.Character.Mesh->IsValidLowLevel()) {
+			UE_LOG(LogTemp, Error, TEXT("Player_Appearance.Character is not valid."));
+		}
+		else {
+			UE_LOG(LogTemp, Log, TEXT("PS_Lobby and Player_Appearance.Character are valid"));
+			// S_Available_Accessories.CharacterID == -1 이면 모든 캐릭터에 할당 가능한 아이템이라는 뜻
+			// 현재 나의 캐릭터에 맞는 아이템만 AddChild 하고 싶다...
+			if (S_Available_Accessories.CharacterID != -1 && S_Available_Accessories.CharacterID != PS_Lobby->Player_Appearance.Character.ItemID) {
+				// 현재 나의 캐릭터에 맞지 않는 아이템이라면 그냥 넘어가!
+				continue;
+			}
+		}
+
 
 		Character_Customization_Item_inst = CreateWidget<UW_Character_Customization_Item>(this, Character_Customization_Item_bp, RowName);
 
@@ -527,7 +537,7 @@ void UW_Character_Customization::Find_Current_Selected_Character()
 
 	UW_Character_Customization_Item* WB_Character_Customization_Item = nullptr;
 	bool bFound = false;
-	
+
 	// if ps_lobby cast failed
 	if (!ps_lobby)
 	{
@@ -553,7 +563,7 @@ void UW_Character_Customization::Find_Current_Selected_Character()
 		item->Checkmark_Icon->SetVisibility(ESlateVisibility::Visible);
 		return;
 	}
-	
+
 }
 
 void UW_Character_Customization::Find_Current_Selected_Accessories()

@@ -60,5 +60,6 @@ protected:
 private:
 	void Setup();
 	void InitLobbyStatusIndicator();
+	FTimerHandle Timer_Countdown;
 	
 };

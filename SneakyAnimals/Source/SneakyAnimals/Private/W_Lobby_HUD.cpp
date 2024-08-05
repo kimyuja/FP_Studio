@@ -46,6 +46,8 @@ void UW_Lobby_HUD::Countdown_Launchevent()
 	CountDown--;
 	if (CountDown == -1)
 	{
+		GetWorld()->GetTimerManager().ClearTimer(Timer_Countdown);
+
 		if (UKismetSystemLibrary::IsServer(GetWorld())) {
 			AGM_Lobby* gm_lobby = Cast<AGM_Lobby>(UGameplayStatics::GetGameMode(GetWorld()));
 			gm_lobby->ServerTravel();
@@ -53,7 +55,6 @@ void UW_Lobby_HUD::Countdown_Launchevent()
 	} 
 	else
 	{
-		FTimerHandle Timer_Countdown;
 		GetWorld()->GetTimerManager().SetTimer(Timer_Countdown, [&]() {
 				if (bLaunchingGame)
 				{
