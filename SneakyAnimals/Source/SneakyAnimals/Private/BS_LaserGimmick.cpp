@@ -125,10 +125,14 @@ void ABS_LaserGimmick::ElectricGrill(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
-		player->ServerRPC_SetPlayerPhysics(player);
-		player->bIsDie = true;
-		player->Respawn();
-		player->DeathCounting();
+
+		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
+			{
+				player->ServerRPC_SetPlayerPhysics(player);
+				player->bIsDie = true;
+				player->Respawn();
+				player->DeathCounting();
+			}, 2.f, false);
 	}
 }
 

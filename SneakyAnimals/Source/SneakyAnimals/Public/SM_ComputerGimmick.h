@@ -64,6 +64,8 @@ public:
 
 	UObject* WorldContextObject;
 
+	FTimerHandle DelayTimerHandle;
+
 private:
 
 	
