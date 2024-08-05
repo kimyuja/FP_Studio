@@ -118,20 +118,21 @@ int32 ASP_CleanerGimmick::OnMyActive(AActor* ActivePlayer)
 void ASP_CleanerGimmick::RedBull(AActor* ActivePlayer)
 {
 	bCanActive = false;
-	UE_LOG(LogTemp, Warning, TEXT(" Death 1 : RedBull"));
+	UE_LOG(LogTemp, Warning, TEXT("Death 1 : RedBull"));
 
-	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[0], GetActorLocation());
+	UGameplayStatics::PlaySoundAtLocation(this, sounds[0], GetActorLocation());
 
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
-		/*FTimerDelegate TimerDel;
-		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, TimerDel, 2.0f, false);*/
-	
-		player->ServerRPC_SetPlayerPhysics(player);
-		player->bIsDie = true;
-		player->Respawn();
-		player->DeathCounting();
+		// Set a timer to call the following code after 2 seconds
+		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
+			{
+				player->ServerRPC_SetPlayerPhysics(player);
+				player->bIsDie = true;
+				player->Respawn();
+				player->DeathCounting();
+			}, 1.5f, false);
 	}
 }
 
@@ -145,10 +146,13 @@ void ASP_CleanerGimmick::Lego(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
-		player->ServerRPC_SetPlayerPhysics(player);
-		player->bIsDie = true;
-		player->Respawn();
-		player->DeathCounting();
+		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
+			{
+				player->ServerRPC_SetPlayerPhysics(player);
+				player->bIsDie = true;
+				player->Respawn();
+				player->DeathCounting();
+			}, 1.5f, false);
 	}
 }
 
