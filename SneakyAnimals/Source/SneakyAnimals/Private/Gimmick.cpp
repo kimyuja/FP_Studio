@@ -153,7 +153,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 			}
 		}
 	}
-	if (soundNum == 0)
+	/*if (soundNum == 0)
 	{
 		soundNum = _key;
 	}
@@ -162,14 +162,14 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 		bIsPlayed = true;
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), sounds[soundNum], ActivePlayer->GetActorLocation());
 		UE_LOG(LogTemp, Warning, TEXT("Play Sound %d, %swwwwwww"), soundNum, *UEnum::GetValueAsString(TEXT("Engine.ENetRole"), GetRemoteRole()));
-	}
+	}*/
 	//ServerRPC_OnMyActive(ActivePlayer);
 	
 	//ServerRPC_OnMyActive(ActivePlayer);
-	FTimerHandle playT;
+	/*FTimerHandle playT;
 	GetWorldTimerManager().SetTimer(playT, [&](){
 		bIsPlayed = false;
-	}, 1.0, false, 0.5);
+	}, 1.0, false, 0.5);*/
 
 
 	bCanActive = false;
@@ -206,7 +206,7 @@ void AGimmick::SetCanActiveF(UPrimitiveComponent* OverlappedComponent, AActor* O
 	ATestPlayer* player = Cast<ATestPlayer>(OtherActor);
 	if (player)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("overlap"));
+		//UE_LOG(LogTemp, Warning, TEXT("overlap"));
 		player->bCanActive = false;
 		player->g = nullptr;
 		bCanActive = false;
