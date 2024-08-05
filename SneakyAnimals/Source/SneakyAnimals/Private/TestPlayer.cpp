@@ -744,6 +744,41 @@ void ATestPlayer::ServerRPC_StartGetFinalScore_Implementation()
 
 void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 {
+	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	{
+		switch (p->playerShowNum)
+		{
+		case 0:
+			p->SetActorLocation(FVector(221, -590, 170));
+			p->SetActorRotation(FRotator(0, 90, 0));
+			break;
+		case 1:
+			p->SetActorLocation(FVector(221, -200, 170));
+			p->SetActorRotation(FRotator(0, 90, 0));
+			break;
+		case 2:
+			p->SetActorLocation(FVector(221, 200, 170));
+			p->SetActorRotation(FRotator(0, 90, 0));
+			break;
+		case 3:
+			p->SetActorLocation(FVector(221, 590, 10));
+			p->SetActorRotation(FRotator(0, 90, 0));
+			break;
+		default:
+			break;
+		}
+		if (HasAuthority() && IsLocallyControlled())
+		{
+			//UE_LOG(LogTemp, Warning, TEXT("create vote ui, player num : %d"), p->playerNum);
+			p->myVoteUI = CreateWidget(GetWorld(), voteUI);
+			if (p->myVoteUI)
+			{
+				p->myVoteUI->AddToViewport(0);
+				UE_LOG(LogTemp, Warning, TEXT("create vote ui, player num : %d"), p->playerNum);
+			}
+		}
+	}
+
 	con = GetWorld()->GetFirstPlayerController();
 	DisableInput(con);
 	/*switch (playerShowNum)
@@ -780,40 +815,7 @@ void ATestPlayer::MultiRPC_StartGetFinalScore_Implementation()
 		}
 	}
 
-	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
-	{
-		switch (p->playerShowNum)
-		{
-		case 0:
-			p->SetActorRotation(FRotator(0, 90, 0));
-			p->SetActorLocation(FVector(221, -590, 100));
-			break;
-		case 1:
-			p->SetActorRotation(FRotator(0, 90, 0));
-			p->SetActorLocation(FVector(221, -200, 100));
-			break;
-		case 2:
-			p->SetActorRotation(FRotator(0, 90, 0));
-			p->SetActorLocation(FVector(221, 200, 100));
-			break;
-		case 3:
-			p->SetActorRotation(FRotator(0, 90, 0));
-			p->SetActorLocation(FVector(221, 590, 100));
-			break;
-		default:
-			break;
-		}
-		if (HasAuthority()&&IsLocallyControlled())
-		{
-			//UE_LOG(LogTemp, Warning, TEXT("create vote ui, player num : %d"), p->playerNum);
-			p->myVoteUI = CreateWidget(GetWorld(), voteUI);
-			if (p->myVoteUI)
-			{
-				p->myVoteUI->AddToViewport(0);
-				UE_LOG(LogTemp, Warning, TEXT("create vote ui, player num : %d"), p->playerNum);
-			}
-		}
-	}
+	
 	
 }
 
