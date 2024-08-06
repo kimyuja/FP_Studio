@@ -182,13 +182,13 @@ void ASM_ComputerGimmick::SelfExplosion()
 	//Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetWarning();
 	for (TActorIterator<ATestPlayer> player(GetWorld()); player; ++player)
 	{
-		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [&]()
-			{
-				//player->ServerRPC_SetPlayerPhysics(*player);
-				player->bIsDie = true;
-				player->Respawn();
-				player->DeathCounting();
-			}, 2.5f, false);
+		if (player)
+		{
+			player->ServerRPC_SetPlayerPhysics(*player);
+			player->bIsDie = true;
+			player->Respawn();
+			player->DeathCounting();
+		}
 	}
 }
 

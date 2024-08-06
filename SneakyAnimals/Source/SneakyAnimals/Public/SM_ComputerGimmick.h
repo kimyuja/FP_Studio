@@ -70,8 +70,10 @@ private:
 
 	
 	float lerpTime;
+	
 	FTimerHandle pressT;
 
+	class ATestPlayer* p;
 	// 감전사
 	void Electrocution(AActor* ActivePlayer);
 	// 자폭시퀸스
