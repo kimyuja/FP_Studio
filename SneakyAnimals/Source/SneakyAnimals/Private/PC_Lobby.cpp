@@ -186,7 +186,7 @@ void APC_Lobby::Toggle_WB_Lobby_Menu()
 			// 뷰포트에 없으면
 			Remove_WB_CharacterCustomization();
 			Lobby_Menu_inst->AddToViewport(0);
-			UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this, Character_Customization_inst, EMouseLockMode::DoNotLock, false, false);
+			UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this, Lobby_Menu_inst, EMouseLockMode::DoNotLock, false, false);
 			this->bShowMouseCursor = true;
 			Lobby_HUD_inst->Toggle_BackgroundBlur(true);
 			Update_WB_LobbyMenu();
@@ -302,11 +302,25 @@ void APC_Lobby::Update_Launchevent()
 
 void APC_Lobby::Create_QuitGame_PopUp()
 {
-	UW_PopUp* popup = UFL_General::Create_PopUp(GetWorld(), FText::FromString(TEXT("Are you sure to quit the game?")), FText::FromString(TEXT("Quit")), true, FText::FromString(TEXT("Cancel")));
-	UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this, Character_Customization_inst, EMouseLockMode::DoNotLock, false, false);
+
+	if (popup->IsValidLowLevelFast() && popup->IsInViewport())
+	{
+		// 이미 팝업이 있으면 삭제해라
+		popup->RemoveFromParent();
+		// Show Mouse Cursor false
+		this->bShowMouseCursor = false;
+		// Set Input Mode Game Only
+		UWidgetBlueprintLibrary::SetInputMode_GameOnly(this);
+		return;
+	}
+	
+	popup = UFL_General::Create_PopUp(GetWorld(), FText::FromString(TEXT("Are you sure to quit the game?")), FText::FromString(TEXT("Quit")), true, FText::FromString(TEXT("Cancel")));
+
+	UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this, popup, EMouseLockMode::DoNotLock, false, false);
 	this->bShowMouseCursor = true;
 	popup->OnClicked_Confirm.AddDynamic(this, &APC_Lobby::QuitGame_Btn_Confirm);
 	popup->OnClicked_Decline.AddDynamic(this, &APC_Lobby::QuitGame_Btn_Decline);
+
 }
 
 void APC_Lobby::QuitGame_Btn_Confirm()

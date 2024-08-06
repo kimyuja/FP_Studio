@@ -148,5 +148,8 @@ private:
 
 	UTexture2D* T_Color4_Normal;
 
+	// Quit Game Popup
+	TObjectPtr<class UW_PopUp> popup;
+
 
 };
