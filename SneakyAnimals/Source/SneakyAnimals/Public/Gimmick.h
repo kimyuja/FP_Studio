@@ -44,6 +44,9 @@ public:
 	int32 _key;
 
 	UPROPERTY(Replicated)
+	int32 logNum;
+
+	UPROPERTY(Replicated)
 	int32 soundNum;
 
 	UPROPERTY(Replicated)

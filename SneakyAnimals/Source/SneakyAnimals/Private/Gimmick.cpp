@@ -97,99 +97,99 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	if (Cast<AWH_BookshelfGimmick>(this))
 	{
 		_key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(ActivePlayer);
-		
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 		// playerDieLogWidget->AddToViewport();
 	}
 	else if (Cast<AWH_WitchCauldronGimmick>(this))
 	{
 		_key = Cast<AWH_WitchCauldronGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<AWH_BroomstickGimmick>(this))
 	{
 		_key = Cast<AWH_BroomstickGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<AWH_PotionGimmick>(this))
 	{
 		_key = Cast<AWH_PotionGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ASM_PeriscopeGimmick>(this))
 	{
 		_key = Cast<ASM_PeriscopeGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ASM_PressButtonGimmick>(this))
 	{
 		_key = Cast<ASM_PressButtonGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ASM_ComputerGimmick>(this))
 	{
 		_key = Cast<ASM_ComputerGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ASM_WhistleGimmick>(this))
 	{
 		_key = Cast<ASM_WhistleGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ASP_CartGimmick>(this))
 	{
 		_key = Cast<ASP_CartGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ASP_CleanerGimmick>(this))
 	{
 		_key = Cast<ASP_CleanerGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ASP_ShowcaseGimmick>(this))
 	{
 		_key = Cast<ASP_ShowcaseGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ASP_BottleGimmick>(this))
 	{
 		_key = Cast<ASP_BottleGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ABS_HandleGimmick>(this))
 	{
 		_key = Cast<ABS_HandleGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ABS_GoldBarGimmick>(this))
 	{
 		_key = Cast<ABS_GoldBarGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ABS_SwitchGimmick>(this))
 	{
 		_key = Cast<ABS_SwitchGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	else if (Cast<ABS_LaserGimmick>(this))
 	{
 		_key = Cast<ABS_LaserGimmick>(this)->OnMyActive(ActivePlayer);
-
-		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		logNum = _key;
+		playerDieLogWidget->GetLogSet(playerName, this, logNum);
 	}
 	if (_key == 2)
 	{
@@ -274,6 +274,7 @@ void AGimmick::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetime
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AGimmick, _key);
+	DOREPLIFETIME(AGimmick, logNum);
 	DOREPLIFETIME(AGimmick, soundNum);
 	DOREPLIFETIME(AGimmick, bIsPlayed);
 }

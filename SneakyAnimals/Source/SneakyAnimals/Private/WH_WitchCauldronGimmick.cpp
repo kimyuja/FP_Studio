@@ -53,7 +53,7 @@ void AWH_WitchCauldronGimmick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (lerpTime > 10.0)
+	if (lerpTime > 1.0)
 	{
 		GetWorldTimerManager().PauseTimer(fogT);
 		object->SetVisibility(false);
@@ -105,7 +105,7 @@ int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 	switch (Myactivetype)
 	{
 	case 0:
-		BlindFog();
+		BlindFog(ActivePlayer);
 		break;
 	case 1:
 		HereIsAWitch(ActivePlayer);
@@ -122,7 +122,7 @@ int32 AWH_WitchCauldronGimmick::OnMyActive(AActor* ActivePlayer)
 	return activeType;
 }
 
-void AWH_WitchCauldronGimmick::BlindFog()
+void AWH_WitchCauldronGimmick::BlindFog(AActor* ActivePlayer)
 {
 	bCanActive = false;
 
@@ -132,27 +132,37 @@ void AWH_WitchCauldronGimmick::BlindFog()
 	
 	GetWorldTimerManager().SetTimer(fogT, [&]()
 		{
+			lerpTime += GetWorld()->DeltaTimeSeconds;
 			if (object->GetComponentLocation().Z >= 0)
 			{
 				return;
 			}
 			float loc = FMath::Lerp(object->GetComponentLocation().Z, 0, lerpTime);
 			object->SetRelativeLocation(FVector(0,0,loc));
-			lerpTime += GetWorld()->DeltaTimeSeconds;
-
-
 		}, 0.03f, true, 0);
-	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
 	{
-		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [it]()
+		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
 			{
-				it->ServerRPC_SetPlayerPhysics(*it);
-				it->bIsDie = true;
-				it->Respawn();
-				it->DeathCounting();
-			}, 2.5f, false);
-		//players.Add(*it);
+				player->ServerRPC_SetPlayerPhysics(player);
+				player->bIsDie = true;
+				player->Respawn();
+				player->DeathCounting();
+			}, 1.5f, false);
 	}
+	//for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	//{
+	//	it->ServerRPC_SetPlayerPhysics(*it);
+	//	it->bIsDie = true;
+	//	it->Respawn();
+	//	it->DeathCounting();
+	//	/*GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [it]()
+	//		{
+
+	//		}, 2.5f, false);*/
+	//	//players.Add(*it);
+	//}
 	/*for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 	{
 		it->bIsDie = true;

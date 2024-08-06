@@ -55,7 +55,7 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 
 	lerpTime += DeltaTime;
 
-	if ((cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 100.0) || timerCheck > 3.0)
+	/*if ((cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 100.0) || timerCheck > 3.0)
 	{
 		lerpTime = 0;
 		UE_LOG(LogTemp, Warning, TEXT(" Boom!!!!!!!!!!!"));
@@ -66,7 +66,7 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 		activeObject->DestroyComponent();
 		object->DestroyComponent();
 		GetWorldTimerManager().ClearTimer(roadRollerT);
-	}
+	}*/
 
 	if (bCanActive)
 	{
@@ -168,14 +168,24 @@ void ASP_CartGimmick::RoadRoller(AActor* ActivePlayer)
 	//{
 	//	it->target = cartTarget;
 	//}
-	cartTarget = Cast<ATestPlayer>(ActivePlayer);
-	GetWorldTimerManager().SetTimer(roadRollerT, [&]()
+	//cartTarget = Cast<ATestPlayer>(ActivePlayer);
+	/*GetWorldTimerManager().SetTimer(roadRollerT, [&]()
 		{
 			FVector targetLoc = (cartTarget->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 			targetLoc = FVector(targetLoc.X, targetLoc.Y, 0);
 			SetActorLocation(GetActorLocation() + targetLoc * 30.0);
 			timerCheck += GetWorld()->GetDeltaSeconds();
-		}, 0.03f, true, 0);
+		}, 0.03f, true, 0);*/
+
+	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	if (player)
+	{
+		player->ServerRPC_SetPlayerPhysics(player);
+		player->bIsDie = true;
+		player->Respawn();
+		player->DeathCounting();
+	}
+	Destroy();
 }
 
 void ASP_CartGimmick::RollingCart()

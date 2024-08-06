@@ -161,7 +161,7 @@ void ASM_ComputerGimmick::Electrocution(AActor* ActivePlayer)
 		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
 			{
 				player->DeathCounting();
-			}, 1.5f, true, 0);
+			}, 1.5f, false, 0);
 	}
 }
 

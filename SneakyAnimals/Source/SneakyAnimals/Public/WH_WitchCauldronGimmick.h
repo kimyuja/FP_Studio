@@ -67,7 +67,7 @@ private:
 	FTimerHandle fogT;
 
 	// 미쳐서 본인 빼고 다 사망 
-	void BlindFog();
+	void BlindFog(AActor* ActivePlayer);
 	// 마신 사람이 터져서 전체 사망
 	void HereIsAWitch(AActor* ActivePlayer);
 	// 잠긴 문을 열 수 있게 됨(능력 획득)

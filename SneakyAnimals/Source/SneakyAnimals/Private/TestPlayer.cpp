@@ -745,7 +745,7 @@ void ATestPlayer::Death_Thunderclap()
 		cameraManager->StartCameraFade(0, 1.0f, 0.25f, FColor::White);
 	}, 0.25, true , 0);
 	bIsBlack = true;
-	Respawn(5.0);
+	Respawn();
 }
 
 void ATestPlayer::ServerRPC_StartGetFinalScore_Implementation()
