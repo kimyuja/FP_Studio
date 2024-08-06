@@ -7,6 +7,7 @@
 #include "Net/UnrealNetwork.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include "GS_Lobby.h"
+#include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 
 void APS_Lobby::Toggle_ReadyStatus()
 {
@@ -134,19 +135,26 @@ void APS_Lobby::ServerRPC_SetPlayerAnim_Implementation(ATestPlayer* p)
 	MultiRPC_SetPlayerAnim(p);
 }
 
-void APS_Lobby::MultiRPC_SetPlayerAnim_Implementation(ATestPlayer* _p)
+void APS_Lobby::MultiRPC_SetPlayerAnim_Implementation(ATestPlayer* _pl)
 {
-	_p->GetMesh()->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
-	_p->SM_Accessories->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
-	_p->SM_Top->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
-	_p->SM_Bottom->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
-	_p->SM_Outer->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
-	_p->SM_Dress->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
-	_p->SM_Accessories->SetLeaderPoseComponent(_p->GetMesh());
-	_p->SM_Top->SetLeaderPoseComponent(_p->GetMesh());
-	_p->SM_Bottom->SetLeaderPoseComponent(_p->GetMesh());
-	_p->SM_Outer->SetLeaderPoseComponent(_p->GetMesh());
-	_p->SM_Dress->SetLeaderPoseComponent(_p->GetMesh());
+	for (TActorIterator<ATestPlayer> _p(GetWorld()); _p; ++_p)
+	{
+		if (!Player_Appearance.Character.ItemID)
+		{
+			continue;
+		}
+		_p->GetMesh()->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+		_p->SM_Accessories->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+		_p->SM_Top->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+		_p->SM_Bottom->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+		_p->SM_Outer->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+		_p->SM_Dress->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+		_p->SM_Accessories->SetLeaderPoseComponent(_p->GetMesh());
+		_p->SM_Top->SetLeaderPoseComponent(_p->GetMesh());
+		_p->SM_Bottom->SetLeaderPoseComponent(_p->GetMesh());
+		_p->SM_Outer->SetLeaderPoseComponent(_p->GetMesh());
+		_p->SM_Dress->SetLeaderPoseComponent(_p->GetMesh());
+	}
 }
 
 void APS_Lobby::ServerRPC_Toggle_ReadyStatus_Implementation()

@@ -45,7 +45,7 @@ public:
 	void ServerRPC_SetPlayerAnim(ATestPlayer* p);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MultiRPC_SetPlayerAnim(ATestPlayer* _p);
+	void MultiRPC_SetPlayerAnim(ATestPlayer* _pl);
 
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_Toggle_ReadyStatus();
