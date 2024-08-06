@@ -157,6 +157,7 @@ void ASM_ComputerGimmick::Electrocution(AActor* ActivePlayer)
 	if (player)
 	{
 		player->Death_Thunderclap();
+		player->ServerRPC_SetPlayerPhysics(player);
 		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
 			{
 				player->DeathCounting();
@@ -181,8 +182,9 @@ void ASM_ComputerGimmick::SelfExplosion()
 	//Cast<USM_ComputerMoniter>(moniterUI->GetWidget())->SetWarning();
 	for (TActorIterator<ATestPlayer> player(GetWorld()); player; ++player)
 	{
-		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
+		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [&]()
 			{
+				player->ServerRPC_SetPlayerPhysics(*player);
 				player->bIsDie = true;
 				player->Respawn();
 				player->DeathCounting();

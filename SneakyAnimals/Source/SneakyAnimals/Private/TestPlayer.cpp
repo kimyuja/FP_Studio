@@ -545,6 +545,13 @@ void ATestPlayer::BlackScreen()
 {
 	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
 	cameraManager->StartCameraFade(0, 1.0f, 0.1f, FColor::Black, false, true);
+
+	FTimerHandle whiteT;
+	GetWorldTimerManager().SetTimer(whiteT, [&]() {
+		APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+		cameraManager->StartCameraFade(0, 0, 0.1f, FColor::Black, false, true);
+		}, 1.0, false, 3.0);
+
 	bIsBlack = true;
 }
 

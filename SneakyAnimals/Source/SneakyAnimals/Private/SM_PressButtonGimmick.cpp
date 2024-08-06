@@ -140,6 +140,7 @@ void ASM_PressButtonGimmick::Waterbomb()
 	{
 		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [player]()
 			{
+				player->ServerRPC_SetPlayerPhysics(*player);
 				player->bIsDie = true;
 				player->Respawn();
 				player->DeathCounting();
@@ -155,11 +156,14 @@ void ASM_PressButtonGimmick::Blinklife(AActor* ActivePlayer)
 	UE_LOG(LogTemp, Warning, TEXT(" Death 2 : Blinklife"));
 
 	UGameplayStatics::PlaySoundAtLocation(WorldContextObject, sounds[1], GetActorLocation());
-	
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
+	for (TActorIterator<ATestPlayer> p(GetWorld()); p; ++p)
+	{
+		p->BlackScreen();
+	}
 	if (player)
 	{
-		// player->BlackScreen();
+		player->ServerRPC_SetPlayerPhysics(player);
 		player->bIsDie = true;
 		player->DeathCounting();
 		player->Respawn();

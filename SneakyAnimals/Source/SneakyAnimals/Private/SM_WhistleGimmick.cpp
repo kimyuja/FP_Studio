@@ -132,6 +132,7 @@ void ASM_WhistleGimmick::BabyShark(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
+		player->ServerRPC_SetPlayerPhysics(player);
 		player->bIsBlack = true;
 		player->bIsDie = true;
 		player->DeathCounting();
@@ -149,6 +150,7 @@ void ASM_WhistleGimmick::IronSupplementation(AActor* ActivePlayer)
 	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 	if (player)
 	{
+		player->ServerRPC_SetPlayerPhysics(player);
 		player->bIsDie = true;
 		player->Respawn();
 		player->DeathCounting();
