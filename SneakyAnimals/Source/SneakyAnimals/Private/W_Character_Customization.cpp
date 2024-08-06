@@ -31,7 +31,7 @@ UW_Character_Customization::UW_Character_Customization(const FObjectInitializer&
 	}
 
 	// DT_Available_Skins 를 로드한다.
-	static ConstructorHelpers::FObjectFinder<UDataTable> InGameAvailableSkinsTable(TEXT("/Game/KYJ/Data/DT_Available_Skins"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> InGameAvailableSkinsTable(TEXT("/Game/KYJ/Data/DT_Available_Skins2"));
 	if (InGameAvailableSkinsTable.Succeeded())
 	{
 		DT_Available_Skins = InGameAvailableSkinsTable.Object;
@@ -548,6 +548,11 @@ void UW_Character_Customization::Find_Current_Selected_Character()
 		WB_Character_Customization_Item = Cast<UW_Character_Customization_Item>(child);
 		if (WB_Character_Customization_Item->Character.ItemID == ps_lobby->Player_Appearance.Character.ItemID)
 		{
+			if (ps_lobby->Player_Appearance.Character.ItemID == 2 && WB_Character_Customization_Item->Character.Name != ps_lobby->Player_Appearance.Character.Name)
+			{
+				// turtle no shell / with shell
+				continue;
+			}
 			bFound = true;
 			break;
 		}
