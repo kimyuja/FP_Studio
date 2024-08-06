@@ -129,19 +129,20 @@ void ASM_WhistleGimmick::BabyShark(AActor* ActivePlayer)
 		it->bIsActive = true;
 	}
 	
-	ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
-	if (player)
+	p = Cast<ATestPlayer>(ActivePlayer);
+	if (p)
 	{
-		player->bIsBlack = true;
-		player->bIsDie = true;
-		player->DeathCounting();
-		player->Respawn(5.0);
+		p->bIsBlack = true;
+		p->bIsDie = true;
+		p->DeathCounting();
+		p->Respawn(5.0);
+		FTimerHandle dieT;
+		GetWorldTimerManager().SetTimer(dieT, [&]() {
+			APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+			p->ServerRPC_SetPlayerPhysics(p);
+			}, 1.0, false, 4.0);
 	}
-	FTimerHandle dieT;
-	GetWorldTimerManager().SetTimer(dieT, [&]() {
-		APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
-		player->ServerRPC_SetPlayerPhysics(player);
-		}, 1.0, false, 4.0);
+	
 }
 
 void ASM_WhistleGimmick::IronSupplementation(AActor* ActivePlayer)

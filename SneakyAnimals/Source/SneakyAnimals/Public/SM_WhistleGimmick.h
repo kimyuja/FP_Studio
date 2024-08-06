@@ -58,6 +58,8 @@ private:
 
 	TArray<class ATestPlayer*> players;
 
+	class ATestPlayer* p;
+
 	// 감전사
 	void BabyShark(AActor* ActivePlayer);
 	// 자폭시퀸스
