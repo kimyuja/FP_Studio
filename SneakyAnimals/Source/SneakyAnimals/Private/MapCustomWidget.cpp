@@ -468,9 +468,9 @@ void UMapCustomWidget::OnGActorBtn3Clicked()
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn3->GetName());
 
 			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
-			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To All Except Self"));
+			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Nearby Players"));
 
-			fontInfo2.Size = 13.5f;
+			fontInfo2.Size = 13.f;
 			gimmickSelectionWidget->GmTxt2->SetFont(fontInfo2);
 
 			gswPos += FVector2D(0.f, 370.f);
