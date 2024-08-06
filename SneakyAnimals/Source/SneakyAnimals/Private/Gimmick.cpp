@@ -26,6 +26,8 @@
 #include <../../../../../../../Source/Runtime/Engine/Public/EngineUtils.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include "PS_Gameplay.h"
+#include "Blueprint/UserWidget.h"
+#include "PlayerDieLogWidget.h"
 
 // Sets default values
 AGimmick::AGimmick()
@@ -49,6 +51,18 @@ void AGimmick::BeginPlay()
 	// ¼±¹Î
 	if (!IsValid(itemObject)) {
 		itemObject = GetDefaultItemObject();
+	}
+
+	if (playerDieLogWidgetClass)
+	{
+		playerDieLogWidget = CreateWidget<UPlayerDieLogWidget>(GetWorld(), playerDieLogWidgetClass);
+
+		if (playerDieLogWidget)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("lingdingdong"));
+
+			// playerDieLogWidget->AddToViewport();
+		}
 	}
 	// 
 }
@@ -83,6 +97,9 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	if (Cast<AWH_BookshelfGimmick>(this))
 	{
 		_key = Cast<AWH_BookshelfGimmick>(this)->OnMyActive(ActivePlayer);
+		
+		playerDieLogWidget->GetLogSet(playerName, this, _key);
+		playerDieLogWidget->AddToViewport();
 	}
 	else if (Cast<AWH_WitchCauldronGimmick>(this))
 	{
