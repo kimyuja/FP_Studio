@@ -32,6 +32,6 @@ public:
     void ShowText(const FText& NewText);
 	
 	UFUNCTION(BlueprintCallable)
-    void GetLogSet(FText ActivePlayer, class AGimmick* gimmickActor, int32 ActiveType);
+    void GetLogSet(FText _ActivePlayer, class AGimmick* _GimmickActor, int32 _ActiveType);
 
 };
