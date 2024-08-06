@@ -69,17 +69,7 @@ void APS_Lobby::OnRep_Player_Appearance_OR()
                 player->Current_Bottom = Player_Appearance.Bottom_Slot.Mesh;
                 player->Current_Outer = Player_Appearance.Outer_Slot.Mesh;
                 player->Current_Dress = Player_Appearance.Dress_Slot.Mesh;
-				player->GetMesh()->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
-				player->SM_Accessories->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
-				player->SM_Top->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
-				player->SM_Bottom->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
-				player->SM_Outer->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
-				player->SM_Dress->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
-				player->SM_Accessories->SetLeaderPoseComponent(player->GetMesh());
-				player->SM_Top->SetLeaderPoseComponent(player->GetMesh());
-				player->SM_Bottom->SetLeaderPoseComponent(player->GetMesh());
-				player->SM_Outer->SetLeaderPoseComponent(player->GetMesh());
-				player->SM_Dress->SetLeaderPoseComponent(player->GetMesh());
+				ServerRPC_SetPlayerAnim(player);
 
 
                 // player의 OnRep_Current_SkeletalMesh가 실행된다.
@@ -137,6 +127,26 @@ void APS_Lobby::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetim
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(APS_Lobby, bCanHostForceLaunchGame);
+}
+
+void APS_Lobby::ServerRPC_SetPlayerAnim_Implementation(ATestPlayer* p)
+{
+	MultiRPC_SetPlayerAnim(p);
+}
+
+void APS_Lobby::MultiRPC_SetPlayerAnim_Implementation(ATestPlayer* _p)
+{
+	_p->GetMesh()->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+	_p->SM_Accessories->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+	_p->SM_Top->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+	_p->SM_Bottom->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+	_p->SM_Outer->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+	_p->SM_Dress->SetAnimInstanceClass(_p->playerAnims[Player_Appearance.Character.ItemID]);
+	_p->SM_Accessories->SetLeaderPoseComponent(_p->GetMesh());
+	_p->SM_Top->SetLeaderPoseComponent(_p->GetMesh());
+	_p->SM_Bottom->SetLeaderPoseComponent(_p->GetMesh());
+	_p->SM_Outer->SetLeaderPoseComponent(_p->GetMesh());
+	_p->SM_Dress->SetLeaderPoseComponent(_p->GetMesh());
 }
 
 void APS_Lobby::ServerRPC_Toggle_ReadyStatus_Implementation()

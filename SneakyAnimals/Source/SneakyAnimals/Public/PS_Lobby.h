@@ -16,9 +16,6 @@ class SNEAKYANIMALS_API APS_Lobby : public APS_Base
 
 private:
 	void Toggle_ReadyStatus();
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Setting")
-	TArray <UClass*> playerAnims;
 
 protected:
 	virtual void BeginPlay() override;
@@ -43,6 +40,12 @@ public:
 	void Set_ReadyStatus(bool _bReadyStatus);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_SetPlayerAnim(ATestPlayer* p);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MultiRPC_SetPlayerAnim(ATestPlayer* _p);
 
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_Toggle_ReadyStatus();

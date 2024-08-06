@@ -30,6 +30,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setting")
+	TArray <UClass*> playerAnims;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Test)
 	class UCameraComponent* camera;
 
