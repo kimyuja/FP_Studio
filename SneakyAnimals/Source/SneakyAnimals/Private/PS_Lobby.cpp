@@ -69,6 +69,18 @@ void APS_Lobby::OnRep_Player_Appearance_OR()
                 player->Current_Bottom = Player_Appearance.Bottom_Slot.Mesh;
                 player->Current_Outer = Player_Appearance.Outer_Slot.Mesh;
                 player->Current_Dress = Player_Appearance.Dress_Slot.Mesh;
+				player->GetMesh()->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
+				player->SM_Accessories->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
+				player->SM_Top->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
+				player->SM_Bottom->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
+				player->SM_Outer->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
+				player->SM_Dress->SetAnimInstanceClass(playerAnims[Player_Appearance.Character.ItemID]);
+				player->SM_Accessories->SetLeaderPoseComponent(player->GetMesh());
+				player->SM_Top->SetLeaderPoseComponent(player->GetMesh());
+				player->SM_Bottom->SetLeaderPoseComponent(player->GetMesh());
+				player->SM_Outer->SetLeaderPoseComponent(player->GetMesh());
+				player->SM_Dress->SetLeaderPoseComponent(player->GetMesh());
+
 
                 // player의 OnRep_Current_SkeletalMesh가 실행된다.
                 player->OnRep_Current_SkeletalMesh();

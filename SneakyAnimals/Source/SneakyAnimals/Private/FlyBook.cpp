@@ -64,6 +64,7 @@ void AFlyBook::AttackActivePlayer()
 		ATestPlayer* player = Cast<ATestPlayer>(ActivePlayer);
 		if (player)
 		{
+			player->ServerRPC_SetPlayerPhysics(player);
 			player->bIsDie = true;
 			player->Respawn();
 			player->DeathCounting();

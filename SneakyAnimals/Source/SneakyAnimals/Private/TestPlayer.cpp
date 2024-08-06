@@ -52,7 +52,7 @@ ATestPlayer::ATestPlayer()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90.0f));
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
 	GetMesh()->SetOwnerNoSee(true);
@@ -102,7 +102,7 @@ ATestPlayer::ATestPlayer()
 void ATestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	bReplicates = true;
 	bNetLoadOnClient = true;
 	SetReplicateMovement(true);

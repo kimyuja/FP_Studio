@@ -17,6 +17,8 @@ class SNEAKYANIMALS_API APS_Lobby : public APS_Base
 private:
 	void Toggle_ReadyStatus();
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Setting")
+	TArray <UClass*> playerAnims;
 
 protected:
 	virtual void BeginPlay() override;

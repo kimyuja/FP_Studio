@@ -56,6 +56,7 @@ void AWH_WitchCauldronGimmick::Tick(float DeltaTime)
 	if (lerpTime > 10.0)
 	{
 		GetWorldTimerManager().PauseTimer(fogT);
+		object->SetVisibility(false);
 		lerpTime = 0;
 	}
 
@@ -145,6 +146,7 @@ void AWH_WitchCauldronGimmick::BlindFog()
 	{
 		GetWorld()->GetTimerManager().SetTimer(DelayTimerHandle, [it]()
 			{
+				it->ServerRPC_SetPlayerPhysics(*it);
 				it->bIsDie = true;
 				it->Respawn();
 				it->DeathCounting();
