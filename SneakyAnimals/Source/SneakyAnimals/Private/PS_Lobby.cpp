@@ -70,7 +70,7 @@ void APS_Lobby::OnRep_Player_Appearance_OR()
                 player->Current_Bottom = Player_Appearance.Bottom_Slot.Mesh;
                 player->Current_Outer = Player_Appearance.Outer_Slot.Mesh;
                 player->Current_Dress = Player_Appearance.Dress_Slot.Mesh;
-				ServerRPC_SetPlayerAnim(player);
+				//ServerRPC_SetPlayerAnim(player);
 
 
                 // player의 OnRep_Current_SkeletalMesh가 실행된다.
