@@ -16,22 +16,22 @@ class SNEAKYANIMALS_API UPlayerDieLogWidget : public UUserWidget
 
 public:
 
-	virtual void NativeConstruct()override;
-
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime)override;
-
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* DieLogText;
 	
 	UPROPERTY(EditAnywhere)
 	FText playerName;
 
+	UPROPERTY(EditAnywhere)
+	FText txt;
+
+	FTimerHandle DelayTimerHandle;
 
 	
 	UFUNCTION(BlueprintCallable)
     void ShowText(const FText& NewText);
 	
 	UFUNCTION(BlueprintCallable)
-    void GetPlayerName(AActor* ActivePlayer);
+    void GetLogSet(FText ActivePlayer, class AGimmick* gimmickActor, int32 ActiveType);
 
 };
