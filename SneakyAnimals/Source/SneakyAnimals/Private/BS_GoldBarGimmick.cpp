@@ -57,7 +57,7 @@ void ABS_GoldBarGimmick::Tick(float DeltaTime)
 	{
 		return;
 	}
-	if ((_target && FVector::Dist(activeObject->GetComponentLocation(), _target->GetActorLocation()) < 100.0))
+	if ((_target && FVector::Dist(activeObject->GetComponentLocation(), _target->GetActorLocation()) < 100.0) || timerCheck > 0.5)
 	{
 		UE_LOG(LogTemp, Warning, TEXT(" Shoot!!!!!!!!!!!"));
 		GetWorldTimerManager().ClearTimer(goldT);

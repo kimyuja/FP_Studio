@@ -55,12 +55,7 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 
 	lerpTime += DeltaTime;
 
-	if (!cartTarget && lerpTime > 1)
-	{
-		lerpTime = 0;
-		
-	}
-	if ((cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 100.0))
+	if ((cartTarget && FVector::Dist(GetActorLocation(), cartTarget->GetActorLocation()) < 100.0) || timerCheck > 3.0)
 	{
 		lerpTime = 0;
 		UE_LOG(LogTemp, Warning, TEXT(" Boom!!!!!!!!!!!"));
@@ -71,12 +66,6 @@ void ASP_CartGimmick::Tick(float DeltaTime)
 		activeObject->DestroyComponent();
 		object->DestroyComponent();
 		GetWorldTimerManager().ClearTimer(roadRollerT);
-	}
-	if (Myactivetype == 2 && FVector::Dist(GetActorLocation(), FVector(0)) < 100.0)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Go!!!!!!!!!!"));
-		GetWorldTimerManager().ClearTimer(doorT);
-		Destroy(true);
 	}
 
 	if (bCanActive)

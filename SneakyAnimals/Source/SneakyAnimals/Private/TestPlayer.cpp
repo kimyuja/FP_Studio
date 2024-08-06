@@ -563,10 +563,10 @@ void ATestPlayer::SetPlayerPhysics()
 
 void ATestPlayer::Respawn(float delaytime)
 {
-	if (!bIsBlack)
+	/*if (!bIsBlack)
 	{
 		ServerRPC_FadeOut(true);
-	}
+	}*/
 	UE_LOG(LogTemp, Warning, TEXT("Player %d Respawn"), playerShowNum);
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 	/*FTimerHandle pT;
