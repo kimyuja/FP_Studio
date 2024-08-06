@@ -464,6 +464,10 @@ void ATestPlayer::ActiveGimmick(const FInputActionValue& Value)
 	{
 		return;
 	}
+	for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
+	{
+		it->bCanActive = false;
+	}
 	/*if (bCanActive)
 	{
 		bCanActive = false;
@@ -568,6 +572,7 @@ void ATestPlayer::Respawn(float delaytime)
 		for (TActorIterator<ATestPlayer> it(GetWorld()); it; ++it)
 		{
 			it->ServerRPC_FadeOut(false);
+			it->bCanActive = true;
 			UE_LOG(LogTemp, Warning, TEXT("Player %d Fade"), playerShowNum);
 		}
 		//ServerRPC_FadeOut(false);
@@ -586,7 +591,6 @@ void ATestPlayer::Respawn(float delaytime)
 		//FadeInOut(false);
 		bIsDie = false;
 		bIsBlack = false;
-		bCanActive = true;
 		GetWorldTimerManager().ClearAllTimersForObject(GetWorld());
 	}, 1.0, false, delaytime);
 	
