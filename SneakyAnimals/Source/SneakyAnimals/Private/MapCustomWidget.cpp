@@ -554,7 +554,7 @@ void UMapCustomWidget::OnGActorBtn4Clicked()
 		{
 			gimmickSelectionWidget->BindBtnWithActiveType((FName)GActorBtn4->GetName());
 
-			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To All"));
+			gimmickSelectionWidget->GmTxt1->SetText(FText::FromString("To Self"));
 			gimmickSelectionWidget->GmTxt2->SetText(FText::FromString("To Self"));
 
 			gswPos += FVector2D(0.f, 520.f);

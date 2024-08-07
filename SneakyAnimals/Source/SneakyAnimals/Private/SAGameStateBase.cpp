@@ -63,10 +63,10 @@ void ASAGameStateBase::SetClearInstance()
         //stageLoc.Add(FVector(0,0,0));
     }
     stageLoc.Add(FVector(0, 0, 0));
-    stageLoc.Add(FVector(50000, -50000, 0));
-    stageLoc.Add(FVector(50000, 50000, 0));
-    stageLoc.Add(FVector(-50000, 50000, 0));
-    stageLoc.Add(FVector(-50000, -50000, 0));
+    stageLoc.Add(FVector(50000, -50000, 50));
+    stageLoc.Add(FVector(50000, 50000, 50));
+    stageLoc.Add(FVector(-50000, 50000, 50));
+    stageLoc.Add(FVector(-50000, -50000, 50));
 }
 
 void ASAGameStateBase::SetPlayerNum()

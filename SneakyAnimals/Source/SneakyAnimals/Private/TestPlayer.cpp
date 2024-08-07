@@ -233,7 +233,7 @@ void ATestPlayer::Tick(float DeltaTime)
 		GimmickSearch();
 	}
 
-	if (clearUI && clearUI->curtime > 5 && HasAuthority())
+	if ((clearUI && clearUI->curtime > 5 && HasAuthority()) || ((mainUI->maxtime - mainUI->gametime) <= 0))
 	{
 		//curStageNum++;
 		////gameState->stageNum = curStageNum;
@@ -639,9 +639,9 @@ void ATestPlayer::Death_Fallover()
 	bCanActive = false;
 	GetWorldTimerManager().SetTimer(falloverT, [&]()
 		{
-			float eye = FMath::Lerp(250.0, 0, lerpTime);
-			float tall = FMath::Lerp(1.0, 0.3, lerpTime);
-			cameraBoom->SetRelativeLocation(FVector(0,0,eye));
+			//float eye = FMath::Lerp(250.0f, 100.0f, lerpTime);
+			float tall = FMath::Lerp(1.0f, 0.3f, lerpTime);
+			//cameraBoom->SetRelativeLocation(FVector(0,0,eye));
 			GetMesh()->SetRelativeScale3D(GetMesh()->GetRelativeScale3D() * FVector(1,1,tall));
 		}, 0.03f, true, 0);
 	Respawn();

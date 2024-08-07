@@ -92,6 +92,7 @@ int32 AGimmick::OnMyActive(AActor* ActivePlayer)
 	//Cast<ATestPlayer>(ActivePlayer)->bCanActive = false;
 	for (TActorIterator<AGimmick> g(GetWorld()); g; ++g)
 	{
+		//g->logNum = _key;
 		g->_key = 0;
 	}
 	if (Cast<AWH_BookshelfGimmick>(this))
